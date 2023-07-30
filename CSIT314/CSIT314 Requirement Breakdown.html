@@ -1,0 +1,122 @@
+<html>
+	<head>
+		<link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
+		<style>
+			@import
+			url('https://fonts.cdnfonts.com/css/avenir');
+			
+			body {
+				font-family: Avenir;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Requirement Breakdown</h2>
+		<ul>
+			<li>
+				<h3>Clients:</h3>
+				<ul>
+					<li>
+					Memberships
+						<ul>
+							<li>Sign up as a client and "pay" an annual fee.
+								<ul><li>Popup to simulate payment</li></ul>
+							</li>
+							<li>Change list of service providers to show a "Call Out" button or</li>
+							<li>Change the price to say "Included" or "No Charge"</li>
+						</ul>
+					</li>
+					<li>Pay-on-demand - per service use
+						<ul>
+							<li>
+							Price calculated on:
+								<ol>
+									<li>Type</li>
+									<li>Distance</li>
+									<li>Random Value</li>
+								</ol>
+							</li>
+						</ul>
+					</li>
+					<br>
+					<li>
+						Service Requests:
+						<ul>
+							<li>A client can create a request that the service providers can see 
+								<ul>
+									<li>Location determines if a service provider can see it
+										<ul><li>Radius or static/dynamic value representing km</li></ul>
+									</li>
+									<li>Type of issue</li>
+									<li>Instructions</li>
+								</ul>
+							</li>
+							<li>Once one or more professionals accept the request the client can choose to go with them</li>
+							<li>A client can rate the service provider and include a comment</li>
+							<li>"Money" will be deducted from their card and added to the service providers account - commission fee (if applicable)</li>
+						</ul>
+					</li>
+					<br>
+					<li>A client can see a report (Invoice) based on the service</li>
+				</ul>
+			</li>
+			<br>
+			<li>
+				<h3>Professionals (Service Providers)</h3>
+				<ul>
+					<li>
+					Memberships
+						<ul>
+							<li>Sign up as a service provider and "pay" an annual fee
+								<ul><li>Popup to simulate payment</li></ul>
+							</li>
+							<li>When job is marked as "Completed" (When a Client clicks the button to select a service provider)</li>
+							<li>there will be no commission fee for that job</li>
+						</ul>
+					</li>
+					<li>
+					Commission Fee
+						<ul>
+							<li>
+								Fee calculated on % of service cost + Random value
+							</li>
+						</ul>
+					</li>
+					<br>
+					<li>
+						Service Requests:
+						<ul>
+							<li>
+								Once a client has created a service request, the tradie will get notified and be able to
+								<ul>
+									<li>See the new request</li>
+									<li>Choose to accept it or view other requests</li>
+								</ul>
+							</li>
+							<li>When a client has selected a tradie, the job will be "completed" and the tradie will
+								<ul>
+									<li>Find the job in the "Completed Jobs" tab</li>
+									<li>Be able to see a rating and comment for the job</li>
+									<li>Receive money in their account based on a fixed/dynamic value</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<br>
+			<li>Key Goals:
+				<ul>
+					<li>Manage customer memberships</li>
+					<li>Manage professional memberships</li>
+					<li>Manage service requests</li>
+					<li>Manage payment transactions</li>
+					<li>Manage reviews and ratings</li>
+					<li>Manage report generation (e.g. payment reports, service reports, etc.)</li>
+				</ul>
+			</li>
+			<br>
+			<li>Test data: 20 tradies, 100 service requests</li>
+		</ul>
+	</body>
+</html>

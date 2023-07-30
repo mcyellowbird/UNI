@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <title>DOM Testing page</title>
+
+</head>
+
+<body>
+
+   <h1>DOM Example</h1>
+
+   <div id="first">
+      <p>Existing element</p>
+   </div>
+
+   <a href="javascript:changeDOM()">change content</a>
+
+   <script>
+      function changeDOM() {
+         // begin by creating two new nodes
+         var text = document.createTextNode("this is dynamic");
+         var p = document.createElement("p");
+         // add the text node to the <p> element node
+         p.appendChild(text);
+         // now add the new <p> element to the <div>
+         var first = document.getElementById("first");
+         first.removeChild(first.firstChild);
+         console.log(first);
+         first.appendChild(p);
+      }
+   </script>
+
+</body>
+
+
+</html>

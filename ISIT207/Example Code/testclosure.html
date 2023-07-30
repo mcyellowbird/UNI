@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Testing closure</title>
+
+</head>
+
+<body>
+    <h1> Check the console log </h1>
+
+    <script>
+        /* 3 layer closure */
+        function gens() {
+            var gp = "gparent";
+
+            function parent() {
+                var pt = "parent";
+
+                function chd() {
+                    var cd = "child";
+                    return gp + " " + pt + " " + cd;
+                }
+
+                return chd;
+            }
+            return parent;
+        }
+
+        //var temp1 = gp;
+
+        //console.log(temp1);
+
+        var temp1 = gens()()();
+
+        var temp2 = gens();
+
+        console.log(temp1);
+
+        console.log(temp2);
+
+    </script>
+
+
+    <script>
+        /* closure example 2
+        var person = function() {
+            var private = { name : 'sue', age: 24 };
+            // notice the function returns an object
+            return {
+                getName: function() { return private.name; },
+                getAge: function() { return private.age; },
+                setAge: function(age) { 
+                            // only change data if it is sensible data 
+                            if (age > 0 && age < 120) {
+                               private.age = age; 
+                            }
+                        }
+            };
+        }();
+        
+        console.log(person.getAge());
+        
+        var x;
+        function changeAge(x){
+            person.setAge(x);
+            console.log(person.getAge());
+        }
+        */
+    </script>
+
+    <!--a href="javascript:changeAge(25)">change age</a-->
+
+</body>
+
+
+</html>

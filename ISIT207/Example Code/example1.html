@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>A webpage</title>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js" ></script>
+	
+	<style>
+    .panel { width: 200px; height: 200px; background-color: #CFD8DC; font-weight: bold; font-size: 20px;
+        display: flex; align-items: center; justify-content: center; } 
+	
+	.email {
+          cursor:pointer;
+       }
+	   
+      #rectangle {
+          background-color:  blue;
+          width: 200px;
+          height: 150px;
+          position: absolute;
+          top: 120px;
+          left: 600px;
+      }
+</style>     
+
+</head>    
+<body>
+    
+<h1> This is a sample webpage </h1>
+
+        
+<div class="panel">move over me</div>
+<span id="message"></span>
+
+<h2> Contact us </h2>
+
+<div class="contact">
+  <p>Randy Connolly</p>
+  <div class="email">Show email</div>
+</div>
+<div class="contact">
+  <p>Ricardo Hoar</p>
+  <div class="email">Show email</div>
+</div>
+
+<div id="rectangle"></div> 
+
+<script>  
+// chaining handlers
+$(".panel")
+    .on("mousemove",function (e) {
+       $("#message").html("x=" + e.pageX + " y=" + e.pageY);
+    })
+    .on("mouseleave",function (e) {
+       $("#message").html("goodbye!");
+    })
+    .on("click",function () {
+       $("#message").html("stopped move reporting");
+       $(".panel").off("mousemove");
+    });     
+</script>  
+
+<script>
+$(".email").click(function() {
+     // Build email from 1st letter of first name + lastname 
+     // @ mtroyal.ca
+     var fullName = $(this).prev().html();
+     var firstName = fullName.split(" ")[0];
+     var address = firstName.charAt(0) + fullName.split(" ")[1] +
+                   "@mtroyal.ca";
+     $(this).hide();        // hide the clicked icon.
+     $(this).html("<a href='mailto:"+address+"'>Mail Us</a>");
+     $(this).show(1000);   // slowly show the email address.
+});
+
+</script>    
+
+
+ <script>
+       $("#rectangle").click(function() {
+           // animate the current object
+           $(this).animate(
+               // parameter 1: object literal containing CSS options
+               {
+                   opacity: "0",
+                   width: "400px",
+                   height: '100px'
+               },
+               // parameter 2: object literal containing animate options
+               {
+                   step: function(now, fx) {
+                       // for each step of the height animation ...
+                       if (fx.prop == "height") {
+                           // roate the rectange a certain percentage
+                           var angle = (now / 100) * 360;
+                           // rotate it via CSS transform
+                           $(this).css("transform", "rotate(" + angle + "deg)");
+                       }
+                   },
+                   duration: 2000,
+                   easing: "linear"
+               }
+           );
+       });
+   </script>      
+		
+</body>
+</html>

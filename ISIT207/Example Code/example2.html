@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <title>Form control example page</title>
+   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+   <style>
+      #someForm {
+         background: yellow;
+         width: 500px;
+      }
+   </style>
+
+</head>
+
+<body>
+
+   <div id="value"></div>
+
+   <!--form method="post" action="notexist.php;" id="someForm"-->
+   <form method="post" action="JavaScript:alert($('#someForm').serialize());" id="someForm">
+      <fieldset>
+         <legend> Some Form </legend>
+         <label for="username">Username</label>
+         <input type="text" name="username" id="username" placeholder="User Name" />
+
+         <br> <label for="pass">Password</label>
+         <input type="password" name="pass" id="pass" placeholder="Password" />
+
+         <br> <label for="email">Email</label>
+         <input type="email" name="email" id="email" placeholder="Email" />
+
+         <br> <label>Color: </label><br />
+         <input type="color" name="color">
+
+         <br> <label id="monthid">Month: </label><br />
+         <input type="month" name="month">
+
+
+         <br> <label id="dateid">Date: </label><br />
+         <input type="date" name="date">
+
+         <br> <label id="timeid">Time:</label><br />
+         <input type="time" name="time">
+
+         <br> <input type="datetime-local" id="meeting-time" name="meeting-time" min="2018-06-07T00:00"
+            max="2018-06-14T00:00">
+
+         <br>
+         <button type="submit" id="example">
+            Submit
+         </button>
+
+         <button type="reset" id="example">
+            Reset
+         </button>
+
+      </fieldset>
+   </form>
+
+</body>
+
+</html>

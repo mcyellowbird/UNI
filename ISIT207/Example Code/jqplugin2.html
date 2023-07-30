@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+	<script>
+
+		/*
+		$.prototype.greenify = function (){
+			this.css("color","green");
+		}
+		*/
+
+		$.fn.blueify = function () {
+			this.css("color", "blue");
+			return this;
+		};
+
+		$(document).ready(function () {
+			//$("p").greenify();
+			$("p").blueify()
+				.mouseover(function () {
+					$(this).css("background-color", "yellow");
+				}
+				)
+				.mouseleave(function () {
+					$(this).css("background-color", "white");
+				}
+				);
+		}
+		);
+	</script>
+</head>
+
+<body>
+
+	<h1>Welcome to My Homepage</h1>
+
+	<p id="first">My name is Donald (index 0).</p>
+	<p>Donald Duck (index 1).</p>
+	<p>I live in Duckburg (index 2).</p>
+	<p>My best friend is Mickey (index 3).</p>
+
+	<div id="test"></div>
+
+</body>
+
+</html>

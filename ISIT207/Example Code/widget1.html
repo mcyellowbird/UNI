@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>jQuery UI Widget Factory</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" ></script>
+  <script>
+
+    $(function () {
+
+
+      // the widget definition, where "custom" is the namespace,
+      // "prgbar" the widget name
+      $.widget("custom.prgbar", {
+        // default options
+        options: {
+          value: 50,
+
+          // Callbacks
+          change: null,
+          log: null
+        },
+
+        // The constructor
+        _create: function () {
+          var progress = this.options.value + "%";
+          this.element
+            .css({ "background-color": "yellow", "width": progress })
+            .text(progress);
+
+          // Bind click events to the random method
+          this._on({
+            // _on won't call random when widget is disabled
+            click: "random"
+          });
+
+        },
+
+        // Create a public method.
+        value2: function () {
+          var val = this.options.value;
+          this.options.value = this._constrain(val + 2);
+          this.refresh();
+          this._trigger("log", null, this.options.value);
+        },
+
+        // Create a private method.
+        _constrain: function (value) {
+          if (value > 100) {
+            value = 100;
+          }
+          if (value < 0) {
+            value = 0;
+          }
+          return value;
+        },
+
+        // A public method to change the value to a random value
+        random: function () {
+          var randomval = Math.floor(Math.random() * 100);
+          this.option("value", randomval);
+          this.refresh();
+        },
+
+        refresh: function () {
+          var progress = this.options.value + "%";
+          this.element
+            .css({ "background-color": "yellow", "width": progress })
+            .text(progress);
+        },
+
+        // _setOptions is called with a hash of all options that are changing
+        // always refresh when changing options
+        _setOptions: function (options) {
+          this._super(options);
+          this.refresh();
+        },
+
+        // _setOption is called for each individual option that is changing
+        _setOption: function (key, value) {
+          if (key === "value") {
+            value = this._constrain(value);
+          }
+          this._super(key, value);
+        }
+      });
+
+
+      //extending the plugin prototype
+
+      $.custom.prgbar.prototype.reset = function () {
+        this.option("value", 0);
+      };
+
+
+      //adding the widget to DOM elements
+
+      $("#div1").prgbar({
+        value: 20,
+      });
+
+      $("#changeval").click(function () {
+        var val = $("#div1").prgbar("option", "value") + 10;
+        $("#div1").prgbar("option", "value", val);
+      });
+
+
+      $("#div2").prgbar();
+
+      $("#logval").on("click", function () {
+        $("#div2").prgbar("value2");
+      });
+
+      $("#reset").on("click", function () {
+        $("#div2").prgbar("reset");
+      });
+
+      $("#div2").on("prgbarlog", function (event, data) {
+        console.log("Bar 2 is added by 2: " + data);
+      });
+
+    });
+  </script>
+</head>
+
+<body>
+
+  <div id="div1"></div>
+
+  <button id="changeval">add 10</button>
+
+  <div id="div2"></div>
+
+  <button id="logval">add 2</button>
+  <button id="reset">reset</button>
+
+
+</body>
+
+</html>

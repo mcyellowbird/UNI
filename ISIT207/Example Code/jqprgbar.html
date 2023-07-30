@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Progressbar - Default functionality</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" ></script>
+  <script>
+    $(function () {
+      $("#div1").progressbar({
+        value: 20,
+        /*	  change: function ()
+            {
+            alert("value changed!");
+            }
+        */
+      });
+
+      $("#changeval").click(function () {
+        var val = $("#div1").progressbar("value") + 10;
+        $("#div1").progressbar("value", val);
+      });
+
+      $("#almostdone").click(function () {
+        $("#div1").progressbar("value", 90).css("background-color", "yellow");
+      });
+
+      $("#div1").bind("progressbarchange", function () {
+        alert("The value has changed!");
+      });
+
+    }
+    );
+  </script>
+</head>
+
+<body>
+
+  <div id="div1"></div>
+
+  <div id="div2"></div>
+
+  <button id="changeval">change value</button>
+
+  <button id="almostdone">Almost done</button>
+
+</body>
+
+</html>
