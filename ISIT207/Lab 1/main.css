@@ -1,0 +1,180 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+/* Inheritance */
+
+element {
+    margin: 5px;
+}
+
+child element to inherit {
+    margin: inherit;
+}
+
+/* Specificity */
+
+element {
+    font-weight: bold;
+    color: red;
+}
+
+element for to override {
+    font-weight: 400;
+    color: black;
+}
+
+/* Location - in lab1.html embedded css, _this_ element is overridden */
+
+element {
+    color: orange;
+}
+
+/* Positioning */
+
+element1 {
+    position: relative;  /* Position Type Relative */
+}
+
+element2 {
+    position: absolute;  /* Position Type Absolute */
+}
+
+.nav {
+    position: static; /* Position Type Fixed */
+    width: 100%;
+    height: 60px;
+    background: #394a57;
+}
+
+.nav a:first-of-type {
+    float: left;
+    font-size: 30px;
+}
+
+.nav a {
+    float: right;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 15px;
+    font-size: 20px;
+    color: #e3f4ff;
+    text-decoration: none
+}
+
+.nav a:hover {
+    text-shadow: 0 0 3px blue;
+}
+
+/* Floating Elements */
+
+element {
+    float: left;
+}
+
+.class to clear {
+    clear: left;
+}
+
+/* Table */
+
+
+.tableContainer {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+table {
+    width: 70%;
+    border-collapse: collapse;
+    align-self: center;
+}
+
+tr {
+    background: #e3e3ff;
+    border: 1px solid #717171;
+}
+
+tr:nth-of-type(even){
+    background: #dcdcff;
+}
+
+tr:hover {
+    background: #c1c1ff;
+}
+
+td, th {
+    border: 1px solid #717171;
+}
+
+.tableImage {
+    width: 100px;
+    height: 100px;
+}
+
+.tableAvailability {
+    font-size: 20px;
+    text-align: center;
+}
+
+.available {
+    color: green;
+}
+
+.unavailable {
+    color: red;
+}
+
+.tablePrice {
+    font-size: 20px;
+    text-align: center;
+}
+
+.tablePrice ul {
+    list-style-type: none;
+}
+
+.tablePrice ul li {
+    text-align: left;
+    font-size: 16px;
+}
+
+#tableLabel {
+    padding: 20px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.content {
+    padding: 20px;
+}
+
+/* Thumbnail */
+
+figure img {
+    text-align: center;
+    width: 100px;
+}
+
+figcaption.popup {
+    padding: 10px;
+    background: #e5e5e5;
+    position: absolute;
+    box-shadow: 0 0 5px #A9A9A9;
+    
+    visibility: hidden;
+}
+
+figcaption.popup img {
+    width: 300px;
+}
+
+figure.thumbnail:hover figcaption.popup {
+    position: absolute;
+    
+    visibility: visible;
+}

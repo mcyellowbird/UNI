@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="main.css">  <!-- URL Relative Referencing 1 & Link Destination 1 -->
+        <style>
+        
+        </style>
+    </head>
+    <body>
+        <div class="nav">
+            <a href="index.html">Car Rentals</a>
+            <a href="pages/book.html">Book A Car</a> <!-- URL Relative Referencing 2 -->
+            <a>Link Destination 2</a>
+            <a>Link Destination 3</a>
+        </div>
+        
+        <div class="content">
+            <a>URL Relative Ref 1</a>
+            <a>URL Relative Ref 2</a>
+            <a>URL Relative Ref 3</a>
+            <div class="tableContainer">
+                <label id="tableLabel">Cars To Rent</label>
+                <table>
+                    <tr>
+                        <th>Image</th>
+                        <th>Availability</th>
+                        <th>Pricing</th>
+                    </tr>
+                    <tr>
+                        <td class="tableImage">
+                            <figure class="thumbnail">
+                                <img src="images/corollaSmall.webp" alt="Figure With thumbnail">
+                                <figcaption class="popup">
+                                    <img src="images/corollaSmall.webp" alt="Figure With thumbnail">
+                                    <p>2018 Toyota Corolla</p>
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td class="tableAvailability available">Available</td>
+                        <td class="tablePrice">
+                            <ul>
+                                <li>1 Day: $60</li>
+                                <li>2 Days: $115</li>
+                                <li>3 Days: $170</li>
+                                <li>4 Days: $225</li>
+                                <li>5 Days+: $240 + $40/day</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableImage"><img src="images/car1.png" alt="Car"></td>
+                        <td class="tableAvailability unavailable">Unavailable</td>
+                        <td class="tablePrice">
+                            <ul>
+                                <li>1 Day: $60</li>
+                                <li>2 Days: $115</li>
+                                <li>3 Days: $170</li>
+                                <li>4 Days: $225</li>
+                                <li>5 Days+: $240 + $40/day</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableImage"><img src="images/car1.png" alt="Car"></td>
+                        <td class="tableAvailability available">Available</td>
+                        <td class="tablePrice">
+                            <ul>
+                                <li>1 Day: $60</li>
+                                <li>2 Days: $115</li>
+                                <li>3 Days: $170</li>
+                                <li>4 Days: $225</li>
+                                <li>5 Days+: $240 + $40/day</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableImage"><img src="images/car1.png" alt="Car"></td>
+                        <td class="tableAvailability available">Available</td>
+                        <td class="tablePrice">
+                            <ul>
+                                <li>1 Day: $60</li>
+                                <li>2 Days: $115</li>
+                                <li>3 Days: $170</li>
+                                <li>4 Days: $225</li>
+                                <li>5 Days+: $240 + $40/day</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Contact</td> <!-- rowspan -->
+                        <td colspan="2">+61 488 555 999</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">+61 455 999 888</td> <!-- colspan -->
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
