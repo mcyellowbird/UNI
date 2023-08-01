@@ -3,6 +3,24 @@
     <head lang="en">
         <meta charset="utf-8">
         <link rel="stylesheet" href="../main.css">
+        <script>
+            function showBooking() {
+                var form = document.getElementById("carform");
+                var formArray = new FormData(form);
+                alert("Booking Placed:" + '\n' +
+                      "Name: " + formArray.get('name') + '\n' +
+                      "Phone: " + formArray.get('phone') + '\n' +
+                      "Email: " + formArray.get('email') + '\n' +
+                      "Car: " + formArray.get('cars') + '\n' +
+                      "Insurance: " + formArray.get('insurance') + '\n' +
+                      "Cancellation: " + formArray.get('cancellation') + '\n' +
+                      "Pickup Date: " + formArray.get('pickupDate') + '\n' +
+                      "Pickup Time: " + formArray.get('pickupTime') + '\n' +
+                      "Drop-off Date: " + formArray.get('dropoffDate') + '\n' +
+                      "Drop-off Time: " + formArray.get('dropoffTime')
+                );
+            }
+        </script>
     </head>
     <body>
         <div class="nav">
@@ -14,44 +32,49 @@
             </div>
         </div>
         <div class="content">
-            <form action="JavaScript:alert()" id="carform">
-                <input type="text" placeholder="Full Name">
+            <form action="JavaScript:showBooking()" id="carform">
+                <input type="text" name="name" placeholder="Full Name" required>
                 <br>
-                <input type="tel" placeholder="Phone Number">
+                <input type="tel" name="phone" placeholder="Phone Number" required>
                 <br>
-                <input type="email" placeholder="Email">
+                <input type="email" name="email" placeholder="Email" required>
                 <br><br>
                 <label for="cars">Choose a car</label><br>
                 <select name="cars" id="cars" form="carform">
                     <optgroup label="Sedan">
-                        <option value="">Item 1</option>
-                        <option value="">Item 2</option>
+                        <option value="1">Item 1</option>
+                        <option value="2">Item 2</option>
                     </optgroup>
                     <optgroup label="Hatch">
                         <option value="ToyotaCorolla">2018 Toyota Corolla</option>
-                        <option value="">Item 2</option>
+                        <option value="4">Item 2</option>
                     </optgroup>
                     <optgroup label="SUV">
-                        <option value="">Item 1</option>
-                        <option value="">Item 2</option>
+                        <option value="5">Item 1</option>
+                        <option value="6">Item 2</option>
                     </optgroup>
                     <optgroup label="Coupe">
-                        <option value="">Item 1</option>
-                        <option value="">Item 2</option>
+                        <option value="7">Item 1</option>
+                        <option value="8">Item 2</option>
                     </optgroup>
                 </select>
                 <br><br>
-                <label>Radio Buttons</label><br>
-                <input type="radio" name="temp" value="1">Radio 1
-                <input type="radio" name="temp" value="2">Radio 2
-                <input type="radio" name="temp" value="3">Radio 3
+                <label>Insurance Type</label><br>
+                <input type="radio" name="insurance" value="basic" required>Basic
+                <input type="radio" name="insurance" value="premium" required>Premium
+                <input type="radio" name="insurance" value="platinum" required>Platinum
                 <br><br>
-                <label>Checkboxes</label><br>
-                <input type="checkbox" name="tempCheck" value="1">Checkbox 1
+                <label>Add Last Minute Cancellation</label>
+                <input type="checkbox" name="cancellation" value="1">
                 <br><br>
-                <input type="date"><br>
-                <input type="time">
-                <br><br>
+                <label>Pickup Date and Time</label><br>
+                <input type="date" name="pickupDate" required><br>
+                <input type="time" name="pickupTime"  required><br>
+                <br>
+                <label>Drop-off Date and Time</label><br>
+                <input type="date" name="dropoffDate" required><br>
+                <input type="time" name="dropoffTime" required><br>
+                <br>
                 <input type="submit" value="Submit">
             </form>
         </div>
