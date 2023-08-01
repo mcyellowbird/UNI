@@ -1,0 +1,151 @@
+mysql> source solution3.sql
+--------------
+/* (1)	First, the script makes a relational table that contains a general log empty.                                       */
+
+TRUNCATE TABLE mysql.general_log
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+/* (2)	Next, the script sets the appropriate values of the variables that allow to create a general log, to save 
+        a general log in a relational table, and to start recording a general log from now. Then the script process
+        a script lazy-hacker.sql. Next, the script sets the appropriate values of the variables  to stop recording 
+        a general log from now.                                                                                             */
+
+set global general_log='ON'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+set global log_output='TABLE'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE TABLE order_detail AS (SELECT * FROM ORDER_DETAIL)
+--------------
+
+Query OK, 327 rows affected (0.15 sec)
+Records: 327  Duplicates: 0  Warnings: 0
+
+--------------
+DELETE FROM order_detail
+WHERE order_id = 267
+--------------
+
+Query OK, 3 rows affected (0.00 sec)
+
+--------------
+INSERT INTO order_detail VALUES(249,'Singaporean Hokkien Fried Mee', 0.0, 0.0, 0.0)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+DELETE FROM ORDER_DETAIL
+--------------
+
+Query OK, 327 rows affected (0.04 sec)
+
+--------------
+INSERT INTO ORDER_DETAIL( SELECT * FROM order_detail)
+--------------
+
+Query OK, 325 rows affected (0.04 sec)
+Records: 325  Duplicates: 0  Warnings: 0
+
+--------------
+INSERT INTO ORDER_DETAIL VALUES(251, 'Manjimup Dried Apples', 0.0, 0.0, 0.0)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO ORDER_DETAIL VALUES(250, 'Singaporean Hokkien Fried Mee', 0.0, 0.0, 0.0)
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+UPDATE ORDER_DETAIL
+SET unit_price = unit_price + 1, quantity = quantity + 1
+WHERE order_id = 248
+--------------
+
+Query OK, 3 rows affected (0.02 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+--------------
+DELETE FROM order_detail
+--------------
+
+Query OK, 325 rows affected (0.02 sec)
+
+--------------
+DROP TABLE order_detail
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+COMMIT
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+set global general_log='OFF'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (3)	Next, the script lists DML statements INSERT, UPDATE, and DELETE processed in a period of time when a general 
+        log was recorded.                                                                                                   */
+
+SELECT argument "DDL statement"
+FROM  mysql.general_log
+WHERE argument LIKE '%INSERT%' OR
+      argument LIKE '%UPDATE%' OR
+      argument LIKE '%DELETE%'
+--------------
+
++---------------------------------------------------------------------------------------------------+
+| DDL statement                                                                                     |
++---------------------------------------------------------------------------------------------------+
+| DELETE FROM order_detail
+WHERE order_id = 267                                                     |
+| INSERT INTO order_detail VALUES(249,'Singaporean Hokkien Fried Mee', 0.0, 0.0, 0.0)               |
+| DELETE FROM ORDER_DETAIL                                                                          |
+| INSERT INTO ORDER_DETAIL( SELECT * FROM order_detail)                                             |
+| INSERT INTO ORDER_DETAIL VALUES(251, 'Manjimup Dried Apples', 0.0, 0.0, 0.0)                      |
+| INSERT INTO ORDER_DETAIL VALUES(250, 'Singaporean Hokkien Fried Mee', 0.0, 0.0, 0.0)              |
+| UPDATE ORDER_DETAIL
+SET unit_price = unit_price + 1, quantity = quantity + 1
+WHERE order_id = 248 |
+| DELETE FROM order_detail                                                                          |
++---------------------------------------------------------------------------------------------------+
+8 rows in set (0.00 sec)
+
+--------------
+/* (4)	Next, the script lists total number of times a relational table ORDER_DETAIL have been accessed by DML statements    
+        INSERT, UPDATE, and DELETE                                                                                          */
+
+SELECT COUNT(*) 
+FROM mysql.general_log
+WHERE argument LIKE 'INSERT%ORDER_DETAIL%' OR
+      argument LIKE 'UPDATE%ORDER_DETAIL%' OR
+      argument LIKE 'DELETE%ORDER_DETAIL%'
+--------------
+
++----------+
+| COUNT(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> notee

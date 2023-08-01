@@ -1,0 +1,142 @@
+mysql> \. solution2.sql
+--------------
+/*
+  (1) Create an empty relational table to store information about the names of department, 
+      the total number of projects and total budgets of the projects owned by each department. 
+	  A name of relational table and the names of columns are up to you. Enforce the appropriate 
+	  primary key and referential integrity constraints (if any).
+
+	  Next, load into the table information about the names of departments together with the 
+	  total number of projects and the total budgets of the projects owned by each department. 
+	  If a department owns no project, then its name must be recorded with a number zeros (0) 
+	  for the total number and budgets.
+
+	  Finally display all the information of the new table.
+*/
+
+CREATE TABLE DeptProject (
+	DName 	VARCHAR(30)	NOT NULL,
+	totalProjects	DECIMAL(3),
+	totalBudgets	DECIMAL(11,2),
+	CONSTRAINT DeptProject_PK PRIMARY KEY (DName),
+	CONSTRAINT DeptProject_FK FOREIGN KEY (DName) REFERENCES Department (DName)
+)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+INSERT INTO DeptProject 
+	SELECT DName, count(P.PNumber), SUM(IFNULL(Budget, 0))
+	FROM Department D LEFT OUTER JOIN Project P ON D.DNumber = P.DNumber
+	GROUP BY DName
+--------------
+
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * FROM DeptProject
+--------------
+
++-----------------+---------------+--------------+
+| DName           | totalProjects | totalBudgets |
++-----------------+---------------+--------------+
+| ACCOUNTING      |             0 |         0.00 |
+| GAMES           |             2 |    240000.00 |
+| HUMAN RESOURCES |             0 |         0.00 |
+| SALES           |             1 |     25000.00 |
+| SPORTS          |             2 |    160000.00 |
++-----------------+---------------+--------------+
+5 rows in set (0.00 sec)
+
+--------------
+/*
+  (2) Create a relational table that contains information about the numbers and names of all employees and 
+      the titles of projects assigned to each one of them. 
+
+      All data must be loaded into the table by the same SQL statement that creates the table. 
+
+      Enforce the appropriate primary key and referential integrity constraints (if any) after data 
+	  is loaded.
+*/
+
+CREATE TABLE EmployeeProject AS (
+	SELECT E.ENumber, Name, PTitle
+	FROM Employee E JOIN WorksOn W ON E.ENumber = W.ENumber
+		JOIN Project P ON W.PNumber = P.PNumber
+)
+--------------
+
+Query OK, 9 rows affected (0.02 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EmployeeProject ADD CONSTRAINT EmployeeProject_PK PRIMARY KEY (ENumber, PTitle),
+	ADD CONSTRAINT EmployeeProject_FK1 FOREIGN KEY (ENumber) REFERENCES Employee (ENumber),
+	ADD CONSTRAINT EmployeeProject_FK2 FOREIGN KEY (PTitle) REFERENCES Project (PTitle)
+--------------
+
+Query OK, 9 rows affected (0.05 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+--------------
+-- SELECT * FROM EmployeeProject;
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+  (3) Add a column to a relational table Employee to store information about the total number of projects 
+      assigned to each one of them. A name of the column is up to you. Assume that no more than 9 projects 
+	  are assigned for each employee. 
+
+	  Next, use a single UPDATE statement to set the values in the new column consistent with 
+	  the present contents of the sample database.
+*/
+
+ALTER TABLE Employee ADD COLUMN totalProject DECIMAL(1)
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE Employee E SET totalProject = (
+	SELECT COUNT(*) FROM WorksOn W
+	WHERE W.ENumber = E.ENumber)
+--------------
+
+Query OK, 14 rows affected (0.01 sec)
+Rows matched: 14  Changed: 14  Warnings: 0
+
+--------------
+-- SELECT ENumber, totalProject
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- FROM Employee;
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+  Drop the tables
+*/
+
+DROP TABLE DeptProject
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP TABLE EmployeeProject
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> notee;

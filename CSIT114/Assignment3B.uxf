@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>240</y>
+      <w>130</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Agent
+--
+Name {key}
+Office
+Phone
+E-mail
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>460</y>
+      <w>130</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Office
+--
+OfficeID {key}
+Address
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>760</y>
+      <w>130</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Customer
+--
+Name
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1150</x>
+      <y>460</y>
+      <w>130</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Sale
+--
+AskingPrice
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1150</x>
+      <y>520</y>
+      <w>130</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Lease
+--
+WeeklyRentalPrice
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>240</y>
+      <w>130</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Owner
+--
+Name {key}
+Phone
+E-mail
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>460</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Listed Property {abstract}
+--
+PropertyID
+Address
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>960</x>
+      <y>440</y>
+      <w>130</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>HasStructure
+--
+YearBuilt
+Bedrooms[1...*]
+Bathrooms[1...*]
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>960</x>
+      <y>520</y>
+      <w>130</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>VacantLand
+--
+SquareFeet
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>350</y>
+      <w>90</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m1=*
+m2=1
+Works For</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>520</y>
+      <w>130</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m1=1
+m2=*
+Lists</panel_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>350</y>
+      <w>40</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m1=1
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>860</x>
+      <y>480</y>
+      <w>120</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes>10.0;50.0;40.0;50.0;40.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>890</x>
+      <y>520</y>
+      <w>90</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>bg=#dddddd
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;70.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>570</y>
+      <w>70</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m1=1
+m2=*
+Views</panel_attributes>
+    <additional_attributes>10.0;190.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>320</y>
+      <w>130</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=*
+Contract</panel_attributes>
+    <additional_attributes>10.0;170.0;60.0;170.0;60.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1080</x>
+      <y>470</y>
+      <w>90</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;50.0;40.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1080</x>
+      <y>510</y>
+      <w>90</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes>10.0;50.0;40.0;50.0;40.0;10.0;40.0;50.0;70.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>870</x>
+      <y>640</y>
+      <w>110</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Property Info
+-
+PropertyID
+AgentName
+bg=#dddddd</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>610</y>
+      <w>130</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>300</y>
+      <w>310</w>
+      <h>550</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m1=1
+m2=*
+Views</panel_attributes>
+    <additional_attributes>290.0;520.0;10.0;520.0;10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>910</x>
+      <y>240</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Property
+--
+PropertyID {key}
+Address
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>820</x>
+      <y>280</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m1=1
+m2=*
+Owns</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>260</y>
+      <w>130</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+m1=1
+m2=*
+Can View</panel_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+</diagram>

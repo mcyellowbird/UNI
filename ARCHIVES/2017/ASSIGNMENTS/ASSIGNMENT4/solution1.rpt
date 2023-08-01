@@ -1,0 +1,90 @@
+mysql> source solution1.sql
+--------------
+CREATE USER jrg IDENTIFIED BY 'jrg'
+--------------
+
+Query OK, 0 rows affected (0.14 sec)
+
+--------------
+GRANT SELECT ON jrg.EMPLOYEE TO jrg WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT ON jrg.JOBHISTORY TO jrg WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT CREATE VIEW ON jrg.* TO jrg WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+ALTER USER jrg WITH MAX_QUERIES_PER_HOUR 100
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER USER jrg WITH MAX_USER_CONNECTIONS 3
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER USER jrg WITH MAX_CONNECTIONS_PER_HOUR 10
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER USER jrg ACCOUNT LOCK
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT db, user, create_view_priv, grant_priv
+FROM mysql.db
+WHERE user = 'jrg'
+--------------
+
++-----+------+------------------+------------+
+| db  | user | create_view_priv | grant_priv |
++-----+------+------------------+------------+
+| jrg | jrg  | Y                | Y          |
++-----+------+------------------+------------+
+1 row in set (0.01 sec)
+
+--------------
+SELECT db, user, table_name, table_priv
+FROM mysql.tables_priv
+WHERE user = 'jrg'
+--------------
+
++-----+------+------------+--------------+
+| db  | user | table_name | table_priv   |
++-----+------+------------+--------------+
+| jrg | jrg  | JOBHISTORY | Select,Grant |
+| jrg | jrg  | EMPLOYEE   | Select,Grant |
++-----+------+------------+--------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT max_questions, max_user_connections, max_connections, account_locked
+FROM mysql.user
+WHERE user = 'jrg'
+--------------
+
++---------------+----------------------+-----------------+----------------+
+| max_questions | max_user_connections | max_connections | account_locked |
++---------------+----------------------+-----------------+----------------+
+|           100 |                    3 |              10 | Y              |
++---------------+----------------------+-----------------+----------------+
+1 row in set (0.01 sec)
+
+mysql> notee

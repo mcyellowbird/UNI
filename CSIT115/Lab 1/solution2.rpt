@@ -1,0 +1,36 @@
+mysql> source Desktop/CSIT115/task2.sql
+Database changed
+--------------
+CREATE TABLE EMPLOYEE(
+	name VARCHAR(30) NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+CONSTRAINT DEPT_PK PRIMARY KEY (name) )
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+INSERT INTO EMPLOYEE VALUES ('Peter Smith', '12 Hillcrest Street, Wollongong', '0421234567')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM EMPLOYEE
+--------------
+
++-------------+---------------------------------+------------+
+| name        | address                         | phone      |
++-------------+---------------------------------+------------+
+| Peter Smith | 12 Hillcrest Street, Wollongong | 0421234567 |
++-------------+---------------------------------+------------+
+1 row in set (0.00 sec)
+
+--------------
+DROP TABLE EMPLOYEE
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> notee;

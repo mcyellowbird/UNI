@@ -1,0 +1,134 @@
+mysql> source solution2.sql
+--------------
+SELECT first_name, last_name
+FROM EMPLOYEE
+WHERE YEAR(hire_date) < '1996-01-01' OR
+      employee_id IN (SELECT employee_id
+                      FROM JOBHISTORY
+		      WHERE ( end_date >= '1995-01-01' AND start_date < '1996-01-01' ) )
+--------------
+
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Steven     | King      |
+| Neena      | Kochhar   |
+| Lex        | De Haan   |
+| Alexander  | Hunold    |
+| Bruce      | Ernst     |
+| Nancy      | Greenberg |
+| Alexander  | Khoo      |
+| Payam      | Kaufling  |
+| Renske     | Ladwig    |
+| Trenna     | Rajs      |
+| Louise     | Doran     |
+| Clara      | Vishney   |
+| Lisa       | Ozer      |
+| Ellen      | Abel      |
+| Alyssa     | Hutton    |
+| Winston    | Taylor    |
+| Jennifer   | Whalen    |
+| Susan      | Mavris    |
+| Hermann    | Baer      |
+| Shelley    | Higgins   |
+| William    | Gietz     |
++------------+-----------+
+21 rows in set, 1 warning (0.04 sec)
+
+--------------
+SELECT DEPARTMENT.department_name, COUNT(employee_id)
+FROM DEPARTMENT LEFT OUTER JOIN EMPLOYEE
+                ON DEPARTMENT.department_name = EMPLOYEE.department_name
+GROUP BY DEPARTMENT.department_name
+--------------
+
++------------------------+--------------------+
+| department_name        | COUNT(employee_id) |
++------------------------+--------------------+
+| Accounting             |                  7 |
+| Administration         |                  1 |
+| Benefits               |                  0 |
+| Construction           |                  0 |
+| Contracting            |                  0 |
+| Control And Credit     |                  0 |
+| Corporate Tax          |                  0 |
+| Executive              |                  3 |
+| Finance                |                  1 |
+| Government Sales       |                  0 |
+| Human Resources        |                  1 |
+| Information Technology |                  5 |
+| Manufacturing          |                  0 |
+| Marketing              |                  2 |
+| Operations             |                  0 |
+| Payroll                |                  0 |
+| Public Relations       |                  1 |
+| Purchasing             |                  6 |
+| Recruiting             |                  0 |
+| Retail Sales           |                  0 |
+| Sales                  |                 34 |
+| Shareholder Services   |                  0 |
+| Shipping               |                 45 |
+| Treasury               |                  0 |
++------------------------+--------------------+
+24 rows in set (0.00 sec)
+
+--------------
+SELECT first_name, last_name, total
+FROM EMPLOYEE JOIN (SELECT supervisor_id, COUNT(*) total
+	            FROM EMPLOYEE
+	            GROUP BY supervisor_id) SVC
+              ON EMPLOYEE.employee_id = SVC.supervisor_id
+--------------
+
++------------+-----------+-------+
+| first_name | last_name | total |
++------------+-----------+-------+
+| Steven     | King      |    14 |
+| Neena      | Kochhar   |     5 |
+| Lex        | De Haan   |     1 |
+| Alexander  | Hunold    |     4 |
+| David      | Austin    |     1 |
+| Nancy      | Greenberg |     5 |
+| Den        | Raphaely  |     5 |
+| Matthew    | Weiss     |     8 |
+| Adam       | Fripp     |     8 |
+| Payam      | Kaufling  |     8 |
+| Shanta     | Vollman   |     8 |
+| Kevin      | Mourgos   |     8 |
+| John       | Russell   |     6 |
+| Karen      | Partners  |     6 |
+| Alberto    | Errazuriz |     6 |
+| Gerald     | Cambrault |     6 |
+| Eleni      | Zlotkey   |     6 |
+| Michael    | Hartstein |     1 |
++------------+-----------+-------+
+18 rows in set (0.00 sec)
+
+--------------
+SELECT first_name, last_name
+FROM EMPLOYEE
+WHERE employee_id IN (SELECT DISTINCT employee_id
+                      FROM JOBHISTORY
+		      WHERE end_date IS NOT NULL AND
+                            DATEDIFF(end_date, start_date) >= 1000 )
+--------------
+
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Neena      | Kochhar   |
+| Lex        | De Haan   |
+| Nancy      | Greenberg |
+| Louise     | Doran     |
+| Clara      | Vishney   |
+| Sundar     | Ande      |
+| Lisa       | Ozer      |
+| Charles    | Johnson   |
+| Winston    | Taylor    |
+| Jennifer   | Whalen    |
+| Michael    | Hartstein |
+| Shelley    | Higgins   |
++------------+-----------+
+12 rows in set (0.02 sec)
+
+mysql> notee

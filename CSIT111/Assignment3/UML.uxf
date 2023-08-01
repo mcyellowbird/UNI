@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>290</y>
+      <w>220</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>MyPlaylist
+--
+_-playlist: MyPlaylist_
+_-songs: ArrayList&lt;Song&gt;_
+--
++displayWelcome(): void
++createSong(): void
++listSongs(): void
++removeSong(): void
++searchSong(): void
++displayPlaytime(): void
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>290</y>
+      <w>260</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Song
+--
+-title: String
+-artist: String
+-genre: String
+-duration: int
+--
++Song(String, String, String, int)
++getTitle(): String
++getArtist(): String
++getGenre(): String
++getDuration(): int
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>400</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>110.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

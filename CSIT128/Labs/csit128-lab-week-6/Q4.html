@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<style>
+			input {
+				width:100px;
+			}
+		</style>
+
+		<script>
+			var counter = 0;
+			var counterEnabled = false;
+			var interval;
+
+			function Count(){
+				counter++;
+				document.getElementById("output").innerHTML = counter;
+			}
+
+			function startCount(){
+				if (counterEnabled == false){
+					interval = setInterval(Count, 1000);
+					counterEnabled = true;
+				}
+			}
+
+			function stopCount(){
+				clearInterval(interval);
+				counterEnabled = false;
+			}
+
+		</script>		
+	</head>
+	<body style="text-align: center;">
+		<button onClick="startCount()" style="font-size: 25px;">Start Counter Animation</button>
+		<button onClick="stopCount()" style="font-size: 25px;">Stop Counter Animation</button>
+		<br>
+		<span id="output" style="font-size: 40px;">0</span>
+	</body>
+</html>

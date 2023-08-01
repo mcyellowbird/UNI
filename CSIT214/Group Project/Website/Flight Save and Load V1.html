@@ -1,0 +1,48 @@
+<head>
+	<style type="text/css">
+		
+	</style>
+
+	<script type="text/javascript">
+		const flights = [];
+
+		function saveFlight(){
+			var id = document.getElementById("flightID").value;
+			var name = document.getElementById("name").value;
+
+			var flight = {};
+			flight.id = id;
+			flight.name = name;
+
+			var json = JSON.stringify(flight, null, 2);
+			flights.push(flight);
+		}
+
+		function loadFlight(){
+			console.log("Loading flight");
+			for (var i = 0; i < flights.length; i++){
+				console.log(i);
+				if (flights[i].id == document.getElementById("searchFlightID").value){
+					console.log(flights[i]);
+					document.getElementById("loadFlightID").value = flights[i].id;
+					document.getElementById("loadName").value = flights[i].name;
+				}
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<input type="text" id="flightID">
+	<input type="text" id="name">
+	<button onClick="saveFlight()">Save Flight</button>
+
+	<br><br><br><br>
+
+	<h3>Search Flight ID</h3>
+	<input type="text" id="searchFlightID">
+	<button onClick="loadFlight()">Load Flight</button>
+	<br>
+	<input type="text" id="loadFlightID">
+	<input type="text" id="loadName">
+</body>

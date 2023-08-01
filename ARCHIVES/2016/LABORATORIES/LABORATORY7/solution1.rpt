@@ -1,0 +1,89 @@
+mysql> \. solution1.sql
+Database changed
+--------------
+GRANT SELECT on jrg.* TO jrg_1
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT ON jrg.EMPLOYEE TO jrg_2 WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT DELETE ON jrg.EMPLOYEE TO jrg_2 WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT INSERT ON jrg.EMPLOYEE TO jrg_2 WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT UPDATE ON jrg.EMPLOYEE TO jrg_2 WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT CREATE ON jrg.* TO jrg_3
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT (ENUM, FNAME, INITIALS, LNAME) ON jrg.EMPLOYEE  TO jrg_3
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT user, db, select_priv, insert_priv, update_priv, delete_priv, grant_priv, create_priv
+FROM mysql.db 
+WHERE user IN ('jrg_1', 'jrg_2', 'jrg_3')
+--------------
+
++-------+-----+-------------+-------------+-------------+-------------+------------+-------------+
+| user  | db  | select_priv | insert_priv | update_priv | delete_priv | grant_priv | create_priv |
++-------+-----+-------------+-------------+-------------+-------------+------------+-------------+
+| jrg_1 | jrg | Y           | N           | N           | N           | N          | N           |
+| jrg_3 | jrg | N           | N           | N           | N           | N          | Y           |
++-------+-----+-------------+-------------+-------------+-------------+------------+-------------+
+2 rows in set (0.01 sec)
+
+--------------
+SELECT user, db, table_name, table_priv, column_priv
+FROM mysql.tables_priv
+WHERE user IN ('jrg_1', 'jrg_2', 'jrg_3')
+--------------
+
++-------+-----+------------+-----------------------------------+-------------+
+| user  | db  | table_name | table_priv                        | column_priv |
++-------+-----+------------+-----------------------------------+-------------+
+| jrg_3 | jrg | EMPLOYEE   |                                   | Select      |
+| jrg_2 | jrg | EMPLOYEE   | Select,Insert,Update,Delete,Grant |             |
++-------+-----+------------+-----------------------------------+-------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT user, db, table_name, column_name, column_priv
+FROM mysql.columns_priv
+WHERE user IN ('jrg_1', 'jrg_2', 'jrg_3')
+--------------
+
++-------+-----+------------+-------------+-------------+
+| user  | db  | table_name | column_name | column_priv |
++-------+-----+------------+-------------+-------------+
+| jrg_3 | jrg | EMPLOYEE   | LNAME       | Select      |
+| jrg_3 | jrg | EMPLOYEE   | INITIALS    | Select      |
+| jrg_3 | jrg | EMPLOYEE   | FNAME       | Select      |
+| jrg_3 | jrg | EMPLOYEE   | ENUM        | Select      |
++-------+-----+------------+-------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> notee

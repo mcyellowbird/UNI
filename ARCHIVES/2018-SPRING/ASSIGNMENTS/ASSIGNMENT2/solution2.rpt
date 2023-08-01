@@ -1,0 +1,121 @@
+mysql> \. solution2.sql
+--------------
+/*
+(1)	Find the names of all the departments that located in Wollongong.
+*/
+
+SELECT DName 
+FROM Department D JOIN DeptLocation DL ON D.DNumber = DL.DNumber
+WHERE DL.Address LIKE '%Wollongong%'
+--------------
+
++--------+
+| DName  |
++--------+
+| SALES  |
+| GAMES  |
+| SPORTS |
++--------+
+3 rows in set (0.00 sec)
+
+--------------
+/*
+(2)	Find the names of all the departments that located in at least 2 addresses.
+*/
+
+SELECT DName
+FROM Department D JOIN DeptLocation DL ON D.DNumber = DL.DNumber
+GROUP BY DName
+HAVING COUNT(*) >= 2
+--------------
+
++--------+
+| DName  |
++--------+
+| GAMES  |
+| SALES  |
+| SPORTS |
++--------+
+3 rows in set (0.01 sec)
+
+--------------
+/*
+(3)	Find project number and title for the projects that allocated in a department GAMES.
+*/
+
+SELECT PNumber, PTitle
+FROM Project P JOIN Department D ON P.DNumber = D.DNumber
+WHERE D.DName = 'GAMES'
+--------------
+
++---------+---------------+
+| PNumber | PTitle        |
++---------+---------------+
+|    1002 | Study methods |
+|    1003 | Racing car    |
++---------+---------------+
+2 rows in set (0.00 sec)
+
+--------------
+/*
+(4)	Find employee number and name for the employees who work on projects 1002 and 1004.
+*/
+
+SELECT E.ENumber, Name
+FROM Employee E JOIN WorksOn W ON E.ENumber = W.ENumber
+WHERE PNumber = 1002 AND E.ENumber IN (
+	SELECT E1.ENumber
+	FROM Employee E1 JOIN WorksOn W1 ON E1.ENumber = W1.ENumber
+	WHERE PNumber = 1004)
+--------------
+
++---------+--------+
+| ENumber | Name   |
++---------+--------+
+| 00105   | Robert |
++---------+--------+
+1 row in set (0.01 sec)
+
+--------------
+/*
+(5)	Find employee number and name (in uppercase) for all employees who were born before 1985. Format the results in the descending order of their names.
+*/
+
+SELECT ENumber, UPPER(Name)
+FROM Employee
+WHERE YEAR(DOB) < 1985
+ORDER BY 2 DESC
+--------------
+
++---------+-------------+
+| ENumber | UPPER(Name) |
++---------+-------------+
+| 00101   | PETER       |
+| 00250   | DOUGLASS    |
+| 00200   | CARL        |
+| 00150   | BOB         |
+| 00110   | ALVIN       |
+| 00120   | ALICE       |
+| 00100   | ALBERT      |
++---------+-------------+
+7 rows in set (0.00 sec)
+
+--------------
+/*
+(6)	Find employee number and name (in uppercase) for all employees who work on 2 or more projects. 
+*/
+
+SELECT E.ENumber, UPPER(Name)
+FROM Employee E JOIN WorksOn W ON E.ENumber = W.ENumber
+GROUP BY E.ENumber
+HAVING COUNT(*) >= 2
+--------------
+
++---------+-------------+
+| ENumber | UPPER(Name) |
++---------+-------------+
+| 00105   | ROBERT      |
++---------+-------------+
+1 row in set (0.00 sec)
+
+mysql> notee;

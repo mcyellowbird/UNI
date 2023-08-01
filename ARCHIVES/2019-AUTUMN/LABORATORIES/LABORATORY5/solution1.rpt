@@ -1,0 +1,250 @@
+mysql> source solution1.sql
+--------------
+/* (1)	Use a single SQL statement to create a relational table and to load into the table all information 
+        about the orders submitted in 1996 or in 1998 by the customers located in Paris or in Londond or in
+        Madrid. Next, enforce the appropriate consistency constraints on the new table.                        */
+
+CREATE TABLE ORDERS_NEW AS (SELECT *
+                            FROM ORDERS
+			    WHERE year(order_date) IN (1996,1998) AND
+			          customer_code IN (SELECT customer_code
+				                    FROM CUSTOMER
+						    WHERE city IN ('Paris','London','Madrid') ) )
+--------------
+
+Query OK, 4 rows affected (0.13 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ORDERS_NEW ADD CONSTRAINT ORDERS_NEW_PK PRIMARY KEY (order_id)
+--------------
+
+Query OK, 0 rows affected (0.26 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ORDERS_NEW ADD CONSTRAINT ORDERS_NEW_FK1 FOREIGN KEY (CUSTOMER_CODE) REFERENCES CUSTOMER(CUSTOMER_CODE)
+--------------
+
+Query OK, 4 rows affected (0.12 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ORDERS_NEW ADD CONSTRAINT ORDERS_NEW_FK2 FOREIGN KEY (EMPLOYEE_ID) REFERENCES EMPLOYEE(EMPLOYEE_ID)
+--------------
+
+Query OK, 4 rows affected (0.22 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ORDERS_NEW ADD CONSTRAINT ORDERS_NEW_FK3 FOREIGN KEY (SHIP_VIA) REFERENCES SHIPPER(COMPANY_NAME)
+--------------
+
+Query OK, 4 rows affected (0.17 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ORDERS_NEW ADD CONSTRAINT ORDERS_NEW_CHECK CHECK( year(order_date) IN (1996,1998) )
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+						    
+/* (2)	Create a new relational table to store information about the company names  of all suppliers and 
+        the total number of products supplied by each supplier. Enforce, the appropriate consistency 
+        constraints on the new table. Next, copy into the new table information about the company names of 
+        all suppliers and the total number of products supplied by each supplier                 .            */
+
+CREATE TABLE SUPPLIER_TOTAL
+(
+    COMPANY_NAME 	VARCHAR(40)	NOT NULL,
+    TOTAL		DECIMAL(6)	NOT NULL,
+    CONSTRAINT SUPPLIER_TOTAL_PK PRIMARY KEY (COMPANY_NAME),
+    CONSTRAINT SUPPLIER_TOTAL_FK FOREIGN KEY (COMPANY_NAME) REFERENCES SUPPLIER(COMPANY_NAME),
+    CONSTRAINT SUPPLIER_TOTAL_CHECK CHECK (TOTAL >= 0 )
+)
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+
+--------------
+INSERT INTO SUPPLIER_TOTAL (SELECT COMPANY_NAME, (SELECT COUNT(*)
+                                                  FROM PRODUCT
+						  WHERE PRODUCT.supplier_name = SUPPLIER.company_name ) 
+			    FROM SUPPLIER )
+--------------
+
+Query OK, 29 rows affected (0.02 sec)
+Records: 29  Duplicates: 0  Warnings: 0
+
+--------------
+/* (3)	Add to a relational table EMPLOYEE information about the total number of orders handled by each 
+        employee. Note, that if an employee handled no orders then for such employee the total number 
+        of orders must be set to zero. Enforce the appropriate consistency constraints on a relational table 
+        EMPLOYEE.                                                                                               */
+
+ALTER TABLE EMPLOYEE ADD TOTAL_ORDERS DECIMAL(12) NULL
+--------------
+
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYEE ADD CONSTRAINT EMPLOYEE_CHECK CHECK (TOTAL_ORDERS >= 0 )
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE
+SET TOTAL_ORDERS = (SELECT COUNT(*)
+                    FROM ORDERS
+		    WHERE ORDERS.employee_id = EMPLOYEE.employee_id)
+--------------
+
+Query OK, 9 rows affected (0.02 sec)
+Rows matched: 9  Changed: 9  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYEE MODIFY TOTAL_ORDERS DECIMAL(12) NOT NULL
+--------------
+
+Query OK, 0 rows affected (0.22 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+	
+/* (4)	Delete from the database information about all suppliers located in USA. Information about all products 
+        supplied by the suppliers located in USA must remain in the database. You are not allowed  to drop 
+        and/or suspend any referential integrity constraints and you must modify one of NULL/NOT NULL 
+        consistency constraints.                                                                               */
+
+ALTER TABLE PRODUCT MODIFY supplier_name VARCHAR(40) NULL
+--------------
+
+Query OK, 0 rows affected (0.26 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE PRODUCT
+SET supplier_name = NULL
+WHERE supplier_name IN (SELECT company_name
+                        FROM SUPPLIER
+	                WHERE country = 'USA')
+--------------
+
+Query OK, 12 rows affected (0.02 sec)
+Rows matched: 12  Changed: 12  Warnings: 0
+
+--------------
+DELETE FROM SUPPLIER_TOTAL
+WHERE company_name IN (SELECT company_name
+                       FROM SUPPLIER
+                       WHERE country = 'USA')
+--------------
+
+Query OK, 4 rows affected (0.02 sec)
+
+--------------
+DELETE FROM SUPPLIER
+WHERE country ='USA'
+--------------
+
+Query OK, 4 rows affected (0.00 sec)
+
+--------------
+/* (5)	Insert into a file solution1.sql implementation of the following query as SELECT statement with WITH 
+        clause.
+
+        Find all orders such that a value of each order is greater than an average value of all orders submitted 
+        so far. List in each line of output an order identifier, a total value of an order, and an average value 
+        of all orders. The results must be sorted in the descending order of total value of each order. 
+        A total value of an order must be computed as the summation of unit_price * quantity over all items 
+        included in the order. 
+
+        The query must be implemented as a sequence of subquery definitions following WITH keyword and completed 
+        with the final SELECT.	      	   	       			    	      	   	       		 */
+WITH
+/*      (i)   The first subquery definition must find a total value of each order together with an order 
+              identifier (attribute order_id).                                                                    */
+ TOTAL_VALUE(order_id, total_value) AS
+  (SELECT order_id, SUM(unit_price*quantity)
+   FROM ORDER_DETAIL
+   GROUP BY order_id),       
+/*      (ii)  The second subquery definition must find an average value of all orders.                            */
+ AVERAGE_VALUE(average_value) AS
+  (SELECT AVG(total_value)
+   FROM TOTAL_VALUE),
+/*      (iii) The third subquery definition must find all orders and their values such that value of each order 
+              is greater than an average value of all orders.                                                     */
+ GREATER_THAN_AVERAGE(order_id, total_value) AS
+  (SELECT order_id, total_value
+   FROM TOTAL_VALUE
+   WHERE total_value > (SELECT average_value
+                        FROM AVERAGE_VALUE))
+/*      (iv)  The final SELECT statement must extend the results of subquery definition (iii) with a column 
+              average_value that contains an average value of all orders and it must sort the results in 
+              descending order of total value of each order.                                                      */
+SELECT order_id, total_value, average_value
+FROM GREATER_THAN_AVERAGE CROSS JOIN AVERAGE_VALUE
+ORDER BY total_value DESC
+--------------
+
++----------+-------------+---------------+
+| order_id | total_value | average_value |
++----------+-------------+---------------+
+|      324 |     6155.90 |   1260.163281 |
+|      345 |     5793.10 |   1260.163281 |
+|      329 |     4819.40 |   1260.163281 |
+|      305 |     4157.00 |   1260.163281 |
+|      267 |     4031.00 |   1260.163281 |
+|      368 |     3891.00 |   1260.163281 |
+|      252 |     3730.00 |   1260.163281 |
+|      346 |     3547.00 |   1260.163281 |
+|      339 |     3463.20 |   1260.163281 |
+|      298 |     3127.00 |   1260.163281 |
+|      316 |     2835.00 |   1260.163281 |
+|      375 |     2719.00 |   1260.163281 |
+|      302 |     2708.80 |   1260.163281 |
+|      365 |     2684.00 |   1260.163281 |
+|      340 |     2564.40 |   1260.163281 |
+|      335 |     2545.20 |   1260.163281 |
+|      255 |     2490.50 |   1260.163281 |
+|      337 |     2467.00 |   1260.163281 |
+|      263 |     2464.80 |   1260.163281 |
+|      358 |     2339.40 |   1260.163281 |
+|      314 |     2327.00 |   1260.163281 |
+|      327 |     2262.50 |   1260.163281 |
+|      332 |     2233.60 |   1260.163281 |
+|      290 |     2169.00 |   1260.163281 |
+|      273 |     2142.40 |   1260.163281 |
+|      362 |     2096.00 |   1260.163281 |
+|      371 |     2051.60 |   1260.163281 |
+|      258 |     2018.60 |   1260.163281 |
+|      330 |     1940.00 |   1260.163281 |
+|      294 |     1887.60 |   1260.163281 |
+|      357 |     1875.00 |   1260.163281 |
+|      249 |     1863.40 |   1260.163281 |
+|      374 |     1848.00 |   1260.163281 |
+|      380 |     1820.80 |   1260.163281 |
+|      250 |     1813.00 |   1260.163281 |
+|      309 |     1762.00 |   1260.163281 |
+|      260 |     1746.20 |   1260.163281 |
+|      369 |     1688.00 |   1260.163281 |
+|      312 |     1614.80 |   1260.163281 |
+|      367 |     1584.00 |   1260.163281 |
+|      325 |     1528.80 |   1260.163281 |
+|      278 |     1488.80 |   1260.163281 |
+|      272 |     1456.00 |   1260.163281 |
+|      253 |     1444.80 |   1260.163281 |
+|      297 |     1420.00 |   1260.163281 |
+|      270 |     1376.00 |   1260.163281 |
+|      381 |     1328.00 |   1260.163281 |
+|      292 |     1296.00 |   1260.163281 |
++----------+-------------+---------------+
+48 rows in set (0.01 sec)
+
+mysql> notee

@@ -1,0 +1,86 @@
+mysql> source solution2.sql
+--------------
+INSERT INTO SKILL VALUES ('climbing')
+--------------
+
+Query OK, 1 row affected (0.08 sec)
+
+--------------
+INSERT INTO SREQUIRED VALUES ('climbing', 'thinking', 3)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO SPOSSESSED VALUES (000007, 'climbing', 3)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+DELETE FROM APPLIES WHERE pnumber=1
+--------------
+
+Query OK, 2 rows affected (0.00 sec)
+
+--------------
+DELETE FROM SNEEDED WHERE pnumber=1
+--------------
+
+Query OK, 4 rows affected (0.00 sec)
+
+--------------
+DELETE FROM POSITIONS WHERE pnumber=1
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+UPDATE APPLICANT SET city='Sydney', state='New South Wales', fax=NULL, email=NULL
+WHERE city='Melbourne'
+--------------
+
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+--------------
+INSERT INTO SKILL VALUES ('Deep thinking')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+UPDATE SREQUIRED SET sname='Deep thinking' WHERE sname='thinking'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+--------------
+UPDATE SREQUIRED SET requires='Deep thinking' WHERE requires='thinking'
+--------------
+
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+--------------
+UPDATE SPOSSESSED SET sname='Deep thinking' WHERE sname='thinking'
+--------------
+
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+--------------
+UPDATE SNEEDED SET sname='Deep thinking' WHERE sname='thinking'
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+--------------
+DELETE FROM SKILL WHERE sname = 'thinking'
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+mysql> notee

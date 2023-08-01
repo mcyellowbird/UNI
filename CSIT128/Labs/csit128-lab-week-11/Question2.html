@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <title>Question 2</title>
+
+        <style>
+            table, th, td {
+                border: 1px black solid;
+                border-collapse: collapse;
+                padding: 5px;
+            }
+        </style>
+
+        <script>
+            function makeAjaxQuery(){
+                var xhttp = new XMLHttpRequest();
+
+                xhttp.onreadystatechange = function() {
+                    readyStateChangeHandler(xhttp);
+                }
+
+                var queryUrl = "airport.json";
+                xhttp.open("GET", queryUrl, true);
+                xhttp.send();
+            }
+
+            function readyStateChangeHandler(xhttp){
+                if (xhttp.readyState == XMLHttpRequest.DONE){
+                    if(xhttp.status == 200){
+                        handleStatusSuccess(xhttp);
+                    }
+                    else{
+                        handleStatusFailure(xhttp);
+                    }
+                }
+            }
+
+            function handleStatusFailure(xhttp){
+                alert("AJAX request fail");
+                alert("readyState = " + xhttp.readyState);
+                alert("status = " + xhttp.status);
+            }
+
+            function handleStatusSuccess(xhttp){
+                var jsonText = xhttp.responseText;
+                
+                var obj = JSON.parse(jsonText);
+
+                generateTable(obj);
+            }
+
+            function generateTable(obj){
+                var table = document.getElementById("table");
+                var airports = obj.searchResult;
+                var html = "";
+                html += "<table>";
+                html += "<tr>";
+                html += "<th>Airport</th>";
+                html += "<th>ICAO</th>";
+                html += "<th>IATA</th>";
+                html += "<th>Location</th>";
+                html += "</tr>";
+                
+                for (var i = 0; i < airports.length; i++){
+                    html += "<tr>";
+                    html += "<td>" + airports[i].airportName + "</td>";
+                    html += "<td>" + airports[i].ICAO + "</td>";
+                    html += "<td>" + airports[i].IATA + "</td>";
+                    html += "<td>" + airports[i].city + ", " + airports[i].country + "</td>";
+                    html += "</tr>";
+                }
+
+                html += "</table>";
+                document.getElementById("table").innerHTML = html;
+            }
+        </script>
+    </head>
+    <body>
+        <button onClick="makeAjaxQuery()">Search Airport</button>
+        <br /><br />
+        <b>Search Query: </b> Australia
+        <br /> <br />
+        <div id="table"></div>
+    </body>
+</html>

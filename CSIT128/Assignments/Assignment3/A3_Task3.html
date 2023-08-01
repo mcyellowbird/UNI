@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<script>
+			
+			var emojiList = ["&#128507", "&#128508", "&#128510", "&#128511"];
+			var counter = 0;
+			var counterEnabled = false;
+			var interval;
+
+			function Count(){
+				counter++;
+				var index = Math.floor(Math.random() * emojiList.length);
+				console.log(emojiList[index]);
+				document.getElementById("output").innerHTML = emojiList[index];
+			}
+
+			function startEmoji(){
+				if (counterEnabled == false){
+					interval = setInterval(Count, 2000);
+					counterEnabled = true;
+				}
+			}
+
+			function stopEmoji(){
+				clearInterval(interval);
+				counterEnabled = false;
+			}
+		</script>
+	</head>
+	<body>
+		<table style="margin: auto; width: 400px;">
+			<tr>
+				<td style="text-align: center; padding-top: 20px">
+					<input type="button" value="Display Random Emoji" onClick="startEmoji()"/><br><br>
+					<input type="button" value="Stop" onClick="stopEmoji()"/><br><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span id="output"></span><br>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,21 @@
+{
+    "plateNumber": "04MNKL",
+    "requiredInspection": true,
+    "billingNumber": "0123987",
+    "year": 2016,
+    "make": "Toyota",
+    "model": "Tarago",
+    "engineCapacity": 2362,
+    "seatingCapacity": 8,
+    "engineNumber": "ABC123XY",
+    "feeDetail": [
+        {
+            "item": "Registration Fee",
+            "amount": 68.50
+        },
+        {
+            "item": "Motor Vehicle Tax",
+            "amount": 479.30
+        }
+    ]
+}

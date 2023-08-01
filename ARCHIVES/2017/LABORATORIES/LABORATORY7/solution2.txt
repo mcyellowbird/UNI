@@ -1,0 +1,129 @@
+(1) Start mysql command line interface and connect as a user prefix of your University email account_1.
+
+mysql -u jrg_1 -p -v
+
+(2) Execute a command tee solution2.rpt.
+
+tee solution2.rpt
+
+(3) Execute two SQL statements that shows the validity of two different privileges granted to
+    a user prefix of your University email account_1 in the previous task. Note, that you have
+    to use a database prefix of your University email account. Each statement must retrieve
+    precisely two rows.
+
+
+use jrg;
+
+SELECT *
+FROM REGION
+WHERE region_name IN ('Asia', 'Europe');
+
+SELECT *
+FROM COUNTRY 
+WHERE country_name IN ('Fiji', 'Vanuatu');
+
+
+(4) Execute any SQL statement that shows a lack of privilege to access a database prefix of your
+    University email account in write mode by a user prefix of your University email account_1.
+
+INSERT INTO REGION VALUES ('Amazonia');
+
+(5) Exit mysql command line interface.
+
+exit;
+
+(6) Start mysql command line interface and connect as a user prefix of your University email account_2.
+
+mysql -u jrg_2 -p -v
+
+(7) Execute a command tee solution2.rpt.
+
+tee solution2.rpt
+
+(8) Execute two SQL statement that shows the validity of two different privileges on a relational
+    table EMPLOYEE located in a database prefix of your University email account and granted to
+    a user prefix of your University email account_2 in the previous task.
+
+use jrg;
+
+INSERT INTO EMPLOYEE VALUES 
+        ( 710
+        , 'John'
+        , 'Doe'
+        , 'JDOE'
+        , '715.124.4269'
+        , STR_TO_DATE('05-01-2000', '%d-%m-%Y')
+        , 'Accounting Manager'
+        , 9200
+        , NULL
+        , 108
+        , 'Accounting'
+        );
+
+UPDATE EMPLOYEE
+SET salary = 1.1*salary;
+
+(9) Execute any SQL statement that shows a lack of write privilege on a relational table DEPARTMENT
+    located in a database prefix of your University email account by a user prefix of your
+    University email account_2 in the previous task.
+
+INSERT INTO DEPARTMENT VALUES 
+	( 'Gambling'
+	, '40-5-12 Monte Carlo'
+	, '190518'
+	, 'Monte Carlo'
+	, 'Monaco'
+	, 104 );
+
+(11) Exit mysql command line interface.
+
+exit;
+
+(12) Start mysql command line interface and connect as a user prefix of your University email
+     account_3.
+
+mysql -u jrg_3 -p -v
+
+(13) Execute a command tee solution2.rpt.
+
+tee solution2.rpt
+
+(14) Execute any SQL statement that shows the validity of privilege to create a relational table
+     located in a database prefix of your University email account and granted to a user prefix
+     of your University email account_3 in the previous task.
+
+use jrg;
+
+CREATE TABLE SKILL (skill_name VARCHAR(5),
+ CONSTRAINT SKILL_PK PRIMARY KEY (skill_name) );
+
+(15) Execute any SQL statement that shows a lack of privilege to create a relational table in
+     a database csit115 by a user prefix of your University email account_3.		
+
+CREATE TABLE csit115.SKILL (skill_name VARCHAR(5),
+ CONSTRAINT SKILL_PK PRIMARY KEY (skill_name) );
+ 
+(16) Execute any SQL statement that shows the validity of privilege to read the columns columns
+     (department_name, street_address, city, country_name) from a relational table DEPARTMENT
+     located in a database prefix of your University email account and granted to a user prefix
+     of your University email account_3 in the previous task.
+
+SELECT department_name, street_address, city, country_name
+FROM DEPARTMENT
+WHERE department_name = 'Construction';
+ 
+(18) Execute any SQL statement that shows a lack of privilege to read a column other than
+     (employee_id, first_name, last_name, email, phone_number) from a relational table EMPLOYEE
+     located in a database prefix of your University email account by a user prefix of your
+     University email account_3.
+
+SELECT manager_id
+FROM DEPARTMENT;
+
+(19)	Execute a command notee.
+
+notee;
+
+(20)	Exit mysql command line interface.
+
+exit;

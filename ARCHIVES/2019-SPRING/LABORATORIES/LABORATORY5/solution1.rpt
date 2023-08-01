@@ -1,0 +1,251 @@
+mysql> source solution1.sql
+--------------
+/* (1)	Create a new relational table to store information about the driving licenses of all drivers, 
+        together with total number of trips performed by each driver. 
+
+        Enforce, the appropriate consistency constraints on the new table. 
+
+        Next, copy into the new table information about the driving license numbers of all drivers, 
+        and the total number of trips performed by each driver. 
+        
+        Note, that all drivers who have not perform any trip yet must be included into the table 
+        with the total number of trips equal to zero (0).   
+
+        When ready use SELECT statement to list the contents of the relational table created and 
+        filled with data in the ascending order of the total number of trips.                         */
+        
+CREATE TABLE TOTAL_TRIPS(
+LNUM 	    DECIMAL(8) 	NOT NULL,
+TRIPS       DECIMAL(6)  NOT NULL,
+ CONSTRAINT TOTAL_TRIPS_PKEY PRIMARY KEY(LNUM),  
+ CONSTRAINT TOTAL_TRIPS_CHECK CHECK( TRIPS >= 0 ) )
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+ 
+INSERT INTO TOTAL_TRIPS(
+ SELECT DRIVER.LNUM, COUNT(TRIP.TNUM)
+ FROM DRIVER LEFT OUTER JOIN TRIP
+            ON DRIVER.LNUM = TRIP.LNUM 
+ GROUP BY DRIVER.LNUM )
+--------------
+
+Query OK, 17 rows affected (0.01 sec)
+Records: 17  Duplicates: 0  Warnings: 0
+
+--------------
+      
+SELECT * 
+FROM TOTAL_TRIPS
+ORDER BY TRIPS ASC
+--------------
+
++-------+-------+
+| LNUM  | TRIPS |
++-------+-------+
+| 10705 |     0 |
+| 40005 |     0 |
+| 40002 |     0 |
+| 20065 |     0 |
+| 20055 |     0 |
+| 20045 |     0 |
+| 20003 |     0 |
+| 10345 |     0 |
+| 10305 |     0 |
+| 10012 |     0 |
+| 10008 |     0 |
+| 10004 |     0 |
+| 10003 |     4 |
+| 10002 |     4 |
+| 20002 |     7 |
+| 30005 |     9 |
+| 10001 |    11 |
++-------+-------+
+17 rows in set (0.00 sec)
+
+--------------
+/* (2)	Use a single SQL statement to create a relational table and to load into the table trip 
+        numbers and the names of origin city of each trip. Next, enforce the appropriate consistency 
+        constraints on the new table.                                                                      
+	
+	If the following rows are included in TRIPLEG table 
+
+          1, 1, Sydney,    Melbourne
+          1, 2, Melbourne, Sydney
+          1, 3, Sydney,    Perth 
+          2, 1, Brisbane,  Sydney                     
+          3, 1, Brisbane,  Perth                     
+          3, 2, Perth,     Sydney                     
+
+        then the following rows must be inserted into the new table.
+
+          1, Sydney
+          2, Brisbane
+          3, Brisbane                                                                                     */
+          
+CREATE TABLE ORIGINS AS (
+ SELECT TNUM, DEPARTURE
+ FROM TRIPLEG
+ WHERE LEGNUM = 1 )
+--------------
+
+Query OK, 35 rows affected (0.04 sec)
+Records: 35  Duplicates: 0  Warnings: 0
+
+--------------
+    
+ALTER TABLE ORIGINS ADD CONSTRAINT ORIGINS_PK PRIMARY KEY(TNUM)
+--------------
+
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ORIGINS ADD CONSTRAINT ORIGINS_FK FOREIGN KEY(TNUM) REFERENCES TRIP(TNUM)
+--------------
+
+Query OK, 35 rows affected (0.07 sec)
+Records: 35  Duplicates: 0  Warnings: 0
+
+--------------
+/* (3)	Add to a relational table TRUCK information about the total number of trips performed 
+        by each truck. Note, that if a truck has not been used for any trip so far then for such truck, 
+        the total number of trips must be set to zero (0). Enforce the appropriate consistency constraints 
+        on a relational table TRUCK. 
+   
+	Use SELECT statement to list the contents an extended relational table TRUCK in the ascending 
+        order of the total number of trips.                                                               */
+    
+ALTER TABLE TRUCK ADD (TOTAL_TRIPS DECIMAL(6) NULL)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE TRUCK 
+SET  TOTAL_TRIPS = (SELECT COUNT(*)
+                    FROM TRIP
+                    WHERE TRIP.REGNUM = TRUCK.REGNUM)
+--------------
+
+Query OK, 11 rows affected (0.01 sec)
+Rows matched: 11  Changed: 11  Warnings: 0
+
+--------------
+ALTER TABLE TRUCK ADD CONSTRAINT TRUCK_CHECK CHECK ( TOTAL_TRIPS >= 0 )
+--------------
+
+Query OK, 11 rows affected (0.09 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * 
+FROM TRUCK
+ORDER BY TOTAL_TRIPS ASC
+--------------
+
++--------+----------+--------+------------+-------------+
+| REGNUM | CAPACITY | WEIGHT | STATUS     | TOTAL_TRIPS |
++--------+----------+--------+------------+-------------+
+| AL08UK |    50000 |   5000 | AVAILABLE  |           0 |
+| GFT008 |    40000 |  15000 | AVAILABLE  |           0 |
+| LUCY01 |      100 |    300 | AVAILABLE  |           0 |
+| LUCY02 |    43000 |   3000 | AVAILABLE  |           0 |
+| XCF003 |    30000 |  10000 | AVAILABLE  |           0 |
+| PKR008 |    22000 |   8800 | AVAILABLE  |           3 |
+| SYF777 |     3333 |   4566 | MAINTAINED |           3 |
+| SST005 |    12000 |  50000 | USED       |           5 |
+| KKK007 |    10000 |   3000 | MAINTAINED |           6 |
+| QRT834 |     5550 |    400 | USED       |           6 |
+| PKR768 |     1234 |   3000 | AVAILABLE  |          12 |
++--------+----------+--------+------------+-------------+
+11 rows in set (0.00 sec)
+
+--------------
+/* (4)	Delete from the database information about all trips performed in 2014. Information about 
+        all legs of the trips performed in 2014 and information about the origins of the trips performed
+        in 2014 must be deleted as well. You are not allowed to drop and/or to suspend any referential 
+        integrity constraints. The deletions of the legs and origins of trips must be implemented 
+        as the nested SELECT statements.                                                                  */
+        
+DELETE FROM TRIPLEG
+WHERE TNUM IN ( SELECT TNUM
+                FROM TRIP 
+                WHERE YEAR(TDATE) = '2014' )
+--------------
+
+Query OK, 8 rows affected (0.01 sec)
+
+--------------
+DELETE FROM ORIGINS
+WHERE TNUM IN ( SELECT TNUM
+                FROM TRIP 
+                WHERE YEAR(TDATE) = '2014' )
+--------------
+
+Query OK, 4 rows affected (0.01 sec)
+
+--------------
+                
+DELETE FROM TRIP
+WHERE YEAR(TDATE) = '2014'
+--------------
+
+Query OK, 4 rows affected (0.00 sec)
+
+--------------
+/* (5)	Implement the following query as SELECT statement with WITH clause.
+
+        Find the distinct names of cities visited by a driver during a trip number 1 and during 
+        a trip number 8. Assume that a city is visited by a driver if it is an origin or a destination 
+        or an intermediate stop of a trip.
+
+        The query must be implemented as a sequence of subquery definitions following WITH keyword and 
+        ended with the final SELECT.
+	      	   	       			    
+       (i)   The first subquery definition must find the distinct names of cities visited during 
+             a trip number 1.
+       (ii)  The second subquery definition must find the distinct names of cities visited during 
+             a trip number 8.
+       (iii) The fourth subquery definition must find the distinct names of cities visited during both 
+             trips number 1 and number 8.
+       (iv)  The final SELECT statement must retrieve all rows created by the fourth subquery.           */
+    
+WITH 
+TRIP1 AS (
+  SELECT DEPARTURE
+  FROM TRIPLEG
+  WHERE TNUM = 1
+  UNION
+  SELECT DESTINATION
+  FROM TRIPLEG
+  WHERE TNUM = 1),
+TRIP8 AS (
+  SELECT DEPARTURE
+  FROM TRIPLEG
+  WHERE TNUM = 8
+  UNION
+  SELECT DESTINATION
+  FROM TRIPLEG
+  WHERE TNUM = 8), 
+TRIP1AND8 AS (
+  SELECT DEPARTURE
+  FROM TRIP1
+  WHERE DEPARTURE IN (SELECT DEPARTURE
+                      FROM TRIP8) )
+SELECT *
+FROM TRIP1AND8
+--------------
+
++-----------+
+| DEPARTURE |
++-----------+
+| Sydney    |
+| Perth     |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> notee

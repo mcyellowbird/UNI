@@ -1,0 +1,185 @@
+mysql> source solution2.sql
+--------------
+SELECT department_name
+FROM DEPARTMENT
+WHERE city = 'Sydney' AND country_name = 'Australia'
+--------------
+
++-----------------+
+| department_name |
++-----------------+
+| Administration  |
+| Payroll         |
++-----------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT job_title
+FROM JOB
+WHERE min_salary >= 7500 AND max_salary <= 8500
+--------------
+
++------------+
+| job_title  |
++------------+
+| Programmer |
++------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT first_name, last_name
+FROM EMPLOYEE
+WHERE supervisor_id IS NULL
+--------------
+
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Steven     | King      |
++------------+-----------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT employee_id, job_title
+FROM JOBHISTORY
+WHERE end_date >= '1998-01-01' AND end_date <= '1998-12-31'
+--------------
+
++-------------+--------------------+
+| employee_id | job_title          |
++-------------+--------------------+
+|         102 | Programmer         |
+|         161 | Stock Clerk        |
+|         163 | Stock Clerk        |
+|         168 | Stock Clerk        |
+|         169 | Stock Clerk        |
+|         170 | Stock Clerk        |
+|         176 | Programmer         |
+|         177 | Stock Clerk        |
+|         180 | Stock Clerk        |
+|         205 | Programmer         |
+|         206 | Accounting Manager |
++-------------+--------------------+
+11 rows in set (0.00 sec)
+
+--------------
+SELECT department_name, first_name, last_name
+FROM EMPLOYEE
+ORDER BY department_name DESC,
+         last_name ASC
+--------------
+
++------------------------+-------------+-------------+
+| department_name        | first_name  | last_name   |
++------------------------+-------------+-------------+
+| Shipping               | Mozhe       | Atkinson    |
+| Shipping               | Sarah       | Bell        |
+| Shipping               | Laura       | Bissot      |
+| Shipping               | Alexis      | Bull        |
+| Shipping               | Anthony     | Cabrio      |
+| Shipping               | Kelly       | Chung       |
+| Shipping               | Curtis      | Davies      |
+| Shipping               | Julia       | Dellinger   |
+| Shipping               | Jennifer    | Dilly       |
+| Shipping               | Britney     | Everett     |
+| Shipping               | Kevin       | Feeney      |
+| Shipping               | Jean        | Fleaur      |
+| Shipping               | Adam        | Fripp       |
+| Shipping               | Timothy     | Gates       |
+| Shipping               | Ki          | Gee         |
+| Shipping               | Girard      | Geoni       |
+| Shipping               | Douglas     | Grant       |
+| Shipping               | Vance       | Jones       |
+| Shipping               | Payam       | Kaufling    |
+| Shipping               | Renske      | Ladwig      |
+| Shipping               | James       | Landry      |
+| Shipping               | Jason       | Mallin      |
+| Shipping               | Steven      | Markle      |
+| Shipping               | James       | Marlow      |
+| Shipping               | Randall     | Matos       |
+| Shipping               | Samuel      | McCain      |
+| Shipping               | Irene       | Mikkilineni |
+| Shipping               | Kevin       | Mourgos     |
+| Shipping               | Julia       | Nayer       |
+| Shipping               | Donald      | OConnell    |
+| Shipping               | TJ          | Olson       |
+| Shipping               | Joshua      | Patel       |
+| Shipping               | Randall     | Perkins     |
+| Shipping               | Hazel       | Philtanker  |
+| Shipping               | Trenna      | Rajs        |
+| Shipping               | Michael     | Rogers      |
+| Shipping               | Nandita     | Sarchand    |
+| Shipping               | John        | Seo         |
+| Shipping               | Stephen     | Stiles      |
+| Shipping               | Martha      | Sullivan    |
+| Shipping               | Winston     | Taylor      |
+| Shipping               | Peter       | Vargas      |
+| Shipping               | Shanta      | Vollman     |
+| Shipping               | Alana       | Walsh       |
+| Shipping               | Matthew     | Weiss       |
+| Sales                  | Ellen       | Abel        |
+| Sales                  | Sundar      | Ande        |
+| Sales                  | Amit        | Banda       |
+| Sales                  | Elizabeth   | Bates       |
+| Sales                  | David       | Bernstein   |
+| Sales                  | Harrison    | Bloom       |
+| Sales                  | Gerald      | Cambrault   |
+| Sales                  | Nanette     | Cambrault   |
+| Sales                  | Louise      | Doran       |
+| Sales                  | Alberto     | Errazuriz   |
+| Sales                  | Tayler      | Fox         |
+| Sales                  | Danielle    | Greene      |
+| Sales                  | Peter       | Hall        |
+| Sales                  | Alyssa      | Hutton      |
+| Sales                  | Charles     | Johnson     |
+| Sales                  | Janette     | King        |
+| Sales                  | Sundita     | Kumar       |
+| Sales                  | David       | Lee         |
+| Sales                  | Jack        | Livingston  |
+| Sales                  | Mattea      | Marvins     |
+| Sales                  | Allan       | McEwen      |
+| Sales                  | Christopher | Olsen       |
+| Sales                  | Lisa        | Ozer        |
+| Sales                  | Karen       | Partners    |
+| Sales                  | John        | Russell     |
+| Sales                  | Sarath      | Sewall      |
+| Sales                  | Lindsey     | Smith       |
+| Sales                  | William     | Smith       |
+| Sales                  | Patrick     | Sully       |
+| Sales                  | Jonathon    | Taylor      |
+| Sales                  | Peter       | Tucker      |
+| Sales                  | Oliver      | Tuvault     |
+| Sales                  | Clara       | Vishney     |
+| Sales                  | Eleni       | Zlotkey     |
+| Purchasing             | Shelli      | Baida       |
+| Purchasing             | Karen       | Colmenares  |
+| Purchasing             | Guy         | Himuro      |
+| Purchasing             | Alexander   | Khoo        |
+| Purchasing             | Den         | Raphaely    |
+| Purchasing             | Sigal       | Tobias      |
+| Public Relations       | Hermann     | Baer        |
+| Marketing              | Pat         | Fay         |
+| Marketing              | Michael     | Hartstein   |
+| Information Technology | David       | Austin      |
+| Information Technology | Bruce       | Ernst       |
+| Information Technology | Alexander   | Hunold      |
+| Information Technology | Diana       | Lorentz     |
+| Information Technology | Valli       | Pataballa   |
+| Human Resources        | Susan       | Mavris      |
+| Finance                | Nancy       | Greenberg   |
+| Executive              | Lex         | De Haan     |
+| Executive              | Steven      | King        |
+| Executive              | Neena       | Kochhar     |
+| Administration         | Jennifer    | Whalen      |
+| Accounting             | John        | Chen        |
+| Accounting             | Daniel      | Faviet      |
+| Accounting             | William     | Gietz       |
+| Accounting             | Shelley     | Higgins     |
+| Accounting             | Luis        | Popp        |
+| Accounting             | Ismael      | Sciarra     |
+| Accounting             | Jose Manuel | Urman       |
+| NULL                   | Kimberely   | Grant       |
++------------------------+-------------+-------------+
+107 rows in set (0.00 sec)
+
+mysql> notee

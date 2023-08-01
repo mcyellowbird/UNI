@@ -1,0 +1,105 @@
+mysql> source solution3.sql
+--------------
+SELECT CUSTOMER_CODE, COMPANY_NAME
+FROM CUSTOMER
+WHERE CUSTOMER_CODE IN ( SELECT CUSTOMER_CODE
+                         FROM ORDERS
+                         WHERE YEAR(ORDER_DATE) = 1997 and MONTH(ORDER_DATE) = 4 )
+--------------
+
++---------------+--------------------+
+| CUSTOMER_CODE | COMPANY_NAME       |
++---------------+--------------------+
+| ERNSH         | Ernst Handel       |
+| SAVEA         | Save-a-lot Markets |
++---------------+--------------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT COUNT(*)
+FROM CUSTOMER
+WHERE CUSTOMER_CODE NOT IN ( SELECT CUSTOMER_CODE
+                    FROM ORDERS 
+                    WHERE YEAR(ORDER_DATE) = 1997 AND MONTH(ORDER_DATE) = 4 )
+--------------
+
++----------+
+| COUNT(*) |
++----------+
+|       89 |
++----------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT CUSTOMER_CODE, COMPANY_NAME
+FROM CUSTOMER
+WHERE EXISTS ( SELECT 'whatever'
+               FROM ORDERS
+               WHERE CUSTOMER.CUSTOMER_CODE = ORDERS.CUSTOMER_CODE AND
+                     YEAR(ORDER_DATE) = 1997 AND MONTH(ORDER_DATE) = 4 )
+--------------
+
++---------------+--------------------+
+| CUSTOMER_CODE | COMPANY_NAME       |
++---------------+--------------------+
+| ERNSH         | Ernst Handel       |
+| SAVEA         | Save-a-lot Markets |
++---------------+--------------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT COUNT(*)
+FROM CUSTOMER
+WHERE NOT EXISTS ( SELECT 'whatever'
+                   FROM ORDERS
+                   WHERE CUSTOMER.CUSTOMER_CODE = ORDERS.CUSTOMER_CODE AND
+                         YEAR(ORDER_DATE) = 1997 and MONTH(ORDER_DATE) = 4 )
+--------------
+
++----------+
+| COUNT(*) |
++----------+
+|       89 |
++----------+
+1 row in set (0.01 sec)
+
+--------------
+SELECT CUSTOMER_CODE
+FROM ORDERS JOIN ORDER_DETAIL
+            ON ORDERS.ORDER_ID = ORDER_DETAIL.ORDER_ID
+WHERE PRODUCT_NAME ='Tofu'
+UNION
+SELECT CUSTOMER_CODE
+FROM ORDERS JOIN ORDER_DETAIL
+            ON ORDERS.ORDER_ID = ORDER_DETAIL.ORDER_ID
+WHERE PRODUCT_NAME ='Tunnbrod'
+--------------
+
++---------------+
+| CUSTOMER_CODE |
++---------------+
+| OLDWO         |
+| AROUT         |
+| DRACD         |
+| HILAA         |
+| ERNSH         |
+| BLONP         |
++---------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT FIRSTNAME, LASTNAME
+FROM EMPLOYEE
+WHERE EMPLOYEE_ID IN (SELECT REPORTS_TO
+                      FROM EMPLOYEE
+		      WHERE FIRSTNAME = 'Nancy' AND LASTNAME = 'Davolio')
+--------------
+
++-----------+----------+
+| FIRSTNAME | LASTNAME |
++-----------+----------+
+| Andrew    | Fuller   |
++-----------+----------+
+1 row in set (0.00 sec)
+
+mysql> notee

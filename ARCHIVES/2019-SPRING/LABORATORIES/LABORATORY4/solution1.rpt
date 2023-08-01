@@ -1,0 +1,172 @@
+mysql> source solution1.sql
+--------------
+/* (1)	Modify a consistency constraint of the sample database such that after a modification 
+        it is possible to record in the database information about the drivers who are sick.   */
+
+ALTER TABLE DRIVER DROP CHECK DRIVER_STATUS
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DRIVER ADD CONSTRAINT DRIVER_STATUS CHECK ( STATUS IN ('AVAILABLE', 'BUSY', 'ON LEAVE', 'SICK'))
+--------------
+
+Query OK, 17 rows affected (0.09 sec)
+Records: 17  Duplicates: 0  Warnings: 0
+
+--------------
+/* (2)	Modify a structure and consistency constraint of the sample database such that after 
+        a modification it is possible to add information about the total number of repairs 
+        performed on each truck. Assume that, a truck cannot be repaired more than 1000 times. */
+
+ALTER TABLE TRUCK ADD TOTAL_REPAIRS DECIMAL(4)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE TRUCK ADD CONSTRAINT TRUCK_REPAIRS CHECK( TOTAL_REPAIRS >=0 AND TOTAL_REPAIRS <= 1000)
+--------------
+
+Query OK, 11 rows affected (0.08 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+--------------
+/* (3)	Modify a structure and consistency constraint of the sample database such that after 
+        a modification it is possible to store in the database optional information about 
+        the cost of each trip. Assume, that cost of a single trip is a positive number not 
+        greater that 9999.99.                                                                  */
+
+ALTER TABLE TRIP ADD COSTS DECIMAL(6,2)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE TRIP ADD CONSTRAINT TRIP_COSTS CHECK( COSTS >= 0 AND COSTS <= 9999.99)
+--------------
+
+Query OK, 35 rows affected (0.10 sec)
+Records: 35  Duplicates: 0  Warnings: 0
+
+--------------
+/* (4)	Modify a structure and consistency constraints of a sample database such it is 
+        possible to store in a database information about the mechanics employed by 
+        a transportation company. Assume that a description of mechanic is the same as 
+        a description of driver.                                                               */
+
+CREATE TABLE MECHANIC(
+ENUM 	    DECIMAL(12) NOT NULL,
+LNUM 	    DECIMAL(8) 	NOT NULL,
+STATUS 	    VARCHAR(10) NOT NULL,
+ CONSTRAINT MECHANIC_PKEY PRIMARY KEY(ENUM),
+ CONSTRAINT MECHANIC_UNIQUE UNIQUE(LNUM),
+ CONSTRAINT MECHANIC_FKEY FOREIGN KEY(ENUM) REFERENCES EMPLOYEE(ENUM),
+ CONSTRAINT MECHANIC_STATUS CHECK ( STATUS IN ('AVAILABLE', 'BUSY', 'ON LEAVE')) )
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+/* (5)	Assume that the mechanics are assigned to the trucks such that each mechanic is 
+        assigned to many trucks and each truck has at most one mechanic assigned. Modify 
+        a structure and consistency constraints of a sample database such that after 
+        a modification it is possible to store in the database information about which 
+        mechanic is assigned to which truck.                                                   */
+
+ALTER TABLE TRUCK ADD MECHANIC_ASSIGNED DECIMAL(12)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE TRUCK ADD CONSTRAINT TRUCK_FKEY FOREIGN KEY(MECHANIC_ASSIGNED) REFERENCES MECHANIC(ENUM)
+--------------
+
+Query OK, 11 rows affected (0.10 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+--------------
+/* (6)	Add to the database information about a new trip and information about two legs 
+        the new trip consists of. All information about the new trip and its two legs is up 
+        to you.                                                                                */
+        
+INSERT INTO TRIP VALUES(36, 10001, 'PKR768', '2019-05-24', 5.25)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO TRIPLEG VALUES(36, 1, 'Sydney', 'Melbourne')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO TRIPLEG VALUES( 36, 2, 'Melbourne', 'Hobart')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+/* (7)	Change a status of a truck with a registration number PKR768 to USED.                  */
+
+UPDATE TRUCK
+SET STATUS = 'USED'
+WHERE REGNUM = 'PKR768'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+/* (8)	Remove from the database all information about a trip number 35.                       */
+
+DELETE FROM TRIPLEG
+WHERE TNUM = 35
+--------------
+
+Query OK, 4 rows affected (0.01 sec)
+
+--------------
+DELETE FROM TRIP 
+WHERE TNUM = 35
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+/* (9)	Modify a consistency constraint of the sample database such that the values in a 
+        column REGNUM in a relational table TRIP are optional.                                 */
+
+ALTER TABLE TRIP MODIFY REGNUM VARCHAR(10) NULL
+--------------
+
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+/* (10)	Remove from the database information about a truck with a registration number KKK007. 
+        Leave in the database information about the trips performed by the truck.              */
+        
+UPDATE TRIP
+SET REGNUM = NULL
+WHERE REGNUM = 'KKK007'
+--------------
+
+Query OK, 6 rows affected (0.02 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+--------------
+DELETE FROM TRUCK
+WHERE REGNUM = 'KKK007'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+mysql> notee

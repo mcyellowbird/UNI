@@ -1,0 +1,65 @@
+mysql> \. solution2.sql
+Database changed
+--------------
+set autocommit='OFF'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+UPDATE TRIPLEG
+SET departure = 'Hobart'
+WHERE TNUM = 25 and LEGNUM = 2
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE TRIPLEG
+SET destination = 'Adelaide'
+WHERE TNUM = 35 and LEGNUM = 3
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT  CONCAT( 'A destination city ', T1. DESTINATION,' of leg ', T1.LEGNUM, ' within a trip ', T1.TNUM, ' is different from a departure city ', T2.DEPARTURE, ' of leg ', T2.LEGNUM, ' within the same trip.') "Violation of a consistency constraint"
+FROM TRIPLEG T1 JOIN TRIPLEG T2
+                ON T1.TNUM = T2.TNUM AND
+		   T1.LEGNUM = T2.LEGNUM-1
+WHERE T1.DESTINATION <> T2.DEPARTURE
+--------------
+
++------------------------------------------------------------------------------------------------------------------------------------+
+| Violation of a consistency constraint                                                                                              |
++------------------------------------------------------------------------------------------------------------------------------------+
+| A destination city Wollongong of leg 1 within a trip 8 is different from a departure city Newcastle of leg 2 within the same trip. |
+| A destination city Sydney of leg 1 within a trip 25 is different from a departure city Hobart of leg 2 within the same trip.       |
+| A destination city Adelaide of leg 3 within a trip 35 is different from a departure city Perth of leg 4 within the same trip.      |
++------------------------------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+--------------
+ROLLBACK
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+SELECT  CONCAT( 'A destination city ', T1. DESTINATION,' of leg ', T1.LEGNUM, ' within a trip ', T1.TNUM, ' is different from a departure city ', T2.DEPARTURE, ' of leg ', T2.LEGNUM, ' within the same trip.') "Violation of a consistency constraint"
+FROM TRIPLEG T1 JOIN TRIPLEG T2
+                ON T1.TNUM = T2.TNUM AND
+		   T1.LEGNUM = T2.LEGNUM-1
+WHERE T1.DESTINATION <> T2.DEPARTURE
+--------------
+
++------------------------------------------------------------------------------------------------------------------------------------+
+| Violation of a consistency constraint                                                                                              |
++------------------------------------------------------------------------------------------------------------------------------------+
+| A destination city Wollongong of leg 1 within a trip 8 is different from a departure city Newcastle of leg 2 within the same trip. |
++------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> notee

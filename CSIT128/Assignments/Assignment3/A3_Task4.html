@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<script>
+			var counter = 1;
+			var counterEnabled = false;
+			var interval;
+
+			function Count(){
+				document.getElementById("output").innerHTML = counter + " x " + Number(num.value) + " = " + (Number(counter) * Number(num.value));
+
+				counter++;
+				if (counter > 9){
+					counter = 1;
+				}
+			}
+
+			function startAnimation(){
+				counter = 1;
+				if (counterEnabled == false){
+					interval = setInterval(Count, 1000);
+					counterEnabled = true;
+				}
+			}
+
+			function stopAnimation(){
+				clearInterval(interval);
+				counter = 0;
+				counterEnabled = false;
+			}
+		</script>
+	</head>
+	<body>
+		<table style="margin: auto; width: 400px;">
+			<tr>
+				<td style="text-align: center; padding-top: 20px">
+					<input type="number" id="num" value="0" label="Input an integer"/><br><br>
+					<input type="button" value="Start Animation" onClick="startAnimation()"/><br><br>
+					<input type="button" value="Stop Animation" onClick="stopAnimation()"/><br><br>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: center;">
+					<span id="output"></span><br>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

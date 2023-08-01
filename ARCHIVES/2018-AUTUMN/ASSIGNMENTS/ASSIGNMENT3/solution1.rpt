@@ -1,0 +1,88 @@
+mysql> source solution1.sql
+--------------
+CREATE TABLE EmployerPosition (
+	ename VARCHAR(100) NOT NULL,
+	total_positions	DECIMAL(6) NOT NULL,
+	CONSTRAINT EmployerPosition_PKey PRIMARY KEY (ename),
+	CONSTRAINT EmployerPosition_FKey FOREIGN KEY (ename) REFERENCES EMPLOYER (ename)
+)
+--------------
+
+Query OK, 0 rows affected (0.11 sec)
+
+--------------
+INSERT INTO EmployerPosition (SELECT E.ename, count(pnumber)
+	                      FROM EMPLOYER E LEFT OUTER JOIN POSITIONS P 
+                                              ON E.ename = P.ename
+	                      GROUP BY E.ename)
+--------------
+
+Query OK, 15 rows affected (0.00 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+--------------
+CREATE TABLE HighestSkill (SELECT SP.sname, SP.maxlevel, anumber
+	                   FROM SPOSSESSED JOIN  (SELECT sname, MAX(slevel) maxlevel
+                                                  FROM SPOSSESSED
+	                                          GROUP BY sname ) SP
+                                           ON SPOSSESSED.sname = SP.sname AND
+                                              slevel = SP.maxlevel)
+--------------
+
+Query OK, 25 rows affected (0.03 sec)
+Records: 25  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE HighestSkill ADD CONSTRAINT HighestSkill_PKey PRIMARY KEY (sname, anumber)
+--------------
+
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE HighestSkill ADD CONSTRAINT HighestSkill_FKey1 FOREIGN KEY (sname) REFERENCES SKILL (sname)
+--------------
+
+Query OK, 25 rows affected (0.07 sec)
+Records: 25  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE HighestSkill ADD CONSTRAINT HighestSkill_FKey2 FOREIGN KEY (anumber) REFERENCES APPLICANT (anumber)
+--------------
+
+Query OK, 25 rows affected (0.19 sec)
+Records: 25  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE POSITIONS ADD COLUMN total_skills DECIMAL(1)
+--------------
+
+Query OK, 0 rows affected (0.21 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE POSITIONS ADD CONSTRAINT POSITION_CK CHECK (total_skills between 0 and 9)
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE POSITIONS P 
+SET total_skills = (SELECT COUNT(sname)
+	            FROM SNEEDED S
+	            WHERE S.pnumber = P.pnumber)
+--------------
+
+Query OK, 10 rows affected (0.00 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+--------------
+DELETE FROM APPLIES
+WHERE anumber NOT IN (SELECT anumber 
+                      FROM SPOSSESSED)
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> notee

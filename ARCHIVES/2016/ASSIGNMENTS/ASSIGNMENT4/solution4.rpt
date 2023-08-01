@@ -1,0 +1,84 @@
+mysql> \. solution4.sql
+--------------
+TRUNCATE TABLE mysql.general_log
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+set global general_log='ON'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+set global log_output='TABLE'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+set global general_log='OFF'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT argument "DDL statement"
+FROM  mysql.general_log
+WHERE SUBSTR(argument, 1, INSTR(argument, ' ')-1 ) IN ('CREATE', 'ALTER', 'DROP')
+--------------
+
++----------------------------------------------------------------------------------------+
+| DDL statement                                                                          |
++----------------------------------------------------------------------------------------+
+| CREATE TABLE MESSAGE( mbody VARCHAR(25), CONSTRAINT MESSAGE_PKEY PRIMARY KEY (mbody) ) |
+| ALTER TABLE MESSAGE MODIFY mbody VARCHAR(50)                                           |
+| DROP TABLE MESSAGE                                                                     |
++----------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT SUBSTR(argument, 1, 6) "DML statement", COUNT(*) "Total number of times used"
+FROM mysql.general_log
+WHERE argument LIKE 'INSERT%' OR
+      argument LIKE 'UPDATE%' OR
+      argument LIKE 'DELETE%'
+GROUP BY SUBSTR(argument, 1, 6)
+ORDER BY "Total number of times used"
+--------------
+
++---------------+----------------------------+
+| DML statement | Total number of times used |
++---------------+----------------------------+
+| INSERT        |                          4 |
+| DELETE        |                          3 |
+| UPDATE        |                          2 |
++---------------+----------------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT SUBSTR(user_host, 1, INSTR(user_host, '[')-1 ) "User name", argument "DML statement"
+FROM mysql.general_log
+WHERE (argument LIKE 'INSERT%' OR
+       argument LIKE 'UPDATE%' OR
+       argument LIKE 'DELETE%') AND
+       DAYNAME(SUBSTR(event_time, 1, 10)) = 'Friday'
+--------------
+
++-----------+-------------------------------------------------------------------------------------------------------------------------+
+| User name | DML statement                                                                                                           |
++-----------+-------------------------------------------------------------------------------------------------------------------------+
+| root      | INSERT INTO EMPLOYEE VALUES( 21, 'Mary', 'P', 'Doe', '1978-01-13', 15, 'Station St.', 'Horsley', 'NSW', 2530 )          |
+| root      | INSERT INTO EMPLOYEE VALUES( 22, 'Janusz', 'R', 'Getta', '1916-01-01', 10, 'Ellenborough Pl.', 'Horsley', 'NSW', 2530 ) |
+| root      | INSERT INTO ADMIN VALUES( 21, 'PROGRAMMER' )                                                                            |
+| root      | INSERT INTO ADMIN VALUES( 22, 'DBA' )                                                                                   |
+| root      | DELETE FROM ADMIN WHERE ENUM = 20                                                                                       |
+| root      | DELETE FROM EMPLOYEE WHERE ENUM = 20                                                                                    |
+| root      | UPDATE ADMIN SET POSITION = 'BOSS' WHERE ENUM =  18                                                                     |
+| root      | UPDATE MESSAGE SET mbody = 'Hello myworld !!!' WHERE mbody LIKE 'Hello%'                                                |
+| root      | DELETE FROM ADMIN WHERE ENUM < 18                                                                                       |
++-----------+-------------------------------------------------------------------------------------------------------------------------+
+9 rows in set (0.00 sec)
+
+mysql> notee

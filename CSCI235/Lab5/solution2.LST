@@ -1,0 +1,45 @@
+db.solution2.insert({
+_id:"Eagles",
+TEAM:{
+    "name": "Eagles",
+    "city": "Wollongong",
+    "home-venue": "WIN Stadium",
+    "coaches": {
+	"main-coach": {
+	    "first-name": "Michael",
+	    "last-name": "Alexander",
+	    "years-experience": 14,
+	    "titles-won": [
+	      "Ingham Cup 2013",
+	      "Golden Cup 2018"
+	    ]
+	},
+	
+	"support-coaches": [
+	  {
+	    "first-name": "Joshua",
+	    "last-name": "James",
+	    "years-experience": 4
+	  }
+	]
+    },
+    "players": [
+      {
+        "first-name": "Jeremy",
+        "last-name": "Jenkins",
+	"positions-played": [
+	  "Center Back",
+	  "Right Wingback",
+	  "Center Midfielder"
+	]
+      },
+      {
+        "first-name": "Alburt",
+        "last-name": "Alberto",
+	"positions-played": [
+	  "Goalkeeper",
+	  "Center Midfielder"
+	]
+      }
+    ]}
+  });

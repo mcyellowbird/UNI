@@ -1,0 +1,276 @@
+mysql> source solution3.sql;
+--------------
+/*
+In this task, we use a sample database available for the final project.
+
+Before you start the implementation of this task, please make sure that you remove all tables in the csit115 database. 
+Download the files dbcreate_final.sql and dbdrop_final.sql. Next, process a script file dbdrop_final.sql immediately after the scripts dbcreate_final.sql to refresh a sample database in the csit115 database. 
+No report expected from the processing of the scripts dbdrop_final.sql and dbcreate_final.sql.
+*/
+
+/* 
+(1)	Find all the address and phone number of owners who own the property in Kiama.
+*/
+
+SELECT city, street, streetNum, phoneNum
+FROM OWNER
+WHERE phoneNum IN (SELECT phoneNum
+				  FROM PROPERTY
+                  WHERE city = "Kiama")
+--------------
+
++------------+---------------+-----------+-----------+
+| city       | street        | streetNum | phoneNum  |
++------------+---------------+-----------+-----------+
+| Rockdale   | Gipps road    |        12 | 412326789 |
+| Wollongong | Church Street |         2 | 422356789 |
++------------+---------------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+--------------
+/* 
+(2)	Find the name and phone number of all buyers who have inspected the property in Dapto city.    
+*/
+
+SELECT name, phoneNum
+FROM BUYER
+WHERE phoneNum IN (SELECT phoneNum
+				  FROM INSPECTION
+                  WHERE pNum IN (SELECT pNum
+									FROM PROPERTY
+                                    WHERE city = "Dapto"))
+--------------
+
++--------------+-----------+
+| name         | phoneNum  |
++--------------+-----------+
+| Andrew Smith | 412353789 |
+| Harry Potter | 412356784 |
+| Kyle Wang    | 415356789 |
++--------------+-----------+
+3 rows in set (0.00 sec)
+
+--------------
+/* 
+(3)	Update the price of all properties in Wollongong and North Wollongong by 10%.
+*/
+
+UPDATE PROPERTY
+SET price = (price * 1.1)
+--------------
+
+Query OK, 23 rows affected (0.01 sec)
+Rows matched: 23  Changed: 23  Warnings: 0
+
+--------------
+/* 
+(4)	Remove all information of buyer's named "Bart Smith".  
+*/
+
+DELETE FROM INSPECTION
+WHERE phoneNum IN (SELECT phoneNum
+				  FROM BUYER
+                  WHERE name = "Bart Smith")
+--------------
+
+Query OK, 3 rows affected (0.00 sec)
+
+--------------
+DELETE FROM BUYER
+WHERE name = "Bart Smith"
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+/* 
+(5)	List the name and phone number of all buyers interested in buying in Wollongong city and have inspected the property in the area more than two times.  
+*/
+
+SELECT name, phoneNum
+FROM BUYER
+WHERE phoneNum IN (SELECT phoneNum
+				  FROM PREFERENCE
+                  WHERE city = "Wollongong")
+                  
+AND phoneNum IN	(SELECT phoneNum
+				FROM INSPECTION
+                WHERE pNum IN (SELECT pNum
+							  FROM PROPERTY
+                              WHERE city = "Wollongong")
+				GROUP BY phoneNum
+				HAVING COUNT(*) >= 2)
+--------------
+
++------------+-----------+
+| name       | phoneNum  |
++------------+-----------+
+| James Bond | 412356749 |
++------------+-----------+
+1 row in set (0.00 sec)
+
+--------------
+/* 
+(6)	Rank the potential buyers in the relational table PREFERENCE based on how frequent the buyer inspected the properties. 
+    Note that you should display buyer name, buyer preferred city, maximum price and the frequency that buyer inspects the property in the city.
+*/
+
+SELECT B.name, PR.preferredCity, PR.maxPrice, COALESCE(I.cnt, 0) as frequency
+FROM BUYER B
+LEFT JOIN (SELECT phoneNum, city as preferredCity, maxPrice
+	 FROM PREFERENCE) PR
+ON B.phoneNum = PR.phoneNum
+LEFT JOIN (SELECT phoneNum, COUNT(*) as cnt
+	 FROM INSPECTION
+     GROUP BY phoneNum) I
+ON B.phoneNum = I.phoneNum
+ORDER BY frequency DESC
+--------------
+
++----------------+------------------+------------+-----------+
+| name           | preferredCity    | maxPrice   | frequency |
++----------------+------------------+------------+-----------+
+| Robin Hood     | North Wollongong | 1000000.00 |         6 |
+| Robin Hood     | Wollongong       | 1000000.00 |         6 |
+| James Bond     | Wollongong       | 1000000.00 |         5 |
+| James Bond     | Fairy Meadow     | 1000000.00 |         5 |
+| Lady Gaga      | Wollongong       | 1000000.00 |         5 |
+| Michael Smith  | NULL             |  700000.00 |         4 |
+| Harry Potter   | Wollongong       | 1000000.00 |         4 |
+| Andrew Smith   | Fairy Meadow     | 1000000.00 |         4 |
+| Andrew Smith   | North Wollongong | 1000000.00 |         4 |
+| Andrew Smith   | Wollongong       | 1000000.00 |         4 |
+| Andrew Smith   | NULL             |  800000.00 |         4 |
+| Paris Hilton   | Wollongong       | 1000000.00 |         3 |
+| Michael Potter | Wollongong       |  900000.00 |         3 |
+| Kyle Wang      | NULL             |       NULL |         3 |
+| Andy Zhu       | NULL             |       NULL |         1 |
+| Carl Lucas     | NULL             |       NULL |         0 |
+| Frank Smith    | NULL             |       NULL |         0 |
+| Larry Smith    | NULL             |       NULL |         0 |
+| Amos Li        | NULL             |       NULL |         0 |
+| Bart Zhang     | NULL             |       NULL |         0 |
++----------------+------------------+------------+-----------+
+20 rows in set (0.00 sec)
+
+--------------
+/* 
+(7)	List the property information with the number of inspected buyers. 
+    Note that if the property does not have anyone inspected before, then the number should be 0. 
+*/
+
+SELECT P.*, COALESCE(I.cnt,0) as inspections
+FROM PROPERTY as P
+LEFT JOIN (SELECT pNum, COUNT(*) as cnt
+	 FROM INSPECTION
+     GROUP BY pNum) I
+ON P.pNum = I.pNum
+--------------
+
++------+------------------+------------------+-----------+--------------+-----------+------------+-------------+
+| pNum | city             | street           | streetNum | apartmentNum | phoneNum  | price      | inspections |
++------+------------------+------------------+-----------+--------------+-----------+------------+-------------+
+|    1 | Wollongong       | Smith street     |         5 |           37 | 412356789 |  825000.00 |           6 |
+|    2 | Dapto            | Beltana Avenue   |        21 |         NULL | 412356782 |  770000.00 |           3 |
+|    3 | Dapto            | Princes highway  |        27 |          102 | 412356729 |  660000.00 |           2 |
+|    4 | Dapto            | Princes highway  |        27 |          115 | 412356289 |  671000.00 |           2 |
+|    5 | Wollongong       | Campbell street  |        23 |           42 | 412352789 |  935000.00 |           3 |
+|    6 | Fairy Meadow     | Hamilton street  |         6 |         NULL | 412326789 |  880000.00 |           1 |
+|    7 | Wollongong       | Campbell street  |        23 |           51 | 412256789 | 1045000.00 |           2 |
+|    8 | Towradgi         | Dixon street     |        10 |         NULL | 422356789 |  935000.00 |           0 |
+|    9 | North Wollongong | Church street    |         3 |           22 | 432356789 | 1155000.00 |           0 |
+|   10 | North Wollongong | Ocean street     |         7 |           75 | 413356789 | 1210000.00 |           3 |
+|   11 | Berkeley         | Derby street     |        18 |         NULL | 412336789 |  715000.00 |           3 |
+|   12 | Berkeley         | Kelly street     |        60 |         NULL | 412356729 |  682000.00 |           2 |
+|   13 | Kanahooka        | Darren avenue    |        21 |         NULL | 432356789 |  715000.00 |           2 |
+|   14 | Albion Park      | Hughes drive     |         6 |         NULL | 412356729 |  737000.00 |           1 |
+|   15 | Albion Park      | Fraser crest     |        24 |         NULL | 412356782 |  748000.00 |           2 |
+|   16 | Kiama            | Bong Bong street |        62 |         NULL | 422356789 |  935000.00 |           1 |
+|   17 | Kiama            | Brighton street  |        12 |         NULL | 412326789 |  913000.00 |           1 |
+|   18 | Port Kembla      | Wentworth street |       215 |         NULL | 412356789 |  605000.00 |           1 |
+|   19 | Port Kembla      | Third avenue     |        61 |         NULL | 412356729 |  605000.00 |           0 |
+|   20 | Woonona          | Kareala road     |        21 |         NULL | 412356289 | 1155000.00 |           1 |
+|   21 | Bulli            | Craven street    |         9 |         NULL | 412352789 | 1265000.00 |           1 |
+|   22 | Bulli            | Air avenue       |        11 |         NULL | 412326789 | 1155000.00 |           1 |
+|   23 | Keiraville       | Grey street      |         3 |         NULL | 432356789 | 1045000.00 |           0 |
++------+------------------+------------------+-----------+--------------+-----------+------------+-------------+
+23 rows in set (0.00 sec)
+
+--------------
+/* 
+(8)	Find the buyer information who inspected the property listed after 01 January 2021, and the owner of the property lives in Hurstville city.
+*/
+
+SELECT *
+FROM BUYER
+WHERE phoneNum IN (SELECT phoneNum
+				  FROM INSPECTION
+                  WHERE inspDate > '2021-01-10'
+                  AND pNum IN (SELECT pNum
+							  FROM PROPERTY
+                              WHERE PROPERTY.phoneNum IN (SELECT phoneNum
+												FROM OWNER
+                                                WHERE city = "Hurstville")))
+--------------
+
++-----------+----------------+---------+------------------+-----------+
+| phoneNum  | name           | city    | street           | streetNum |
++-----------+----------------+---------+------------------+-----------+
+| 412354789 | Lady Gaga      | Hobart  | Pork street      |        36 |
+| 412356783 | Michael Potter | Horsley | Bong Bong street |        15 |
++-----------+----------------+---------+------------------+-----------+
+2 rows in set (0.00 sec)
+
+--------------
+/* 
+(9) Create a view that calculates the sum of all properties asking prices that the owner has more than one property in the market. 
+    The view consists of the sum value, owner’s name, owner's phone number and the number of the properties that he/she owns. 
+	After that, display all information in the view.     
+*/
+
+CREATE VIEW PROPERTY_TOTALS AS
+SELECT O.name, O.phoneNum, P.cnt as totalProperties, P.sumOfProperties
+FROM OWNER O
+RIGHT JOIN (SELECT phoneNum, COUNT(*) as cnt, SUM(price) as sumOfProperties
+	 FROM PROPERTY
+     GROUP BY phoneNum) P
+ON O.phoneNum = P.phoneNum
+WHERE cnt > 1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+SELECT * FROM PROPERTY_TOTALS
+--------------
+
++---------------+-----------+-----------------+-----------------+
+| name          | phoneNum  | totalProperties | sumOfProperties |
++---------------+-----------+-----------------+-----------------+
+| Michael Jones | 412326789 |               3 |      2948000.00 |
+| Adam Taylor   | 412352789 |               2 |      2200000.00 |
+| John Gray     | 412356289 |               2 |      1826000.00 |
+| John Doe      | 412356729 |               4 |      2684000.00 |
+| Peter Tylor   | 412356782 |               2 |      1518000.00 |
+| John Smith    | 412356789 |               2 |      1430000.00 |
+| Alice Smith   | 422356789 |               2 |      1870000.00 |
+| Eva Jones     | 432356789 |               3 |      2915000.00 |
++---------------+-----------+-----------------+-----------------+
+8 rows in set (0.00 sec)
+
+--------------
+/* 
+(10) The owner named "Michael Jones" who live at 12, Gipps road, Rockdale want to inspect the property. 
+    Write the INSERT script to insert the above data from the relational table OWNER into the relational table BUYER.  	 
+*/
+
+INSERT INTO BUYER (phoneNum, name, city, street, streetNum)
+SELECT phoneNum, name, city, street, streetNum
+FROM OWNER
+WHERE name = "Michael Jones"
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> notee;

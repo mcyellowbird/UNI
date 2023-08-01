@@ -1,0 +1,112 @@
+4.1 DHCP
+
+Q1: DHCP Discover: Finds IPv4 DHCP server on the network - Client to Server 
+    DHCP Offer: Offers an available IP Address - Server to Client
+    DHCP Request: Requests network configuration data - Client to Server
+    DHCP ACK: Acknowledges use of requested IP address
+    DHCP Request: ^^
+    DHCP ACK: ^^
+    DHCP Release: Discard current assigned configuration settings - Client to Server
+    DHCP Discover: ^^
+    DHCP Offer: ^^
+    DHCP Request: ^^
+    DHCP ACK: ^^
+
+Q2:
+
+Q3: a) 0.0.0.0 serves as a default route. Represents the "default" network. 255.255.255.255 represents the broadcast address,
+       place to route messages to be sent to every device within a network.
+
+    b) UDP
+
+    c) Source: 0.0.0.0, Destination: 255.255.255.255
+
+    d) MAC: 00:08:74:4f:36:23
+       Name: "Server host name not given" or Noho?
+       IP: 0.0.0.0 or Requested IP Address: 192.168.1.101
+       
+       Request List: Subnet Mask,
+       Domain Name,
+       Router,
+       Domain Name Server,
+       NetBIOS over TCIP/IP Name Server - Node Type - Scope,
+       Perform Router Discover,
+       Static Route,
+       Private/Classless Static Route (Microsoft)
+       Vendor-Specific Information
+
+Q4: 0.0.0.0
+
+Q5: a) i- 255.255.255.0
+       ii- 192.168.1.1
+       iii- 63.240.76.19 & 204.127.198.19
+       iv- 1 day
+       v- N/A
+
+Q6: During the lease time, the DHCP server cannot assign the assigneds IP address to any other clients.
+    It is used to limit the length of time that an IP address can be used by a client.
+    It prevents unused clients from taking up IP addresses when there are more clients than addresses.
+
+Q7: 192.168.1.101
+
+
+
+4.2 ARP
+
+Q1:
+
+Q2: To resolve IP addresses to ethernet addresses
+
+Q3: 00:08:74:4f:36:23
+
+
+
+4.3 HTTP
+
+Q1: Client- 192.168.1.102   Server- 128.119.245.12
+
+Q2: TCP
+
+Q3: Source: 4127   Destination: 80
+
+Q4:
+
+Q5: a) lab2-1.html
+    b) 1.1
+    c) Mozilla Firefox
+    d) i- Host: Gets the host address
+       ii- Accept: Accepts information received from the host
+       iii- Keep-Alive: Keeps connection active for set amount of seconds
+       iv- Connection: An instruction that allows a TCP connection to remain open for requests/responses
+
+Q6: a) 2.0.40
+    b) Red Hat Linux
+    c) 73
+
+
+
+4.4 DNS
+
+Q1: Source- 128.238.38.160   Destination- 128.238.29.23
+
+Q2: UDP
+
+Q3: Source- 3163   Destination: 53
+
+Q4: Trying to query the address of a website
+
+Q5: 2 Answers. IP addresses of the website
+
+
+
+4.4 Continued
+
+Q1: Trying to find addresses of the DNS
+
+Q2: Server answered with 2 addresses
+
+Q3: Trying to get address of DNS
+
+Q4: No, cannot find name
+
+Q5: mit.edu, responsible for multiple proxy addresses?

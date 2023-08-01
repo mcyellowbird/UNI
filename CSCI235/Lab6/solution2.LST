@@ -1,0 +1,106 @@
+> /* (1)Use a method createCollection() to create an empty collection of documents laboratory6 and to create JSON schema validator, that enforces the constraints on the documents listed in a file laboratory6.js. Try to implement as many constraints as you can. The types of values associated with the keys are up to you. However, please use the types consistent with the semantics of the keys. */;
+> 
+> db.createCollection("laboratory6",
+... {
+...   "validator":{
+...     "$jsonSchema":{
+...       "bsonType":"object",
+...       "properties":{
+...         "_id":{
+...           "bsonType":"string"
+...         },
+...         "TEAM":{
+...           "bsonType":"object",
+...           "properties":{
+...             "name":{
+...               "bsonType":"string",
+...               "maxLength":30
+...             },
+...             "city":{
+...               "bsonType":"string",
+...               "minLength":4,
+...               "maxLength":30
+...             },
+...             "home venue":{
+...               "bsonType":"string"
+...             },
+...             "Consists of":{
+...               "bsonType":"array",
+...               "items":{
+...                 "bsonType":"object",
+...                 "properties":{
+...                   "PLAYER":{
+...                     "bsonType":"object",
+...                     "properties":{
+...                       "first name":{
+...                         "bsonType":"string"
+...                       },
+...                       "last name":{
+...                         "bsonType":"string"
+...                       }
+...                     },
+...                     "required":[
+...                       "first name",
+...                       "last name"
+...                     ],
+...                     "additionalProperties":false
+...                   }
+...                 }
+...               }
+...             }
+...           },
+...           "required":[
+...             "name",
+...             "city"
+...           ],
+...           "additionalProperties":false
+...         }
+...       },
+...       "required":[
+...         "_id",
+...         "TEAM"
+...       ],
+...       "additionalProperties":false
+...     }
+...   }
+... });
+{ "ok" : 1 }
+> 
+> /* (2)Process the contents of a file laboratory6.js to validate and to insert the documents into a collection laboratory6. */;
+> 
+> load("DATA/laboratory6.js");
+true
+> 
+> /* (3)Finally, insert into a collection laboratory6 another document, that fails a validation of only one of the constraints implemented in a step (1). Add a comment explaining why a document failed the validation. */;
+> 
+> db.laboratory6.insert({
+...   "_id":"Super Cool Ultra Fantastic Team",
+...   "TEAM":{
+...     "name":"Super Cool Ultra Fantastic Team",
+...     "city":"Nowra",
+...     "home venue":"Nowra Oval",
+...     "Consists of":[
+...       {
+...         "PLAYER":{
+...           "first name":"Eugene",
+...           "last name":"Jones"
+...         }
+...       },
+...       {
+...         "PLAYER":{
+...           "first name":"Gregory",
+...           "last name":"Falcon"
+...         }
+...       }
+...     ]
+...   }
+... });
+WriteResult({
+	"nInserted" : 0,
+	"writeError" : {
+		"code" : 121,
+		"errmsg" : "Document failed validation"
+	}
+})
+> /* An error occurs as there is a constraint which requires the TEAM name to be no longer than 30 characters */;
+

@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>816</x>
+      <y>400</y>
+      <w>232</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>OrderingSystem
+--
++orderList: ArrayList&lt;Order&gt;
++customerList: ArrayList&lt;Customer&gt;
++cpuList: ArrayList&lt;CPU&gt;
++motherboardList: ArrayList&lt;Motherboard&gt;
++memoryList: ArrayList&lt;Memory&gt;
++graphicsCardList: ArrayList&lt;GraphicsCard&gt;
++monitorList: ArrayList&lt;Monitor&gt;
+--
+_+main(): void_
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>824</x>
+      <y>64</y>
+      <w>216</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>Order
+--
+_+ID: "O" + random int {read only}_
++totalPrice: int
++customer: Customer
++partsList: ArrayList&lt;Object&gt;
+--
++Order(int, Customer, ArrayList&lt;Object&gt;)
+
++getID(): String
+
++getTotalPrice(): int 
++setTotalPrice(int): void
+
++getCustomer(): Customer 
++setCustomer(Customer): void
+
++getPartsList(): ArrayList&lt;Object&gt;
++setPartsList(ArrayList&lt;Object&gt;): void
+
++toString(): String
+
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>928</x>
+      <y>320</y>
+      <w>72</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;creates&gt;&gt;
+bg=black
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1064</x>
+      <y>0</y>
+      <w>232</w>
+      <h>328</h>
+    </coordinates>
+    <panel_attributes>Customer
+--
+_+ID: String {read only}_
++name: String
++gender: String
++phone: String
++address: String
+--
++Customer(String, String, String, String, int)
+
++getID(): String
++setID(String): void
+
++getName(): String
++setName(String): void
+
++getGender(): String
++setGender(String): void
+
++getPhone(): String
++setPhone(String): void
+
++getAddress(): int
++setAddress(int): void
+
++toString(): String
+
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>824</x>
+      <y>640</y>
+      <w>216</w>
+      <h>328</h>
+    </coordinates>
+    <panel_attributes>Memory
+--
++type: String
++brand: String
++size: String
++model: String
++price: int
+--
++Memory(String, String, String, String, int)
+
++getType(): String
++setType(String): void
+
++getBrand(): String
++setBrand(String): void
+
++getSize(): String
++setSize(String): void
+
++getModel(): String
++setModel(String): void
+
++getPrice(): int
++setPrice(int): void
+
++toString(): String
+
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>392</x>
+      <y>640</y>
+      <w>216</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>CPU
+--
++brand: String
++cores: String
++model: String
++price: int
+--
++CPU(String, String, String, int)
+
++getBrand(): String
++setBrand(String): void
+
++getCores(): String
++setCores(String): void
+
++getModel(): String
++setModel(String): void
+
++getPrice(): int
++setPrice(int): void
+
++toString(): String
+
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1040</x>
+      <y>320</y>
+      <w>208</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;creates&gt;&gt;
+bg=black
+</panel_attributes>
+    <additional_attributes>180.0;10.0;180.0;110.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1040</x>
+      <y>640</y>
+      <w>248</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>GraphicsCard
+--
++socketType: String
++brand: String
++model: String
++price: int
+--
++GraphicsCard(String, String, String, String, int)
+
++getSocketType(): String
++setSocketType(String): void
+
++getBrand(): String
++setBrand(String): void
+
++getModel(): String
++setModel(String): void
+
++getPrice(): int
++setPrice(int): void
+
++toString(): String
+
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1288</x>
+      <y>640</y>
+      <w>216</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>Monitor
+--
++brand: String
++model: String
++size: int
++price: int
+--
++Monitor(String, String, String, int, int)
+
++getSocketType(): String
++setSocketType(String): void
+
++getBrand(): String
++setBrand(String): void
+
++getSize(): int
++setSize(int): void
+
++getPrice(): int
++setPrice(int): void
+
++toString(): String
+
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>608</x>
+      <y>640</y>
+      <w>216</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>Motherboard
+--
++socketType: String
++brand: String
++model: String
++price: int
+--
++Motherboard(String, String, String, String, int)
+
++getSocketType(): String
++setSocketType(String): void
+
++getBrand(): String
++setBrand(String): void
+
++getModel(): String
++setModel(String): void
+
++getPrice(): int
++setPrice(int): void
+
++toString(): String
+
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>928</x>
+      <y>528</y>
+      <w>64</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;Uses&gt;&gt;
+
+
+
+
+bg=black
+</panel_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>928</x>
+      <y>568</y>
+      <w>256</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>300.0;90.0;300.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1160</x>
+      <y>568</y>
+      <w>256</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>300.0;90.0;300.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>704</x>
+      <y>568</y>
+      <w>248</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0;290.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>496</x>
+      <y>568</y>
+      <w>232</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0;270.0;10.0</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,193 @@
+> /* (1)  Change a city name to Paris and country name to France for all suppliers located in Norway and remove a value of postal code. */;
+> 
+> db.suppliers.update(
+...   {"SUPPLIER.country" : "Norway" },
+...   { $set: { "SUPPLIER.city": "Paris" } },
+...   false,
+...   true
+... );
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> 
+> db.suppliers.update(
+...   {"SUPPLIER.country" : "Norway" },
+...   { $set: { "SUPPLIER.postal code": null } },
+...   false,
+...   true
+... );
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> 
+> db.suppliers.update(
+...   {"SUPPLIER.country" : "Norway" },
+...   { $set: { "SUPPLIER.country": "France" } },
+...   false,
+...   true
+... );
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> 
+> /* Next display in a pretty format the company names and postal codes of all suppliers where postal code is associated with null.*/;
+> 
+> db.suppliers.find({"SUPPLIER.postal code": null}).pretty();
+{
+	"_id" : "Norske Meierier",
+	"SUPPLIER" : {
+		"company name" : "Norske Meierier",
+		"contact name" : "Beate Vileid",
+		"contact title" : "Marketing Manager",
+		"address" : "Hatlevegen 5",
+		"city" : "Paris",
+		"region" : null,
+		"postal code" : null,
+		"country" : "France",
+		"phone" : "(0)2-953010",
+		"fax" : null,
+		"home page" : null,
+		"supplies" : [
+			{
+				"PRODUCT" : {
+					"product name" : "Geitost",
+					"category name" : "Dairy Products",
+					"quantity per unit" : "500 g",
+					"unit price" : 2.5,
+					"units in stock" : 112,
+					"units on order" : 0,
+					"reorder level" : 20,
+					"discontinued" : "N"
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Gudbrandsdalsost",
+					"category name" : "Dairy Products",
+					"quantity per unit" : "10 kg pkg.",
+					"unit price" : 36,
+					"units in stock" : 26,
+					"units on order" : 0,
+					"reorder level" : 15,
+					"discontinued" : "N"
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Flotemysost",
+					"category name" : "Dairy Products",
+					"quantity per unit" : "10 - 500 g pkgs.",
+					"unit price" : 21.5,
+					"units in stock" : 26,
+					"units on order" : 0,
+					"reorder level" : 0,
+					"discontinued" : "N"
+				}
+			}
+		]
+	}
+}
+> 
+> /* (2)  Append to a supplier whose company name is Leka Trading information about a new product supplied by the supplier. Include into a description of a new product information about product name, category and unit price. The values associated with the keys are up to you. */;
+> 
+> db.suppliers.update(
+...   { "SUPPLIER.company name": "Leka Trading" },
+...   { $push: {"SUPPLIER.supplies": {"PRODUCT": {"product name": "Sugarcane Juice",
+...                        "category name": "Beverages",
+...                        "unit price": 1
+...                       } }
+...          }
+...    }
+... );
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> 
+> /* Next, display all information about the names of products supplied by a supplier Leka Trading. */;
+> 
+> db.suppliers.find({"SUPPLIER.company name": "Leka Trading"}).pretty();
+{
+	"_id" : "Leka Trading",
+	"SUPPLIER" : {
+		"company name" : "Leka Trading",
+		"contact name" : "Chandra Leka",
+		"contact title" : "Owner",
+		"address" : "471 Serangoon Loop, Suite #402",
+		"city" : "Singapore",
+		"region" : null,
+		"postal code" : "0512",
+		"country" : "Singapore",
+		"phone" : "555-8787",
+		"fax" : null,
+		"home page" : null,
+		"supplies" : [
+			{
+				"PRODUCT" : {
+					"product name" : "Singaporean Hokkien Fried Mee",
+					"category name" : "Grains/Cereals",
+					"quantity per unit" : "32 - 1 kg pkgs.",
+					"unit price" : 14,
+					"units in stock" : 26,
+					"units on order" : 0,
+					"reorder level" : 0,
+					"discontinued" : "Y"
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Ipoh Coffee",
+					"category name" : "Beverages",
+					"quantity per unit" : "16 - 500 g tins",
+					"unit price" : 46,
+					"units in stock" : 17,
+					"units on order" : 10,
+					"reorder level" : 25,
+					"discontinued" : "N"
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Gula Malacca",
+					"category name" : "Condiments",
+					"quantity per unit" : "20 - 2 kg bags",
+					"unit price" : 19.45,
+					"units in stock" : 27,
+					"units on order" : 0,
+					"reorder level" : 15,
+					"discontinued" : "N"
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Sugarcane Juice",
+					"category name" : "Beverages",
+					"unit price" : 1
+				}
+			}
+		]
+	}
+}
+> 
+> /* (3)  Remove from a description of supplier whose company name is Gai paturage, information about all products that have unit price greater than 5. */;
+> 
+> db.suppliers.update(
+...   { "SUPPLIER.company name": "Gai paturage" },
+...   { $pull: {"SUPPLIER.supplies": {"PRODUCT.unit price": {$gt: 5}}}},
+...   false,
+...   true
+... );
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> 
+> /* Next, display all information about prices of all products supplied by a supplier Gai paturage. */;
+> 
+> db.suppliers.find({"SUPPLIER.company name": "Gai paturage"}).pretty();
+{
+	"_id" : "Gai paturage",
+	"SUPPLIER" : {
+		"company name" : "Gai paturage",
+		"contact name" : "Eliane Noz",
+		"contact title" : "Sales Representative",
+		"address" : "Bat. B3, rue des Alpes",
+		"city" : "Annecy",
+		"region" : null,
+		"postal code" : "74000",
+		"country" : "France",
+		"phone" : "38.76.98.06",
+		"fax" : "38.76.98.58",
+		"home page" : null,
+		"supplies" : [ ]
+	}
+}
+

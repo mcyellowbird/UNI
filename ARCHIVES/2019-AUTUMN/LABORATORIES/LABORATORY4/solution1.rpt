@@ -1,0 +1,140 @@
+mysql> source solution1.sql
+--------------
+/* (1)	Use SQL statement to modify a structure of a sample database such that after a modification 
+        it is possible to add information about the total number of orders submitted by each customer. 
+        Assume that, a customer can submit no more than 999999 orders.                                    */
+
+ALTER TABLE CUSTOMER ADD ( TOTAL_ORDERS DECIMAL(6) NULL )
+--------------
+
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE CUSTOMER ADD (CONSTRAINT CUSTOMER_CHECK CHECK (TOTAL_ORDERS >= 0 ) )
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+/* (2)	Use SQL statement to set the total number of orders submitted by each customer to zero.		  */
+
+UPDATE CUSTOMER
+SET TOTAL_ORDERS = 0
+--------------
+
+Query OK, 91 rows affected (0.03 sec)
+Rows matched: 91  Changed: 91  Warnings: 0
+
+--------------
+/* (3)	Use SQL statement to modify a structure of a sample database such that after a modification it 
+        is possible to store in the database information about the customers living in the cities whose 
+        names are up to 100 characters long.                                                              */
+
+ALTER TABLE CUSTOMER MODIFY CITY VARCHAR(100) NOT NULL
+--------------
+
+Query OK, 91 rows affected (0.14 sec)
+Records: 91  Duplicates: 0  Warnings: 0
+
+--------------
+/* (4)	Use SQL statement to insert information about a new customer living in a city whose name is 
+        longer than 15 characters.                                                                        */
+
+INSERT INTO CUSTOMER VALUES('00008','UOW', 'Janusz R. Getta', 'Dr', '25 Station St.', 'Northeast
+ Bambaramba', 'NSW', '2500', 'Australia', '21242214339', '2124222144338', 1 )
+--------------
+
+Query OK, 1 row affected (0.06 sec)
+
+--------------
+ 
+ /* (5)	Use SQL statements to modify a structure of a sample database such that after a modification it 
+        is possible to store in the database information about unit prices up to 999,999,999.99 in 
+        any currency. You may need more than one statement to perform the modifications.                  */
+
+ALTER TABLE PRODUCT MODIFY UNIT_PRICE DECIMAL(11,2) NOT NULL
+--------------
+
+Query OK, 77 rows affected (0.18 sec)
+Records: 77  Duplicates: 0  Warnings: 0
+
+--------------
+/* (6)	Use SQL statements to add 100,000,000 to a value of unit price of a product Pavlova. You may need 
+        more than one statement to perform all modifications.                                             */ 
+
+UPDATE PRODUCT
+SET UNIT_PRICE = UNIT_PRICE + 100000000
+WHERE PRODUCT_NAME = 'Pavlova'
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+/* (7)	Use SQL statement to add to the database an association CUSTOMER Prefers SUPPLIER to the database.
+        Assume, that a customer can prefer more than one supplier and a supplier can be preferred by more 
+        than one customer.                                                                                */
+        
+CREATE TABLE PREFERS(
+ CUSTOMER_CODE VARCHAR(5)   NOT NULL,
+ COMPANY_NAME  VARCHAR(40)  NOT NULL,
+  CONSTRAINT PREFERS_PKEY PRIMARY KEY (CUSTOMER_CODE, COMPANY_NAME),
+  CONSTRAINT PREFERS_FKEY1 FOREIGN KEY (CUSTOMER_CODE)
+		  	   REFERENCES CUSTOMER(CUSTOMER_CODE),
+  CONSTRAINT PREFERS_FKEY2 FOREIGN KEY (COMPANY_NAME)
+                           REFERENCES SUPPLIER(COMPANY_NAME) )
+--------------
+
+Query OK, 0 rows affected (0.12 sec)
+
+--------------
+                           
+/* (8)	Use SQL statements to add to the database information that a customer with a code KOENE prefers 
+        the suppliers Exotic Liquids and Karkki Oy.	      	     	      	     	  		  */
+
+INSERT INTO PREFERS VALUES('KOENE', 'Exotic Liquids')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO PREFERS VALUES('KOENE', 'Karkki Oy')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+/* (9)	Use SQL statement to add to the database an association EMPLOYEE Recommends SHIPPER. Assume that 
+        an employee can recommend only one shipper and a shipper can be recommended by more than one 
+        employee.                                                                                         */
+
+ALTER TABLE EMPLOYEE ADD (RECOMMENDED_SHIPPER VARCHAR(40) NULL)
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYEE ADD (CONSTRAINT EMPLOYEE_FK FOREIGN KEY (RECOMMENDED_SHIPPER)
+			  REFERENCES SHIPPER(COMPANY_NAME) )
+--------------
+
+Query OK, 9 rows affected (0.20 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+--------------
+                                                 
+/* (10)	Use SQL statements to add to the database information about employees number 5 and 6 who 
+        recommend a shipper Speedy Express.                                                               */
+
+UPDATE EMPLOYEE
+SET RECOMMENDED_SHIPPER = 'Speedy Express'
+WHERE EMPLOYEE_ID IN (5, 6)
+--------------
+
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> notee

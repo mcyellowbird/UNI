@@ -1,0 +1,299 @@
+mysql> source solution2.sql
+--------------
+/* (1)  Create a relational table OLD_DRIVER that has the same columns as a relational table DRIVER. Enforce 
+        appropriate consistency constraints for a relational table OLD_DRIVER.                                */
+
+CREATE TABLE OLD_DRIVER(
+ENUM 	    DECIMAL(12) NOT NULL,
+LNUM 	    DECIMAL(8) 	NOT NULL,
+STATUS 	    VARCHAR(10) NOT NULL,
+ CONSTRAINT OLD_DRIVER_PKEY PRIMARY KEY(ENUM),
+ CONSTRAINT OLD_DRIVER_UNIQUE UNIQUE(LNUM),
+ CONSTRAINT OLD_DRIVER_STATUS CHECK ( STATUS IN ('AVAILABLE', 'BUSY', 'ON LEAVE')) )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+/* (2)  Use a backup file old_driver.bak to load the old pre 31 May 2015 contents of a relational table 
+        DRIVER into a relational table OLD_DRIVER.                                                            */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- MySQL dump 10.13  Distrib 8.0.16, for Linux (x86_64)
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+--
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- Host: localhost    Database: old
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- ------------------------------------------------------
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- Server version	8.0.16
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ SET NAMES utf8mb4
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40103 SET TIME_ZONE='+00:00' */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+--
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- Table structure for table `OLD_DRIVER`
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+--
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* DROP TABLE IF EXISTS `OLD_DRIVER` */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*  SET character_set_client = utf8mb4 ;
+   CREATE TABLE `OLD_DRIVER` (
+  `ENUM` decimal(12,0) NOT NULL,
+  `LNUM` decimal(8,0) NOT NULL,
+  `STATUS` varchar(10) NOT NULL,
+  PRIMARY KEY (`ENUM`),
+  UNIQUE KEY `OLD_DRIVER_UNIQUE` (`LNUM`),
+  CONSTRAINT `OLD_DRIVER_FKEY` FOREIGN KEY (`ENUM`) REFERENCES `EMPLOYEE` (`ENUM`),
+  CONSTRAINT `OLD_DRIVER_STATUS` CHECK ((`STATUS` in (_utf8mb4'AVAILABLE',_utf8mb4'BUSY',_utf8mb4'ON LEAVE')))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci; */
+/*!40101 SET character_set_client = @saved_cs_client */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+--
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- Dumping data for table `OLD_DRIVER`
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+--
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* LOCK TABLES `OLD_DRIVER` WRITE */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40000 ALTER TABLE `OLD_DRIVER` DISABLE KEYS */
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+INSERT INTO `OLD_DRIVER` VALUES (0,1,'AVAILABLE'),(2,10008,'ON LEAVE'),(4,10004,'AVAILABLE'),(5,10003,'ON LEAVE'),(6,10012,'AVAILABLE'),(7,20002,'BUSY'),(8,20003,'BUSY'),(9,30005,'BUSY'),(10,40002,'BUSY'),(11,20045,'AVAILABLE'),(12,20055,'AVAILABLE'),(13,20065,'AVAILABLE'),(14,10305,'AVAILABLE'),(15,10345,'AVAILABLE'),(16,10705,'AVAILABLE'),(17,40005,'AVAILABLE')
+--------------
+
+Query OK, 16 rows affected (0.01 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+--------------
+/*!40000 ALTER TABLE `OLD_DRIVER` ENABLE KEYS */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+UNLOCK TABLES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- Dump completed on 2019-10-07  0:54:03
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (3)  Use SELECT statements to list the employee numbers and driving license numbers of drivers and who 
+        left the transportation company after 31 May 2015.                                                    */
+
+SELECT ENUM, LNUM
+FROM OLD_DRIVER
+WHERE ENUM NOT IN ( SELECT ENUM
+                    FROM DRIVER )
+--------------
+
++------+------+
+| ENUM | LNUM |
++------+------+
+|    0 |    1 |
++------+------+
+1 row in set (0.02 sec)
+
+--------------
+/* (4)  Use SELECT statements to list the employee numbers, driving license numbers, first name and last 
+        name of drivers and joined the transportation company after 31 May 2015.                              */
+	
+SELECT EMPLOYEE.ENUM, LNUM, FNAME, LNAME
+FROM EMPLOYEE JOIN DRIVER
+              ON EMPLOYEE.ENUM = DRIVER.ENUM
+WHERE EMPLOYEE.ENUM NOT IN ( SELECT ENUM
+                             FROM OLD_DRIVER )
+--------------
+
++------+-------+-------+-------+
+| ENUM | LNUM  | FNAME | LNAME |
++------+-------+-------+-------+
+|    1 | 10001 | John  | Smith |
+|    3 | 10002 | John  | Doe   |
++------+-------+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> notee

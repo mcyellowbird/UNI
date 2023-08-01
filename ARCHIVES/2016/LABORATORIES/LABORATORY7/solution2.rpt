@@ -1,0 +1,103 @@
+mysql> SELECT * FROM jrg.TRUCK;
+--------------
+SELECT * FROM jrg.TRUCK
+--------------
+
++--------+----------+--------+------------+
+| REGNUM | CAPACITY | WEIGHT | STATUS     |
++--------+----------+--------+------------+
+| AL08UK |    50000 |   5000 | AVAILABLE  |
+| GFT008 |    40000 |  15000 | AVAILABLE  |
+| KKK007 |    10000 |   3000 | MAINTAINED |
+| LUCY01 |      100 |    300 | AVAILABLE  |
+| LUCY02 |    43000 |   3000 | AVAILABLE  |
+| PKR008 |    22000 |   8800 | AVAILABLE  |
+| PKR768 |     1234 |   3000 | AVAILABLE  |
+| QRT834 |     5550 |    400 | USED       |
+| SST005 |    12000 |  50000 | USED       |
+| SYF777 |     3333 |   4566 | MAINTAINED |
+| XCF003 |    30000 |  10000 | AVAILABLE  |
++--------+----------+--------+------------+
+11 rows in set (0.00 sec)
+
+mysql> DELETE FROM jrg.TRIPLEG;
+--------------
+DELETE FROM jrg.TRIPLEG
+--------------
+
+ERROR 1142 (42000): DELETE command denied to user 'jrg_1'@'localhost' for table 'TRIPLEG'
+mysql> exit
+mysql> UPDATE jrg.EMPLOYEE
+    -> SET INITIALS = 'X'
+    -> WHERE INITIALS IS NULL;
+--------------
+UPDATE jrg.EMPLOYEE
+SET INITIALS = 'X'
+WHERE INITIALS IS NULL
+--------------
+
+Query OK, 18 rows affected (0.01 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+
+mysql> DELETE FROM jrg.ADMIN;
+--------------
+DELETE FROM jrg.ADMIN
+--------------
+
+ERROR 1142 (42000): DELETE command denied to user 'jrg_2'@'localhost' for table 'ADMIN'
+mysql> exit
+mysql> CREATE TABLE jrg.Q(a CHAR(1) );
+--------------
+CREATE TABLE jrg.Q(a CHAR(1) )
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE csit115.Q(a CHAR(1) );
+--------------
+CREATE TABLE csit115.Q(a CHAR(1) )
+--------------
+
+ERROR 1142 (42000): CREATE command denied to user 'jrg_3'@'localhost' for table 'Q'
+mysql> SELECT ENUM, FNAME, INITIALS, LNAME
+    -> FROM jrg.EMPLOYEE;
+--------------
+SELECT ENUM, FNAME, INITIALS, LNAME
+FROM jrg.EMPLOYEE
+--------------
+
++------+----------+----------+---------+
+| ENUM | FNAME    | INITIALS | LNAME   |
++------+----------+----------+---------+
+|    1 | John     | X        | Smith   |
+|    2 | Peter    | X        | Taylor  |
+|    3 | John     | X        | Doe     |
+|    4 | John     | X        | Gray    |
+|    5 | Adam     | X        | Taylor  |
+|    6 | Michael  | X        | Jones   |
+|    7 | Frederic | X        | Jones   |
+|    8 | Peter    | X        | O'Brien |
+|    9 | John     | X        | Lucas   |
+|   10 | John     | X        | Fox     |
+|   11 | Adam     | X        | Fox     |
+|   12 | Phillip  | X        | ,Cox    |
+|   13 | Andrew   | K        | Smith   |
+|   14 | Andrew   | R        | Smith   |
+|   15 | Michael  | X        | Potter  |
+|   16 | Harry    | X        | Potter  |
+|   17 | James    | X        | Bond    |
+|   18 | Paris    | X        | Hilton  |
+|   19 | Lady     | X        | Gaga    |
+|   20 | Robin    | X        | Hood    |
++------+----------+----------+---------+
+20 rows in set (0.00 sec)
+
+mysql> SELECT ENUM, FNAME, INITIALS, LNAME, DOB
+    -> FROM jrg.EMPLOYEE;
+--------------
+SELECT ENUM, FNAME, INITIALS, LNAME, DOB
+FROM jrg.EMPLOYEE
+--------------
+
+ERROR 1143 (42000): SELECT command denied to user 'jrg_3'@'localhost' for column 'DOB' in table 'EMPLOYEE'
+mysql> notee;

@@ -1,0 +1,104 @@
+mysql> source solution2.sql
+--------------
+-- (1) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE VIEW AVGSKILL (avg_level) AS 
+	SELECT AVG(slevel) 
+        FROM SPOSSESSED
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- (2) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE VIEW APPHASSKILL (anumber, avg_level) AS 
+	SELECT anumber, AVG(slevel)
+	FROM SPOSSESSED  
+	GROUP BY anumber
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+	
+-- (3) --
+CREATE VIEW APPNOSKILL (anumber, avg_level) AS 
+	SELECT anumber, 0
+	FROM APPLICANT
+	WHERE anumber NOT IN (SELECT anumber FROM SPOSSESSED)
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+-- (4) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE VIEW ALLAPPAVGSKILL (anumber, avg_level) AS 
+	SELECT * FROM APPHASSKILL
+	UNION
+	SELECT * FROM APPNOSKILL
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- (5) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE VIEW ALLBELOWAVGSKILL (anumber, avg_level) AS 
+		SELECT * FROM ALLAPPAVGSKILL
+		WHERE avg_level < (SELECT avg_level FROM AVGSKILL)
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- (6) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT A.fname, A.lname, AB.avg_level
+FROM APPLICANT A JOIN ALLBELOWAVGSKILL AB 
+                 ON A.anumber=AB.anumber
+--------------
+
++-----------+-------------+-----------+
+| fname     | lname       | avg_level |
++-----------+-------------+-----------+
+| Margaret  | Finch       |    6.0000 |
+| Stephen   | Staunton    |    6.0000 |
+| Homer     | Simpson     |    4.3333 |
+| Neil      | Superman    |    6.5000 |
+| Ivan      | Theterrible |    5.0000 |
+| Penelope  | Princess    |    4.0000 |
+| Zhi Chao  | Zhong       |    4.0000 |
+| Sherlock  | Holmes      |    5.7500 |
+| Louis     | Fourteenth  |    3.0000 |
+| Louis     | Fifteenth   |    4.0000 |
+| Henry     | Eight       |    1.0000 |
+| Michael   | Collins     |    0.0000 |
+| Joseph    | Staunton    |    0.0000 |
+| Alexander | Thegreat    |    0.0000 |
+| Julius    | Caesar      |    0.0000 |
++-----------+-------------+-----------+
+15 rows in set (0.02 sec)
+
+mysql> notee

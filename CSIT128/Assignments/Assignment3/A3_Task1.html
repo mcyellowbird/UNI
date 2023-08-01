@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<script>
+			function generateTable(num){
+				var outputArray = [output1,output2,output3,output4,output5,output6,output7,output8,output9,output10];
+
+				for (var i in outputArray){
+					var emojiOutput = "";
+					for (var j = 0; j <= i; j++){
+						emojiOutput = emojiOutput + " &#x1f438";
+					}
+					outputArray[i].innerHTML = (num + " x " + emojiOutput + " = " + (num * (Number(i)+1)));
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<table style="margin: auto; width: 400px;" border="1px solid">
+			<tr>
+				<td style="text-align: center; padding-top: 20px">
+					<input type="number" id="num" value="0"/><br><br>
+					<input type="button" value="Generate FROG Times Table" onClick="generateTable(num.value)"/><br><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span id="output1"></span><br>
+					<span id="output2"></span><br>
+					<span id="output3"></span><br>
+					<span id="output4"></span><br>
+					<span id="output5"></span><br>
+					<span id="output6"></span><br>
+					<span id="output7"></span><br>
+					<span id="output8"></span><br>
+					<span id="output9"></span><br>
+					<span id="output10"></span>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

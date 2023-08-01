@@ -1,0 +1,85 @@
+Overall Project - Time: 56 days (8 Weeks)
+Project Cost: $124,610, with a 20% safety buffer = $149,532
+
+Project Cost Estimation is based on the average hourly rate of each person's role within the project,
+multiplied by an average of 40 hours a week (8hours x 5days), with addition to the cost of the development of the website.
+
+
+Each Role's hourly rate:
+Each rate is based off an average of Information Technology roles
+
+Project Manager: $54/hr * 40 * 8 = $17,280
+Business Analyst: $44/hr * 40 * 8 = $14,080
+Systems Analyst: $48/hr * 40 * 8 = $15,360
+Project Planner: $45/hr * 40 * 8 = $14,400
+Lead Programmer: $46/hr * 40 * 8 = $14,720
+Workflow Manager: $38/hr * 40 * 8 = $12,160
+Documentation Specialist: $39/hr * 40 * 8 = $12,480
+Total: $100,480
+
+Application - Website
+Duration: 14 Days
+Estimated Cost Formula: (FP / days) * (hourlyRate * (days * hours))
+Estimated Cost: (105 / 14) * (46 * (14 * 5)) = $24,150
+
+
+Calculation of Function Points for the development of the website:
+
+Data Functions:
+	ILFs: 1. Store customer information
+	      2. Store flight information
+
+	EIFs: None applicable
+
+Transaction Functions:
+	EIs:  1. User inputs account information
+	      2. User makes multiple selections:
+		  i. Flight from location
+		  ii. Flight to location
+		  iii. Return flight needed
+		      - Date for return flight
+		  iv. Class for flight
+		      - List including First, Business, Economy Plus, Economy
+		  v. Seat
+		  vi. Services
+		      - Internet
+	      3. Manage flight
+	          i. Input flight ID
+	          ii. User makes multiple selections:
+		          - Change departure date
+		          - Change return date
+		          - Change class for flight
+		          - Change seat
+		          - Remove or add additional services
+		          - Cancel flight
+	
+	EOs:  1. Processing and displaying total cost of flight
+	      2. Print ticket
+
+	EQs:  1. Display flight information
+
+Total Function Types:
+	ILFs: 2
+	EIFs: 0
+	EIs: 20
+	EOs: 2
+	EQs: 1
+
+Complexity Multipliers:
++─────+─────────────────+────────────────────+──────────────────+
+|     | Low Complexity  | Medium Complexity  | High Complexity  |
++─────+─────────────────+────────────────────+──────────────────+
+| ILF | 7               | 10                 | 15               |
+| EIF | 5               | 7                  | 10               |
+| EI  | 3               | 4                  | 6                |
+| EO  | 4               | 5                  | 7                |
+| EQ  | 3               | 4                  | 6                |
++─────+─────────────────+────────────────────+──────────────────+
+
+Total Function Points (FT * Complexities):
+	ILFs: (2 * 10) = 20
+	EIFs: 0
+	EIs: (12 * 4) + (8 * 3) = 72
+	EOs: (2 * 5) = 10
+	EQs: (1 * 3) = 3
+	Total: (20 + 0 + 72 + 10 + 3) = 105FPs

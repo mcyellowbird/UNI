@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>400</y>
+      <w>380</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Post-graduate
+--
+student-code PK FK REFERENCES Student(student-code)
+thesis[0..1]
+supervisor-name
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>330</y>
+      <w>380</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Undergraduate
+--
+student-code PK FK REFERENCES Student(student-code)
+project[0..1]
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>350</x>
+      <y>190</y>
+      <w>370</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>RunningSubject
+--
+web-link PK1
+enrolment-date PK1
+year
+session
+subject-code FK1 (REFERENCES Subject(student-code)
+student-code FK2 (REFERENCES Student(student-code)
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>190</y>
+      <w>130</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Subject
+--
+subject-code PK
+subject-title
+total-credits
+assignments
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>120</y>
+      <w>350</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Phone
+--
+number PK
+student-code FK REFERENCES Student(student-code)
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>190</y>
+      <w>130</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Student
+--
+student-code PK
+student-name
+address
+phone
+email
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>110</y>
+      <w>350</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Assignments
+--
+assignment-num PK
+subject-code FK REFERENCES Subject(subject-code)
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

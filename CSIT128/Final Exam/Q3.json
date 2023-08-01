@@ -1,0 +1,37 @@
+{
+    "studentNumber": "6868288",
+    "email": "iem651@uowmail.edu.au",
+    "firstName": "Idries",
+    "lastName": "Eagle-Masuak",
+    "courseName": "Bachelor of Information Technology",
+    "majors":
+    [
+        {
+            "subjectName": "null",
+            "subjectCode": "null"
+        }
+    ],
+    "enroledSubjects":
+    [
+        {
+            "subjectCode": "CSIT121",
+            "title": "Object Oriented Design and Programming",
+            "creditPoints": "6"
+        },
+        {
+            "subjectCode": "CSIT127",
+            "title": "Networks and Communication",
+            "creditPoints": "6"
+        },
+        {
+            "subjectCode": "CSIT127",
+            "title": "Introduction to Web Technology",
+            "creditPoints": "6"
+        },
+        {
+            "subjectCode": "CSIT226",
+            "title": "Human Computer Interaction",
+            "creditPoints": "6"
+        }
+    ]
+}

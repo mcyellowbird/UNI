@@ -1,0 +1,143 @@
+mysql> source solution2.sql
+Database changed
+--------------
+set autocommit="off"
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+UPDATE EMPLOYEE
+SET department_name = 'Shipping'
+WHERE employee_id = 177
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE
+SET department_name = 'Executive'
+WHERE employee_id = 144
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT EMPLOYEE.job_title "JOB TITLE", employee_id "EMPLOYEE ID", department_name "DEPARTMENT NAME"
+FROM EMPLOYEE JOIN ( SELECT job_title 
+                     FROM EMPLOYEE
+                     GROUP BY job_title
+                     HAVING COUNT(DISTINCT IFNULL(department_name, 'XYZ') ) > 1 ) VIOLATION
+              ON EMPLOYEE.job_title = VIOLATION.job_title
+ORDER BY EMPLOYEE.job_title ASC
+--------------
+
++----------------------+-------------+-----------------+
+| JOB TITLE            | EMPLOYEE ID | DEPARTMENT NAME |
++----------------------+-------------+-----------------+
+| Sales Representative |         173 | Sales           |
+| Sales Representative |         166 | Sales           |
+| Sales Representative |         159 | Sales           |
+| Sales Representative |         152 | Sales           |
+| Sales Representative |         178 | NULL            |
+| Sales Representative |         170 | Sales           |
+| Sales Representative |         163 | Sales           |
+| Sales Representative |         156 | Sales           |
+| Sales Representative |         174 | Sales           |
+| Sales Representative |         167 | Sales           |
+| Sales Representative |         160 | Sales           |
+| Sales Representative |         153 | Sales           |
+| Sales Representative |         179 | Sales           |
+| Sales Representative |         171 | Sales           |
+| Sales Representative |         164 | Sales           |
+| Sales Representative |         157 | Sales           |
+| Sales Representative |         150 | Sales           |
+| Sales Representative |         175 | Sales           |
+| Sales Representative |         168 | Sales           |
+| Sales Representative |         161 | Sales           |
+| Sales Representative |         154 | Sales           |
+| Sales Representative |         172 | Sales           |
+| Sales Representative |         165 | Sales           |
+| Sales Representative |         158 | Sales           |
+| Sales Representative |         151 | Sales           |
+| Sales Representative |         177 | Shipping        |
+| Sales Representative |         169 | Sales           |
+| Sales Representative |         162 | Sales           |
+| Sales Representative |         155 | Sales           |
+| Stock Clerk          |         126 | Shipping        |
+| Stock Clerk          |         144 | Executive       |
+| Stock Clerk          |         137 | Shipping        |
+| Stock Clerk          |         130 | Shipping        |
+| Stock Clerk          |         141 | Shipping        |
+| Stock Clerk          |         134 | Shipping        |
+| Stock Clerk          |         127 | Shipping        |
+| Stock Clerk          |         138 | Shipping        |
+| Stock Clerk          |         131 | Shipping        |
+| Stock Clerk          |         142 | Shipping        |
+| Stock Clerk          |         135 | Shipping        |
+| Stock Clerk          |         128 | Shipping        |
+| Stock Clerk          |         139 | Shipping        |
+| Stock Clerk          |         132 | Shipping        |
+| Stock Clerk          |         125 | Shipping        |
+| Stock Clerk          |         143 | Shipping        |
+| Stock Clerk          |         136 | Shipping        |
+| Stock Clerk          |         129 | Shipping        |
+| Stock Clerk          |         140 | Shipping        |
+| Stock Clerk          |         133 | Shipping        |
++----------------------+-------------+-----------------+
+49 rows in set (0.01 sec)
+
+--------------
+ROLLBACK
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT EMPLOYEE.job_title "JOB TITLE", employee_id "EMPLOYEE ID", department_name "DEPARTMENT NAME"
+FROM EMPLOYEE JOIN ( SELECT job_title 
+                     FROM EMPLOYEE
+                     GROUP BY job_title
+                     HAVING COUNT(DISTINCT IFNULL(department_name, 'XYZ') ) > 1 ) VIOLATION
+              ON EMPLOYEE.job_title = VIOLATION.job_title
+ORDER BY EMPLOYEE.job_title ASC
+--------------
+
++----------------------+-------------+-----------------+
+| JOB TITLE            | EMPLOYEE ID | DEPARTMENT NAME |
++----------------------+-------------+-----------------+
+| Sales Representative |         173 | Sales           |
+| Sales Representative |         166 | Sales           |
+| Sales Representative |         159 | Sales           |
+| Sales Representative |         152 | Sales           |
+| Sales Representative |         178 | NULL            |
+| Sales Representative |         170 | Sales           |
+| Sales Representative |         163 | Sales           |
+| Sales Representative |         156 | Sales           |
+| Sales Representative |         174 | Sales           |
+| Sales Representative |         167 | Sales           |
+| Sales Representative |         160 | Sales           |
+| Sales Representative |         153 | Sales           |
+| Sales Representative |         179 | Sales           |
+| Sales Representative |         171 | Sales           |
+| Sales Representative |         164 | Sales           |
+| Sales Representative |         157 | Sales           |
+| Sales Representative |         150 | Sales           |
+| Sales Representative |         175 | Sales           |
+| Sales Representative |         168 | Sales           |
+| Sales Representative |         161 | Sales           |
+| Sales Representative |         154 | Sales           |
+| Sales Representative |         172 | Sales           |
+| Sales Representative |         165 | Sales           |
+| Sales Representative |         158 | Sales           |
+| Sales Representative |         151 | Sales           |
+| Sales Representative |         177 | Sales           |
+| Sales Representative |         169 | Sales           |
+| Sales Representative |         162 | Sales           |
+| Sales Representative |         155 | Sales           |
++----------------------+-------------+-----------------+
+29 rows in set (0.00 sec)
+
+mysql> notee

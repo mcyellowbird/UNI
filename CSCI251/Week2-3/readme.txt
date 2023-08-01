@@ -1,0 +1,1 @@
+Compiler: GNU c++ compiler (Installed with Codeblocks | Command line; g++ file.cpp -o file)

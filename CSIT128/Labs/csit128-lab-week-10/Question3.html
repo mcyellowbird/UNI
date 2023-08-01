@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<title>Question 3</title>
+
+		<script>
+			function showJson(){
+				var subjectCodeField = document.getElementById("code");
+				var subjectCode = subjectCodeField.value;
+
+				var subjectTitleField = document.getElementById("title");
+				var subjectTitle = subjectTitleField.value;
+
+				var subjectCPField = document.getElementById("credits");
+				var subjectCP = subjectCPField.value;
+
+				var subjectCFField = document.getElementById("core");
+				var subjectCF = subjectCFField.checked;
+
+				var subject = {};
+				subject.code = subjectCode;
+				subject.title = subjectTitle;
+				subject.creditPoints = subjectCP;
+				subject.coreFlag = subjectCF;
+
+				var json = JSON.stringify(subject, null, 2);
+
+				var textArea = document.getElementById("output");
+				textArea.value = json;
+			}
+		</script>
+	</head>
+	<body>
+		Subject Code:
+		<input type="text" id="code"/>
+		<br />
+
+		Subject title:
+		<input type="text" id="title"/>
+		<br />
+
+		Subject Credit Point:
+		<input type="text" id="credits"/>
+		<br />
+
+		Core Subject:
+		<input type="checkbox" id="core"/>
+		<br /><br />
+
+		<button onClick="showJson();">
+			Generate JSON
+		</button>
+		<br />
+
+		<textarea rows="7" cols="50" id="output">
+		</textarea>
+	</body>
+</html>

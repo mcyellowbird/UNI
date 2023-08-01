@@ -1,0 +1,190 @@
+<html>
+    <head>
+        <title></title>
+        <style>
+            table {
+                border: 1px black solid;
+                border-collapse: collapse;
+            }
+            table tr:first-of-type {
+                font-weight: bold;
+            }
+
+            table td {
+                border: 1px black solid;
+                border-collapse: collapse;
+                padding: 5px;
+                width: 40px;
+                height: 40px;
+                text-align: center;
+            }
+
+            table td:first-of-type{
+                text-align: left;
+            }
+
+        </style>
+
+        <script>
+            var hasJumped = false;
+
+            function frogJump(){
+                var table = document.getElementById("table");
+
+                if (hasJumped == false){
+                    for (var i = 0, row; row = table.rows[i]; i++){
+                        if (i > 0){
+                            var studentNumber = 0;
+                            for (var j = 0, col; col = row.cells[j]; j++){
+                                if (j == 0){
+                                    studentNumber = col.innerHTML;
+                                }
+                                if (j > 0){
+                                    col.innerHTML = "";
+                                    
+                                    if (j == (Number(studentNumber)+2)){
+                                        col.innerHTML = "&#128056";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    hasJumped = true;
+                }
+                else if (hasJumped == true){
+                    for (var i = 0, row; row = table.rows[i]; i++){
+                        if (i > 0){
+                            for (var j = 0, col; col = row.cells[j]; j++){
+                                if (j > 0  && j != 1){
+                                    col.innerHTML = "";
+                                }
+                                if (j == 1){
+                                    col.innerHTML = "&#128056";
+                                }
+                            }
+                        }
+                    }
+                    hasJumped = false;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <table id="table">
+            <tr>
+                <td>Student Number</td>
+                <td>Home</td>
+                <td>0</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td style="color: red; font-size: 20px; font-weight: bold;">6</td>
+                <td>&#128056</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="color: red; font-size: 20px; font-weight: bold;">8</td>
+                <td>&#128056</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="color: red; font-size: 20px; font-weight: bold;">6</td>
+                <td>&#128056</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="color: red; font-size: 20px; font-weight: bold;">8</td>
+                <td>&#128056</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="color: red; font-size: 20px; font-weight: bold;">2</td>
+                <td>&#128056</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="color: red; font-size: 20px; font-weight: bold;">8</td>
+                <td>&#128056</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="color: red; font-size: 20px; font-weight: bold;">8</td>
+                <td>&#128056</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <br />
+        <button onClick="frogJump()">Jump</button>
+    </body>
+</html>

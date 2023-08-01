@@ -1,0 +1,238 @@
+> /* (1)  Find the company names, cities and regions (company name, city, region keys) of suppliers located in France. Include into the results company names, cities and regions. Save the results into a collection supps that consists of the flat documents like: {"company":name-of-company, "city": name-of-city,"region": name-of-region}. */;
+> 
+> var cursor = db.suppliers.find({"SUPPLIER.country": "France"},{"_id": 0, "SUPPLIER.company name": 1, "SUPPLIER.city": 1, "SUPPLIER.region":1}).pretty();
+> 
+> db.createCollection("supps",
+...   {"validator":
+...     {$jsonSchema:
+...       {"bsonType": "object",
+...        "properties": {
+...          "company": {"bsonType":"string"},
+...          "city": {"bsonType":"string"},
+...          "region": {"bsonType":"string"}
+...        }
+...     }
+...   }
+... });
+{ "ok" : 1 }
+> 
+> while (cursor.hasNext()){
+...   db.supps.insertOne(cursor.next());
+... }
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("6359e498afce891cd146ab79")
+}
+> 
+> /* Display in a pretty format without document identifiers all documents in a collection dates. */;
+> 
+> db.supps.find().pretty();
+{
+	"_id" : ObjectId("6359e498afce891cd146ab77"),
+	"SUPPLIER" : {
+		"company name" : "Aux joyeux ecclesiastiques",
+		"city" : "Paris",
+		"region" : null
+	}
+}
+{
+	"_id" : ObjectId("6359e498afce891cd146ab78"),
+	"SUPPLIER" : {
+		"company name" : "Escargots Nouveaux",
+		"city" : "Montceau",
+		"region" : null
+	}
+}
+{
+	"_id" : ObjectId("6359e498afce891cd146ab79"),
+	"SUPPLIER" : {
+		"company name" : "Gai paturage",
+		"city" : "Annecy",
+		"region" : null
+	}
+}
+> 
+> /* (2) Find the total number of products supplied by the suppliers located in France and the total number of products supplied by the suppliers located in USA. List the results in a format: {"total poducts":integer-number, "country":country-name}. */;
+> 
+> db.suppliers.aggregate({
+...   $project: {
+...     "_id": 0,
+...     "total products": {
+...       $sum: {
+...         $size: "$SUPPLIER.supplies"
+...       }
+...     },
+...     "country": {$cond: [{$or: [ {"country": "France"}, {"country": "USA"} ] }, "$SUPPLIER.country", "neg"]}
+...   }
+... }).pretty();
+{ "total products" : 1, "country" : "France" }
+{ "total products" : 3, "country" : "USA" }
+{ "total products" : 2, "country" : "Spain" }
+{ "total products" : 1, "country" : "France" }
+{ "total products" : 3, "country" : "UK" }
+{ "total products" : 2, "country" : "Canada" }
+{ "total products" : 3, "country" : "Italy" }
+{ "total products" : 3, "country" : "Australia" }
+{ "total products" : 2, "country" : "France" }
+{ "total products" : 3, "country" : "USA" }
+{ "total products" : 3, "country" : "Germany" }
+{ "total products" : 3, "country" : "Finland" }
+{ "total products" : 3, "country" : "Singapore" }
+{ "total products" : 2, "country" : "Denmark" }
+{ "total products" : 2, "country" : "Canada" }
+{ "total products" : 3, "country" : "Japan" }
+{ "total products" : 2, "country" : "USA" }
+{ "total products" : 4, "country" : "USA" }
+{ "total products" : 1, "country" : "Germany" }
+{ "total products" : 3, "country" : "Norway" }
+Type "it" for more
+> 
+> 
+> /* (3) Find 5 products with the most expensive unit price. Use the values associated with a key "unit price" to order the products in the ascending order of prices. List the results in a format: {"product name": product-name, "unit price":unit-price}. */;
+> 
+> db.suppliers.find({},{"_id":0,"SUPPLIER.supplies.PRODUCT.product name": 1,"SUPPLIER.supplies.PRODUCT.unit price": 1}).sort({"SUPPLIER.supplies.PRODUCT.unit price":-1}).limit(5).pretty();
+{
+	"SUPPLIER" : {
+		"supplies" : [
+			{
+				"PRODUCT" : {
+					"product name" : "Côte de Blaye",
+					"unit price" : 263.5
+				}
+			}
+		]
+	}
+}
+{
+	"SUPPLIER" : {
+		"supplies" : [
+			{
+				"PRODUCT" : {
+					"product name" : "Rossle Sauerkraut",
+					"unit price" : 45.6
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Thuringer Rostbratwurst",
+					"unit price" : 123.79
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Wimmers gute Semmelknodel",
+					"unit price" : 33.25
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Rhonbrau Klosterbier",
+					"unit price" : 7.75
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Original Frankfurter grune Sosse",
+					"unit price" : 13
+				}
+			}
+		]
+	}
+}
+{
+	"SUPPLIER" : {
+		"supplies" : [
+			{
+				"PRODUCT" : {
+					"product name" : "Pavlova",
+					"unit price" : 17.45
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Alice Mutton",
+					"unit price" : 39
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Carnarvon Tigers",
+					"unit price" : 62.5
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Chartreuse verte",
+					"unit price" : 102.1
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Vegie-spread",
+					"unit price" : 43.9
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Outback Lager",
+					"unit price" : 15
+				}
+			}
+		]
+	}
+}
+{
+	"SUPPLIER" : {
+		"supplies" : [
+			{
+				"PRODUCT" : {
+					"product name" : "Mishi Kobe Niku",
+					"unit price" : 97
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Ikura",
+					"unit price" : 31
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Longlife Tofu",
+					"unit price" : 10
+				}
+			}
+		]
+	}
+}
+{
+	"SUPPLIER" : {
+		"supplies" : [
+			{
+				"PRODUCT" : {
+					"product name" : "Teatime Chocolate Biscuits",
+					"unit price" : 9.2
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Sir Rodney's Marmalade",
+					"unit price" : 81
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Sir Rodney's Scones",
+					"unit price" : 10
+				}
+			},
+			{
+				"PRODUCT" : {
+					"product name" : "Scottish Longbreads",
+					"unit price" : 12.5
+				}
+			}
+		]
+	}
+}
+

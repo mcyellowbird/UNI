@@ -1,0 +1,208 @@
+mysql> source solution2.sql
+--------------
+/* (1)	First, the script creates a relational table to store information about the names of tables 
+   included in the sample database and the counters how many times each table has been accessed 
+   during the processing of SQL script file disaster.sql.  A name of a new relational table and 
+   the names of its columns are up to you. */
+  
+CREATE TABLE TABLEACCESSED (
+	table_name VARCHAR(30) NOT NULL,
+	access_cnt DECIMAL(5)  NOT NULL,
+	CONSTRAINT TABLEACCESSED_PKey PRIMARY KEY (table_name)
+)
+--------------
+
+Query OK, 0 rows affected (0.18 sec)
+
+--------------
+/* (2)	Next, the script uses a general query log to fill the relational table created in 
+   the previous step with information about the names of tables included in the sample database 
+   and the counters how many times each table has been accessed during the processing of 
+   SQL script file disaster.sql.  */
+
+INSERT INTO TABLEACCESSED VALUES('APPLICANT',0)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO TABLEACCESSED VALUES('APPLIES',0)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO TABLEACCESSED VALUES('EMPLBY',0)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO TABLEACCESSED VALUES('EMPLOYER',0)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO TABLEACCESSED VALUES('POSITIONS',0)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO TABLEACCESSED VALUES('SKILL',0)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO TABLEACCESSED VALUES('SNEEDED',0)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO TABLEACCESSED VALUES('SPOSSESSED',0)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO TABLEACCESSED VALUES('SREQUIRED',0)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% APPLICANT %' OR
+                        argument LIKE '% APPLICANT%' )
+WHERE table_name = 'APPLICANT'
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% APPLIES %' OR
+                        argument LIKE '% APPLIES%' )
+WHERE table_name = 'APPLIES'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% EMPLBY %' OR
+                        argument LIKE '% EMPLBY%' )
+WHERE table_name = 'EMPLBY'
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% EMPLOYER %' OR
+                        argument LIKE '% EMPLOYER%' )
+WHERE table_name = 'EMPLOYER'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% POSITIONS %' OR
+                        argument LIKE '% POSITIONS%' )
+WHERE table_name = 'POSITIONS'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% SKILL %' OR
+                        argument LIKE '% SKILL%' )
+WHERE table_name = 'SKILL'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% SNEEDED %' OR
+                        argument LIKE '% SNEEDED%' )
+WHERE table_name = 'SNEEDED'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% SPOSSESSED%' OR
+                        argument LIKE '% SPOSSESSED' )
+WHERE table_name = 'SPOSSESSED'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE TABLEACCESSED
+SET access_cnt = (SELECT COUNT(*)
+                  FROM mysql.general_log
+                  WHERE argument LIKE '% SREQUIRED %' OR
+                        argument LIKE '% SREQUIRED%' )
+WHERE table_name = 'SREQUIRED'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+--------------
+/* (3)	Finally, the script lists the contents of the relational table with the names of 
+   relational tables and the counters how many times each table has been accessed during 
+   the processing of SQL script file disaster.sql.  */
+
+SELECT *
+FROM TABLEACCESSED
+--------------
+
++------------+------------+
+| table_name | access_cnt |
++------------+------------+
+| APPLICANT  |          5 |
+| APPLIES    |          2 |
+| EMPLBY     |          2 |
+| EMPLOYER   |          0 |
+| POSITIONS  |          0 |
+| SKILL      |          0 |
+| SNEEDED    |          0 |
+| SPOSSESSED |          4 |
+| SREQUIRED  |          0 |
++------------+------------+
+9 rows in set (0.00 sec)
+
+mysql> notee

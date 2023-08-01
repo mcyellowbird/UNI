@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title></title>
+        <style>
+
+        </style>
+
+        <script>
+            function drawStudentNumber(){
+				var c = document.getElementById("canvas");
+                var ctx = c.getContext("2d");
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.strokeStyle = "PINK";
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(10, 10);
+                ctx.lineTo(10, 110);
+                ctx.lineTo(60, 110);
+                ctx.lineTo(60, 60);
+                ctx.lineTo(10, 60);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(70, 10);
+                ctx.lineTo(70, 110);
+                ctx.lineTo(120, 110);
+                ctx.lineTo(120, 60);
+                ctx.lineTo(70, 60);
+                ctx.lineTo(70, 10);
+                ctx.lineTo(120, 10);
+                ctx.lineTo(120, 60);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(130, 10);
+                ctx.lineTo(130, 110);
+                ctx.lineTo(180, 110);
+                ctx.lineTo(180, 60);
+                ctx.lineTo(130, 60);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(190, 10);
+                ctx.lineTo(190, 110);
+                ctx.lineTo(240, 110);
+                ctx.lineTo(240, 60);
+                ctx.lineTo(190, 60);
+                ctx.lineTo(190, 10);
+                ctx.lineTo(240, 10);
+                ctx.lineTo(240, 60);
+                ctx.stroke();
+            }
+
+            function moveLeft(){
+
+            }
+
+            function moveRight(){
+
+            }
+
+        </script>
+    </head>
+    <body>
+		<button onClick="drawStudentNumber()">Draw Student Number</button>
+		<button onClick="moveLeft()">Move Left</button>
+		<button onClick="moveRight()">Move Right</button>
+        <br />
+		<canvas id="canvas" style="border: 1px black dotted;"></canvas>
+    </body>
+</html>

@@ -1,0 +1,227 @@
+mysql> \. solution2.sql
+--------------
+SELECT FNAME, INITIALS, LNAME
+FROM EMPLOYEE JOIN DRIVER
+              ON EMPLOYEE.ENUM = DRIVER.ENUM
+	      JOIN TRIP
+	      ON DRIVER.LNUM = TRIP.LNUM
+WHERE TRIP.REGNUM = 'PKR856'
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+SELECT REGNUM, LNUM
+FROM DRIVER JOIN TRUCK
+            ON DRIVER.STATUS <> TRUCK.STATUS
+--------------
+
++--------+-------+
+| REGNUM | LNUM  |
++--------+-------+
+| KKK007 | 10001 |
+| QRT834 | 10001 |
+| SST005 | 10001 |
+| SYF777 | 10001 |
+| AL08UK | 10008 |
+| GFT008 | 10008 |
+| KKK007 | 10008 |
+| LUCY01 | 10008 |
+| LUCY02 | 10008 |
+| PKR008 | 10008 |
+| PKR768 | 10008 |
+| QRT834 | 10008 |
+| SST005 | 10008 |
+| SYF777 | 10008 |
+| XCF003 | 10008 |
+| KKK007 | 10002 |
+| QRT834 | 10002 |
+| SST005 | 10002 |
+| SYF777 | 10002 |
+| KKK007 | 10004 |
+| QRT834 | 10004 |
+| SST005 | 10004 |
+| SYF777 | 10004 |
+| AL08UK | 10003 |
+| GFT008 | 10003 |
+| KKK007 | 10003 |
+| LUCY01 | 10003 |
+| LUCY02 | 10003 |
+| PKR008 | 10003 |
+| PKR768 | 10003 |
+| QRT834 | 10003 |
+| SST005 | 10003 |
+| SYF777 | 10003 |
+| XCF003 | 10003 |
+| KKK007 | 10012 |
+| QRT834 | 10012 |
+| SST005 | 10012 |
+| SYF777 | 10012 |
+| AL08UK | 20002 |
+| GFT008 | 20002 |
+| KKK007 | 20002 |
+| LUCY01 | 20002 |
+| LUCY02 | 20002 |
+| PKR008 | 20002 |
+| PKR768 | 20002 |
+| QRT834 | 20002 |
+| SST005 | 20002 |
+| SYF777 | 20002 |
+| XCF003 | 20002 |
+| AL08UK | 20003 |
+| GFT008 | 20003 |
+| KKK007 | 20003 |
+| LUCY01 | 20003 |
+| LUCY02 | 20003 |
+| PKR008 | 20003 |
+| PKR768 | 20003 |
+| QRT834 | 20003 |
+| SST005 | 20003 |
+| SYF777 | 20003 |
+| XCF003 | 20003 |
+| AL08UK | 30005 |
+| GFT008 | 30005 |
+| KKK007 | 30005 |
+| LUCY01 | 30005 |
+| LUCY02 | 30005 |
+| PKR008 | 30005 |
+| PKR768 | 30005 |
+| QRT834 | 30005 |
+| SST005 | 30005 |
+| SYF777 | 30005 |
+| XCF003 | 30005 |
+| AL08UK | 40002 |
+| GFT008 | 40002 |
+| KKK007 | 40002 |
+| LUCY01 | 40002 |
+| LUCY02 | 40002 |
+| PKR008 | 40002 |
+| PKR768 | 40002 |
+| QRT834 | 40002 |
+| SST005 | 40002 |
+| SYF777 | 40002 |
+| XCF003 | 40002 |
+| KKK007 | 20045 |
+| QRT834 | 20045 |
+| SST005 | 20045 |
+| SYF777 | 20045 |
+| KKK007 | 20055 |
+| QRT834 | 20055 |
+| SST005 | 20055 |
+| SYF777 | 20055 |
+| KKK007 | 20065 |
+| QRT834 | 20065 |
+| SST005 | 20065 |
+| SYF777 | 20065 |
+| KKK007 | 10305 |
+| QRT834 | 10305 |
+| SST005 | 10305 |
+| SYF777 | 10305 |
+| KKK007 | 10345 |
+| QRT834 | 10345 |
+| SST005 | 10345 |
+| SYF777 | 10345 |
+| KKK007 | 10705 |
+| QRT834 | 10705 |
+| SST005 | 10705 |
+| SYF777 | 10705 |
+| KKK007 | 40005 |
+| QRT834 | 40005 |
+| SST005 | 40005 |
+| SYF777 | 40005 |
++--------+-------+
+110 rows in set (0.00 sec)
+
+--------------
+SELECT TL1.TNUM
+FROM TRIPLEG TL1 JOIN TRIPLEG TL2
+                 ON TL1.TNUM = TL2.TNUM AND
+		    TL1.LEGNUM+1 = TL2.LEGNUM
+WHERE TL1.DEPARTURE = 'Melbourne' AND
+      TL1.DESTINATION = 'Sydney' AND
+      TL2.DEPARTURE = 'Sydney' AND
+      TL2.DESTINATION = 'Melbourne'
+--------------
+
++------+
+| TNUM |
++------+
+|   30 |
++------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT DISTINCT DRIVER.LNUM, TRIP.REGNUM
+FROM DRIVER LEFT OUTER JOIN TRIP
+            ON DRIVER.LNUM = TRIP.LNUM
+--------------
+
++-------+--------+
+| LNUM  | REGNUM |
++-------+--------+
+| 10001 | PKR768 |
+| 10001 | SYF777 |
+| 10001 | KKK007 |
+| 10001 | QRT834 |
+| 10002 | SYF777 |
+| 10002 | QRT834 |
+| 10002 | PKR768 |
+| 10002 | KKK007 |
+| 10003 | SST005 |
+| 10003 | PKR768 |
+| 10004 | NULL   |
+| 10008 | NULL   |
+| 10012 | NULL   |
+| 10305 | NULL   |
+| 10345 | NULL   |
+| 10705 | NULL   |
+| 20002 | PKR768 |
+| 20002 | QRT834 |
+| 20002 | PKR008 |
+| 20002 | SST005 |
+| 20002 | KKK007 |
+| 20003 | NULL   |
+| 20045 | NULL   |
+| 20055 | NULL   |
+| 20065 | NULL   |
+| 30005 | KKK007 |
+| 30005 | PKR768 |
+| 30005 | SST005 |
+| 30005 | PKR008 |
+| 30005 | QRT834 |
+| 40002 | NULL   |
+| 40005 | NULL   |
++-------+--------+
+32 rows in set (0.00 sec)
+
+--------------
+SELECT DRIVER.LNUM, COUNT(TRIP.REGNUM)
+FROM DRIVER LEFT OUTER JOIN TRIP
+            ON DRIVER.LNUM = TRIP.LNUM
+GROUP BY DRIVER.LNUM
+--------------
+
++-------+--------------------+
+| LNUM  | COUNT(TRIP.REGNUM) |
++-------+--------------------+
+| 10001 |                 11 |
+| 10002 |                  4 |
+| 10003 |                  4 |
+| 10004 |                  0 |
+| 10008 |                  0 |
+| 10012 |                  0 |
+| 10305 |                  0 |
+| 10345 |                  0 |
+| 10705 |                  0 |
+| 20002 |                  7 |
+| 20003 |                  0 |
+| 20045 |                  0 |
+| 20055 |                  0 |
+| 20065 |                  0 |
+| 30005 |                  9 |
+| 40002 |                  0 |
+| 40005 |                  0 |
++-------+--------------------+
+17 rows in set (0.00 sec)
+
+mysql> notee

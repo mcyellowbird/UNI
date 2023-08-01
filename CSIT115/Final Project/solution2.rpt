@@ -1,0 +1,204 @@
+mysql> source solution2.sql;
+--------------
+/* 
+(1) The potential buyer preferred maximum price and minimum price are not less than zeros. The maximum price must not less than the minimum price.
+*/
+
+ALTER TABLE PREFERENCE
+ADD CONSTRAINT PREFERENCE_CHK CHECK (minPrice >= 0 AND maxPrice >= 0 AND maxPrice >= minPrice)
+--------------
+
+Query OK, 13 rows affected (0.07 sec)
+Records: 13  Duplicates: 0  Warnings: 0
+
+--------------
+/*
+(2) We want to store email information for buyers. Each buyer has a unique email address.
+*/
+
+ALTER TABLE BUYER
+ADD COLUMN EMAIL varchar(255) UNIQUE
+--------------
+
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+    
+/*
+(3) Use a single SQL statement to create a relational table, and load information of buyer phone number, property number, property city, property street, 
+    property street number and asked price by the owner  into the table for the buyers who prefer cities are the same with the property cities, 
+    and the price asked by the owner is between the minimum price and the maximum price of the buyers.
+    
+    Hint: You need to convert a NULL value of decimal to zero, then compare zero with other decimals.
+    
+    Next, enforce the appropriate consistency constraints on the new table, such as the primary key and foreign keys.
+    
+    When ready, use a SELECT statement to list the contents of the relational table created.
+    
+    Finally, drop the relational table created in this subtask.
+*/
+
+CREATE TABLE OFFER AS
+    SELECT B.phoneNum, P.pNum, P.city, P.street, P.streetNum, P.price
+    FROM BUYER AS B, PROPERTY AS P
+    WHERE P.city IN (SELECT PREFERENCE.city
+                    FROM PREFERENCE
+                    WHERE B.phoneNum IN (SELECT PREFERENCE.phoneNum
+                                        FROM PREFERENCE)
+                    AND P.price BETWEEN COALESCE(PREFERENCE.minPrice, 0) AND PREFERENCE.maxPrice)
+--------------
+
+Query OK, 32 rows affected (0.04 sec)
+Records: 32  Duplicates: 0  Warnings: 0
+
+--------------
+                    
+ALTER TABLE OFFER
+ADD CONSTRAINT OFFER_PKEY PRIMARY KEY (pNum, phoneNum),
+ADD CONSTRAINT OFFER_FKEY1 FOREIGN KEY (phoneNum) REFERENCES BUYER(phoneNum),
+ADD CONSTRAINT OFFER_FKEY2 FOREIGN KEY (pNum) REFERENCES PROPERTY(pNum),
+ADD CONSTRAINT OFFER_FKEY3 FOREIGN KEY (city) REFERENCES PROPERTY(city)
+--------------
+
+Query OK, 32 rows affected (0.09 sec)
+Records: 32  Duplicates: 0  Warnings: 0
+
+--------------
+    
+SELECT *
+FROM OFFER
+--------------
+
++-----------+------+--------------+-----------------+-----------+-----------+
+| phoneNum  | pNum | city         | street          | streetNum | price     |
++-----------+------+--------------+-----------------+-----------+-----------+
+| 412346789 |    1 | Wollongong   | Smith street    |         5 | 750000.00 |
+| 412353789 |    1 | Wollongong   | Smith street    |         5 | 750000.00 |
+| 412354789 |    1 | Wollongong   | Smith street    |         5 | 750000.00 |
+| 412356489 |    1 | Wollongong   | Smith street    |         5 | 750000.00 |
+| 412356739 |    1 | Wollongong   | Smith street    |         5 | 750000.00 |
+| 412356749 |    1 | Wollongong   | Smith street    |         5 | 750000.00 |
+| 412356783 |    1 | Wollongong   | Smith street    |         5 | 750000.00 |
+| 412356784 |    1 | Wollongong   | Smith street    |         5 | 750000.00 |
+| 412346789 |    5 | Wollongong   | Campbell street |        23 | 850000.00 |
+| 412353789 |    5 | Wollongong   | Campbell street |        23 | 850000.00 |
+| 412354789 |    5 | Wollongong   | Campbell street |        23 | 850000.00 |
+| 412356489 |    5 | Wollongong   | Campbell street |        23 | 850000.00 |
+| 412356739 |    5 | Wollongong   | Campbell street |        23 | 850000.00 |
+| 412356749 |    5 | Wollongong   | Campbell street |        23 | 850000.00 |
+| 412356783 |    5 | Wollongong   | Campbell street |        23 | 850000.00 |
+| 412356784 |    5 | Wollongong   | Campbell street |        23 | 850000.00 |
+| 412346789 |    6 | Fairy Meadow | Hamilton street |         6 | 800000.00 |
+| 412353789 |    6 | Fairy Meadow | Hamilton street |         6 | 800000.00 |
+| 412354789 |    6 | Fairy Meadow | Hamilton street |         6 | 800000.00 |
+| 412356489 |    6 | Fairy Meadow | Hamilton street |         6 | 800000.00 |
+| 412356739 |    6 | Fairy Meadow | Hamilton street |         6 | 800000.00 |
+| 412356749 |    6 | Fairy Meadow | Hamilton street |         6 | 800000.00 |
+| 412356783 |    6 | Fairy Meadow | Hamilton street |         6 | 800000.00 |
+| 412356784 |    6 | Fairy Meadow | Hamilton street |         6 | 800000.00 |
+| 412346789 |    7 | Wollongong   | Campbell street |        23 | 950000.00 |
+| 412353789 |    7 | Wollongong   | Campbell street |        23 | 950000.00 |
+| 412354789 |    7 | Wollongong   | Campbell street |        23 | 950000.00 |
+| 412356489 |    7 | Wollongong   | Campbell street |        23 | 950000.00 |
+| 412356739 |    7 | Wollongong   | Campbell street |        23 | 950000.00 |
+| 412356749 |    7 | Wollongong   | Campbell street |        23 | 950000.00 |
+| 412356783 |    7 | Wollongong   | Campbell street |        23 | 950000.00 |
+| 412356784 |    7 | Wollongong   | Campbell street |        23 | 950000.00 |
++-----------+------+--------------+-----------------+-----------+-----------+
+32 rows in set (0.00 sec)
+
+--------------
+DROP TABLE OFFER
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+/*
+(4) Add to a relational table OWNER information about the total number of properties owned by each owner. 
+    If an owner has no property, then the total number of properties must be zero (0) for the owner. 
+    
+    The total number of properties must be a positive number no more than 999.
+    
+    Use a SELECT statement to list the owner phone number, owner name and the total number of properties in the ascending order of owner name.
+    
+    Finally, remove the new column that added in this subtask.
+*/
+
+ALTER TABLE OWNER
+ADD totalProperties int (3) DEFAULT '0' NOT NULL
+--------------
+
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+--------------
+UPDATE OWNER
+SET totalProperties = (SELECT COUNT(*)
+                      FROM PROPERTY
+                      WHERE OWNER.phoneNum = PROPERTY.phoneNum)
+--------------
+
+Query OK, 11 rows affected (0.01 sec)
+Rows matched: 11  Changed: 11  Warnings: 0
+
+--------------
+                      
+SELECT phoneNum, name, totalProperties
+FROM OWNER
+ORDER BY name ASC
+--------------
+
++-----------+----------------+-----------------+
+| phoneNum  | name           | totalProperties |
++-----------+----------------+-----------------+
+| 412336789 | Adam Smith     |               1 |
+| 412352789 | Adam Taylor    |               2 |
+| 422356789 | Alice Smith    |               2 |
+| 432356789 | Eva Jones      |               3 |
+| 412256789 | Frederic Jones |               1 |
+| 412356729 | John Doe       |               4 |
+| 412356289 | John Gray      |               2 |
+| 413356789 | John Lucas     |               1 |
+| 412356789 | John Smith     |               2 |
+| 412326789 | Michael Jones  |               3 |
+| 412356782 | Peter Tylor    |               2 |
++-----------+----------------+-----------------+
+11 rows in set (0.00 sec)
+
+--------------
+/*
+(5) The properties owned by an owner (phone number is 412356789) are no longer available. 
+    Delete from the database information about this owner, the properties owned by the owner, and the inspection information related to the properties owned by the owner. 
+
+    Note that you are not allowed to drop or suspend any referential integrity constraints. 
+
+    The deletions of the technician must be implemented as the nested SELECT statements.
+*/
+
+DELETE FROM INSPECTION
+WHERE pNum IN (SELECT pNum
+              FROM PROPERTY
+              WHERE phoneNum IN (SELECT phoneNum
+                                FROM OWNER
+                                WHERE phoneNum = 412356789))
+--------------
+
+Query OK, 8 rows affected (0.01 sec)
+
+--------------
+DELETE FROM PROPERTY
+WHERE (phoneNum = 412356789)
+--------------
+
+Query OK, 2 rows affected (0.00 sec)
+
+--------------
+DELETE FROM OWNER
+WHERE (phoneNum = 412356789)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+mysql> notee;

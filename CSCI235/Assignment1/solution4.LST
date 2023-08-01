@@ -1,0 +1,74 @@
+SQL> SET SERVEROUTPUT ON
+SQL> SET ECHO ON
+SQL> SET FEEDBACK ON
+SQL> SET LINESIZE 300
+SQL> SET PAGESIZE 400
+SQL> 
+SQL> SET SERVEROUTPUT ON
+SQL> 
+SQL> DECLARE
+  2      maxLength NUMBER(2) := 15;
+  3      CURSOR countries IS
+  4          SELECT DISTINCT COUNTRY, COUNT(COUNTRY) AS CUSTOMERS
+  5          FROM CUSTOMER
+  6          GROUP BY COUNTRY
+  7          ORDER BY CUSTOMERS DESC, COUNTRY ASC;
+  8      too_large EXCEPTION;
+  9  BEGIN
+ 10      DBMS_OUTPUT.PUT_LINE('-----------------------------------------------------------');
+ 11  
+ 12      FOR curCountry IN countries
+ 13      LOOP
+ 14          IF countries%NOTFOUND THEN
+ 15              EXIT;
+ 16          END IF;
+ 17  
+ 18          IF LENGTH(curCountry.COUNTRY) > 15 THEN
+ 19              RAISE too_large;
+ 20          END IF;
+ 21  
+ 22          DBMS_OUTPUT.PUT(RPAD(curCountry.COUNTRY, maxLength, '.'));
+ 23  
+ 24          FOR custCount IN 1..curCountry.CUSTOMERS
+ 25          LOOP
+ 26              DBMS_OUTPUT.PUT('*');
+ 27          END LOOP;
+ 28  
+ 29          DBMS_OUTPUT.PUT_LINE('');
+ 30      END LOOP;
+ 31  
+ 32      DBMS_OUTPUT.PUT_LINE('-----------------------------------------------------------');
+ 33  EXCEPTION
+ 34      WHEN too_large THEN
+ 35          DBMS_OUTPUT.PUT_LINE('Length of Country is too long');
+ 36  END;
+ 37  /
+-----------------------------------------------------------
+USA............*************
+France.........***********
+Germany........***********
+Brazil.........*********
+UK.............*******
+Mexico.........*****
+Spain..........*****
+Venezuela......****
+Argentina......***
+Canada.........***
+Italy..........***
+Austria........**
+Belgium........**
+Denmark........**
+Finland........**
+Portugal.......**
+Sweden.........**
+Switzerland....**
+Ireland........*
+Norway.........*
+Poland.........*
+-----------------------------------------------------------
+
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> SPOOL OFF

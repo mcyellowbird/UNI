@@ -1,0 +1,65 @@
+mysql> source solution2.sql
+--------------
+CREATE TABLE COMPANY(
+ cname 	     VARCHAR(30)	NOT NULL,
+ city  	     VARCHAR(30)	NOT NULL,
+ street	     VARCHAR(30)	NOT NULL,
+ bldgnum     DECIMAL(4)		NOT NULL,
+ email	     VARCHAR(50)	NOT NULL,
+ CONSTRAINT COMPANY_PKEY PRIMARY KEY (cname),
+ CONSTRAINT COMPANY_CKEY1 UNIQUE (city,street,bldgnum),
+ CONSTRAINT COMPANY_CKEY2 UNIQUE (email) )
+--------------
+
+Query OK, 0 rows affected (0.27 sec)
+
+--------------
+CREATE TABLE PHONE(
+ phone 	     VARCHAR(10)	NOT NULL,
+ cname	     VARCHAR(30)	NOT NULL,
+ CONSTRAINT PHONE_PKEY PRIMARY KEY (phone),
+ CONSTRAINT PHONE_FKEY FOREIGN KEY (cname) REFERENCES COMPANY(cname) )
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+CREATE TABLE DEPARTMENT(
+ cname 	     VARCHAR(30)	NOT NULL,
+ dname	     VARCHAR(30)	NOT NULL,
+ CONSTRAINT DEPARTMENT_PKEY PRIMARY KEY (cname,dname),
+ CONSTRAINT DEPARTMENT_FKEY1 FOREIGN KEY (cname) REFERENCES COMPANY(cname) )
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE TABLE EMPLOYEE(
+ enumber           DECIMAL(7)	NOT NULL,
+ first_name        VARCHAR(20)	NOT NULL,
+ last_name         VARCHAR(20)	NOT NULL,
+ date_of_birth     DATE		    NULL,
+ salary        	   DECIMAL(9,2)	NOT NULL,
+ belongs_to_cname  VARCHAR(30)	NOT NULL,
+ belongs_to_dname  VARCHAR(30)	NOT NULL,
+ is_manager        CHAR(1)	NOT NULL,
+ manager_of_cname VARCHAR(30)       NULL,
+ manager_of_dname VARCHAR(30)       NULL, 
+CONSTRAINT EMPLOYEE_PKEY PRIMARY KEY (enumber),
+ CONSTRAINT EMPLOYEE_CHECK1 CHECK (is_manager IN ('Y', 'N')),
+ CONSTRAINT EMPLOYEE_CHECK2 CHECK ( (is_manager ='N' AND 
+                                     manager_of_cname IS NULL AND
+                                     manager_of_dname IS NULL)    
+                                    OR
+                                    (is_manager ='Y' AND 
+                                     manager_of_cname IS NOT NULL AND
+                                     manager_of_dname IS NOT NULL) ),    
+ CONSTRAINT EMPLOYEE_FKEY1 FOREIGN KEY (belongs_to_cname, belongs_to_dname) 
+                                                          REFERENCES DEPARTMENT(cname, dname),
+ CONSTRAINT EMPLOYEE_FKEY2 FOREIGN KEY (manager_of_cname, manager_of_dname) 
+                                                          REFERENCES DEPARTMENT(cname, dname) )
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> notee

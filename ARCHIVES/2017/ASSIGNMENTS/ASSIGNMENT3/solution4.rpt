@@ -1,0 +1,97 @@
+mysql> source solution4.sql
+--------------
+CREATE TABLE EMPCONTACT AS
+ (SELECT employee_id EID, first_name FNAME, last_name LNAME, email EMAIL, phone_number PHONENUM
+  FROM EMPLOYEE)
+--------------
+
+Query OK, 107 rows affected (0.20 sec)
+Records: 107  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPCONTACT ADD CONSTRAINT EMPCONTACT_PK PRIMARY KEY(EID)
+--------------
+
+Query OK, 0 rows affected (0.29 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPCONTACT ADD CONSTRAINT EMPCONTACT_CK1 UNIQUE(EMAIL)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPCONTACT ADD CONSTRAINT EMPCONTACT_CK2 UNIQUE(PHONENUM)
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPCONTACT ADD CONSTRAINT EMPLOYEE_FK FOREIGN KEY(EID) REFERENCES EMPLOYEE(employee_id)
+--------------
+
+Query OK, 107 rows affected (0.15 sec)
+Records: 107  Duplicates: 0  Warnings: 0
+
+--------------
+CREATE TABLE SALESEMPLOYEE(
+ EID           DECIMAL(6)	NOT NULL,
+ FNAME         VARCHAR(20)	NOT NULL,
+ LNAME         VARCHAR(25)	NOT NULL,
+ JOBTITLE      VARCHAR(35)	    NULL,
+ CONSTRAINT SALESEMPLOYEE_PK PRIMARY KEY(EID),
+ CONSTRAINT SALESEMPLOYEE_FK3 FOREIGN KEY(JOBTITLE) REFERENCES EMPLOYEE(job_title) )
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+INSERT INTO SALESEMPLOYEE (SELECT employee_id,
+                                  first_name,
+                                  last_name,
+                                  job_title
+                           FROM EMPLOYEE
+                           WHERE UPPER(job_title) LIKE '%SALES%')
+--------------
+
+Query OK, 35 rows affected (0.01 sec)
+Records: 35  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE
+SET salary = salary + 500
+WHERE YEAR(hire_date) <= 1998
+--------------
+
+Query OK, 69 rows affected (0.01 sec)
+Rows matched: 69  Changed: 69  Warnings: 0
+
+--------------
+ALTER TABLE DEPARTMENT ADD COLUMN TOTSTAFF DECIMAL(3) NULL
+--------------
+
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE DEPARTMENT
+SET TOTSTAFF = ( SELECT COUNT(*)
+                 FROM EMPLOYEE
+                 WHERE department_name = DEPARTMENT.department_name )
+--------------
+
+Query OK, 24 rows affected (0.00 sec)
+Rows matched: 24  Changed: 24  Warnings: 0
+
+--------------
+DELETE FROM JOBHISTORY
+WHERE end_date IS NOT NULL AND
+      end_date < 1996
+--------------
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> notee

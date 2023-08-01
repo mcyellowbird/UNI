@@ -1,0 +1,196 @@
+mysql> source solution1.sql
+--------------
+/* (1)	Find the first and last names of employees who live in NSW, Hurstville, Victoria St. or in 
+        NSW, Pennant Hills.                                                                         */
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE
+WHERE STATE = 'NSW' AND( upper(SUBURB) = 'HURSTVILLE' AND upper(STREET) = 'VICTORIA ST.' OR
+                         upper(SUBURB) = 'PENNANT HILLS' )
+--------------
+
++--------+--------+
+| FNAME  | LNAME  |
++--------+--------+
+| John   | Smith  |
+| Peter  | Taylor |
+| John   | Fox    |
+| Adam   | Fox    |
+| Andrew | Smith  |
++--------+--------+
+5 rows in set (0.02 sec)
+
+--------------
+/* (2)	Find the registration numbers, capacities, and statuses of all truck whose capacity is in 
+        range between 2000 and 4000 both inclusive.                                                 */
+
+SELECT REGNUM, CAPACITY, STATUS
+FROM TRUCK
+WHERE CAPACITY BETWEEN 2000 AND 4000
+--------------
+
++--------+----------+------------+
+| REGNUM | CAPACITY | STATUS     |
++--------+----------+------------+
+| SYF777 |     3333 | MAINTAINED |
++--------+----------+------------+
+1 row in set (0.00 sec)
+
+--------------
+/* (3)	Find the first and last names of employees who did not provide information about initials 
+        and who provided information about a date of birth.                                         */
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE
+WHERE INITIALS IS NULL AND DOB IS NOT NULL
+--------------
+
++---------+---------+
+| FNAME   | LNAME   |
++---------+---------+
+| Peter   | Taylor  |
+| John    | Doe     |
+| John    | Gray    |
+| Adam    | Taylor  |
+| Michael | Jones   |
+| Peter   | O'Brien |
+| John    | Lucas   |
+| John    | Fox     |
+| Phillip | ,Cox    |
+| Michael | Potter  |
+| Harry   | Potter  |
++---------+---------+
+11 rows in set (0.00 sec)
+
+--------------
+/* (4)	Find the first and last names of all employees born either in 1980, or 1992 or 1992 It is 
+        your task to find an appropriate standard function that can be used to extract a year from 
+        a date.                                                                                     */
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE
+WHERE YEAR(DOB) IN (1980, 1992)
+--------------
+
++--------+--------+
+| FNAME  | LNAME  |
++--------+--------+
+| Adam   | Taylor |
+| Andrew | Smith  |
++--------+--------+
+2 rows in set (0.00 sec)
+
+--------------
+/* (5)	Find the registration numbers of all trucks.  The results should be displayed in 
+        the ascending order of the statuses and for all trucks that have the same status 
+        the results should be displayed in the descending order of registration numbers.            */
+
+SELECT REGNUM
+FROM TRUCK 
+ORDER BY STATUS ASC, REGNUM DESC
+--------------
+
++--------+
+| REGNUM |
++--------+
+| XCF003 |
+| PKR768 |
+| PKR008 |
+| LUCY02 |
+| LUCY01 |
+| GFT008 |
+| AL08UK |
+| SYF777 |
+| KKK007 |
+| SST005 |
+| QRT834 |
++--------+
+11 rows in set (0.00 sec)
+
+--------------
+/* (6)	Find the total number of distinct names of cities being the departure locations for 
+        at least one trip. A city is a departure location when it is a departure location of 
+        the first leg of a trip.                                                                    */
+        
+SELECT COUNT(DISTINCT DEPARTURE)
+FROM TRIPLEG
+WHERE LEGNUM = 1
+--------------
+
++---------------------------+
+| COUNT(DISTINCT DEPARTURE) |
++---------------------------+
+|                         4 |
++---------------------------+
+1 row in set (0.00 sec)
+
+--------------
+/* (7)	Find the total number of trips performed by each driver. List the driving licence numbers 
+        associated with the total number of trips. Ignore the drivers who performed no trips so 
+        far.                                                                                        */
+
+SELECT LNUM, COUNT(*)
+FROM TRIP
+GROUP BY LNUM
+--------------
+
++-------+----------+
+| LNUM  | COUNT(*) |
++-------+----------+
+| 10001 |       11 |
+| 10002 |        4 |
+| 10003 |        4 |
+| 20002 |        7 |
+| 30005 |        9 |
++-------+----------+
+5 rows in set (0.00 sec)
+
+--------------
+/* (8)	Find the total number of times each truck has been used for the trips. List the truck 
+        registration numbers associated with the total number of trips. List only the trucks used 
+        more than 5 times.                                                                          */
+
+SELECT REGNUM, COUNT(*)
+FROM TRIP
+GROUP BY REGNUM
+HAVING COUNT(*) > 5
+--------------
+
++--------+----------+
+| REGNUM | COUNT(*) |
++--------+----------+
+| KKK007 |        6 |
+| PKR768 |       12 |
+| QRT834 |        6 |
++--------+----------+
+3 rows in set (0.01 sec)
+
+--------------
+/* (9)	Find the trip numbers, driving licence numbers of the drivers who performed the trips and 
+        the registration numbers of the trucks used for the trips done in the first 30 days after 
+        1 February 2016.                                                                            */
+        
+SELECT TNUM, LNUM, REGNUM
+FROM TRIP
+WHERE TDATE > '2016-02-01' AND TDATE <= DATE_ADD('2016-02-01', INTERVAL 30 DAY)
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+/* (10)	Find the total number of trips that started or finished or passed through a city that has 
+        a letter y in its name.                                                                     */
+        
+SELECT COUNT(DISTINCT TNUM)
+FROM TRIPLEG
+WHERE DEPARTURE LIKE '%y%' OR DESTINATION LIKE '%y%'
+--------------
+
++----------------------+
+| COUNT(DISTINCT TNUM) |
++----------------------+
+|                   35 |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> notee

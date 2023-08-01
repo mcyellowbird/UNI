@@ -1,0 +1,55 @@
+SQL> 
+SQL> DROP TABLE ORDER_DETAIL;
+
+Error starting at line : 7 in command -
+DROP TABLE ORDER_DETAIL
+Error report -
+ORA-00942: table or view does not exist
+00942. 00000 -  "table or view does not exist"
+*Cause:    
+*Action:
+SQL> DROP TABLE ORDERS;
+
+Table ORDERS dropped.
+
+SQL> DROP TABLE PRODUCT;
+
+Error starting at line : 9 in command -
+DROP TABLE PRODUCT
+Error report -
+ORA-00942: table or view does not exist
+00942. 00000 -  "table or view does not exist"
+*Cause:    
+*Action:
+SQL> DROP TABLE SUPPLIER;
+
+Error starting at line : 10 in command -
+DROP TABLE SUPPLIER
+Error report -
+ORA-00942: table or view does not exist
+00942. 00000 -  "table or view does not exist"
+*Cause:    
+*Action:
+SQL> DROP TABLE CATEGORY;
+
+Error starting at line : 11 in command -
+DROP TABLE CATEGORY
+Error report -
+ORA-00942: table or view does not exist
+00942. 00000 -  "table or view does not exist"
+*Cause:    
+*Action:
+SQL> DROP TABLE CUSTOMER;
+
+Table CUSTOMER dropped.
+
+SQL> DROP TABLE EMPLOYEE;
+
+Table EMPLOYEE dropped.
+
+SQL> DROP TABLE SHIPPER;
+
+Table SHIPPER dropped.
+
+SQL> 
+SQL> spool off

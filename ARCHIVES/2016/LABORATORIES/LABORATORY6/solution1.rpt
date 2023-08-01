@@ -1,0 +1,86 @@
+mysql> \. solution1.sql
+--------------
+SELECT DISTINCT LNUM
+FROM TRIP
+WHERE TRIP_DATE >= '2015-01-01' AND TRIP_DATE <= '2016-12-31'
+--------------
+
++-------+
+| LNUM  |
++-------+
+| 10001 |
+| 10002 |
+| 10003 |
+| 20002 |
+| 30005 |
++-------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT DISTINCT T2015.LNUM
+FROM TRIP T2015 JOIN TRIP T2016
+             ON T2015.LNUM = T2016.LNUM
+WHERE T2015.TRIP_DATE >= '2015-01-01' AND T2015.TRIP_DATE <= '2015-12-31' AND
+      T2016.TRIP_DATE >= '2016-01-01' AND T2016.TRIP_DATE <= '2016-12-31'
+--------------
+
++-------+
+| LNUM  |
++-------+
+| 10002 |
+| 30005 |
+| 10001 |
++-------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT LNUM, count(*)
+FROM TRIP
+GROUP BY LNUM
+--------------
+
++-------+----------+
+| LNUM  | count(*) |
++-------+----------+
+| 10001 |       11 |
+| 10002 |        4 |
+| 10003 |        4 |
+| 20002 |        7 |
+| 30005 |        9 |
++-------+----------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT LNUM, count(*)
+FROM TRIP
+GROUP BY LNUM
+HAVING count(*) > 3
+--------------
+
++-------+----------+
+| LNUM  | count(*) |
++-------+----------+
+| 10001 |       11 |
+| 10002 |        4 |
+| 10003 |        4 |
+| 20002 |        7 |
+| 30005 |        9 |
++-------+----------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT FNAME, INITIALS, LNAME
+FROM EMPLOYEE JOIN DRIVER
+              ON EMPLOYEE.ENUM = DRIVER.ENUM
+WHERE UPPER(DRIVER.STATUS) = 'ON LEAVE'
+--------------
+
++-------+----------+--------+
+| FNAME | INITIALS | LNAME  |
++-------+----------+--------+
+| Peter | NULL     | Taylor |
+| Adam  | NULL     | Taylor |
++-------+----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> notee

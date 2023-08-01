@@ -1,0 +1,58 @@
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>120</x><y>130</y><w>210</w><h>280</h></coordinates><panel_attributes>Student
+--
+-String sName
+-int sNum
+-String dob
+-String gender
+--
++Student()
++Student(int, String, String, String)
++getSName():String
++getSNum():int
++getDOB():String
++getGender():String
++setSName(String):void
++setSNum(int):void
++setDOB(String):void
++setGender(String):void
++toString():String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>450</x><y>500</y><w>210</w><h>280</h></coordinates><panel_attributes>Subject
+--
+-String sName
+-String sCode
+-String session
+-String year
+-ArrayList&lt;Student&gt; stuList
+--
++Subject()
++Subject(String, String, String)
++getSName():String
++getSCode():String
++getSession():String
++getYear():String
++getStudent(int):Student
++setSName(String):void
++setSCode(String):void
++setSession(String):void
++setYear(String):void
++enrolStudent(Student):void
++withdrawStudent(Student):void
++toString():String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>740</x><y>170</y><w>170</w><h>200</h></coordinates><panel_attributes>Course
+--
+-String cName
+-ArrayList&lt;Student&gt; stList
+-ArrayList&lt;Subject&gt;  sbList
+--
+_+main(String[]): void_
++Couse()
++Course(String)
++removeStudent(Student):void
++removeSubject(Subject):void
++addStudent(Student):void
++addSubject(Subject):void
++toString():String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>170</y><w>440</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+contains
+m2=0..n</panel_attributes><additional_attributes>420;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>650</x><y>280</y><w>110</w><h>350</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+contains
+m2=0..n</panel_attributes><additional_attributes>90;10;10;330</additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>400</y><w>270</w><h>250</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+contains
+m2=0..n</panel_attributes><additional_attributes>250;230;10;10</additional_attributes></element></diagram>

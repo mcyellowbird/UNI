@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>45</x>
+      <y>477</y>
+      <w>198</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>Enrolment
+--
++totalCredits: int
++student: Student()
++electivesPicked: int
++electiveList: ArrayList&lt;Subject&gt;
+--
+_+main(): void_
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>45</x>
+      <y>36</y>
+      <w>279</w>
+      <h>414</h>
+    </coordinates>
+    <panel_attributes>Course
+--
++courseName: String
++coreSubjects: ArrayList&lt;Subject&gt;
++majors: ArrayList&lt;Major&gt;
++electiveSubjects: ArrayList&lt;Subject&gt;
+-MIN_CREDIT_POINTS: int = 144 {readOnly}
+--
++Course(String)
++getCourseName(): String
++setCourseName(String): void
+
++getCoreSubjectList(): ArrayList&lt;Subject&gt;
++getCoreSubject(String): Subject
++setCoreSubjectList(ArrayList&lt;Subject&gt;): void
++addCoreSubject(Subject): void
+
++getMajorList(): ArrayList&lt;Major&gt;
++getMajor(String): Major
++setMajorList(ArrayList&lt;Major&gt;): void
++addMajor(Major): void
+
++getElectiveSubjectList(): ArrayList&lt;Subject&gt;
++setElectiveSubjects(ArrayList&lt;Subject&gt;: void
++addElective(Subject): void
++getElectiveSubject(String): Subject
++findElective(String: bool
+
++getMinCreditPoints(): int
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>441</y>
+      <w>27</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>387</x>
+      <y>477</y>
+      <w>261</w>
+      <h>261</h>
+    </coordinates>
+    <panel_attributes>Student
+--
++fullName: String
++studentNumber: int
++gender: String
++dateOfBirth: String
+--
++Student(String, int, String, String)
++getFullName(): String
++setFullName(String): void
+
++getStudentNumber(): int
++setStudentNumber(int): void
+
++getGender(): String
++setGender(String): void
+
++getDateOfBirth(): String
++setDateOfBirth(String): void
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>234</x>
+      <y>513</y>
+      <w>171</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>170.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>387</x>
+      <y>261</y>
+      <w>261</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>Major
+--
++majorName: String
++majorSubjects: ArrayList&lt;Subject&gt;
+--
++Major(String, ArrayList&lt;Subject&gt;)
++Major(String)
++getMajorName: String
++setMajorName(String): void
+
++getMajorSubjects(): ArrayList&lt;Subject&gt;
++setMajorSubejcts(ArrayList&lt;Subject&gt;): void
++addMajorSubject(Subject): void
++findMajorSubject(String): bool
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>387</x>
+      <y>0</y>
+      <w>261</w>
+      <h>207</h>
+    </coordinates>
+    <panel_attributes>Subject
+--
++subjectName: String
++subjectCode: String
++credits: int
+--
++Subject(String, String, int)
++getSubjectName(): String
++setSubjectName(String): void
+
++getSubjectCode(): String
++setSubjectCode(String): void
+
++getCredits(): int
++setCredits(int): void
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>315</x>
+      <y>342</y>
+      <w>90</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>80.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>315</x>
+      <y>36</y>
+      <w>90</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>80.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>513</x>
+      <y>198</y>
+      <w>27</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+</diagram>

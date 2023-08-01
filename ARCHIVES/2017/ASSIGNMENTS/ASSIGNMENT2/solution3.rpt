@@ -1,0 +1,53 @@
+mysql> source solution3.sql
+--------------
+ALTER TABLE Bank ADD COLUMN total_employees DECIMAL(6) NULL
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE Bank MODIFY Name VARCHAR(50) NOT NULL
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE Employee ADD COLUMN SupervisorBSB CHAR(6) NULL
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE Employee ADD CONSTRAINT Employee_FK2 FOREIGN KEY (SupervisorBSB, Supervisor)
+                                    REFERENCES Employee (BSB, Eno)
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE Account MODIFY Balance DECIMAL(10,2) NOT NULL
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE Dependent DROP FOREIGN KEY Dependent_FK
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE Dependent ADD CONSTRAINT Dependent_FK FOREIGN KEY(BSB, Eno)
+                                     REFERENCES Employee(BSB, Eno) ON DELETE CASCADE
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> notee

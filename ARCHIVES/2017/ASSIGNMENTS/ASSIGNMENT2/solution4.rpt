@@ -1,0 +1,123 @@
+mysql> source solution4.sql
+--------------
+ALTER TABLE EMPLOYER ADD COLUMN total_positions DECIMAL(2) NULL
+--------------
+
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYER ADD CONSTRAINT EMPLOYER_CHECK CHECK (total_positions >= 0 )
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE APPLICANT ADD COLUMN total_applications DECIMAL(2) NULL
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE APPLICANT ADD CONSTRAINT APPLICANT_CHECK CHECK (total_applications >= 0 )
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+CREATE TABLE POSITIONS_ES(
+ pnumber	DECIMAL(8,0)    NOT NULL,
+ extras		VARCHAR(50)             ,
+ specification	VARCHAR(2000)	NOT NULL,
+ CONSTRAINT POSITIONS_ES_PKEY PRIMARY KEY (pnumber),
+ CONSTRAINT POSITIONS_ES_FKEY FOREIGN KEY (pnumber) 
+            REFERENCES POSITIONS(pnumber) )
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+ALTER TABLE POSITIONS DROP COLUMN extras
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE POSITIONS DROP COLUMN specification
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE SPOSSESSED ADD CONSTRAINT SPOSSESSED_FK1 FOREIGN KEY(anumber)
+                                      REFERENCES APPLICANT(anumber)
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE SPOSSESSED ADD CONSTRAINT SPOSSESSED_FK2 FOREIGN KEY(sname)
+                                      REFERENCES SKILL(sname)
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE SNEEDED ADD CONSTRAINT SNEEDED_FK1 FOREIGN KEY(pnumber)
+                                   REFERENCES POSITIONS(pnumber)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE SNEEDED ADD CONSTRAINT SNEEDED_FK2 FOREIGN KEY(sname)
+                                   REFERENCES SKILL(sname)
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE SPOSSESSED ADD CONSTRAINT SPOSSESSED_CHECK CHECK ( slevel BETWEEN 1 AND 10 )
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE SNEEDED ADD CONSTRAINT SNEEDED_CHECK CHECK ( slevel BETWEEN 1 AND 10 )
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE APPLICANT ADD COLUMN gender CHAR(1) NULL
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE APPLICANT ADD CONSTRAINT APPLICANT_CHECK CHECK (gender IN ('F', 'M') )
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYER DROP COLUMN fax
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> notee

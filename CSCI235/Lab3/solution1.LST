@@ -1,0 +1,147 @@
+SQL> set echo on
+SQL> set feedback on
+SQL> set linesize 200
+SQL> set pagesize 400
+SQL> 
+SQL> /* (1) First, the script modifies the structures of a sample database such that it would be possible to store information 
+SQL>       about the total number of products supplied by each supplier. The best design is expected in this step. Remember 
+SQL>       to enforce the appropriate consistency constraints.                                                                      */
+SQL> 
+SQL> CREATE TABLE SUPPLIER_TOTAL (
+  2      SUPPLIER_NAME VARCHAR(40),
+  3      PRODUCTS_SUPPLIED NUMBER(9,0),
+  4      FOREIGN KEY (SUPPLIER_NAME) REFERENCES SUPPLIER(COMPANY_NAME)
+  5  );
+
+Table SUPPLIER_TOTAL created.
+
+SQL> 
+SQL> /* (2) Next, the script saves in a database information about the total number of products supplied by each supplier.           */
+SQL> 
+SQL> INSERT INTO SUPPLIER_TOTAL (SUPPLIER_NAME, PRODUCTS_SUPPLIED)
+  2  SELECT UNIQUE SUPPLIER_NAME, COUNT(PRODUCT_NAME)
+  3  FROM PRODUCT
+  4  GROUP BY SUPPLIER_NAME;
+
+29 rows inserted.
+
+SQL> 
+SQL> /* (3) Next, the script stores in a data dictionary PL/SQL procedure that can be used to insert a new product into PRODUCT 
+SQL>       relational table and such that it automatically updates information about the total number of products supplied by 
+SQL>       each supplier. An efficient implementation of the procedure is expected.                                            
+SQL>
+SQL>       The values of attributes describing a new product must be passed through the input parameters of the procedure.
+SQL>
+SQL>       At the end, the stored procedure must commit inserted and updated information.
+SQL>
+SQL>       Remember to put / in the next line after CREATE OR REPLACE PROCEDURE statement and a line show errors in the next line.  */
+SQL> 
+SQL> CREATE OR REPLACE PROCEDURE INSERT_PRODUCT(product IN VARCHAR,
+  2                                             supplier IN VARCHAR,
+  3                                             cat IN VARCHAR,
+  4                                             quantityPU IN VARCHAR,
+  5                                             unitPrice IN NUMBER,
+  6                                             unitStock IN NUMBER,
+  7                                             unitsOnOrder IN NUMBER,
+  8                                             reorderLevel IN NUMBER,
+  9                                             dcStatus IN CHAR) IS
+ 10  BEGIN
+ 11      INSERT INTO PRODUCT VALUES(product, supplier, cat, quantityPU, unitPrice, unitStock, unitsOnOrder, reorderLevel, dcStatus);
+ 12  
+ 13      --UPDATE SUPPLIER_TOTAL
+ 14      --SET PRODUCTS_SUPPLIED = (SELECT COUNT(PRODUCT_NAME) FROM PRODUCT WHERE SUPPLIER_NAME = supplier)
+ 15      --WHERE SUPPLIER_NAME = supplier;
+ 16  
+ 17      COMMIT;
+ 18  END INSERT_PRODUCT;
+ 19  /
+
+Procedure INSERT_PRODUCT compiled
+
+SQL> show errors;
+SQL> 
+SQL> /* (4) Next, the script performs a comprehensive testing of the stored procedure implemented in the previous step. 
+SQL>       To do so, list information about the total number of products supplied by each supplier before insertion of 
+SQL>       a new product. Then process the stored procedure and list information about the total number of products supplied 
+SQL>       by each supplier after insertion of a new product.                                                                       */
+SQL> 
+SQL> SELECT * FROM SUPPLIER_TOTAL;
+
+SUPPLIER_NAME                            PRODUCTS_SUPPLIED
+---------------------------------------- -----------------
+Grandma Kelly's Homestead                                3
+Mayumi's                                                 3
+Pavlova, Ltd.                                            6
+Nord-Ost-Fisch Handelsgesellschaft mbH                   1
+Pasta Buttini s.r.l.                                     2
+Cooperativa de Quesos 'Las Cabras'                       2
+Specialty Biscuits, Ltd.                                 4
+Formaggi Fortini s.r.l.                                  3
+Refrescos Americanas LTDA                                1
+Svensk Sjofoda AB                                        3
+G'day, Mate                                              3
+New Orleans Cajun Delights                               4
+Heli Susswaren GmbH And Co. KG                           3
+New England Seafood Cannery                              2
+Zaanse Snoepfabriek                                      2
+PB Knackebrod AB                                         2
+Plutzer Lebensmittelgrossmarkte AG                       5
+Norske Meierier                                          3
+Aux joyeux ecclesiastiques                               1
+Lyngbysild                                               2
+Forets d'erables                                         2
+Bigfoot Breweries                                        3
+Karkki Oy                                                3
+Gai paturage                                             2
+Exotic Liquids                                           3
+Tokyo Traders                                            3
+Leka Trading                                             3
+Ma Maison                                                2
+Escargots Nouveaux                                       1
+
+29 rows selected. 
+
+SQL> 
+SQL> EXECUTE INSERT_PRODUCT('Soju', 'Tokyo Traders', 'Beverages', '6 - 360 ml bottles', 13.5, 12, 20, 20, 'N');
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> SELECT * FROM SUPPLIER_TOTAL;
+
+SUPPLIER_NAME                            PRODUCTS_SUPPLIED
+---------------------------------------- -----------------
+Grandma Kelly's Homestead                                3
+Mayumi's                                                 3
+Pavlova, Ltd.                                            6
+Nord-Ost-Fisch Handelsgesellschaft mbH                   1
+Pasta Buttini s.r.l.                                     2
+Cooperativa de Quesos 'Las Cabras'                       2
+Specialty Biscuits, Ltd.                                 4
+Formaggi Fortini s.r.l.                                  3
+Refrescos Americanas LTDA                                1
+Svensk Sjofoda AB                                        3
+G'day, Mate                                              3
+New Orleans Cajun Delights                               4
+Heli Susswaren GmbH And Co. KG                           3
+New England Seafood Cannery                              2
+Zaanse Snoepfabriek                                      2
+PB Knackebrod AB                                         2
+Plutzer Lebensmittelgrossmarkte AG                       5
+Norske Meierier                                          3
+Aux joyeux ecclesiastiques                               1
+Lyngbysild                                               2
+Forets d'erables                                         2
+Bigfoot Breweries                                        3
+Karkki Oy                                                3
+Gai paturage                                             2
+Exotic Liquids                                           3
+Tokyo Traders                                            3
+Leka Trading                                             3
+Ma Maison                                                2
+Escargots Nouveaux                                       1
+
+29 rows selected. 
+
+SQL> 
+SQL> spool off

@@ -1,0 +1,185 @@
+<html>
+	<head>
+		<title>Programming Exercise</title>
+		<style>
+			#competitionPara {
+				font-size:50px;
+				background-color:#ff000010;
+				padding:30px;
+				text-align:center;
+				border-style:dotted;
+				border-color:red;
+				border-width:5px;
+			}
+			#headerRow {
+				font-size:40px;
+				color:navy;
+				background-color:#00000010;
+				border-style:dotted;
+				border-color:red;
+				border-width:5px;
+			}
+			#rankingNumber {
+				font-size:60px;
+				color:maroon;
+			}
+			#word1 {
+				font-size:60px;
+				color:orange;
+			}
+			#word2 {
+				font-size:60px;
+				color:pink;
+			}
+			#word3 {
+				font-size:60px;
+				color:blue;
+			}
+			#memberList {
+				color:green;
+			}
+			#memberList li{
+				padding:20px;
+			}
+			#leader {
+				color:purple;
+			}
+			#oddRow {
+				background-color:#cc007711;
+			}
+			#evenRow {
+				background-color:#55ff7720;
+			}
+			#teamTable {
+				border-style:none;
+				border-collapse:collapse;
+				border-spacing:10px;
+			}
+			#teamTable li {
+				padding:10px;
+			}
+			#teamTable th {
+				padding:20px;
+				border-style:dashed;
+				border-color:black;
+				border-width:5px;
+			}
+			#teamTable td {
+				padding:20px;
+				border-style:solid;
+				border-color:gray;
+				border-width:1px;
+			}
+			.rankColumn {
+				text-align:right;
+				vertical-align:top;
+			}
+			.teamColumn {
+				text-align:center;
+				vertical-align:top;
+			}
+			.memberColumn {
+				text-align:left;
+				vertical-align:top;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>Idries Eagle-Masuak, SN: 6868288</h1>
+		<p id="competitionPara"><span id="word1">World</span> <span id="word2">Gurning</span> <span id="word3">Competition</span> &#128515</p>
+
+		<table id="teamTable">
+			<tr id="headerRow">
+				<th class="rankColumn">Ranking</th>
+				<th class="teamColumn">Team</th>
+				<th class="memberColumn">Member</th>
+			</tr>
+
+			<tr id="oddRow">
+				<td id="rankingNumber" class="rankColumn">1st</td>
+				<td class="teamColumn">
+					<a href="http://didd.gov" target="_blank">Kingdom of Didd</a>
+					<br><br>
+					<img src="KingdomOfDidd.png" width=300px></td>
+				</td>
+				<td class="memberColumn">
+					<ul id="memberList">
+						<li id="leader">
+							<b>Thing 1</b> <i>(team leader)</i>
+						</li>
+						<li>
+							North-Going Zax
+						</li>
+						<li>
+							Cindy-Lou Who
+						</li>
+						<li>
+							McMonkey McBean
+						</li>
+						<li>
+							Vlad Vlad-i-Koff
+						</li>
+					</ul>
+				</td>
+			</tr>
+
+			<tr id="evenRow">
+				<td id="rankingNumber" class="rankColumn">2nd</td>
+				<td class="teamColumn">
+					<a href="http://binn.gov" target="_blank">Kingdom of Binn</a>
+					<br><br>
+					<img src="KingdomOfBinn.png" width=300px></td>
+				</td>
+				<td class="memberColumn">
+					<ul id="memberList">
+						<li id="leader">
+							<b>Thing 2</b> <i>(team leader)</i>
+						</li>
+						<li>
+							South-Going Zax
+						</li>
+						<li>
+							The Grinch
+						</li>
+						<li>
+							Bartholomew Cubbins
+						</li>
+						<li>
+							Fizza-ma Wizza-ma Dill
+						</li>
+					</ul>
+				</td>
+			</tr>
+
+			<tr id="oddRow">
+				<td id="rankingNumber" class="rankColumn">3rd</td>
+				<td class="teamColumn">
+					<a href="http://lazytown.gov" target="_blank">Lazy Town</a>
+					<br><br>
+					<img src="LazyTown.png" width=300px></td>
+				</td>
+				<td id="teamTable" class="memberColumn">
+					<ul id="memberList">
+						<li id="leader">
+							<b>Sportacus</b> <i>(team leader)</i>
+						</li>
+						<li>
+							Stephanie
+						</li>
+						<li>
+							Ziggy
+						</li>
+						<li>
+							Trixie
+						</li>
+						<li>
+							Bessie Busybody
+						</li>
+					</ul>
+				</td>
+			</tr>
+
+		</table>
+	</body>
+</html>

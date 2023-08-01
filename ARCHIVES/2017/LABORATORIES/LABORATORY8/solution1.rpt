@@ -1,0 +1,87 @@
+mysql> CREATE USER 'jrg_1' IDENTIFIED BY 'csit115';
+--------------
+CREATE USER 'jrg_1' IDENTIFIED BY 'csit115'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CREATE USER 'jrg_2' IDENTIFIED BY 'csit115';
+--------------
+CREATE USER 'jrg_2' IDENTIFIED BY 'csit115'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> notee;
+mysql> CREATE VIEW EMPJOBS(ENUM, NAME, EMAIL, FINISHEDJOBS) AS
+    ->        (SELECT EMPLOYEE.employee_id, CONCAT(first_name, ' ', last_name), email, count(JOBHISTORY.employee_id)
+    ->         FROM EMPLOYEE LEFT OUTER JOIN JOBHISTORY
+    ->                       ON EMPLOYEE.employee_id = JOBHISTORY.employee_id
+    ->         GROUP BY employee_id, CONCAT(first_name, ' ', last_name), email);
+--------------
+CREATE VIEW EMPJOBS(ENUM, NAME, EMAIL, FINISHEDJOBS) AS
+       (SELECT EMPLOYEE.employee_id, CONCAT(first_name, ' ', last_name), email, count(JOBHISTORY.employee_id)
+        FROM EMPLOYEE LEFT OUTER JOIN JOBHISTORY
+                      ON EMPLOYEE.employee_id = JOBHISTORY.employee_id
+        GROUP BY employee_id, CONCAT(first_name, ' ', last_name), email)
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> GRANT SELECT ON csit115.EMPJOBS TO jrg_1;
+--------------
+GRANT SELECT ON csit115.EMPJOBS TO jrg_1
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> GRANT SELECT(ENUM, NAME, EMAIL) ON csit115.EMPJOBS TO jrg_2
+    -> ;
+--------------
+GRANT SELECT(ENUM, NAME, EMAIL) ON csit115.EMPJOBS TO jrg_2
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> notee
+mysql> use mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT Db, User, Table_name, Table_priv
+    -> FROM tables_priv
+    -> WHERE User IN ('jrg_1', 'jrg_2');
+--------------
+SELECT Db, User, Table_name, Table_priv
+FROM tables_priv
+WHERE User IN ('jrg_1', 'jrg_2')
+--------------
+
++---------+-------+------------+------------+
+| Db      | User  | Table_name | Table_priv |
++---------+-------+------------+------------+
+| csit115 | jrg_2 | EMPJOBS    |            |
+| csit115 | jrg_1 | EMPJOBS    | Select     |
++---------+-------+------------+------------+
+2 rows in set (0.03 sec)
+
+mysql> SELECT Db, User, Table_name, Column_name, Column_priv
+    -> FROM columns_priv
+    -> WHERE User IN ('jrg_1', 'jrg_2');
+--------------
+SELECT Db, User, Table_name, Column_name, Column_priv
+FROM columns_priv
+WHERE User IN ('jrg_1', 'jrg_2')
+--------------
+
++---------+-------+------------+-------------+-------------+
+| Db      | User  | Table_name | Column_name | Column_priv |
++---------+-------+------------+-------------+-------------+
+| csit115 | jrg_2 | EMPJOBS    | EMAIL       | Select      |
+| csit115 | jrg_2 | EMPJOBS    | NAME        | Select      |
+| csit115 | jrg_2 | EMPJOBS    | ENUM        | Select      |
++---------+-------+------------+-------------+-------------+
+3 rows in set (0.03 sec)
+
+mysql> notee;

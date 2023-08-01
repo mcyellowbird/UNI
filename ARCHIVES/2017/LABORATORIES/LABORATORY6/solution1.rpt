@@ -1,0 +1,124 @@
+mysql> source solution1.sql
+--------------
+SELECT department_name 
+FROM DEPARTMENT 
+WHERE country_name='Japan' OR country_name='Singapore'
+--------------
+
++-----------------+
+| department_name |
++-----------------+
+| Recruiting      |
+| Treasury        |
+| Contracting     |
+| Human Resources |
++-----------------+
+4 rows in set (0.12 sec)
+
+--------------
+SELECT department_name, D.country_name
+FROM DEPARTMENT D JOIN COUNTRY C
+	ON D.country_name=C.country_name
+WHERE region_name='Americas'
+--------------
+
++----------------------+--------------------------+
+| department_name      | country_name             |
++----------------------+--------------------------+
+| Corporate Tax        | United States of America |
+| Shipping             | United States of America |
+| Control And Credit   | United States of America |
+| Finance              | Canada                   |
+| Executive            | Mexico                   |
+| Shareholder Services | Mexico                   |
++----------------------+--------------------------+
+6 rows in set (0.01 sec)
+
+--------------
+SELECT first_name, last_name 
+FROM EMPLOYEE E JOIN DEPARTMENT D 
+	ON E.department_name=D.department_name
+WHERE D.city='New York'
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+SELECT first_name, last_name
+FROM EMPLOYEE
+WHERE commission_pct IS NOT NULL
+--------------
+
++-------------+------------+
+| first_name  | last_name  |
++-------------+------------+
+| John        | Russell    |
+| Karen       | Partners   |
+| Alberto     | Errazuriz  |
+| Gerald      | Cambrault  |
+| Eleni       | Zlotkey    |
+| Peter       | Tucker     |
+| David       | Bernstein  |
+| Peter       | Hall       |
+| Christopher | Olsen      |
+| Nanette     | Cambrault  |
+| Oliver      | Tuvault    |
+| Janette     | King       |
+| Patrick     | Sully      |
+| Allan       | McEwen     |
+| Lindsey     | Smith      |
+| Louise      | Doran      |
+| Sarath      | Sewall     |
+| Clara       | Vishney    |
+| Danielle    | Greene     |
+| Mattea      | Marvins    |
+| David       | Lee        |
+| Sundar      | Ande       |
+| Amit        | Banda      |
+| Lisa        | Ozer       |
+| Harrison    | Bloom      |
+| Tayler      | Fox        |
+| William     | Smith      |
+| Elizabeth   | Bates      |
+| Sundita     | Kumar      |
+| Ellen       | Abel       |
+| Alyssa      | Hutton     |
+| Jonathon    | Taylor     |
+| Jack        | Livingston |
+| Kimberely   | Grant      |
+| Charles     | Johnson    |
++-------------+------------+
+35 rows in set (0.00 sec)
+
+--------------
+SELECT job_title, count(*) "Total"
+FROM EMPLOYEE
+GROUP BY job_title
+ORDER BY job_title
+--------------
+
++---------------------------------+-------+
+| job_title                       | Total |
++---------------------------------+-------+
+| Accountant                      |     1 |
+| Accounting Manager              |     6 |
+| Administration Assistant        |     1 |
+| Administration Vice President   |     2 |
+| Finance Manager                 |     1 |
+| Human Resources Representative  |     1 |
+| Marketing Manager               |     1 |
+| Marketing Representative        |     1 |
+| President                       |     1 |
+| Programmer                      |     5 |
+| Public Relations Representative |     1 |
+| Purchasing Clerk                |     5 |
+| Purchasing Manager              |     1 |
+| Sales Manager                   |     6 |
+| Sales Representative            |    29 |
+| Shipping Clerk                  |    20 |
+| Stock Clerk                     |    20 |
+| Stock Manager                   |     5 |
++---------------------------------+-------+
+18 rows in set (0.01 sec)
+
+mysql> notee

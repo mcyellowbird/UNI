@@ -1,0 +1,196 @@
+mysql> source solution1.sql
+--------------
+/* (1)	Create a database with the same name as a prefix of your University email account. 
+        For example, if your University email account is xyz007@uow.edu.au then a name of 
+        a database should be xyz007. 					0.1 mark                  */
+
+CREATE DATABASE jrg
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+/* (2)	Create two new user accounts. The names of user accounts and the passwords are up to you. 
+						                      	0.1 mark                  */
+
+CREATE USER USER1 IDENTIFIED BY 'user1'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE USER USER2 IDENTIFIED BY 'user2'
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+/* (3)	While connected as a user root, process the scripts dbcreate.sql and dbload.sql to create 
+        and to load data into the relational tables later on used in this laboratory class. 
+        All relational tables must be located in a database created in step (1). A listing of SQL 
+        statements processed by the scripts must NOT be included in a report from processing of 
+        a script solution1.sql. It means that before processing of the script you must process 
+        notee statement to turn the spooling off and after processing of the scripts you must 
+        process a statement tee solution1.rpt to turn the spooling on into a report file. 						
+                                                                       0.1 mark                   */
+
+use jrg
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (4)	Next, create two new roles: driver and admin and grant to a role admin the read and 
+        privileges on the entire database. The privileges must be granted such that any owner 
+        of a role admin cannot grant the same privileges to another role or user. 								                                      			           0.2 mark                   */
+
+CREATE ROLE driver
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE ROLE admin
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT ON jrg.* TO admin
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (5)	Next, grant to a role driver a read privilege on the relational table DRIVER located 
+        in the database. The privilege must be granted such that any owner of a role driver 
+        can grant the same privileges to another role or user.	      0.2 mark                    */                                                                        
+
+GRANT SELECT ON jrg.DRIVER TO driver WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (6)	Next, grant to a role driver the read and write privileges on the relational table 
+        TRIPLEG located in the database. The privileges must be granted such that any owner 
+        of a role driver cannot grant the same privileges to another role or user.								   				                                  0.2 mark                    */
+
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON jrg.TRIPLEG TO driver
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (7)	Next, grant to a role driver the read privileges on the columns FNAME, INITIALS, LNAME 
+        in a relational table EMPLOYEE. The privileges must be granted such that a The privileges 
+        must be granted such that any owner of a role driver cannot grant the same privileges 
+        to another role or user.				     0.2 mark                     */
+
+GRANT SELECT(FNAME, INITIALS, LNAME) ON jrg.EMPLOYEE TO driver
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (8)	Next, grant to a role admin insert privilege on a relational table EMPLOYEE. 
+        The privileges must be granted such that any owner of a role admin can propagate 
+        the same privileges to another role or user.                 0.2 mark                     */
+
+GRANT INSERT ON jrg.EMPLOYEE TO admin WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (9)	Next, grant to a role admin a privilege to create relational tables located in 
+        the database. The privileges must be granted such that any owner of a role admin 
+        cannot grant the same privileges to another role or user.    0.2 mark                     */
+
+GRANT CREATE ON jrg.* TO admin
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (10)	Next, grant to a role admin a privilege to create relational views located in 
+        the database. The privileges must be granted such that any owner of a role admin 
+        cannot grant the same privileges to another role or user.    0.2 mark                     */
+
+GRANT CREATE VIEW ON jrg.* TO admin
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (12)	Next, grant to a role admin the read privileges on information about the trips completed 
+        in 2018. A hint is on create a relational view and grant the read privileges on the view. 
+        The privileges must be granted such that any owner of a role admin cannot grant the same 
+        privileges to another role or user.		             0.3 mark                     */
+
+CREATE VIEW TRIP2018 AS ( SELECT *
+                          FROM TRIP
+			  WHERE YEAR(TDATE) = 2018 )
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT SELECT ON jrg.TRIP2018 TO admin
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (13)	Next, grant a role driver to a role admin and then grant a role admin to one of 
+        the users created in step (2) and a role driver to another user.	
+                                                                    0.1 mark                      */
+
+GRANT driver TO admin
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT admin TO USER1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT driver TO USER2
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (14)	Next, set a resource limit on maximum total number of concurrent connections available 
+        to both users created in step (2). The maximum number of concurrent connections is up 
+        to you. 						    0.2 mark                      */                                                                                 
+ALTER USER USER1 WITH MAX_USER_CONNECTIONS 7
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER USER USER2 WITH MAX_USER_CONNECTIONS 8
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (15)	Finally, lock the accounts of the new users.		    0.1 mark                      */
+
+ALTER USER USER1 ACCOUNT lock
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+ALTER USER USER2 ACCOUNT lock
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> notee

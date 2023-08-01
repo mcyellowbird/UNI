@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title></title>
+        <style>
+            table, td {
+                border: 1px black solid;
+                border-collapse: collapse;
+                padding: 5px;
+            }
+        </style>
+        <script>
+            function makeAjaxQuery(){
+                var xhttp = new XMLHttpRequest();
+
+                xhttp.onreadystatechange = function() {
+                    readyStateChangeHandler(xhttp);
+                }
+
+                var queryUrl = "Q7.json";
+                xhttp.open("GET", queryUrl, true);
+                xhttp.send();
+            }
+
+            function readyStateChangeHandler(xhttp){
+                if (xhttp.readyState == XMLHttpRequest.DONE){
+                    if(xhttp.status == 200){
+                        handleStatusSuccess(xhttp);
+                    }
+                    else{
+                        handleStatusFailure(xhttp);
+                    }
+                }
+            }
+
+            function handleStatusFailure(xhttp){
+                alert("AJAX request fail");
+                alert("readyState = " + xhttp.readyState);
+                alert("status = " + xhttp.status);
+            }
+
+            function handleStatusSuccess(xhttp){
+                var jsonText = xhttp.responseText;
+                
+                var obj = JSON.parse(jsonText);
+
+                displayRego(obj);
+            }
+
+            function displayRego(obj){
+                var html = "<table>";
+                    
+                html = html + "<tr><td>Plate Number</td>";
+                html = html + "<td>" + obj.plateNumber + "</td></tr>";
+                    
+                html = html + "<tr><td>Required Inspection</td>";
+                html = html + "<td>" + obj.requiredInspection + "</td></tr>";
+                    
+                html = html + "<tr><td>Billing Number</td>";
+                html = html + "<td>" + obj.billingNumber + "</td></tr>";
+                    
+                html = html + "<tr><td>Year</td>";
+                html = html + "<td>" + obj.year + "</td></tr>";
+                    
+                html = html + "<tr><td>Make</td>";
+                html = html + "<td>" + obj.make + "</td></tr>";
+                    
+                html = html + "<tr><td>Model</td>";
+                html = html + "<td>" + obj.model + "</td></tr>";
+                    
+                html = html + "<tr><td>Engine Capacity</td>";
+                html = html + "<td>" + obj.engineCapacity + "</td></tr>";
+                    
+                html = html + "<tr><td>Seating Capacity</td>";
+                html = html + "<td>" + obj.seatingCapacity + "</td></tr>";
+                    
+                html = html + "<tr><td>Engine Number</td>";
+                html = html + "<td>" + obj.engineNumber + "</td></tr>";
+                    
+                html = html + "<tr><td>Fee Detail</td>";
+
+                html = html + "<td><ul>";
+
+                for (var i = 0; i < obj.feeDetail.length; i++){
+                    html += "<li>Item: " + obj.feeDetail[i].item + "</li>";
+                    html += "<ul><li>Amount: " + obj.feeDetail[i].amount + "</li></ul><br />";
+                }
+                html = html + "</ul></td></tr>";
+
+                html = html + "</table>";
+                document.getElementById("output").innerHTML = html;
+            }
+        </script>
+    </head>
+    <body>
+        <button onClick="makeAjaxQuery()">Get Registration Info</button>
+        <br /><br />
+        <span id="output"></span>
+    </body>
+</html>

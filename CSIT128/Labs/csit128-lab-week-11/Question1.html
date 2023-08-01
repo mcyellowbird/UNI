@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>Question 1</title>
+
+        <script>
+            function makeAjaxQuery(){
+                var xhttp = new XMLHttpRequest();
+
+                xhttp.onreadystatechange = function() {
+                    readyStateChangeHandler(xhttp);
+                }
+
+                var queryUrl = "faculty.json";
+                xhttp.open("GET", queryUrl, true);
+                xhttp.send();
+            }
+
+            function readyStateChangeHandler(xhttp){
+                if (xhttp.readyState == XMLHttpRequest.DONE){
+                    if(xhttp.status == 200){
+                        handleStatusSuccess(xhttp);
+                    }
+                    else{
+                        handleStatusFailure(xhttp);
+                    }
+                }
+            }
+
+            function handleStatusFailure(xhttp){
+                alert("AJAX request fail");
+                alert("readyState = " + xhttp.readyState);
+                alert("status = " + xhttp.status);
+            }
+
+            function handleStatusSuccess(xhttp){
+                var jsonText = xhttp.responseText;
+                
+                var obj = JSON.parse(jsonText);
+
+                GetFacultyDetails(obj);
+            }
+
+            function GetFacultyDetails(obj){
+                document.getElementById("name").innerHTML = obj.name;
+                document.getElementById("abbreviation").innerHTML = obj.abbreviation;
+                document.getElementById("email").innerHTML = obj.email;
+                document.getElementById("website").innerHTML = obj.web;
+            }
+        </script>
+    </head>
+    <body>
+        <button onClick="makeAjaxQuery()">Get Faculty Details</button>
+        <br /><br />
+        <b>Name: </b>
+        <span id="name"></span>
+        <br />
+        <b>Abbreviation: </b>
+        <span id="abbreviation"></span>
+        <br />
+        <b>Email: </b>
+        <span id="email"></span>
+        <br />
+        <b>Website: </b>
+        <span id="website"></span>
+        <br />
+    </body>
+</html>

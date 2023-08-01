@@ -1,0 +1,6 @@
+Operations or actions to achieve objectives: Task
+The area of work under study: Domain
+Universal set of learning principles: Cognitive Load Theory
+What you want to achieve: Goal
+High-level description of how a system is organized and operates: Conceptual Model
+The way cognitive structures are organized and interrelated: Human Cognitive Architecture

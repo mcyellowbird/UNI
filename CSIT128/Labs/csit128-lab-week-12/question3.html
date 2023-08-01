@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<script>
+			var catDisplay = "";
+			var dogDisplay = "";
+
+			function dragStart(event){
+				var dragId = event.target.id;
+
+				event.dataTransfer.setData("dragId", dragId);
+			}
+
+			function allowDrop(event){
+				event.preventDefault();
+			}
+
+			function drop(event){
+				var dropId = event.target.id;
+
+				var dragId = event.dataTransfer.getData("dragId");
+
+				if (dragId == "catPic" && dropId == "catText"){
+					catDisplay = catDisplay + '<img width="90" src="http://res.publicdomainfiles.com/pdf_view/68/13925562013417.png">';
+					document.getElementById("catOutput").innerHTML = catDisplay;
+				}
+				if (dragId == "dogPic" && dropId == "dogText"){
+					dogDisplay = dogDisplay + '<img width="90" src="http://res.publicdomainfiles.com/pdf_view/74/13932777616378.png">';
+					document.getElementById("dogOutput").innerHTML = dogDisplay;
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<table style="text-align: left;">
+			<tr>
+				<td>
+					<span id="dogText" onDrop="drop(event)" onDragOver="allowDrop(event)" style="font-size:80px">Dog</span>
+				</td>
+				<td>
+					<span id="dogOutput"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>	
+					<span id="catText" onDrop="drop(event)" onDragOver="allowDrop(event)" style="font-size: 80px">Cat</span>	
+				</td>
+				<td>
+					<span id="catOutput"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img id="dogPic" draggable="true" onDragStart="dragStart(event)" width="100px" src="http://res.publicdomainfiles.com/pdf_view/74/13932777616378.png"/>
+					<img id="catPic" draggable="true" onDragStart="dragStart(event)" width="90px" src="http://res.publicdomainfiles.com/pdf_view/68/13925562013417.png"/>	
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

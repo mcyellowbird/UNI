@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<style>
+			button {
+				width: 150px;
+				height: 50px;
+				font-size:20px;
+			}
+
+			#outputNumber {
+				font-size: 20px;
+			}
+		</style>
+		<script>
+			var number = 0;
+
+			function add() {
+				number = number + 10;
+				outputNumber.innerHTML = "Number: " + number;
+			}
+
+			function minus() {
+				number = number - 5;
+				outputNumber.innerHTML = "Number: " + number;
+			}
+
+			function reset() {
+				number = 0;
+				outputNumber.innerHTML = "Number: " + number;
+			}
+
+		</script>
+	</head>
+	<body style="text-align:center; padding-top: 50px">
+		<button onclick="add()">Add 10</button>
+		<button onclick="minus()">Minus 5</button>
+		<button onclick="reset()">Reset Number</button>
+		<br><br>
+		<span id="outputNumber">Number: 0</span>
+	</body>
+</html>

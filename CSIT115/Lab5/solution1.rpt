@@ -1,0 +1,275 @@
+mysql> source solution1.sql;
+--------------
+/* 
+(1)	Implement the following query by using at least two relational views.
+Find full names, licence numbers and the total number of routes schedule for all drivers. If a driver has no route schedule, the total number of route schedule for that driver must be zero.
+
+Hint: You need to consider that the full name (include FNAME, INITIALS and LNAME) of drivers are in a table EMPLOYEE; Drivers' route schedules are in a table SCHEDULE. You can use JOIN (or OUTER JOIN) when you create a view on these tables; Next, you can create another view to count the number of routes for each driver by selecting data from the first view.  
+
+The query must be implemented as a sequence of at least two relational views. Remember to drop the views created for this subtask.
+*/
+
+SELECT E.FNAME, E.INITIALS, E.LNAME, D.LNUM, COUNT(S.RNUM) AS ROUTES_DRIVEN
+FROM EMPLOYEE AS E
+JOIN DRIVER AS D 
+ON E.ENUM = D.ENUM
+LEFT OUTER JOIN SCHEDULE AS S 
+ON S.LNUM = D.LNUM
+GROUP BY D.LNUM
+--------------
+
++----------+----------+---------+-------+---------------+
+| FNAME    | INITIALS | LNAME   | LNUM  | ROUTES_DRIVEN |
++----------+----------+---------+-------+---------------+
+| John     | NULL     | Smith   | 10001 |            12 |
+| Peter    | NULL     | Taylor  | 10008 |             0 |
+| John     | NULL     | Doe     | 10002 |            10 |
+| John     | NULL     | Gray    | 10004 |             0 |
+| Adam     | NULL     | Taylor  | 10003 |             7 |
+| Michael  | NULL     | Jones   | 10012 |             0 |
+| Frederic | NULL     | Jones   | 20002 |             8 |
+| Peter    | NULL     | O'Brien | 20003 |             0 |
+| John     | NULL     | Lucas   | 30005 |            13 |
+| John     | NULL     | Fox     | 40002 |             0 |
+| Adam     | NULL     | Fox     | 20045 |             0 |
+| Phillip  | NULL     | ,Cox    | 20055 |             0 |
+| Andrew   | K        | Smith   | 20065 |             0 |
+| Andrew   | R        | Smith   | 10305 |             0 |
+| Michael  | NULL     | Potter  | 10345 |             0 |
+| Harry    | NULL     | Potter  | 10705 |             0 |
+| James    | NULL     | Bond    | 40005 |             1 |
++----------+----------+---------+-------+---------------+
+17 rows in set (0.01 sec)
+
+--------------
+/* 
+(2)	Create a new relational table to store information about employee number, first name, last name, employee type and position. Enforce the appropriate consistency constraints on the new table. 
+
+Next, insert into the new table information about the admin employee by using an advanced DML statement.    
+
+When ready, use a SELECT statement to list the contents of the relational table created and filled with data in this sub-task.
+
+Finally, drop the relational table created in this subtask. 	
+*/
+        
+#SUBQUERY
+CREATE TABLE EMPLOYEMENT_INFO AS 
+	(SELECT E.ENUM, E.FNAME, E.LNAME, E.EMPLOYEE_TYPE, A.POSITION
+    FROM EMPLOYEE AS E JOIN ADMIN AS A
+	ON E.ENUM = A.ENUM
+    GROUP BY E.ENUM)
+--------------
+
+Query OK, 7 rows affected (0.04 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+--------------
+    
+SELECT *
+FROM EMPLOYEMENT_INFO
+--------------
+
++------+-------+--------+---------------+----------------------+
+| ENUM | FNAME | LNAME  | EMPLOYEE_TYPE | POSITION             |
++------+-------+--------+---------------+----------------------+
+|   18 | Paris | Hilton | Casual        | Support              |
+|   19 | Lady  | Gaga   | Full Time     | Director             |
+|   20 | Robin | Hood   | Full Time     | CEO                  |
+|   21 | Andy  | Zhu    | Full Time     | Manager              |
+|   22 | Amos  | Li     | Full Time     | Assistant manager    |
+|   23 | Andre | Smith  | Full Time     | Supervisor           |
+|   24 | Bart  | Zhang  | Full Time     | Administrative staff |
++------+-------+--------+---------------+----------------------+
+7 rows in set (0.00 sec)
+
+--------------
+DROP TABLE EMPLOYMENT_INFO
+--------------
+
+ERROR 1051 (42S02): Unknown table 'csit115.EMPLOYMENT_INFO'
+--------------
+/*
+(3)	Use a single SQL statement to create a relational table and load into the table employee number, first name, last name, driving licence number, route number, and vehicle registration number for the drivers who have schedules of routes with the vehicles.
+
+Note that a driver must associate with the vehicle related to the scheduled route.
+
+Next, enforce the appropriate consistency constraints on the new table, such as the primary key and foreign keys.
+
+When ready, use a SELECT statement to list the contents of the relational table created.		
+
+Finally, drop the relational table created in this subtask.	
+*/
+   
+
+CREATE TABLE EMPLOYEE_ROUTES AS 
+	(SELECT E.ENUM, E.FNAME, E.LNAME, S.LNUM, S.RNUM, S.REGNUM
+    FROM EMPLOYEE AS E
+    JOIN DRIVER AS D
+	ON E.ENUM = D.ENUM
+    RIGHT JOIN SCHEDULE AS S
+    ON D.LNUM = S.LNUM)
+--------------
+
+Query OK, 51 rows affected (0.06 sec)
+Records: 51  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT * FROM EMPLOYEE_ROUTES
+--------------
+
++------+----------+--------+-------+------+--------+
+| ENUM | FNAME    | LNAME  | LNUM  | RNUM | REGNUM |
++------+----------+--------+-------+------+--------+
+|    1 | John     | Smith  | 10001 |    1 | PKR768 |
+|    1 | John     | Smith  | 10001 |    2 | SYF777 |
+|    1 | John     | Smith  | 10001 |   21 | AB0804 |
+|    1 | John     | Smith  | 10001 |   22 | PKR768 |
+|    7 | Frederic | Jones  | 20002 |    3 | PKR768 |
+|    3 | John     | Doe    | 10002 |    4 | SYF777 |
+|    9 | John     | Lucas  | 30005 |    5 | KKK007 |
+|    1 | John     | Smith  | 10001 |    6 | AB0804 |
+|    3 | John     | Doe    | 10002 |    7 | QRT834 |
+|    9 | John     | Lucas  | 30005 |    8 | KKK007 |
+|    5 | Adam     | Taylor | 10003 |    9 | SST005 |
+|    3 | John     | Doe    | 10002 |    9 | PKR768 |
+|    7 | Frederic | Jones  | 20002 |   10 | QRT834 |
+|    7 | Frederic | Jones  | 20002 |    3 | PKR008 |
+|    9 | John     | Lucas  | 30005 |    3 | PKR768 |
+|    9 | John     | Lucas  | 30005 |    4 | SST005 |
+|    7 | Frederic | Jones  | 20002 |   33 | QRT834 |
+|    1 | John     | Smith  | 10001 |   25 | KKK007 |
+|    9 | John     | Lucas  | 30005 |   26 | SST005 |
+|    5 | Adam     | Taylor | 10003 |   27 | PKR768 |
+|    1 | John     | Smith  | 10001 |   24 | QRT834 |
+|    9 | John     | Lucas  | 30005 |   23 | PKR008 |
+|    5 | Adam     | Taylor | 10003 |   22 | PKR768 |
+|    7 | Frederic | Jones  | 20002 |   26 | SST005 |
+|    1 | John     | Smith  | 10001 |   12 | PKR768 |
+|    1 | John     | Smith  | 10001 |   12 | AB0804 |
+|    7 | Frederic | Jones  | 20002 |   11 | KKK007 |
+|    9 | John     | Lucas  | 30005 |   12 | AB0804 |
+|    1 | John     | Smith  | 10001 |   13 | QRT834 |
+|    3 | John     | Doe    | 10002 |   14 | KKK007 |
+|    5 | Adam     | Taylor | 10003 |   15 | SST005 |
+|    7 | Frederic | Jones  | 20002 |    6 | PKR768 |
+|    9 | John     | Lucas  | 30005 |   16 | QRT834 |
+|    9 | John     | Lucas  | 30005 |    6 | PKR008 |
+|    1 | John     | Smith  | 10001 |   14 | PKR768 |
+|    3 | John     | Doe    | 10002 |   17 | SYF777 |
+|    9 | John     | Lucas  | 30005 |    7 | PKR008 |
+|    5 | Adam     | Taylor | 10003 |   17 | SST005 |
+|    9 | John     | Lucas  | 30005 |   18 | PKR008 |
+|    3 | John     | Doe    | 10002 |   19 | SYF777 |
+|    9 | John     | Lucas  | 30005 |   20 | PKR008 |
+|    5 | Adam     | Taylor | 10003 |   21 | SST005 |
+|    3 | John     | Doe    | 10002 |   22 | SYF777 |
+|    3 | John     | Doe    | 10002 |   23 | PKR008 |
+|    5 | Adam     | Taylor | 10003 |   24 | SST005 |
+|    9 | John     | Lucas  | 30005 |   25 | AB0988 |
+|    3 | John     | Doe    | 10002 |   26 | AB0804 |
+|   17 | James    | Bond   | 40005 |   27 | SST005 |
+|    3 | John     | Doe    | 10002 |   28 | SST005 |
+|    1 | John     | Smith  | 10001 |   29 | SST005 |
+|    7 | Frederic | Jones  | 20002 |   29 | SST005 |
++------+----------+--------+-------+------+--------+
+51 rows in set (0.00 sec)
+
+--------------
+DROP TABLE EMPLOYEE_ROUTES
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+/* 
+(4)	Add to a relational table VEHICLE information about the total number of routes scheduled for each vehicle. If a vehicle has no route schedule, then the total number of routes scheduled must be set to zero (0) for the vehicle.    
+
+The total number of routes scheduled must be a positive number no more than 999.
+
+Use a SELECT statement to list the contents of an extended relational table VEHICLE in the descending order of the total number of routes scheduled.
+
+Finally, remove the new column that added in this subtask.
+*/
+
+ALTER TABLE VEHICLE ADD TOTAL_ROUTES INT(3)
+--------------
+
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+--------------
+ALTER TABLE VEHICLE ADD CONSTRAINT TOTAL_ROUTE_CHECK1 CHECK(TOTAL_ROUTES > -1 AND TOTAL_ROUTES < 1000)
+--------------
+
+Query OK, 15 rows affected (0.07 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE VEHICLE SET TOTAL_ROUTES = (SELECT COUNT(RNUM)
+					FROM SCHEDULE
+                    WHERE SCHEDULE.REGNUM = VEHICLE.REGNUM)
+--------------
+
+Query OK, 15 rows affected (0.00 sec)
+Rows matched: 15  Changed: 15  Warnings: 0
+
+--------------
+SELECT * 
+FROM VEHICLE
+ORDER BY TOTAL_ROUTES DESC
+--------------
+
++--------+----------+--------+----------------+--------------+
+| REGNUM | MANUFACT | YMANUF | STATUS         | TOTAL_ROUTES |
++--------+----------+--------+----------------+--------------+
+| SST005 | Iveco    |   2000 | DECOMMISSIONED |           12 |
+| PKR768 | Volvo    |   2001 | AVAILABLE      |           10 |
+| PKR008 | Volvo    |   2003 | AVAILABLE      |            7 |
+| QRT834 | Tata     |   2012 | AVAILABLE      |            6 |
+| AB0804 | Daimler  |   2008 | AVAILABLE      |            5 |
+| KKK007 | Isuzu    |   2005 | MAINTAINED     |            5 |
+| SYF777 | Hyindai  |   2004 | MAINTAINED     |            5 |
+| AB0988 | Iveco    |   2011 | DECOMMISSIONED |            1 |
+| AB0301 | Man      |   2003 | MAINTAINED     |            0 |
+| AB0945 | Volvo    |   1999 | AVAILABLE      |            0 |
+| AL08UK | Ashok    |   2008 | AVAILABLE      |            0 |
+| GFT008 | Scania   |   2005 | AVAILABLE      |            0 |
+| LUCY01 | Volvo    |   2008 | AVAILABLE      |            0 |
+| LUCY02 | Hino     |   2007 | AVAILABLE      |            0 |
+| XCF003 | Scania   |   2004 | AVAILABLE      |            0 |
++--------+----------+--------+----------------+--------------+
+15 rows in set (0.00 sec)
+
+--------------
+                    
+ALTER TABLE VEHICLE DROP COLUMN TOTAL_ROUTES
+--------------
+
+Query OK, 0 rows affected (0.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+/*
+ (5)	A technician Ben (FNAME) Franklin (LNAME), DOB is 18/11/1973, has left the company. Delete from the database information about this technician. 
+
+Note that you are not allowed to drop and/or suspend any referential integrity constraints. 
+
+The deletions of the technician must be implemented as the nested SELECT statements.
+*/
+
+DELETE FROM TECHNICIAN
+WHERE ENUM IN	(SELECT ENUM
+				FROM EMPLOYEE
+                WHERE FNAME = "Ben" AND LNAME = "Franklin" AND DOB = '1973-11-18')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+DELETE FROM EMPLOYEE
+WHERE FNAME = "Ben" AND LNAME = "Franklin" AND DOB = '1973-11-18'
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+mysql> notee;

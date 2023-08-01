@@ -1,0 +1,87 @@
+
+/* (1)	Execute a command tee solution1.rpt.								*/
+
+tee solution1.rpt;
+
+/* (2)	Create two database users with the names the same as a prefix of your University account 
+        concatenated with _1 in a case of the first user and concatenated with _2 in a case of 
+        the second user.										*/
+
+CREATE USER 'jrg_1' IDENTIFIED BY 'csit115';
+CREATE USER 'jrg_2' IDENTIFIED BY 'csit115';
+
+/* (3)	Execute the command notee.									*/
+
+notee;
+
+/* (4)	Execute the command exit to logout as a user root.						*/
+
+exit;
+
+/* (5)	Login as a user csit115 through command line interface mysql and execute command use csit115.	*/
+
+use csit115;
+
+/* (6)	Execute SQL scripts dbcreate.sql and dbload.sql to create and to load data into a sample 
+        database.											*/
+
+source dbcreate.sql;
+source dbload.sql;
+
+/* (7)	Execute the command tee solution1.rpt.								*/
+
+tee solution1.rpt;
+
+/* (8)	Create in a database csit115 a relational view EMPJOBS that allows for access to information 
+        about employees and total number of finished jobs in the following format.
+
+	  ENUM  |  NAME          |  EMAIL    | FINISHEDJOBS  
+	-------------------------------------------------------------
+          100   | Steven King    | SKING     | 0      
+          101   | Neena Kochhar  | NKOCHHAR  | 2       
+          ...   |  ...           |  ...      | ...							*/
+
+CREATE VIEW EMPJOBS(ENUM, NAME, EMAIL, FINISHEDJOBS) AS
+       (SELECT EMPLOYEE.employee_id, CONCAT(first_name, ' ', last_name), email, count(JOBHISTORY.employee_id)
+        FROM EMPLOYEE LEFT OUTER JOIN JOBHISTORY
+                      ON EMPLOYEE.employee_id = JOBHISTORY.employee_id
+        GROUP BY employee_id, CONCAT(first_name, ' ', last_name), email);
+       
+/* (9)	Grant a read privilege to all information included a view EMPJOBS to a user with the same name 
+        as a prefix of your University email account_1.	     	  	       	    	     	        */
+
+GRANT SELECT ON csit115.EMPJOBS TO jrg_1;
+
+/* (10)	Grant a read privilege to all information included in a view EMPJOBS except the column 
+        FINISHEDJOBS to a user with the same name as a prefix of your University email account_2.       */
+
+GRANT SELECT(ENUM, NAME, EMAIL) ON csit115.EMPJOBS TO jrg_2;
+	
+/* (11)	Execute the command notee.									*/
+
+notee;
+
+/* (12)	Execute command exit to logout the user csit115.						*/
+
+exit;
+
+/* (13)	Login the user root through command line interface mysql and execute the command 
+        tee solution1.rpt.										*/
+
+tee solution1.rpt;
+
+/* (14)	Display the read privileges granted to both users. The information should include user name, 
+   	database name, table name, table privileges and column privileges.				*/
+
+use mysql;
+SELECT Db, User, Table_name, Table_priv
+FROM tables_priv
+WHERE User IN ('jrg_1', 'jrg_2');
+
+SELECT Db, User, Table_name, Column_name, Column_priv
+FROM columns_priv
+WHERE User IN ('jrg_1', 'jrg_2');
+
+/* (15)	Execute a command notee.									*/
+
+notee;

@@ -1,0 +1,61 @@
+--------------
+CREATE TABLE TABLEACCESSED (
+	table_name VARCHAR(30) NOT NULL,
+	access_cnt DECIMAL(5),
+	CONSTRAINT TABLEACCESSED_PKey PRIMARY KEY (table_name)
+)
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE VIEW ACCESSEDTABLES AS
+SELECT table_name
+FROM information_schema.tables 
+WHERE table_schema='csit115' AND
+	(SELECT COUNT(*)
+	FROM mysql.general_log
+	WHERE LOCATE(table_name, argument) > 0) > 0
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+INSERT INTO TABLEACCESSED (
+	SELECT table_name, COUNT(*)
+	FROM ACCESSEDTABLES JOIN mysql.general_log 
+		ON (LOCATE(table_name, argument) > 0)
+	GROUP BY table_name
+)
+--------------
+
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT *
+FROM TABLEACCESSED
+--------------
+
++------------+------------+
+| table_name | access_cnt |
++------------+------------+
+| APPLICANT  |          5 |
+| APPLIES    |          2 |
+| EMPLBY     |          2 |
+| SPOSSESSED |          4 |
++------------+------------+
+4 rows in set (0.00 sec)
+
+--------------
+DROP VIEW ACCESSEDTABLES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP TABLE TABLEACCESSED
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+

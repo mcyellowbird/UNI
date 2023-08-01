@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Book a Flight</title>
+		<style>
+			#navbar {
+				background-color: #00008B;
+				position: fixed;
+				width: 100%;
+				top: 0px;
+				left: 0px;
+			}
+			#navbar a {
+				text-decoration: none;
+				display: inline-block;
+				text-align: centre;
+				padding: 20px 30px;
+				background-color: #FF0000;
+				color: white;
+				border: 2px solid white;
+			}
+			#navbar h3 {
+				color: white;
+				display: inline-block;
+			}
+			#homeButton {
+				float: left;
+			}
+			#signOutButton {
+				float: right;
+			}
+			#main {
+				margin-top: 6%;
+				width: 100%
+			}
+		</style>
+		<script>
+			var currentUser;
+			function displayUserName() {
+				currentUser = JSON.parse(sessionStorage.currentUser);
+				document.getElementById("userNameDisplay").innerHTML = currentUser.userName;
+			}
+		
+			function proceed() {
+				var booking = {}
+				const returnRadioBtns = document.querySelectorAll('input[name="return"]');
+				for (const returnButton of returnRadioBtns) {
+					if (returnButton.checked) {
+						booking.returnChoice = returnButton.value;
+						break;
+					}
+				}
+				booking.departureCity = document.getElementById("departureCity").value;
+				booking.arrivalCity = document.getElementById("arrivalCity").value;
+				const fareTypeRadioBtns = document.querySelectorAll('input[name="fareType"]');
+				for (const fareButton of fareTypeRadioBtns) {
+					if (fareButton.checked) {
+						booking.fareType = fareButton.value;
+						break;
+					}
+				}
+				booking.departureDate = document.getElementById("departureDate").value;
+				var services = [];
+				var totalCost=0;
+				if(document.getElementById("internet").checked) {
+					services.push("Inflight Internet");
+					totalCost += 50;
+				}
+				if(document.getElementById("food").checked) {
+					services.push("Inflight Meals");
+					totalCost += 30;
+				}
+				if(document.getElementById("drinks").checked) {
+					services.push("Bottomless Drinks");
+					totalCost += 100;
+				}
+				booking.services = services;
+				booking.totalCost = totalCost;
+				sessionStorage.booking = JSON.stringify(booking, null, 2)
+				window.location.href="FlightSelection.html";
+			}
+		</script>
+	</head>
+	<body style="background-color: #F0F8FF;" onload="displayUserName();">
+		<div id="navbar">
+			<a href="HomePage.html" id="homeButton">Home</a>
+			<h3>Welcome, </h3><h3 id="userNameDisplay"></h3>
+			<a href="LogInPage.html" id="signOutButton">Sign Out</a>
+		</div>
+		
+		<div id="main">
+			<table border="0">
+				<tr>
+					<td align="right">
+						Book a flight:
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" id="single" name="return" value="no">
+						Single
+					</td>
+					<td>
+						<input type="radio" id="return" name="return" value="yes">
+						Return
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						From:
+					</td>
+					<td>
+						<input type="text" id="departureCity" placeholder="where?"/>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						To:
+					</td>
+					<td>
+						<input type="text" id="arrivalCity" placeholder="where?"/>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						Fare Type:
+					</td>
+					<td>
+						<input type="radio" id="econ" name="fareType" value="Economy">
+						Economy
+						<br>
+						<input type="radio" id="premEcon" name="fareType" value="Premium Economy">
+						Premium Economy
+						<br> 
+						<input type="radio" id="business" name="fareType" value="Business Class">
+						Business Class
+						<br>
+						<input type="radio" id="first" name="fareType" value="First Class">
+						First Class
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						Departure date:
+					</td>
+					<td>
+						<input type="date" id="departureDate">
+					</td>
+				</tr>
+				<tr>
+					<td align="right">
+						Select Services:
+					</td>
+					<td>
+						<input type="checkbox" id="internet" value="50">
+						Inflight Internet ($50)
+						<br>
+						<input type="checkbox" id="food" value="30">
+						Inflight Meals  ($30)
+						<br>
+						<input type="checkbox" id="drinks" value="100">
+						Bottomless Drinks ($100)
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button onclick="proceed();">Find Flight</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

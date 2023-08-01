@@ -1,0 +1,47 @@
+mysql> \. solution3.sql
+--------------
+SELECT ENUM "New employee number", POSITION "New position"
+FROM ADMIN
+WHERE NOT EXISTS ( SELECT *
+                   FROM jrg
+                   WHERE ADMIN.ENUM = jrg.ENUM )
+--------------
+
++---------------------+--------------+
+| New employee number | New position |
++---------------------+--------------+
+|                  21 | PROGRAMMER   |
+|                  22 | DBA          |
++---------------------+--------------+
+2 rows in set (0.01 sec)
+
+--------------
+SELECT ENUM "Deleted employee number", POSITION "Deleted position"
+FROM jrg
+WHERE NOT EXISTS ( SELECT *
+                   FROM ADMIN
+                   WHERE ADMIN.ENUM = jrg.ENUM )
+--------------
+
++-------------------------+------------------+
+| Deleted employee number | Deleted position |
++-------------------------+------------------+
+|                      20 | CEO              |
++-------------------------+------------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT ADMIN.ENUM "Employee number", jrg.POSITION "Old position", ADMIN.POSITION "New position"
+FROM ADMIN JOIN jrg
+     ON ADMIN.ENUM = jrg.ENUM AND ADMIN.POSITION <> jrg.POSITION
+--------------
+
++-----------------+--------------+--------------+
+| Employee number | Old position | New position |
++-----------------+--------------+--------------+
+|              18 | SUPPORT      | BOSS         |
++-----------------+--------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> notee
+

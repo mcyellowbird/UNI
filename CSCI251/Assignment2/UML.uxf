@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>750</x>
+      <y>530</y>
+      <w>150</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Driver
+--
+main(): int
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>970</x>
+      <y>530</y>
+      <w>240</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>Library
+--
++electorates: vector&lt;Electorate&gt;
++parties: vector&lt;PoliticalParty
++events: vector&lt;Event&gt;
++issues: vector&lt;Event&gt;
++names: vector&lt;String&gt;
++electorateNames: String[]
+--
++createParties(int): void
++createElectorates(int): void
++createEvents(): void
++createIssues(): void
++runCampaign(int, int): void
++runElection(): void
++randomUniform(int, int): int
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>970</x>
+      <y>140</y>
+      <w>240</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>PoliticalParty
+--
++pName: String
++stance: int
++numVotes: int
++electoratesWon: int
++leader: Candidate
++candidates: vector&lt;Candidate&gt;
+--
++PoliticalParty(string, int)
++PoliticalParty()
++getStance(): int
++getVotes(): int
++getEWins(): int
++getCandidate(): Candidate
+
++setVotes(int): void
++addVotes(int): void
++addEWins(int): void
++pushCandidate(Candidate): void
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>890</x>
+      <y>600</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+bg=black
+</panel_attributes>
+    <additional_attributes>80.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1350</x>
+      <y>720</y>
+      <w>230</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>Electorate
+--
++eName: String
++stanceLow: int
++stanceHigh: int
++population: int
++eCandidates: vector&lt;Candidates&gt;
+--
++Electorate(string, int, int, int)
++Electorate()
++getName(): String
++getHighStance(): int
++getLowStance(): int
++getPopulation: int
++getCandidate(int): Candidate
+
++setName(String): void
++setHighStance(int): void
++setLowStance(int): void
++setPopulation(int): void
++pushCandidate(Candidate): void
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>860</y>
+      <w>170</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>Event
+--
++eName: String
++description: String
++effect: int
+--
++Event(string, string, int)
++Event()
++getName(): String
++getDescription(): String
++getEffect(): int
+
++setName(String): void
++setDescription(String): void
++setEffect(int): void
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1360</x>
+      <y>490</y>
+      <w>170</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Candidate
+--
++popularity: int
+--
++Candidate(string, int, int)
++Candidate()
++getName(): String
++getPopularity(): int
+
++setName(String): void
++setPopularity(int): void
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1600</x>
+      <y>460</y>
+      <w>200</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Person
+--
++name: String
++stance: int
+--
++Person(string, int)
++Person()
++getName(): String
++getStance(): int
+
++setName(String): void
++setStance(int): void
+bg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1520</x>
+      <y>560</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+</panel_attributes>
+    <additional_attributes>80.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>690</y>
+      <w>170</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;
+m1=1..10</panel_attributes>
+    <additional_attributes>150.0;190.0;60.0;190.0;60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1070</x>
+      <y>440</y>
+      <w>40</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=3</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1070</x>
+      <y>770</y>
+      <w>40</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=12</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>260</y>
+      <w>300</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=1..10</panel_attributes>
+    <additional_attributes>10.0;10.0;250.0;10.0;250.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1440</x>
+      <y>650</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>590</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;10.0</additional_attributes>
+  </element>
+</diagram>

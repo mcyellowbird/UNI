@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<script>
+			
+			var counter = 0;
+			var counterEnabled = false;
+			var interval;
+			var sNum = 6868288;
+			var outputNum = sNum;
+
+			function Count(){
+				counter++;
+				outputNum += " + " + counter;
+				document.getElementById("output").innerHTML = outputNum + " = " + eval(outputNum);
+			}
+
+			function startAnimation(){
+				if (counterEnabled == false){
+					interval = setInterval(Count, 1000);
+					counterEnabled = true;
+				}
+			}
+
+			function stopAnimation(){
+				clearInterval(interval);
+				outputNum = sNum;
+				counter = 0;
+				counterEnabled = false;
+			}
+		</script>
+	</head>
+	<body>
+		<table style="margin: auto; width: 400px;">
+			<tr>
+				<td style="text-align: center; padding-top: 20px">
+					<input type="button" value="Start Animation" onClick="startAnimation()"/><br><br>
+					<input type="button" value="Stop Animation" onClick="stopAnimation()"/><br><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span id="output"></span><br>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

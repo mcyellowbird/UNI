@@ -1,0 +1,115 @@
+mysql> \. solution3.sql
+--------------
+/* 
+   (1) First, the SQL script creates a relational table to store information about the names of tables 
+   included in the sample database and the counters how many times each table has been accessed 
+   during the processing of SQL script file disaster.sql.  A name of a new relational table and 
+   the names of its columns are up to you. 
+*/
+  
+CREATE TABLE TABLEACCESSED (
+	tname VARCHAR(30) NOT NULL,
+	total_access DECIMAL(5)  NOT NULL,
+	CONSTRAINT TABLEACCESSED_PKey PRIMARY KEY (tname)
+)
+--------------
+
+Query OK, 0 rows affected (0.10 sec)
+
+--------------
+/* 
+   (2) Next, the script uses a general query log to fill the relational table created in 
+   the previous step with information about the names of tables included in the sample database 
+   and the counters how many times each table has been accessed during the processing of 
+   SQL script file disaster.sql.
+*/
+
+INSERT INTO TABLEACCESSED (
+	SELECT 'Department', COUNT(*)
+	FROM mysql.general_log
+	WHERE argument LIKE '%Department%')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+INSERT INTO TABLEACCESSED (
+	SELECT 'DeptLocation', COUNT(*)
+	FROM mysql.general_log
+	WHERE argument LIKE '%DeptLocation%')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+INSERT INTO TABLEACCESSED (
+	SELECT 'Employee', COUNT(*)
+	FROM mysql.general_log
+	WHERE argument LIKE '%Employee%')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+INSERT INTO TABLEACCESSED (
+	SELECT 'Project', COUNT(*)
+	FROM mysql.general_log
+	WHERE argument LIKE '%Project%')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+INSERT INTO TABLEACCESSED (
+	SELECT 'WorksOn', COUNT(*)
+	FROM mysql.general_log
+	WHERE argument LIKE '%WorksOn%')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+INSERT INTO TABLEACCESSED (
+	SELECT 'Dependent', COUNT(*)
+	FROM mysql.general_log
+	WHERE argument LIKE '%Dependent%')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+/* 
+   (3) Finally, the script lists the contents of the relational table with the names of 
+   relational tables and the counters how many times each table has been accessed during 
+   the processing of SQL script file disaster.sql.  
+*/
+
+SELECT *
+FROM TABLEACCESSED
+--------------
+
++--------------+--------------+
+| tname        | total_access |
++--------------+--------------+
+| Department   |            5 |
+| Dependent    |            1 |
+| DeptLocation |            3 |
+| Employee     |            1 |
+| Project      |            1 |
+| WorksOn      |            1 |
++--------------+--------------+
+6 rows in set (0.00 sec)
+
+--------------
+DROP TABLE TABLEACCESSED
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> notee;

@@ -1,0 +1,83 @@
+--------------
+/* 
+   (1) First, the SQL script creates a relational table to store information about the names of tables 
+   included in the sample database and the counters how many times each table has been accessed 
+   during the processing of SQL script file disaster.sql.  A name of a new relational table and 
+   the names of its columns are up to you. 
+*/
+  
+CREATE TABLE TABLEACCESSED (
+	tname VARCHAR(30) NOT NULL,
+	total_access DECIMAL(5)  NOT NULL,
+	CONSTRAINT TABLEACCESSED_PKey PRIMARY KEY (tname)
+)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+/* 
+   (2) Next, the script uses a general query log to fill the relational table created in 
+   the previous step with information about the names of tables included in the sample database 
+   and the counters how many times each table has been accessed during the processing of 
+   SQL script file disaster.sql.
+*/
+
+CREATE VIEW ACCESSEDTABLES AS
+SELECT table_name
+FROM information_schema.tables 
+WHERE table_schema='csit115' AND
+	(SELECT COUNT(*)
+	FROM mysql.general_log
+	WHERE LOCATE(table_name, argument) > 0) > 0
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+INSERT INTO TABLEACCESSED (
+	SELECT table_name, COUNT(*)
+	FROM ACCESSEDTABLES JOIN mysql.general_log 
+		ON (LOCATE(table_name, argument) > 0)
+	GROUP BY table_name
+)
+--------------
+
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+--------------
+/* 
+   (3) Finally, the script lists the contents of the relational table with the names of 
+   relational tables and the counters how many times each table has been accessed during 
+   the processing of SQL script file disaster.sql.  
+*/
+
+SELECT *
+FROM TABLEACCESSED
+--------------
+
++--------------+--------------+
+| tname        | total_access |
++--------------+--------------+
+| Department   |            5 |
+| Dependent    |            1 |
+| DeptLocation |            3 |
+| Employee     |            1 |
+| Project      |            1 |
+| WorksOn      |            1 |
++--------------+--------------+
+6 rows in set (0.00 sec)
+
+--------------
+DROP VIEW ACCESSEDTABLES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP TABLE TABLEACCESSED
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+

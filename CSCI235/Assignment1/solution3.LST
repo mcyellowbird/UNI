@@ -1,0 +1,333 @@
+SQL> SET ECHO ON
+SQL> SET FEEDBACK ON
+SQL> SET LINESIZE 300
+SQL> SET PAGESIZE 5000
+SQL> 
+SQL> -- 1 --
+SQL> EXPLAIN PLAN FOR 
+  2  SELECT *
+  3  FROM EMPLOYEE
+  4  WHERE (city = 'Perth' OR city = 'Dapto') AND
+  5        (firstname = 'James' or firstname = 'Kate');
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 2119105728
+ 
+------------------------------------------------------------------------------
+| Id  | Operation         | Name     | Rows  | Bytes | Cost (%CPU)| Time     |
+------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT  |          |     1 |   388 |     3   (0)| 00:00:01 |
+|*  1 |  TABLE ACCESS FULL| EMPLOYEE |     1 |   388 |     3   (0)| 00:00:01 |
+------------------------------------------------------------------------------
+ 
+Predicate Information (identified by operation id):
+---------------------------------------------------
+ 
+   1 - filter(("CITY"='Dapto' OR "CITY"='Perth') AND 
+              ("FIRSTNAME"='James' OR "FIRSTNAME"='Kate'))
+
+14 rows selected. 
+
+SQL> 
+SQL> CREATE INDEX EMPLOYEE_IDX ON EMPLOYEE(city, firstname);
+
+Index EMPLOYEE_IDX created.
+
+SQL> 
+SQL> EXPLAIN PLAN FOR 
+  2  SELECT *
+  3  FROM EMPLOYEE
+  4  WHERE (city = 'Perth' OR city = 'Dapto') AND
+  5        (firstname = 'James' or firstname = 'Kate');
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 669023686
+ 
+-----------------------------------------------------------------------------------------------------
+| Id  | Operation                            | Name         | Rows  | Bytes | Cost (%CPU)| Time     |
+-----------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT                     |              |     1 |   388 |     2   (0)| 00:00:01 |
+|   1 |  INLIST ITERATOR                     |              |       |       |            |          |
+|   2 |   TABLE ACCESS BY INDEX ROWID BATCHED| EMPLOYEE     |     1 |   388 |     2   (0)| 00:00:01 |
+|*  3 |    INDEX RANGE SCAN                  | EMPLOYEE_IDX |     1 |       |     1   (0)| 00:00:01 |
+-----------------------------------------------------------------------------------------------------
+ 
+Predicate Information (identified by operation id):
+---------------------------------------------------
+ 
+   3 - access("CITY"='Dapto' OR "CITY"='Perth')
+       filter("FIRSTNAME"='James' OR "FIRSTNAME"='Kate')
+
+16 rows selected. 
+
+SQL> 
+SQL> DROP INDEX EMPLOYEE_IDX;
+
+Index EMPLOYEE_IDX dropped.
+
+SQL> 
+SQL> -- 2 --
+SQL> EXPLAIN PLAN FOR
+  2  SELECT product_name, category_name
+  3  FROM PRODUCT;
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 427209646
+ 
+-----------------------------------------------------------------------------
+| Id  | Operation         | Name    | Rows  | Bytes | Cost (%CPU)| Time     |
+-----------------------------------------------------------------------------
+|   0 | SELECT STATEMENT  |         |    77 |  2310 |     3   (0)| 00:00:01 |
+|   1 |  TABLE ACCESS FULL| PRODUCT |    77 |  2310 |     3   (0)| 00:00:01 |
+-----------------------------------------------------------------------------
+
+8 rows selected. 
+
+SQL> 
+SQL> CREATE INDEX PRODUCT_IDX ON PRODUCT(product_name, category_name);
+
+Index PRODUCT_IDX created.
+
+SQL> 
+SQL> EXPLAIN PLAN FOR
+  2  SELECT product_name, category_name
+  3  FROM PRODUCT;
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 3255276022
+ 
+--------------------------------------------------------------------------------
+| Id  | Operation        | Name        | Rows  | Bytes | Cost (%CPU)| Time     |
+--------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT |             |    77 |  2310 |     1   (0)| 00:00:01 |
+|   1 |  INDEX FULL SCAN | PRODUCT_IDX |    77 |  2310 |     1   (0)| 00:00:01 |
+--------------------------------------------------------------------------------
+
+8 rows selected. 
+
+SQL> 
+SQL> DROP INDEX PRODUCT_IDX;
+
+Index PRODUCT_IDX dropped.
+
+SQL> 
+SQL> -- 3 --
+SQL> EXPLAIN PLAN FOR
+  2  SELECT category_name, sum(unit_price)
+  3  FROM PRODUCT
+  4  GROUP BY category_name;
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 2921987230
+ 
+------------------------------------------------------------------------------
+| Id  | Operation          | Name    | Rows  | Bytes | Cost (%CPU)| Time     |
+------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |         |     8 |   128 |     4  (25)| 00:00:01 |
+|   1 |  HASH GROUP BY     |         |     8 |   128 |     4  (25)| 00:00:01 |
+|   2 |   TABLE ACCESS FULL| PRODUCT |    77 |  1232 |     3   (0)| 00:00:01 |
+------------------------------------------------------------------------------
+
+9 rows selected. 
+
+SQL> 
+SQL> CREATE INDEX PRODUCT_IDX ON PRODUCT(category_name);
+
+Index PRODUCT_IDX created.
+
+SQL> 
+SQL> EXPLAIN PLAN FOR
+  2  SELECT category_name, sum(unit_price)
+  3  FROM PRODUCT
+  4  GROUP BY category_name;
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 2676951901
+ 
+--------------------------------------------------------------------------------------------
+| Id  | Operation                    | Name        | Rows  | Bytes | Cost (%CPU)| Time     |
+--------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT             |             |     8 |   128 |     2   (0)| 00:00:01 |
+|   1 |  SORT GROUP BY NOSORT        |             |     8 |   128 |     2   (0)| 00:00:01 |
+|   2 |   TABLE ACCESS BY INDEX ROWID| PRODUCT     |    77 |  1232 |     2   (0)| 00:00:01 |
+|   3 |    INDEX FULL SCAN           | PRODUCT_IDX |    77 |       |     1   (0)| 00:00:01 |
+--------------------------------------------------------------------------------------------
+
+10 rows selected. 
+
+SQL> 
+SQL> DROP INDEX PRODUCT_IDX;
+
+Index PRODUCT_IDX dropped.
+
+SQL> 
+SQL> -- 4 --
+SQL> EXPLAIN PLAN FOR
+  2  SELECT customer_code, contact_name
+  3  FROM CUSTOMER
+  4  WHERE company_name LIKE 'X%';
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 2844954298
+ 
+------------------------------------------------------------------------------
+| Id  | Operation         | Name     | Rows  | Bytes | Cost (%CPU)| Time     |
+------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT  |          |     1 |    43 |     3   (0)| 00:00:01 |
+|*  1 |  TABLE ACCESS FULL| CUSTOMER |     1 |    43 |     3   (0)| 00:00:01 |
+------------------------------------------------------------------------------
+ 
+Predicate Information (identified by operation id):
+---------------------------------------------------
+ 
+   1 - filter("COMPANY_NAME" LIKE 'X%')
+
+13 rows selected. 
+
+SQL> 
+SQL> CREATE INDEX CUSTOMER_IDX ON CUSTOMER(company_name);
+
+Index CUSTOMER_IDX created.
+
+SQL> 
+SQL> EXPLAIN PLAN FOR
+  2  SELECT customer_code, contact_name
+  3  FROM CUSTOMER
+  4  WHERE company_name LIKE 'X%';
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 421458931
+ 
+----------------------------------------------------------------------------------------------------
+| Id  | Operation                           | Name         | Rows  | Bytes | Cost (%CPU)| Time     |
+----------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT                    |              |     1 |    43 |     2   (0)| 00:00:01 |
+|   1 |  TABLE ACCESS BY INDEX ROWID BATCHED| CUSTOMER     |     1 |    43 |     2   (0)| 00:00:01 |
+|*  2 |   INDEX RANGE SCAN                  | CUSTOMER_IDX |     1 |       |     1   (0)| 00:00:01 |
+----------------------------------------------------------------------------------------------------
+ 
+Predicate Information (identified by operation id):
+---------------------------------------------------
+ 
+   2 - access("COMPANY_NAME" LIKE 'X%')
+       filter("COMPANY_NAME" LIKE 'X%')
+
+15 rows selected. 
+
+SQL> 
+SQL> DROP INDEX CUSTOMER_IDX;
+
+Index CUSTOMER_IDX dropped.
+
+SQL> 
+SQL> -- 5 --
+SQL> EXPLAIN PLAN FOR
+  2  SELECT lastname, firstname, title, birthdate, address
+  3  FROM EMPLOYEE
+  4  ORDER BY birthdate;
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 1993616227
+ 
+-------------------------------------------------------------------------------
+| Id  | Operation          | Name     | Rows  | Bytes | Cost (%CPU)| Time     |
+-------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |          |     9 |   603 |     4  (25)| 00:00:01 |
+|   1 |  SORT ORDER BY     |          |     9 |   603 |     4  (25)| 00:00:01 |
+|   2 |   TABLE ACCESS FULL| EMPLOYEE |     9 |   603 |     3   (0)| 00:00:01 |
+-------------------------------------------------------------------------------
+
+9 rows selected. 
+
+SQL> 
+SQL> CREATE INDEX EMPLOYEE_IDX ON EMPLOYEE(lastname, firstname, title, birthdate, address);
+
+Index EMPLOYEE_IDX created.
+
+SQL> 
+SQL> EXPLAIN PLAN FOR
+  2  SELECT lastname, firstname, title, birthdate, address
+  3  FROM EMPLOYEE
+  4  ORDER BY birthdate;
+
+Explained.
+
+SQL> 
+SQL> SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+PLAN_TABLE_OUTPUT                                                                                                                                                                                                                                                                                           
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plan hash value: 3052182482
+ 
+---------------------------------------------------------------------------------
+| Id  | Operation        | Name         | Rows  | Bytes | Cost (%CPU)| Time     |
+---------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT |              |     9 |   603 |     2  (50)| 00:00:01 |
+|   1 |  SORT ORDER BY   |              |     9 |   603 |     2  (50)| 00:00:01 |
+|   2 |   INDEX FULL SCAN| EMPLOYEE_IDX |     9 |   603 |     1   (0)| 00:00:01 |
+---------------------------------------------------------------------------------
+
+9 rows selected. 
+
+SQL> 
+SQL> DROP INDEX EMPLOYEE_IDX;
+
+Index EMPLOYEE_IDX dropped.
+
+SQL> 
+SQL> 
+SQL> SPOOL OFF

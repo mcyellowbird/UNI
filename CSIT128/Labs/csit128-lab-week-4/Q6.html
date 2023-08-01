@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script>
+
+			function frogClick(){
+				// Set the DATA of the element with the 'frogCount' ID EQUAL to its current value
+				// PLUS an image of a frog
+				frogCount.innerHTML = frogCount.innerHTML + '&#x1F438';
+			}
+		</script>
+	</head>
+
+	<body>
+
+		<!-- The onClick command will run the frogClick() function -->
+		<img id="frogClick" src="Frog.jpg" width="300px" onClick="frogClick()"/>
+		<br>
+		<span id="frogCount" style="font-size:50px"></span>
+
+	</body>
+</html>

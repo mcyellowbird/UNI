@@ -1,0 +1,91 @@
+mysql> source solution1.sql
+--------------
+/* (1)  First, the script inserts into a sample database information about a new trip that consist of two legs. 
+        A trip must be performed by a driver who has already performed a trip on the same day. You are allowed 
+        to examine the contents of a sample database to find out which driver performed at least one trip and 
+        later on apply INSERT statements to insert information about the same driver who performed another trip 
+        on the same day. Next, insert information about two legs that belong to the already inserted trip. 
+        All other information about a new trip and its legs is up to you.                                        */
+
+INSERT INTO TRIP VALUES(36, 10001, 'QRT834', '2017-05-24' )
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO TRIPLEG VALUES( 36, 1, 'Melbourne', 'Hobart')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO TRIPLEG VALUES( 36, 2, 'Hobart', 'Perth')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+/* (2) Next, the script creates a single column relational table MESSAGE to store variable size strings no 
+       longer than 500 characters.                                                                               */
+
+CREATE TABLE MESSAGE(
+  error_message varchar(500) NOT NULL,
+  CONSTRAINT MESSAGE_PKEY PRIMARY KEY ( error_message ) )
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+/* (3)  Next, the script inserts into a relational table MESSAGE information about the contents of a sample 
+        database that violate the consistency constraint.	
+
+        "A driver is not allowed to perform more than 1 trip per day"
+
+        The script must list the outcomes of verification of the consistency constraint as a single column 
+        table with the following messages as the rows in the table.
+
+        A driver <insert driving licence number here> performed more than one trip <insert trip number here>
+
+        For example, if a driving licence number of a driver who performed more than one trip on 1 May 2019 
+        is equal to 7 then verification of the consistency constraint must return the following message.
+
+        A driver 7 performed more than one trip on 1 May 2019
+	      	   	       		      	  	       	       
+        Use a function CONCAT to create the messages like the one listed above.                                  */
+
+INSERT INTO MESSAGE (
+            SELECT CONCAT('A driver ',
+	                  LNUM,
+			  ' performed more than on one trip on ',
+			  DATE_FORMAT(TDATE, '%d %M %Y') )
+            FROM TRIP
+            GROUP BY LNUM, TDATE
+            HAVING COUNT(*) > 1 )
+--------------
+
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+--------------
+/* (4)  Finally, the script makes the contents of a relational table MESSAGE permanent and lists the contents 
+        of the table.                                                                                            */
+	
+ROLLBACK
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT error_message "Error message"
+FROM MESSAGE
+--------------
+
++-----------------------------------------------------------------+
+| Error message                                                   |
++-----------------------------------------------------------------+
+| A driver 10001 performed more than on one trip on 24 May 2017   |
+| A driver 20002 performed more than on one trip on 23 April 2015 |
++-----------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> notee

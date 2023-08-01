@@ -1,0 +1,158 @@
+mysql> use jrg;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT *
+    -> FROM REGION
+    -> WHERE region_name IN ('Asia', 'Europe');
+--------------
+SELECT *
+FROM REGION
+WHERE region_name IN ('Asia', 'Europe')
+--------------
+
++-------------+
+| region_name |
++-------------+
+| Asia        |
+| Europe      |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM COUNTRY 
+    -> WHERE country_name IN ('Fiji', 'Vanuatu');
+--------------
+SELECT *
+FROM COUNTRY 
+WHERE country_name IN ('Fiji', 'Vanuatu')
+--------------
+
++--------------+-----------------------+
+| country_name | region_name           |
++--------------+-----------------------+
+| Fiji         | Australia and Oceania |
+| Vanuatu      | Australia and Oceania |
++--------------+-----------------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO REGION VALUES ('Amazonia');
+--------------
+INSERT INTO REGION VALUES ('Amazonia')
+--------------
+
+ERROR 1142 (42000): INSERT command denied to user 'jrg_1'@'localhost' for table 'REGION'
+mysql> exit;
+mysql> use jrg;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> INSERT INTO EMPLOYEE VALUES 
+    ->         ( 710
+    ->         , 'John'
+    ->         , 'Doe'
+    ->         , 'JDOE'
+    ->         , '715.124.4269'
+    ->         , STR_TO_DATE('05-01-2000', '%d-%m-%Y')
+    ->         , 'Accounting Manager'
+    ->         , 9200
+    ->         , NULL
+    ->         , 108
+    ->         , 'Accounting'
+    ->         );
+--------------
+INSERT INTO EMPLOYEE VALUES 
+        ( 710
+        , 'John'
+        , 'Doe'
+        , 'JDOE'
+        , '715.124.4269'
+        , STR_TO_DATE('05-01-2000', '%d-%m-%Y')
+        , 'Accounting Manager'
+        , 9200
+        , NULL
+        , 108
+        , 'Accounting'
+        )
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+mysql> UPDATE EMPLOYEE
+    -> SET salary = 1.1*salary;
+--------------
+UPDATE EMPLOYEE
+SET salary = 1.1*salary
+--------------
+
+Query OK, 108 rows affected (0.03 sec)
+Rows matched: 108  Changed: 108  Warnings: 0
+
+mysql> INSERT INTO DEPARTMENT VALUES 
+    -> ( 'Gambling'
+    -> , '40-5-12 Monte Carlo'
+    -> , '190518'
+    -> , 'Monte Carlo'
+    -> , 'Monaco'
+    -> , 104 );
+--------------
+INSERT INTO DEPARTMENT VALUES 
+( 'Gambling'
+, '40-5-12 Monte Carlo'
+, '190518'
+, 'Monte Carlo'
+, 'Monaco'
+, 104 )
+--------------
+
+ERROR 1142 (42000): INSERT command denied to user 'jrg_2'@'localhost' for table 'DEPARTMENT'
+mysql> exit;
+mysql> use jrg;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> CREATE TABLE SKILL (skill_name VARCHAR(5),
+    ->  CONSTRAINT SKILL_PK PRIMARY KEY (skill_name) );
+--------------
+CREATE TABLE SKILL (skill_name VARCHAR(5),
+ CONSTRAINT SKILL_PK PRIMARY KEY (skill_name) )
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE csit115.SKILL (skill_name VARCHAR(5),
+    ->  CONSTRAINT SKILL_PK PRIMARY KEY (skill_name) );
+--------------
+CREATE TABLE csit115.SKILL (skill_name VARCHAR(5),
+ CONSTRAINT SKILL_PK PRIMARY KEY (skill_name) )
+--------------
+
+ERROR 1142 (42000): CREATE command denied to user 'jrg_3'@'localhost' for table 'SKILL'
+mysql> SELECT department_name, street_address, city, country_name
+    -> FROM DEPARTMENT
+    -> WHERE department_name = 'Construction';
+--------------
+SELECT department_name, street_address, city, country_name
+FROM DEPARTMENT
+WHERE department_name = 'Construction'
+--------------
+
++-----------------+---------------------+---------+--------------+
+| department_name | street_address      | city    | country_name |
++-----------------+---------------------+---------+--------------+
+| Construction    | 40-5-12 Laogianggen | Beijing | China        |
++-----------------+---------------------+---------+--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT manager_id
+    -> FROM DEPARTMENT;
+--------------
+SELECT manager_id
+FROM DEPARTMENT
+--------------
+
+ERROR 1143 (42000): SELECT command denied to user 'jrg_3'@'localhost' for column 'manager_id' in table 'DEPARTMENT'
+mysql> notee;

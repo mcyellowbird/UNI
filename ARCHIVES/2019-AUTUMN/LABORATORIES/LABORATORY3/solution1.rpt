@@ -1,0 +1,75 @@
+mysql> source solution1.sql
+--------------
+CREATE TABLE BANK(
+ name  	     VARCHAR(80)	NOT NULL,
+ hq_address  VARCHAR(200)	NOT NULL,
+ profit	     DECIMAL(12)	NOT NULL,
+   CONSTRAINT BANK_PK PRIMARY KEY (name),
+   CONSTRAINT BANK_CK UNIQUE (hq_address) )
+--------------
+
+Query OK, 0 rows affected (0.12 sec)
+
+--------------
+CREATE TABLE BRANCH (
+ bank_name   VARCHAR(80)	NOT NULL,
+ branch_name VARCHAR(100)	NOT NULL,
+ city	     VARCHAR(30)	NOT NULL,
+ street      VARCHAR(30)	NOT NULL,
+ bldg_number DECIMAL(3)		NOT NULL,
+ total_employees DECIMAL(4)	NOT NULL,
+  CONSTRAINT BRANCH_PK PRIMARY KEY (bank_name, branch_name),
+  CONSTRAINT BRANCH_CK UNIQUE (city, street, bldg_number),
+  CONSTRAINT BRANCH_FK FOREIGN KEY (bank_name) REFERENCES BANK(name) )
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE EMPLOYEE(
+ code         CHAR(6)		NOT NULL, /* (ii) All employee codes must be fixed size a sequence of 6 characters. */
+ first_name   VARCHAR(30)	NOT NULL,
+ last_name    VARCHAR(30)	NOT NULL,
+ date_of_birth DATE		NOT NULL, /* (i) All columns that contain dates must be of type DATE.               */
+ position     VARCHAR(200)	NOT NULL,
+ bank_name   VARCHAR(80)	NOT NULL,
+ branch_name VARCHAR(100)	NOT NULL,
+  CONSTRAINT EMPLOYEE_PK PRIMARY KEY (code),
+  CONSTRAINT EMPLOYEE_CK UNIQUE (first_name, last_name, date_of_birth),
+  CONSTRAINT EMPLOYEE_FK FOREIGN KEY (bank_name, branch_name) REFERENCES BRANCH(bank_name, branch_name) )
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+
+--------------
+CREATE TABLE ACCOUNT(
+ account_number DECIMAL(12)	NOT NULL, /* (iii) All account numbers are sequences of 12 digits.                  */
+ balance	DECIMAL(14,2)	NOT NULL,
+ interest_rate  DECIMAL(3,2)	    NULL, /* (iv) All interest rates are fractions in a range [0,1) with 2 positions after decimal dot. */
+ total_years	DECIMAL(3)	    NULL,
+ account_type	VARCHAR(10)	NOT NULL,
+  CONSTRAINT ACCOUNT_PK PRIMARY KEY (account_number),
+  CONSTRAINT ACCOUNT_CH1 CHECK( account_type IN ('SAVINGS','LOAN') ),
+  CONSTRAINT ACCOUNT_CH2 CHECK( interest_rate >= 0 AND interest_rate < 1) )
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+
+--------------
+  	              /* (iv) All interest rates are fractions in a range [0,1) with 2 positions after decimal dot. */
+
+CREATE TABLE TRANSACTION(
+ code		CHAR(6)		NOT NULL, /* (ii) All employee codes must be fixed size a sequence of 6 characters. */
+ account_number DECIMAL(12)	NOT NULL, /* (iii) All account numbers are sequences of 12 digits.                  */
+ tdate		DATE		NOT NULL, /* (i) All columns that contain dates must be of type DATE.               */
+ amount		DECIMAL(10,2)	NOT NULL, /* (v) All transaction amounts are real numbers (floating point number) 
+                                                 in a range 0.00 to 99999999.99 with 2 positions after decimal dot. */
+  CONSTRAINT TRANSACTION_PK PRIMARY KEY (code, account_number, tdate),
+  CONSTRAINT TRANSACTION_FK1 FOREIGN KEY (code) REFERENCES EMPLOYEE(code),
+  CONSTRAINT TRANSACTION_FK2 FOREIGN KEY (account_number) REFERENCES ACCOUNT(account_number),
+  CONSTRAINT TRANSACTION_CH CHECK( amount BETWEEN 0.0 AND 99999999.99 ) )
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> notee

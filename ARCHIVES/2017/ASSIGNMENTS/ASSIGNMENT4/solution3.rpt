@@ -1,0 +1,40 @@
+mysql> source solution3.sql
+--------------
+UPDATE EMPLOYEE
+SET department_name = 'Sales'
+WHERE employee_id = 204
+--------------
+
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT CONCAT('An employee ', EMPDEPT.employee_id, ' who manages a department ', EMPDEPT.ddn,  ' is a member of department ', EMPDEPT.edn)
+FROM ( SELECT employee_id, DEPARTMENT.department_name ddn, EMPLOYEE.department_name edn
+       FROM EMPLOYEE JOIN DEPARTMENT
+                     ON employee_id = manager_id ) EMPDEPT
+WHERE EMPDEPT.ddn <> EMPDEPT.edn
+ORDER BY EMPDEPT.employee_id ASC
+--------------
+
++-------------------------------------------------------------------------------------------------------------------------------------+
+| CONCAT('An employee ', EMPDEPT.employee_id, ' who manages a department ', EMPDEPT.ddn,  ' is a member of department ', EMPDEPT.edn) |
++-------------------------------------------------------------------------------------------------------------------------------------+
+| An employee 100 who manages a department Treasury is a member of department Executive                                               |
+| An employee 100 who manages a department Benefits is a member of department Executive                                               |
+| An employee 100 who manages a department Corporate Tax is a member of department Executive                                          |
+| An employee 100 who manages a department Operations is a member of department Executive                                             |
+| An employee 100 who manages a department Shareholder Services is a member of department Executive                                   |
+| An employee 100 who manages a department Control And Credit is a member of department Executive                                     |
+| An employee 100 who manages a department Government Sales is a member of department Executive                                       |
+| An employee 100 who manages a department Recruiting is a member of department Executive                                             |
+| An employee 104 who manages a department Manufacturing is a member of department Information Technology                             |
+| An employee 104 who manages a department Construction is a member of department Information Technology                              |
+| An employee 105 who manages a department Contracting is a member of department Information Technology                               |
+| An employee 112 who manages a department Payroll is a member of department Accounting                                               |
+| An employee 145 who manages a department Retail Sales is a member of department Sales                                               |
+| An employee 204 who manages a department Public Relations is a member of department Sales                                           |
++-------------------------------------------------------------------------------------------------------------------------------------+
+14 rows in set (0.00 sec)
+
+mysql> notee

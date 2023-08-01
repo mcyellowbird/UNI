@@ -1,0 +1,404 @@
+mysql> source solution4.sql;
+--------------
+/*
+Before starting to run this solution, please make sure that you remove all table in csit115 and 
+run dbcreate_final.sql to populate the tables and data in the csit115 database. Also, make sure to log in as a root. 
+Do not include the process of running  dbcreate_final.sql in the report. 
+*/
+ 
+/*
+(1)	Create a new database. A name of a new database must be the same as a prefix of your UOW email account. 
+    For example, if your UOW email account is xyz111@uowmail.edu.au then a database name must be xyz111. 
+	Create a USER table that consists of a username, password and owner name. Let username be the primary key. 
+	Extract the owner’s name and phone number from the OWNER table as the owner’s name and username in the USER table, respectively.  
+	Let the default password be a username concatenated with "abcd".  Display all rows in the USER table. 
+	
+    For example, if the username is "42154522", then the password is "42154522abcd".
+*/
+
+CREATE DATABASE iem651
+--------------
+
+Query OK, 1 row affected (0.84 sec)
+
+Database changed
+--------------
+CREATE TABLE USER
+(
+username VARCHAR(50) NOT NULL,
+password VARCHAR(50) NOT NULL,
+ownerName VARCHAR(50) NOT NULL,
+
+CONSTRAINT USER_PKEY PRIMARY KEY (username)
+)
+--------------
+
+Query OK, 0 rows affected (0.46 sec)
+
+--------------
+INSERT INTO USER (username, password, ownerName)
+SELECT phoneNum, CONCAT(phoneNum, 'abcd'), name
+FROM csit115.OWNER
+--------------
+
+Query OK, 11 rows affected (0.01 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+--------------
+/*
+(2) In the new database, create a new relational table. This relational table is named "PROPERTY_DETAIL". 
+    It must contain complete information about the property and owner. Complete information means all information extracted from 
+	the PROPERTY table and the owner’s name from the OWNER table.  The "PROPERTY_DETAIL" table should not contain a duplicated column. 
+	Display all rows in the PROPERTY_DETAIL table.  
+	
+	Noted that the sample database should be upload to the csit115 database before running this solution so that you can extract 
+	columns information from it and assign them to the "PROPERTY_DETAIL" table in the new database.
+*/
+
+CREATE TABLE PROPERTY_DETAIL AS
+SELECT P.pNum, P.city, P.street, P.streetNum, P.apartmentNum, P.phoneNum, P.price, O.name
+FROM csit115.PROPERTY as P
+JOIN csit115.OWNER as O
+ON P.phoneNum = O.phoneNum
+--------------
+
+Query OK, 23 rows affected (0.04 sec)
+Records: 23  Duplicates: 0  Warnings: 0
+
+--------------
+                    
+SELECT * FROM PROPERTY_DETAIL
+--------------
+
++------+------------------+------------------+-----------+--------------+-----------+------------+----------------+
+| pNum | city             | street           | streetNum | apartmentNum | phoneNum  | price      | name           |
++------+------------------+------------------+-----------+--------------+-----------+------------+----------------+
+|    7 | Wollongong       | Campbell street  |        23 |           51 | 412256789 |  950000.00 | Frederic Jones |
+|    6 | Fairy Meadow     | Hamilton street  |         6 |         NULL | 412326789 |  800000.00 | Michael Jones  |
+|   17 | Kiama            | Brighton street  |        12 |         NULL | 412326789 |  830000.00 | Michael Jones  |
+|   22 | Bulli            | Air avenue       |        11 |         NULL | 412326789 | 1050000.00 | Michael Jones  |
+|   11 | Berkeley         | Derby street     |        18 |         NULL | 412336789 |  650000.00 | Adam Smith     |
+|    5 | Wollongong       | Campbell street  |        23 |           42 | 412352789 |  850000.00 | Adam Taylor    |
+|   21 | Bulli            | Craven street    |         9 |         NULL | 412352789 | 1150000.00 | Adam Taylor    |
+|    4 | Dapto            | Princes highway  |        27 |          115 | 412356289 |  610000.00 | John Gray      |
+|   20 | Woonona          | Kareala road     |        21 |         NULL | 412356289 | 1050000.00 | John Gray      |
+|    3 | Dapto            | Princes highway  |        27 |          102 | 412356729 |  600000.00 | John Doe       |
+|   12 | Berkeley         | Kelly street     |        60 |         NULL | 412356729 |  620000.00 | John Doe       |
+|   14 | Albion Park      | Hughes drive     |         6 |         NULL | 412356729 |  670000.00 | John Doe       |
+|   19 | Port Kembla      | Third avenue     |        61 |         NULL | 412356729 |  550000.00 | John Doe       |
+|    2 | Dapto            | Beltana Avenue   |        21 |         NULL | 412356782 |  700000.00 | Peter Tylor    |
+|   15 | Albion Park      | Fraser crest     |        24 |         NULL | 412356782 |  680000.00 | Peter Tylor    |
+|    1 | Wollongong       | Smith street     |         5 |           37 | 412356789 |  750000.00 | John Smith     |
+|   18 | Port Kembla      | Wentworth street |       215 |         NULL | 412356789 |  550000.00 | John Smith     |
+|   10 | North Wollongong | Ocean street     |         7 |           75 | 413356789 | 1100000.00 | John Lucas     |
+|    8 | Towradgi         | Dixon street     |        10 |         NULL | 422356789 |  850000.00 | Alice Smith    |
+|   16 | Kiama            | Bong Bong street |        62 |         NULL | 422356789 |  850000.00 | Alice Smith    |
+|    9 | North Wollongong | Church street    |         3 |           22 | 432356789 | 1050000.00 | Eva Jones      |
+|   13 | Kanahooka        | Darren avenue    |        21 |         NULL | 432356789 |  650000.00 | Eva Jones      |
+|   23 | Keiraville       | Grey street      |         3 |         NULL | 432356789 |  950000.00 | Eva Jones      |
++------+------------------+------------------+-----------+--------------+-----------+------------+----------------+
+23 rows in set (0.00 sec)
+
+--------------
+/*
+(3) Create two new roles, which are a power user and an app user. The power user role has all privileges for the new database, 
+   including granting privileges to a user. Meanwhile, the app user role is allowed only to read, add, delete and update the tables 
+   in the new database.      
+*/
+
+CREATE ROLE powerUser
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT ALL ON iem651.* TO powerUser WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE ROLE appUser
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT, INSERT, DELETE, UPDATE ON iem651.* TO appUser
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(4)	Create two users. These user accounts should be able to log in with a password. The names of the users and passwords are up to you to design.
+    Assign one of the users to the power user role and the other user to the app user role.   
+*/
+
+CREATE USER user1 IDENTIFIED BY 'user1'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT powerUser to user1
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE USER user2 IDENTIFIED BY 'user2'
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+GRANT appUser to user2
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(5)	The first user belongs to the category "OWNER_CSIT115", and the OWNER_CSIT115 group have access in the read and write mode to a relational table
+    OWNER located in the csit115 database. Additionally, the first user must have access in reading mode to the rest of the relational tables 
+	in the csit115 database excepted for a relational table BUYER.
+*/
+
+CREATE ROLE OWNER_CSIT115
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT OWNER_CSIT115 to user1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT SELECT, INSERT, UPDATE, DELETE ON csit115.OWNER TO OWNER_CSIT115
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT ON csit115.INSPECTION TO user1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT SELECT ON csit115.OWNER TO user1
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT ON csit115.PREFERENCE TO user1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT SELECT ON csit115.PROPERTY TO user1
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(6)	Allow the second user to have only access in reading mode to the owner’s name in a relational table BUYER located in the csit115 database. 
+    Also, allow the second user to have only access in reading mode to all information but the price in a relational table PROPERTY 
+	located in csit115 database. 
+*/
+
+GRANT SELECT (name) ON csit115.BUYER TO user2
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT SELECT (pNum, city, street, streetNum, apartmentNum, phoneNum) ON csit115.PROPERTY to user2
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(7)	List user name, database name (and/or table name), read and write privileges on all databases and tables that both users got. 
+    Note that you may need to write a couple of select statements to display all privileges.
+*/
+
+SELECT user, db, table_name, column_name, column_priv
+FROM mysql.columns_priv
+WHERE user = "user1"
+OR user = "user2"
+--------------
+
++-------+---------+------------+--------------+-------------+
+| user  | db      | table_name | column_name  | column_priv |
++-------+---------+------------+--------------+-------------+
+| user2 | csit115 | BUYER      | name         | Select      |
+| user2 | csit115 | PROPERTY   | apartmentNum | Select      |
+| user2 | csit115 | PROPERTY   | city         | Select      |
+| user2 | csit115 | PROPERTY   | pNum         | Select      |
+| user2 | csit115 | PROPERTY   | phoneNum     | Select      |
+| user2 | csit115 | PROPERTY   | street       | Select      |
+| user2 | csit115 | PROPERTY   | streetNum    | Select      |
++-------+---------+------------+--------------+-------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT user, db, table_name, table_priv, column_priv
+FROM mysql.tables_priv
+WHERE user = "user1"
+OR user = "user2"
+--------------
+
++-------+---------+------------+------------+-------------+
+| user  | db      | table_name | table_priv | column_priv |
++-------+---------+------------+------------+-------------+
+| user1 | csit115 | INSPECTION | Select     |             |
+| user1 | csit115 | OWNER      | Select     |             |
+| user1 | csit115 | PREFERENCE | Select     |             |
+| user1 | csit115 | PROPERTY   | Select     |             |
+| user2 | csit115 | BUYER      |            | Select      |
+| user2 | csit115 | PROPERTY   |            | Select      |
++-------+---------+------------+------------+-------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT user, db, select_priv, insert_priv, update_priv, delete_priv
+FROM mysql.db
+WHERE user = "appUser"
+OR user = "powerUser"
+--------------
+
++-----------+--------+-------------+-------------+-------------+-------------+
+| user      | db     | select_priv | insert_priv | update_priv | delete_priv |
++-----------+--------+-------------+-------------+-------------+-------------+
+| appUser   | iem651 | Y           | Y           | Y           | Y           |
+| powerUser | iem651 | Y           | Y           | Y           | Y           |
++-----------+--------+-------------+-------------+-------------+-------------+
+2 rows in set (0.00 sec)
+
+--------------
+SHOW GRANTS FOR user1
+--------------
+
++----------------------------------------------------------+
+| Grants for user1@%                                       |
++----------------------------------------------------------+
+| GRANT USAGE ON *.* TO `user1`@`%`                        |
+| GRANT SELECT ON `csit115`.`INSPECTION` TO `user1`@`%`    |
+| GRANT SELECT ON `csit115`.`OWNER` TO `user1`@`%`         |
+| GRANT SELECT ON `csit115`.`PREFERENCE` TO `user1`@`%`    |
+| GRANT SELECT ON `csit115`.`PROPERTY` TO `user1`@`%`      |
+| GRANT `OWNER_CSIT115`@`%`,`powerUser`@`%` TO `user1`@`%` |
++----------------------------------------------------------+
+6 rows in set (0.00 sec)
+
+--------------
+SHOW GRANTS FOR user2
+--------------
+
++-------------------------------------------------------------------------------------------------------------------------+
+| Grants for user2@%                                                                                                      |
++-------------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `user2`@`%`                                                                                       |
+| GRANT SELECT (`name`) ON `csit115`.`BUYER` TO `user2`@`%`                                                               |
+| GRANT SELECT (`apartmentNum`, `city`, `pNum`, `phoneNum`, `street`, `streetNum`) ON `csit115`.`PROPERTY` TO `user2`@`%` |
+| GRANT `appUser`@`%` TO `user2`@`%`                                                                                      |
++-------------------------------------------------------------------------------------------------------------------------+
+4 rows in set (0.00 sec)
+
+--------------
+/* 
+(8)	Create a logical backup of the OWNER table in the database csit115. The logical backup file name is a prefix of your UOW email account 
+    with backup.sql. For example, if your UOW email account is xyz222@uow.edu.au, then the logical backup file name is xyz222backup.sql. 
+	Next, create a new database based on the backup file name. For example, "xyz222backup" is the database name. 
+	Run the restore command to restore the database from the backup file to the new database. List the OWNER table in the new database.
+*/
+
+#system mysqldump csit115 OWNER -u root -p -v -l > iem651backup.sql;
+
+--------------
+SELECT * FROM iem651.OWNER
+--------------
+
++-----------+----------------+------------------+-----------------+-----------+
+| phoneNum  | name           | city             | street          | streetNum |
++-----------+----------------+------------------+-----------------+-----------+
+| 412256789 | Frederic Jones | Hurstville       | Waterloo Street |        72 |
+| 412326789 | Michael Jones  | Rockdale         | Gipps road      |        12 |
+| 412336789 | Adam Smith     | Gwynneville      | Estern Street   |        25 |
+| 412352789 | Adam Taylor    | Horsley          | Church Street   |        22 |
+| 412356289 | John Gray      | Redfern          | Lucas Drive     |         5 |
+| 412356729 | John Doe       | Dapto            | Station street  |        10 |
+| 412356782 | Peter Tylor    | Hurstville       | Moore Street    |        12 |
+| 412356789 | John Smith     | Hurstville       | Victoria Street |        42 |
+| 413356789 | John Lucas     | Fairy Meadow     | Soudan Street   |        21 |
+| 422356789 | Alice Smith    | Wollongong       | Church Street   |         2 |
+| 432356789 | Eva Jones      | North Wollongong | Bode Avenue     |        10 |
++-----------+----------------+------------------+-----------------+-----------+
+11 rows in set (0.00 sec)
+
+--------------
+/*
+(9) Remove the power user role from the first user. Remove the phone number reading right on the relational table PROPERTY in 
+    the csit115 database from the second user.
+*/
+
+REVOKE powerUser FROM user1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+REVOKE SELECT ON csit115.PROPERTY FROM user2
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*  
+(10) Write scripts to remove the above two users and all the roles. Also, write the script to remove the created databases in this task as well.
+*/
+
+DROP ROLE powerUser
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+DROP USER user1
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP USER user2
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+DROP ROLE appUser
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+DROP ROLE OWNER_CSIT115
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+DROP DATABASE iem651
+--------------
+
+Query OK, 3 rows affected (0.05 sec)
+
+mysql> notee;

@@ -1,0 +1,202 @@
+mysql> \. solution1.sql
+--------------
+SELECT 'Task 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+INSERT INTO EMPLOYEE VALUES(21, 'Alice', 'B', 'Doe', '1966-03-23', 42, 'Victoria St.', 'Hurstville', 'NSW', 2456)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO ADMIN VALUES(21, 'senior analyst')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT 'Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE DRIVER DROP FOREIGN KEY DRIVER_FKEY
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ADMIN DROP FOREIGN KEY ADMIN_FKEY
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE
+SET ENUM = ENUM + 100
+WHERE ENUM IN (SELECT ENUM
+               FROM DRIVER)
+--------------
+
+Query OK, 17 rows affected (0.01 sec)
+Rows matched: 17  Changed: 17  Warnings: 0
+
+--------------
+UPDATE DRIVER
+SET ENUM = ENUM + 100
+--------------
+
+Query OK, 17 rows affected (0.01 sec)
+Rows matched: 17  Changed: 17  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE
+SET ENUM = ENUM - 17
+WHERE ENUM IN (SELECT ENUM
+               FROM ADMIN)
+--------------
+
+Query OK, 4 rows affected (0.01 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+--------------
+UPDATE ADMIN
+SET ENUM = ENUM - 17
+--------------
+
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+--------------
+ALTER TABLE DRIVER ADD CONSTRAINT DRIVER_FKEY FOREIGN KEY(ENUM) REFERENCES EMPLOYEE(ENUM)
+--------------
+
+Query OK, 17 rows affected (0.07 sec)
+Records: 17  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ADMIN ADD CONSTRAINT ADMIN_FKEY FOREIGN KEY(ENUM) REFERENCES EMPLOYEE(ENUM)
+--------------
+
+Query OK, 4 rows affected (0.08 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+UPDATE TRIPLEG
+SET DESTINATION = 'Hobart'
+WHERE TNUM = 35 AND LEGNUM = 2
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE TRIPLEG
+SET DEPARTURE = 'Hobart',
+    DESTINATION = 'Adelaide'
+WHERE TNUM = 35 AND LEGNUM = 3
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE TRIPLEG
+SET DEPARTURE = 'Adelaide',
+    DESTINATION = 'Perth'
+WHERE TNUM = 35 AND LEGNUM = 4
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT 'Task 4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+UPDATE TRIPLEG
+SET TNUM = 26,
+    LEGNUM = 2
+WHERE TNUM = 27 AND LEGNUM = 1
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+DELETE FROM TRIP
+WHERE TNUM = 27
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT 'Task 5 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 5 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 5 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE TRIP MODIFY REGNUM 	VARCHAR(10) 	  NULL
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE TRIP
+SET REGNUM = NULL
+WHERE REGNUM = 'KKK007'
+--------------
+
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+--------------
+DELETE FROM TRUCK
+WHERE REGNUM = 'KKK007'
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+mysql> notee

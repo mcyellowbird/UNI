@@ -1,0 +1,140 @@
+mysql> \. solution4.sql
+--------------
+SELECT 'Task 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+CREATE TABLE EMPNAME AS ( SELECT ENUM, FNAME, INITIALS, LNAME
+                          FROM EMPLOYEE )
+--------------
+
+Query OK, 20 rows affected (0.14 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPNAME ADD CONSTRAINT EMPNAME_PKEY PRIMARY KEY (ENUM)
+--------------
+
+Query OK, 0 rows affected (0.21 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPNAME ADD CONSTRAINT EMPNAME_FKEY FOREIGN KEY (ENUM) REFERENCES EMPLOYEE(ENUM)
+--------------
+
+Query OK, 20 rows affected (0.08 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+CREATE TABLE TRIP2015( 													
+ TNUM 	DECIMAL(10) 	NOT NULL,
+ LNUM 	DECIMAL(8) 	NOT NULL,
+ REGNUM VARCHAR(10) 	NOT NULL,
+  CONSTRAINT TRIP2015_PKEY PRIMARY KEY (TNUM),
+  CONSTRAINT TRIP2015_FKEY1 FOREIGN KEY (LNUM) REFERENCES DRIVER(LNUM),
+  CONSTRAINT TRIP2015_FKEY2 FOREIGN KEY (REGNUM) REFERENCES TRUCK(REGNUM),
+  CONSTRAINT TRIP2015_FKEY3 FOREIGN KEY (TNUM) REFERENCES TRIP(TNUM) )
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+INSERT INTO TRIP2015 ( SELECT TNUM, LNUM, REGNUM
+                       FROM TRIP
+		       WHERE TRIP_DATE >= '2015-01-01' AND
+		             TRIP_DATE <= '2015-12-31' )
+--------------
+
+Query OK, 13 rows affected (0.01 sec)
+Records: 13  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+UPDATE TRUCK
+SET STATUS = 'MAINTAINED'
+WHERE REGNUM IN ( SELECT REGNUM
+                  FROM TRIP
+		  WHERE TRIP_DATE <= '2005-12-31' )
+--------------
+
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+--------------
+SELECT 'Task 4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 4 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE DRIVER ADD TOTALTRIPS DECIMAL(3) NULL
+--------------
+
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE DRIVER
+SET TOTALTRIPS = ( SELECT COUNT(*)
+                   FROM TRIP
+		   WHERE TRIP.LNUM = DRIVER.LNUM )
+--------------
+
+Query OK, 17 rows affected (0.00 sec)
+Rows matched: 17  Changed: 17  Warnings: 0
+
+--------------
+SELECT 'Task 5 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 5 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+| Task 5 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.01 sec)
+
+--------------
+DELETE FROM TRIPLEG
+WHERE TNUM IN ( SELECT TNUM
+                FROM TRIP
+	        WHERE TRIP_DATE >= '2015-01-01' AND
+		      TRIP_DATE <= '2015-12-31' )
+--------------
+
+Query OK, 20 rows affected (0.02 sec)
+
+mysql> notee

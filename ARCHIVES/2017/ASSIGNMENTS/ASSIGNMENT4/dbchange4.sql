@@ -1,0 +1,25 @@
+/* DML and DDL for Task 4 */
+
+CREATE TABLE MESSAGE( mbody VARCHAR(25), CONSTRAINT MESSAGE_PKEY PRIMARY KEY (mbody) );
+
+INSERT INTO MESSAGE( 'Hello world !!!' );
+COMMIT;
+
+ALTER TABLE MESSAGE MODIFY mbody VARCHAR(50);
+
+UPDATE MESSAGE SET mbody = 'Hello myworld !!!' WHERE mbody LIKE 'Hello%';
+
+ROLLBACK;
+
+DELETE FROM JOBHISTORY WHERE employee_id < 150;
+
+DROP TABLE MESSAGE;
+
+SELECT * FROM JOB;
+
+SELECT employee_id, first_name, last_name
+FROM EMPLOYEE
+WHERE employee_id IN (SELECT supervisor_id 
+	FROM EMPLOYEE);
+
+COMMIT;

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<!-- Assignment 5 (Task ?) by Adam Cahill (6868216) -->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DPIT128/UCIT128: Assignment 5 (Task ?)</title>
+    <style>
+
+      /* BEGIN: Template CSS (DO NOT ALTER/REMOVE) ----------- */
+
+      body {
+        background-color:#ededed;
+        text-align:center;
+      }
+
+      input:focus {
+        box-shadow:0px 0px 1px 1px #8eb5d5;
+        outline:none;
+      }
+
+      input:hover {
+        cursor:pointer;
+      }
+
+      /* END: Template CSS (DO NOT ALTER/REMOVE) ------------- */
+
+      /* INSERT INTERNAL CSS HERE */
+      input {
+      	width: 100px;
+      	padding: 10px;
+      	background-color: #ecf2f4;
+      }
+
+      table {
+        margin: auto;
+        border-collapse: collapse;
+        border: 1px solid #808080;
+      }
+
+      tr:nth-child(even){
+        background-color: #e0e0e0;
+      }
+
+      th {
+        background-color: #a8a8a8;
+        padding:10px;
+        font-size:20px;
+      }
+
+      td {
+        padding:10px;
+        font-size:20px;
+      }
+
+      caption, b{
+        font-size: 21px;
+        padding-top:30px;
+        padding-bottom:10px;
+      }
+
+
+
+    </style>
+    <script>
+
+	function GenerateTable()
+	{
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function()
+	{
+	if(this.readyState == 4 && this.status == 200)
+	{
+	processResponse(this.responseXML);
+	}
+	};
+
+	xhttp.open("get", "A5_TASK1.xml", true);
+
+	xhttp.send();
+	}
+
+	function processResponse(xmlTree)
+	{
+	  var awardedMarks = 0;
+	  var output = "";
+	  var totalMarks = 0;
+
+	  output += "<caption><b>Hotels Combined: 'Wollongong' Search Results</b></caption><br>";
+
+	  output += "<table>";
+	  output += "<tr>";
+	  output += "<th>Result #</th>";
+	  output += "<th>Hotel Name</th>";
+	  output += "<th>Star Rating</th>";
+	  output += "<th>Total Reviews</th>";
+	  output += "<th>Overall Score</th>";
+	  output += "</tr>";
+
+	  for(let index = 0; index < xmlTree.getElementsByTagName("Hotel").length; index++)
+	  {
+	    output += "<tr>";
+	    output += "<td>" + (index + 1) + "</td>";
+	    output += "<td>" + xmlTree.getElementsByTagName("HotelName")[index].childNodes[0].nodeValue + "</td>";
+
+	    let _stars = Number(xmlTree.getElementsByTagName("Stars")[index].childNodes[0].nodeValue);
+  
+	    switch(_stars){
+	      case 1:
+	        output += "<td>" + '<img src="https://mywebspace.net.au/UOWC128/assignment_5/images/1_star.png"/>' + "</td>";
+	        break;
+	      case 2:
+	        output += "<td>" + '<img src="https://mywebspace.net.au/UOWC128/assignment_5/images/2_stars.png"/>' + "</td>";
+	        break;
+	      case 3:
+	        output += "<td>" + '<img src="https://mywebspace.net.au/UOWC128/assignment_5/images/3_stars.png"/>' + "</td>";
+	        break;
+	      case 4:
+	        output += "<td>" + '<img src="https://mywebspace.net.au/UOWC128/assignment_5/images/4_stars.png"/>' + "</td>";
+	        break;
+	      case 5:
+	        output += "<td>" + '<img src="https://mywebspace.net.au/UOWC128/assignment_5/images/5_stars.png"/>' + "</td>";
+	        break;
+	      default:
+	        output += "<td>" + '<img src="https://mywebspace.net.au/UOWC128/assignment_5/images/1_stars.png"/>' + "</td>";
+	    }
+
+	    var _reviews = xmlTree.getElementsByTagName("Reviews")[index].childNodes[0].nodeValue;
+		var nf = new Intl.NumberFormat();
+		output += "<td>" + nf.format(_reviews) + "</td>"
+
+		var _score = xmlTree.getElementsByTagName("Score")[index].childNodes[0].nodeValue;
+
+		if (_score < 7.5){
+		  output += "<td style='background-color: #ff9999;'>" + xmlTree.getElementsByTagName("Score")[index].childNodes[0].nodeValue + "</td>";
+		}
+
+		else if (_score >= 7.5 && _score < 8.5){
+		  output += "<td style='background-color: #ffdb99;'>" + xmlTree.getElementsByTagName("Score")[index].childNodes[0].nodeValue + "</td>";
+		}
+
+		else{
+		  output += "<td style='background-color: #99cc99;'>" + xmlTree.getElementsByTagName("Score")[index].childNodes[0].nodeValue + "</td>";
+		}
+		output += "</tr>";
+	  }
+
+	  output += "</table>";
+
+	  var date = new Date();
+
+	  output += "<h3>This result set was last updated on " + date.toLocaleDateString("en-AU") + ".</h3>";
+
+	  document.getElementById("output").innerHTML = output;
+	}
+
+    </script>
+  </head>
+  <body>
+    <h1>DPIT128/UCIT128: Assignment 5</h1>
+    <h2>Adam Cahill (6868216)</h2>
+    <h3>Date Due: 10/09/2021</h3>
+    <hr />
+    <p style="font-weight:bold;">
+      I have viewed the College&apos;s policy regarding Academic Integrity as provided at the following URL:<br />
+      <a href="https://documents.uow.edu.au/content/groups/public/@web/@uowc/documents/doc/uow218734.pdf" target="_blank">
+        https://documents.uow.edu.au/content/groups/public/@web/@uowc/documents/doc/uow218734.pdf
+      </a>
+    </p>
+    <hr />
+    <h2>Task 2: AJAX & XML</h2>
+
+    <!-- BEGIN: Task ? Solution -->
+
+    <input type="button" autofocus="autofocus" onClick="GenerateTable()" value="Start"/>
+    <br>
+    <div id="output"></div>
+
+    <!-- END: Task ? Solution -->
+
+    <p>&copy; Adam Cahill</p>
+  </body>
+</html>

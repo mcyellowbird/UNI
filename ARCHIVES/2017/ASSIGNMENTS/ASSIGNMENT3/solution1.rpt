@@ -1,0 +1,164 @@
+mysql> source solution1.sql
+--------------
+INSERT INTO JOB VALUES( 'Database analyst', 8000, 10000 )
+--------------
+
+Query OK, 1 row affected (0.04 sec)
+
+--------------
+INSERT INTO EMPLOYEE VALUES( 207, 'James', 'Clark', 'james.clark@bigmail.com',  NULL, '2017-20-04', 'Database analyst', 8500, NULL, 104, 'Information Technology')
+--------------
+
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+--------------
+INSERT INTO EMPLOYEE (SELECT 208, 
+                             first_name, 
+                             last_name, 
+                             NULL, 
+                             NULL, 
+                             hire_date, 
+                             job_title, 
+                             salary, 
+                             commission_pct, 
+                             supervisor_id, 
+                             department_name
+                      FROM EMPLOYEE
+                      WHERE employee_id = 201 )
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE 
+SET supervisor_id = 208
+WHERE supervisor_id = 201
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE DEPARTMENT 
+SET manager_id = 208
+WHERE manager_id = 201
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE JOBHISTORY 
+SET employee_id = 208
+WHERE employee_id = 201
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+DELETE FROM EMPLOYEE
+WHERE employee_id = 201
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+UPDATE EMPLOYEE
+SET email = 'MHARTSTE',
+    phone_number = ' 515.123.5555'
+WHERE employee_id = 208
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE
+SET supervisor_id = (SELECT supervisor_id
+                    FROM (SELECT supervisor_id
+                          FROM EMPLOYEE 
+                          WHERE employee_id = 102) EMP102 )
+WHERE supervisor_id= 102
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+DELETE FROM JOBHISTORY
+WHERE employee_id = 102
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+DELETE FROM EMPLOYEE
+WHERE employee_id = 102
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO DEPARTMENT (SELECT 'Logistics',  
+                               street_address, 
+                               postal_code,
+                               city,
+                               country_name,
+                               manager_id 
+                        FROM DEPARTMENT
+                        WHERE department_name = 'Shipping')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE
+SET department_name = 'Logistics'
+WHERE department_name IN ('Marketing', 'Shipping')
+--------------
+
+Query OK, 47 rows affected (0.03 sec)
+Rows matched: 47  Changed: 47  Warnings: 0
+
+--------------
+UPDATE JOBHISTORY
+SET department_name = 'Logistics'
+WHERE department_name IN ('Marketing', 'Shipping')
+--------------
+
+Query OK, 20 rows affected (0.00 sec)
+Rows matched: 20  Changed: 20  Warnings: 0
+
+--------------
+DELETE FROM DEPARTMENT
+WHERE department_name IN ('Marketing', 'Shipping')
+--------------
+
+Query OK, 2 rows affected (0.00 sec)
+
+--------------
+INSERT INTO JOBHISTORY (SELECT employee_id, hire_date, '2017-04-15', job_title, department_name
+                        FROM EMPLOYEE
+                        WHERE employee_id = 180 )
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+UPDATE EMPLOYEE
+SET job_title = 'Finance Manager',
+    department_name = 'Purchasing',
+    hire_date = '2017-04-20',
+    salary = 400,
+    commission_pct = 0.2
+WHERE employee_id = 180
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> notee

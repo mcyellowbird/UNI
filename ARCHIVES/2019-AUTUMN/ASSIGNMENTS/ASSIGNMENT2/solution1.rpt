@@ -1,0 +1,213 @@
+mysql> source solution1.sql
+--------------
+/* (1)  Find a name of product and name of supplier supplier and unit price of all products where unit price is 
+        less than 10 and supplier name is Norske Meierier.                                                           */
+
+SELECT PRODUCT_NAME, SUPPLIER_NAME, UNIT_PRICE 
+FROM PRODUCT 
+WHERE UNIT_PRICE < 10 AND SUPPLIER_NAME = 'Norske Meierier'
+--------------
+
++--------------+-----------------+------------+
+| PRODUCT_NAME | SUPPLIER_NAME   | UNIT_PRICE |
++--------------+-----------------+------------+
+| Geitost      | Norske Meierier |       2.50 |
++--------------+-----------------+------------+
+1 row in set (0.00 sec)
+
+--------------
+/* (2)  Find a name of suppliers and unit price of all products where a unit price is in range between 9 and 10 
+        inclusive.                                                                                                   */
+
+SELECT SUPPLIER_NAME, 
+UNIT_PRICE FROM PRODUCT 
+WHERE UNIT_PRICE between 9 and 10
+--------------
+
++-----------------------------+------------+
+| SUPPLIER_NAME               | UNIT_PRICE |
++-----------------------------+------------+
+| Exotic Liquids              |      10.00 |
+| New England Seafood Cannery |       9.65 |
+| Tokyo Traders               |      10.00 |
+| Lyngbysild                  |       9.50 |
+| Specialty Biscuits, Ltd.    |      10.00 |
+| Specialty Biscuits, Ltd.    |       9.20 |
+| PB Knackebrod AB            |       9.00 |
+| Zaanse Snoepfabriek         |       9.50 |
++-----------------------------+------------+
+8 rows in set (0.00 sec)
+
+--------------
+/* (3)  Find a company name, contact name, fax number, and home page  address of all suppliers that have either have 
+        no fax number or home page.                                                                                  */
+
+SELECT COMPANY_NAME,CONTACT_NAME, FAX, HOME_PAGE
+FROM SUPPLIER 
+WHERE (FAX IS NULL AND HOME_PAGE IS NOT NULL) OR
+      (FAX IS NOT NULL AND HOME_PAGE IS NULL)
+--------------
+
++----------------------------------------+------------------+-----------------+-----------+
+| COMPANY_NAME                           | CONTACT_NAME     | FAX             | HOME_PAGE |
++----------------------------------------+------------------+-----------------+-----------+
+| Aux joyeux ecclesiastiques             | Guylene Nodier   | (1) 03.83.00.62 | NULL      |
+| Forets d'erables                       | Chantal Goulet   | (514) 555-2921  | NULL      |
+| Formaggi Fortini s.r.l.                | Elio Rossi       | (0544) 60603    | NULL      |
+| G'day, Mate                            | Wendy Mackenzie  | (02) 555-4873   | NULL      |
+| Gai paturage                           | Eliane Noz       | 38.76.98.58     | NULL      |
+| Grandma Kelly's Homestead              | Regina Murphy    | (313) 555-3349  | NULL      |
+| Lyngbysild                             | Niels Petersen   | 43844115        | NULL      |
+| New England Seafood Cannery            | Robb Merchant    | (617) 555-3389  | NULL      |
+| Nord-Ost-Fisch Handelsgesellschaft mbH | Sven Petersen    | (04721) 8714    | NULL      |
+| Pasta Buttini s.r.l.                   | Giovanni Giudici | (089) 6547667   | NULL      |
+| Pavlova, Ltd.                          | Ian Devling      | (03) 444-6588   | NULL      |
+| PB Knackebrod AB                       | Lars Peterson    | 031-987 65 91   | NULL      |
+| Zaanse Snoepfabriek                    | Dirk Luchte      | (12345) 1210    | NULL      |
++----------------------------------------+------------------+-----------------+-----------+
+13 rows in set (0.00 sec)
+
+--------------
+/* (4)  Find the first and last names of all employees born in 1992. It is your task to find an appropriate 
+        standard function that can be used to extract a year from a date.                                            */
+
+SELECT FIRSTNAME, LASTNAME, HIREDATE 
+FROM EMPLOYEE
+WHERE YEAR(BIRTHDATE) = 1992
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+ 
+/* (5)  Find the first names, last names, and cities of all employees.  The results should be 
+        displayed in the ascending order of  the cities and for all employees located in the same city 
+        in the descending order of the last name.                                                                    */
+
+SELECT FIRSTNAME, LASTNAME, CITY
+FROM EMPLOYEE
+ORDER BY CITY ASC, LASTNAME DESC
+--------------
+
++-----------+-----------+----------+
+| FIRSTNAME | LASTNAME  | CITY     |
++-----------+-----------+----------+
+| Janet     | Leverling | Kirkland |
+| Michael   | Suyama    | London   |
+| Robert    | King      | London   |
+| Anne      | Dodsworth | London   |
+| Steven    | Buchanan  | London   |
+| Margaret  | Peacock   | Redmond  |
+| Nancy     | Davolio   | Seattle  |
+| Laura     | Callahan  | Seattle  |
+| Andrew    | Fuller    | Tacoma   |
++-----------+-----------+----------+
+9 rows in set (0.00 sec)
+
+--------------
+ 
+/* (6)  Find the total number of distinct names of cities where at least one employee is located at.                 */
+
+SELECT COUNT( DISTINCT CITY)
+FROM EMPLOYEE
+--------------
+
++-----------------------+
+| COUNT( DISTINCT CITY) |
++-----------------------+
+|                     5 |
++-----------------------+
+1 row in set (0.00 sec)
+
+--------------
+/* (7)  Find the total number of products that belong to each category. Order the results in the ascending order of 
+        the total number of products.                                                                                */
+
+SELECT CATEGORY_NAME, COUNT(*)
+FROM PRODUCT
+GROUP BY CATEGORY_NAME
+ORDER BY 2 ASC
+--------------
+
++----------------+----------+
+| CATEGORY_NAME  | COUNT(*) |
++----------------+----------+
+| Produce        |        5 |
+| Grains/Cereals |        6 |
+| Meat/Poultry   |        6 |
+| Dairy Products |       10 |
+| Seafood        |       12 |
+| Beverages      |       12 |
+| Condiments     |       12 |
+| Confections    |       14 |
++----------------+----------+
+8 rows in set (0.00 sec)
+
+--------------
+/* (8)  Find the total number of products that belong to each category and list only the categories where the total 
+        number of products is greater than 10. Order the results in the descending order of the total number of 
+        products.                                                                                                    */
+
+SELECT CATEGORY_NAME, COUNT(*)
+FROM PRODUCT
+GROUP BY CATEGORY_NAME
+HAVING COUNT(*) > 10
+ORDER BY 2 DESC
+--------------
+
++---------------+----------+
+| CATEGORY_NAME | COUNT(*) |
++---------------+----------+
+| Confections   |       14 |
+| Seafood       |       12 |
+| Beverages     |       12 |
+| Condiments    |       12 |
++---------------+----------+
+4 rows in set (0.00 sec)
+
+--------------
+ 
+/* (9)  Find order_id, shipped date, order date of all orders shipped within 2 days after order date.                */
+
+SELECT ORDER_ID, SHIPPED_DATE, ORDER_DATE 
+FROM ORDERS 
+WHERE SHIPPED_DATE - ORDER_DATE <= 2
+--------------
+
++----------+--------------+------------+
+| ORDER_ID | SHIPPED_DATE | ORDER_DATE |
++----------+--------------+------------+
+|      251 | 1997-02-14   | 1997-02-12 |
+|      261 | 1997-06-04   | 1997-06-02 |
+|      270 | 1996-08-02   | 1996-08-01 |
+|      275 | 1996-08-09   | 1996-08-07 |
+|      289 | 1996-08-28   | 1996-08-26 |
+|      293 | 1996-10-10   | 1996-10-08 |
+|      304 | 1996-10-24   | 1996-10-22 |
+|      321 | 1996-12-13   | 1996-12-11 |
+|      323 | 1996-12-13   | 1996-12-12 |
+|      325 | 1996-12-18   | 1996-12-16 |
+|      329 | 1996-12-20   | 1996-12-18 |
+|      330 | 1996-12-20   | 1996-12-19 |
+|      354 | 1997-01-15   | 1997-01-13 |
+|      355 | 1997-01-16   | 1997-01-14 |
++----------+--------------+------------+
+14 rows in set (0.01 sec)
+
+--------------
+/* (10) Find a name of product and unit price of all product whose name starts from Sir and has ' within a name.     */
+SELECT PRODUCT_NAME, UNIT_PRICE 
+FROM PRODUCT 
+WHERE PRODUCT_NAME LIKE 'Sir%''%'
+--------------
+
++------------------------+------------+
+| PRODUCT_NAME           | UNIT_PRICE |
++------------------------+------------+
+| Sir Rodney's Marmalade |      81.00 |
+| Sir Rodney's Scones    |      10.00 |
+| Sirop d'erable         |      28.50 |
++------------------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> notee

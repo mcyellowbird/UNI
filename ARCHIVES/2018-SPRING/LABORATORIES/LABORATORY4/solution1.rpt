@@ -1,0 +1,68 @@
+mysql> \. solution1.sql
+--------------
+/*
+  (1) Add a foreign key constraint in the database that a department manager is an employee.
+*/
+
+ALTER TABLE Department ADD CONSTRAINT Department_FKey FOREIGN KEY (Manager) REFERENCES Employee (ENumber)
+--------------
+
+Query OK, 5 rows affected (0.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+--------------
+/*
+  (2) Add a check constraint in the database that the value of relationship for a dependent is
+      either SON, or DAUGHER, or SPOUSE, or OTHER.
+*/
+
+ALTER TABLE Dependent ADD CONSTRAINT Dependent_CK CHECK (Relationship IN ('SON', 'DAUGHTER', 'SPOUSE', 'OTHER'))
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+/*
+  (3) We would like to store information in the database about the percentage of an employee
+      works on a project. The value of a percentage is between 0 and 1. A value 0.25 for a
+      percentage means 25%, and 1.0 means 100%.
+*/
+
+ALTER TABLE WorksOn ADD COLUMN Percentage DECIMAL (3,2),
+	ADD CONSTRAINT WorksOn_CK CHECK (Percentage BETWEEN 0 AND 1)
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+/*
+  (4) Add check constraints in the database that the value of the attribute Sex is either M or F.
+*/
+
+ALTER TABLE Employee ADD CONSTRAINT Employee_CK1 CHECK (Sex IN ('M', 'F'))
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE Dependent ADD CONSTRAINT Dependent_CK1 CHECK (Sex IN ('M', 'F'))
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+/*
+  (5) It is possible that the salary of an employee can be up to $9999999.99. 
+*/
+
+ALTER TABLE Employee MODIFY COLUMN Salary DECIMAL(9,2)
+--------------
+
+Query OK, 14 rows affected (0.07 sec)
+Records: 14  Duplicates: 0  Warnings: 0
+
+mysql> notee;

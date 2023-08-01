@@ -1,0 +1,233 @@
+mysql> \. solution4.sql
+--------------
+SELECT 'Task 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE ORDERS ADD (TOTLINES DECIMAL(3) NOT NULL)
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE ORDERS ADD CONSTRAINT CHECK (TOTLINES >=0 )
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE CUSTOMER ADD (TOTORDERS DECIMAL(7) NOT NULL)
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE CUSTOMER ADD CONSTRAINT CHECK (TOTORDERS >=0 )
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+CREATE TABLE ANOTHER_LINEITEM(
+L_ORDERKEY 	DECIMAL(12)	NOT NULL,
+L_LINENUMBER	DECIMAL(12)	NOT NULL,
+L_SHIPDATE	DATE		NOT NULL,
+L_COMMITDATE	DATE		NOT NULL,
+L_RECEIPTDATE	DATE		NOT NULL,
+L_SHIPINSTRUCT	CHAR(25)	NOT NULL,
+L_SHIPMODE	CHAR(10)	NOT NULL,
+L_COMMENT	VARCHAR(44)	NOT NULL,
+CONSTRAINT ANOTHER_LINEITEM_PKEY PRIMARY KEY (L_ORDERKEY, L_LINENUMBER),
+	CONSTRAINT ANOTHER_LINEITEM_FKEY FOREIGN kEY (L_ORDERKEY, L_LINENUMBER)
+		REFERENCES LINEITEM(L_ORDERKEY, L_LINENUMBER) )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+ALTER TABLE LINEITEM DROP COLUMN L_SHIPDATE
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE LINEITEM DROP COLUMN L_COMMITDATE
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE LINEITEM DROP COLUMN L_RECEIPTDATE
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE LINEITEM DROP COLUMN L_SHIPINSTRUCT
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE LINEITEM DROP COLUMN L_SHIPMODE
+--------------
+
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE LINEITEM DROP COLUMN L_COMMENT
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+CREATE TABLE PART_KEY(
+P_PARTKEY 	DECIMAL(12) 	NOT NULL,
+ CONSTRAINT PART_KEY_PKEY PRIMARY KEY (P_PARTKEY) )
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+CREATE TABLE CHEAP_PART(
+P_PARTKEY 	DECIMAL(12) 	NOT NULL,
+P_NAME		VARCHAR(55)	NOT NULL,
+P_MFGR		VARCHAR(25)	NOT NULL,
+P_BRAND		CHAR(10)	NOT NULL,
+P_TYPE		VARCHAR(25)	NOT NULL,
+P_SIZE		DECIMAL(12)	NOT NULL,
+P_CONTAINER 	CHAR(10)	NOT NULL,
+P_RETAILPRICE	DECIMAL(12,2)	NOT NULL,
+P_COMMENT	VARCHAR(23)	NOT NULL,
+	CONSTRAINT CHEAP_PART_PKEY PRIMARY KEY (P_PARTKEY),
+	CONSTRAINT CHEAP_PART_FKEY FOREIGN KEY (P_PARTKEY) REFERENCES PART_KEY(P_PARTKEY), 
+	CONSTRAINT CHEAP_PART_CHECK1 CHECK(P_PARTKEY >= 0),
+	CONSTRAINT CHEAP_PART_CHECK2 CHECK(P_SIZE >= 0),
+	CONSTRAINT CHEAP_PART_CHECK3 CHECK(P_RETAILPRICE >= 0 AND P_RETAILPRICRE < 100) )
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+CREATE TABLE EXPENSIVE_PART(
+P_PARTKEY 	DECIMAL(12) 	NOT NULL,
+P_NAME		VARCHAR(55)	NOT NULL,
+P_MFGR		VARCHAR(25)	NOT NULL,
+P_BRAND		CHAR(10)	NOT NULL,
+P_TYPE		VARCHAR(25)	NOT NULL,
+P_SIZE		DECIMAL(12)	NOT NULL,
+P_CONTAINER 	CHAR(10)	NOT NULL,
+P_RETAILPRICE	DECIMAL(12,2)	NOT NULL,
+P_COMMENT	VARCHAR(23)	NOT NULL,
+	CONSTRAINT EXPENSIVE_PART_PKEY PRIMARY KEY (P_PARTKEY),
+	CONSTRAINT EXPENSIVE_PART_FKEY FOREIGN KEY (P_PARTKEY) REFERENCES PART_KEY(P_PARTKEY), 
+	CONSTRAINT EXPENSIVE_PART_CHECK1 CHECK(P_PARTKEY >= 0),
+	CONSTRAINT EXPENSIVE_PART_CHECK2 CHECK(P_SIZE >= 0),
+	CONSTRAINT EXPENSIVE_PART_CHECK3 CHECK(P_RETAILPRICE >= 100 ) )
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+ALTER TABLE PARTSUPP DROP FOREIGN KEY PARTSUPP_FKEY1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE PARTSUPP ADD CONSTRAINT PARTSUPP_FKEY FOREIGN KEY (PS_PARTKEY) REFERENCES PART_KEY(P_PARTKEY)
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE LINEITEM DROP FOREIGN KEY LINEITEM_FKEY2
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE LINEITEM ADD CONSTRAINT LINEITEM_FKEY2  FOREIGN KEY (L_PARTKEY) REFERENCES PART_KEY(P_PARTKEY)
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+DROP TABLE PART
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+SELECT 'Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++--------------------------------------------------------+
+| Task 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++--------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE CUSTOMER DROP FOREIGN KEY CUSTOMER_FKEY1
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE SUPPLIER DROP FOREIGN kEY SUPPLIER_FKEY1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+DROP TABLE NATION
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+DROP TABLE REGION
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> notee

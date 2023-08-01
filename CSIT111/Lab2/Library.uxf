@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>460</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>LibraryMember
+--
+ - Name: String
+ - ID: Int
+--
+borrowCopy(CopyID): Int
+returnCopy(CopyID): Int
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>200</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Book
+--
+ - Title: String
+ - Author: String
+--
+copiesOnShelf(): Int
+borrow(c:Copy): Boolean
+ 
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>330</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Copy
+--
+ - Title: String
+ - Author: String
+ - CopyID: Int
+--
+createCopy(): Int
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>590</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>MemberOfStaff
+--
+ - Name: String
+ - ID: Int
+--
+borrowJournal(JournalID): Int
+returnJournal(JournalID): Int
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>720</y>
+      <w>130</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Journal
+--
+ - Title: String
+ - Writer: String
+--
+createCopy(): Int
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

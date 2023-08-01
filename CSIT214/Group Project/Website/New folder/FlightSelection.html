@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Select Flight</title>
+		<style>
+			#navbar {
+				background-color: #00008B;
+				position: fixed;
+				width: 100%;
+				top: 0px;
+				left: 0px;
+			}
+			#navbar a {
+				text-decoration: none;
+				display: inline-block;
+				text-align: centre;
+				padding: 20px 30px;
+				background-color: #FF0000;
+				color: white;
+				border: 2px solid white;
+			}
+			#navbar h3 {
+				color: white;
+				display: inline-block;
+			}
+			#homeButton {
+				float: left;
+			}
+			#signOutButton {
+				float: right;
+			}
+			#main {
+				margin-top: 10%;
+				width: 100%
+			}
+		</style>
+		<script>
+			var currentUser;
+			var currentBooking = JSON.parse(sessionStorage.booking);
+			const flights = [];
+			function displayUserName() {
+				currentUser = JSON.parse(sessionStorage.currentUser);
+				document.getElementById("userNameDisplay").innerHTML = currentUser.userName;
+			}
+			function createAndDisplayFlights() {
+				var dateForFunc = new Date(currentBooking.departureDate);
+				var flightID = 0;
+				for(i=0; i<3; i++) {
+					var flight = {};
+					flight.date = new Date(currentBooking.departureDate);
+					do {
+						var newFlightID = (Math.floor(Math.random() * 99999) + 10000);
+					} while(newFlightID == flightID);
+					flightID = newFlightID;
+					flight.flightID = flightID;
+					flight.departureCity = currentBooking.departureCity;
+					flight.arrivalCity = currentBooking.arrivalCity;
+					flight.date.setDate(dateForFunc.getDate()-1+i);
+					if(currentBooking.fareType == "Economy") {
+						flight.price = 300;
+					} else if(currentBooking.fareType == "Premium Economy") {
+						flight.price = 350;
+					} else if (currentBooking.fareType == "Business Class") {
+						flight.price = 400;
+					} else if (currentBooking.fareType == "First Class") {
+						flight.price = 450;
+					}
+					var seatsTaken = [];
+					flight.seatsTaken = seatsTaken;
+					flights[i] = flight;
+				}
+				
+				document.getElementById("flight1Depart").innerHTML = flights[0].departureCity;
+				document.getElementById("flight1Date").innerHTML = flights[0].date;
+				document.getElementById("flight1Destination").innerHTML = flights[0].arrivalCity;
+				document.getElementById("fareType1").innerHTML = currentBooking.fareType;
+				document.getElementById("flight1Price").innerHTML = flights[0].price;
+				
+				document.getElementById("flight2Depart").innerHTML = flights[1].departureCity;
+				document.getElementById("flight2Date").innerHTML = flights[1].date;
+				document.getElementById("flight2Destination").innerHTML = flights[1].arrivalCity;
+				document.getElementById("fareType2").innerHTML = currentBooking.fareType;
+				document.getElementById("flight2Price").innerHTML = flights[1].price;
+				
+				document.getElementById("flight3Depart").innerHTML = flights[2].departureCity;
+				document.getElementById("flight3Date").innerHTML = flights[2].date;
+				document.getElementById("flight3Destination").innerHTML = flights[2].arrivalCity;
+				document.getElementById("fareType3").innerHTML = currentBooking.fareType;
+				document.getElementById("flight3Price").innerHTML = flights[2].price;
+				
+			}
+			
+			
+			function proceed() {
+				const flightButtons = document.querySelectorAll('input[name="flight"]');
+				for (const flightButton of flightButtons) {
+					if(flightButton.checked) {
+						checkDate = flights[flightButton.value].date;
+						//checking if the chosen flight already has existing bookings from other customers
+						for(var flight of flights) {
+							if(flight.date == checkDate && currentBooking.departureCity == flight.departureCity && currentBooking.arrivalCity == flight.arrivalCity) {
+								currentBooking.flightID = flight.flightID;
+								break;
+							}
+						}
+						currentBooking.totalCost += flights[flightButton.value].price;
+						currentBooking.departureDate = flights[flightButton.value].date;
+						currentBooking.price = flights[flightButton.value].price;
+						break;
+					}
+				}
+				sessionStorage.booking = JSON.stringify(currentBooking);
+				sessionStorage.flights = JSON.stringify(flights);
+				
+				console.log(JSON.stringify(currentBooking));
+				window.location.href = "SeatSelection.html";
+			}
+		</script>
+	</head>
+	<body style="background-color: #F0F8FF;" onload="displayUserName();createAndDisplayFlights();">
+		<div id="navbar">
+			<a href="HomePage.html" id="homeButton">Home</a>
+			<h3>Welcome, </h3><h3 id="userNameDisplay"></h3>
+			<a href="LogInPage.html" id="signOutButton">Sign Out</a>
+		</div>
+		
+		<div id="main">
+			<table border="0"> 
+				<tr>
+					<td></td>
+					<td><h3>Available Flights: </h3></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" id="flight1" name="flight" value="0">
+					</td>
+					<td>
+						Departing from: <span id="flight1Depart"></span>, On: <span id="flight1Date"></span>, To destination: <span id="flight1Destination"></span>, Fare Type: <span id="fareType1"></span>, Price: $<span id="flight1Price"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" id="flight2" name="flight" value="1">
+					</td>
+					<td>
+						Departing from: <span id="flight2Depart"></span>, On: <span id="flight2Date"></span>, To destination: <span id="flight2Destination"></span>, Fare Type: <span id="fareType2"></span>, Price: $<span id="flight2Price"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" id="flight3" name="flight" value="2">
+					</td>
+					<td>
+						Departing from: <span id="flight3Depart"></span>, On: <span id="flight3Date"></span>, To destination: <span id="flight3Destination"></span>, Fare Type: <span id="fareType3"></span>, Price: $<span id="flight3Price"></span>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button onclick="proceed();">Select Flight</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

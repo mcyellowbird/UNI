@@ -1,0 +1,110 @@
+mysql> \. solution1.sql
+--------------
+CREATE USER jrg_1
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE USER jrg_2
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+Database changed
+--------------
+CREATE VIEW DRVADM(ENUM, LNUM, STATUS, POSITION, DOB, CATEGORY) AS
+  SELECT DRIVER.ENUM, DRIVER.LNUM, DRIVER.STATUS, NULL, EMPLOYEE.DOB, 'driver'
+  FROM EMPLOYEE JOIN DRIVER
+                ON EMPLOYEE.ENUM = DRIVER. ENUM
+  UNION
+  SELECT ADMIN.ENUM, NULL, NULL, ADMIN.POSITION, EMPLOYEE.DOB, 'admin'
+  FROM EMPLOYEE JOIN ADMIN
+                ON EMPLOYEE.ENUM = ADMIN. ENUM
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT ON csit115.DRVADM TO jrg_1
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE VIEW SMALL_DRVADM AS
+  SELECT *
+  FROM DRVADM
+  WHERE DOB IS NULL
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT SELECT ON csit115.SMALL_DRVADM to jrg_2
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT *
+FROM DRVADM
+--------------
+
++------+-------+-----------+----------+------------+----------+
+| ENUM | LNUM  | STATUS    | POSITION | DOB        | CATEGORY |
++------+-------+-----------+----------+------------+----------+
+|    1 | 10001 | AVAILABLE | NULL     | NULL       | driver   |
+|    2 | 10008 | ON LEAVE  | NULL     | 1970-01-12 | driver   |
+|    3 | 10002 | AVAILABLE | NULL     | 1966-03-23 | driver   |
+|    4 | 10004 | AVAILABLE | NULL     | 1988-05-05 | driver   |
+|    5 | 10003 | ON LEAVE  | NULL     | 1980-01-01 | driver   |
+|    6 | 10012 | AVAILABLE | NULL     | 1975-03-05 | driver   |
+|    7 | 20002 | BUSY      | NULL     | NULL       | driver   |
+|    8 | 20003 | BUSY      | NULL     | 1983-02-28 | driver   |
+|    9 | 30005 | BUSY      | NULL     | 1966-12-16 | driver   |
+|   10 | 40002 | BUSY      | NULL     | 1975-10-15 | driver   |
+|   11 | 20045 | AVAILABLE | NULL     | NULL       | driver   |
+|   12 | 20055 | AVAILABLE | NULL     | 1984-12-12 | driver   |
+|   13 | 20065 | AVAILABLE | NULL     | 1969-04-04 | driver   |
+|   14 | 10305 | AVAILABLE | NULL     | 1992-04-01 | driver   |
+|   15 | 10345 | AVAILABLE | NULL     | 1995-04-01 | driver   |
+|   16 | 10705 | AVAILABLE | NULL     | 1995-04-01 | driver   |
+|   17 | 40005 | AVAILABLE | NULL     | NULL       | driver   |
+|   18 |  NULL | NULL      | SUPPORT  | 1998-10-05 | admin    |
+|   19 |  NULL | NULL      | DIRECTOR | NULL       | admin    |
+|   20 |  NULL | NULL      | CEO      | 1968-01-01 | admin    |
++------+-------+-----------+----------+------------+----------+
+20 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM SMALL_DRVADM
+--------------
+
++------+-------+-----------+----------+------+----------+
+| ENUM | LNUM  | STATUS    | POSITION | DOB  | CATEGORY |
++------+-------+-----------+----------+------+----------+
+|    1 | 10001 | AVAILABLE | NULL     | NULL | driver   |
+|   17 | 40005 | AVAILABLE | NULL     | NULL | driver   |
+|    7 | 20002 | BUSY      | NULL     | NULL | driver   |
+|   11 | 20045 | AVAILABLE | NULL     | NULL | driver   |
+|   19 |  NULL | NULL      | DIRECTOR | NULL | admin    |
++------+-------+-----------+----------+------+----------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT user, db, table_name, table_priv, column_priv
+FROM mysql.tables_priv
+WHERE user IN ('jrg_1', 'jrg_2')
+--------------
+
++-------+---------+--------------+------------+-------------+
+| user  | db      | table_name   | table_priv | column_priv |
++-------+---------+--------------+------------+-------------+
+| jrg_2 | csit115 | SMALL_DRVADM | Select     |             |
+| jrg_1 | csit115 | DRVADM       | Select     |             |
++-------+---------+--------------+------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> notee

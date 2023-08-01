@@ -1,0 +1,151 @@
+mysql> source solution3.sql
+--------------
+/* The queries listed below must be implemented as nested SELECT statements with 
+   IN/NOT IN set membership operation.                                                  */
+
+/* (1)	Find the first and the last name of the drivers who are on leave at the moment. */
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE
+WHERE ENUM IN ( SELECT ENUM
+                FROM DRIVER
+                WHERE STATUS = 'ON LEAVE' )
+--------------
+
++-------+--------+
+| FNAME | LNAME  |
++-------+--------+
+| Peter | Taylor |
+| Adam  | Taylor |
++-------+--------+
+2 rows in set (0.00 sec)
+
+--------------
+/* (2)	Find the registration numbers of trucks that are used just now and that have 
+        been used for at least one trip in 2016.                                        */
+
+SELECT DISTINCT REGNUM
+FROM TRUCK 
+WHERE STATUS = 'USED' AND 
+      REGNUM IN ( SELECT REGNUM
+                  FROM TRIP
+                  WHERE YEAR(TDATE) = 2016 )
+--------------
+
++--------+
+| REGNUM |
++--------+
+| SST005 |
++--------+
+1 row in set (0.00 sec)
+
+--------------
+                  
+/* The queries listed below must be implemented as nested queries with 
+   EXISTS/NOT EXISTS clauses.                                                           */
+
+/* (3)	Find the first and last names of employees who are not drivers.                 */
+                    
+SELECT FNAME, LNAME
+FROM EMPLOYEE
+WHERE NOT EXISTS( SELECT 'whatever'
+                  FROM DRIVER
+                  WHERE EMPLOYEE.ENUM = DRIVER.ENUM )
+--------------
+
++-------+--------+
+| FNAME | LNAME  |
++-------+--------+
+| Paris | Hilton |
+| Lady  | Gaga   |
+| Robin | Hood   |
++-------+--------+
+3 rows in set (0.00 sec)
+
+--------------
+                
+/* (4)	Find the first and last name of drivers who performed at least one trip 
+        in 2017.                                                                        */
+                                
+SELECT FNAME, LNAME
+FROM EMPLOYEE
+WHERE EXISTS( SELECT 'whatever'
+              FROM DRIVER
+              WHERE EMPLOYEE.ENUM = DRIVER.ENUM AND
+                    EXISTS ( SELECT 'whatever'
+                             FROM TRIP
+                             WHERE DRIVER.LNUM = TRIP.LNUM AND 
+                                   YEAR(TDATE) = 2017 ) )
+--------------
+
++-------+-------+
+| FNAME | LNAME |
++-------+-------+
+| John  | Smith |
++-------+-------+
+1 row in set (0.00 sec)
+
+--------------
+/* A query listed below must be implemented with a set algebra operation.               */
+
+/* (5)	Find the distinct names of cities visited by a driver during a trip number 1 or
+        a trip number 8. Assume that a city is visited by a driver if it is an origin 
+        or a destination or an intermediate stop of a trip.                             */
+
+SELECT DEPARTURE
+FROM TRIPLEG
+WHERE TNUM IN (1,8)
+UNION
+SELECT DESTINATION
+FROM TRIPLEG
+WHERE TNUM IN (1,8)
+--------------
+
++------------+
+| DEPARTURE  |
++------------+
+| Adelaide   |
+| Hobart     |
+| Melbourne  |
+| Perth      |
+| Sydney     |
+| Brisbane   |
+| Newcastle  |
+| Wollongong |
++------------+
+8 rows in set (0.00 sec)
+
+--------------
+/* A query listed below must be implemented as a nested query.                          */
+
+/* (6)	Find the distinct names of cities visited by a driver during a trip number 1 
+        and a trip number 8. Note, that we try to find the cities visited during both 
+        trips number 1 and number 8. Assume that a city is visited by a driver if it is 
+        an origin or a destination or an intermediate stop of a trip.                   */
+
+SELECT VISITED.DEPARTURE
+FROM (SELECT DEPARTURE
+      FROM TRIPLEG
+      WHERE TNUM = 1
+      UNION
+      SELECT DESTINATION
+      FROM TRIPLEG
+      WHERE TNUM = 1) VISITED
+WHERE VISITED.DEPARTURE IN ( SELECT DEPARTURE
+                             FROM TRIPLEG
+                             WHERE TNUM = 8
+                             UNION
+                             SELECT DESTINATION
+                             FROM TRIPLEG
+                             WHERE TNUM = 8 )
+--------------
+
++-----------+
+| DEPARTURE |
++-----------+
+| Sydney    |
+| Perth     |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> notee

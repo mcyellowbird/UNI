@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>430</y>
+      <w>290</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>Customer
+--
+-firstName: String
+-lastName: String
+-dateOfBirth: String/Date
+-phoneNumber: String
+-bookedFlights[]: Array of Flights
+--
++Customer(String,String,String,String,Array)
+
++Getters &amp; Setters (eg. getDOB, setDOB)
++addFlight(Flight): void
++setFlight(Flight): Flight
++printFlights(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>430</y>
+      <w>270</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>Customer Management System
+--
+-customers[]: Array of Customer
+--
++main
++showMenu(): void
+
+idk, java, c++, python?
+Terminal program (text based)?
+Mobile app? (Probably cbf)?</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1340</x>
+      <y>430</y>
+      <w>410</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>Flight
+--
+_-flightID: int_
+-destination: String
+-depart: String/Date
+-return: String (Default = "No Return Flight")
+-seatType: String
+-seatNumber: Integer
+-insurance: Boolean
+
+-Other services....: Boolean??
+
+-price: Double/Random Double?
+-flightTime: Double/Float
+--
++Flight(String,String,String,String,Int,Bool..., Double, Double)
++displayFlight(): void
+
++Getters &amp; Setters (eg. getPrice, setPrice)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1260</x>
+      <y>510</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>920</x>
+      <y>510</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1340</x>
+      <y>290</y>
+      <w>410</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>flightID randomly generated on object creation?
+Can simplify more but just a bit of a scaffold.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>640</x>
+      <y>290</y>
+      <w>290</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Create a customer. Possibly store customer
+information in a txt file?
+ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1000</x>
+      <y>290</y>
+      <w>270</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Menu with options to create an account?
+Or just go straight to enter Customer info,
+then give option to book a flight, and 
+another option to view &amp; alter booked
+flights.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1000</x>
+      <y>720</y>
+      <w>270</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>When altering a booked flight, display the
+flight information and allow customer to
+select each element of the Flight and
+change, if possible.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>370</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>370</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1110</x>
+      <y>660</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1540</x>
+      <y>370</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+</diagram>

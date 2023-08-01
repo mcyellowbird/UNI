@@ -1,0 +1,195 @@
+mysql> source solution1.sql
+--------------
+SELECT title
+FROM POSITIONS P JOIN EMPLOYER E ON P.ename = E.ename
+WHERE state = 'Western Australia'
+--------------
+
+Empty set (0.05 sec)
+
+--------------
+SELECT fname, lname
+FROM APPLICANT A JOIN APPLIES AP ON A.anumber = AP.anumber
+	JOIN POSITIONS P ON AP.pnumber = P.pnumber
+WHERE P.ename = 'University of Queensland'
+--------------
+
++-------+-----------+
+| fname | lname     |
++-------+-----------+
+| John  | Spiderman |
++-------+-----------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT title
+FROM POSITIONS
+WHERE ename IN (SELECT ename 
+	FROM EMPLOYER
+	WHERE state='Western Australia')
+--------------
+
+Empty set (0.01 sec)
+
+--------------
+SELECT fname, lname
+FROM APPLICANT
+WHERE anumber IN (SELECT anumber 
+	FROM APPLIES)
+--------------
+
++----------+------------+
+| fname    | lname      |
++----------+------------+
+| Harry    | Potter     |
+| Johnny   | Walker     |
+| Mary     | Poppins    |
+| Michael  | Collins    |
+| Margaret | Finch      |
+| Claudia  | Kowalewski |
+| James    | Bond       |
+| Stephen  | Staunton   |
+| Joseph   | Staunton   |
+| John     | Spiderman  |
++----------+------------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT fname, lname
+FROM APPLICANT
+WHERE anumber NOT IN (SELECT anumber 
+	FROM APPLIES)
+--------------
+
++-----------+--------------+
+| fname     | lname        |
++-----------+--------------+
+| George    | Thefirst     |
+| Homer     | Simpson      |
+| Neil      | Superman     |
+| Ivan      | Theterrible  |
+| Penelope  | Princess     |
+| Zhi Chao  | Zhong        |
+| Richard   | Thelionheart |
+| Sherlock  | Holmes       |
+| Robin     | Hood         |
+| Janusz    | Getta        |
+| Sara      | Wu           |
+| Private   | Ryan         |
+| Susan     | Han          |
+| Marcus    | Brutus       |
+| Louis     | Fourteenth   |
+| Louis     | Fifteenth    |
+| Henry     | Eight        |
+| Luke      | Skywalker    |
+| Alexander | Thegreat     |
+| Julius    | Caesar       |
++-----------+--------------+
+20 rows in set (0.00 sec)
+
+--------------
+SELECT fname, lname
+FROM APPLICANT
+WHERE anumber IN (SELECT anumber
+	FROM APPLIES
+	GROUP BY anumber
+	HAVING COUNT(*) = 1)
+--------------
+
++---------+-----------+
+| fname   | lname     |
++---------+-----------+
+| Stephen | Staunton  |
+| Joseph  | Staunton  |
+| John    | Spiderman |
++---------+-----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT title
+FROM POSITIONS P
+WHERE EXISTS (SELECT ename
+	FROM EMPLOYER E
+	WHERE E.ename = P.ename AND E.state='Western Australia')
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+SELECT fname, lname
+FROM APPLICANT A
+WHERE EXISTS (SELECT anumber
+	FROM APPLIES AP
+	WHERE AP.anumber = A.anumber)
+--------------
+
++----------+------------+
+| fname    | lname      |
++----------+------------+
+| Harry    | Potter     |
+| Johnny   | Walker     |
+| Mary     | Poppins    |
+| Michael  | Collins    |
+| Margaret | Finch      |
+| Claudia  | Kowalewski |
+| James    | Bond       |
+| Stephen  | Staunton   |
+| Joseph   | Staunton   |
+| John     | Spiderman  |
++----------+------------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT fname, lname
+FROM APPLICANT A
+WHERE NOT EXISTS (SELECT anumber
+	FROM APPLIES AP
+	WHERE AP.anumber = A.anumber)
+--------------
+
++-----------+--------------+
+| fname     | lname        |
++-----------+--------------+
+| George    | Thefirst     |
+| Homer     | Simpson      |
+| Neil      | Superman     |
+| Ivan      | Theterrible  |
+| Penelope  | Princess     |
+| Zhi Chao  | Zhong        |
+| Richard   | Thelionheart |
+| Sherlock  | Holmes       |
+| Robin     | Hood         |
+| Janusz    | Getta        |
+| Sara      | Wu           |
+| Private   | Ryan         |
+| Susan     | Han          |
+| Marcus    | Brutus       |
+| Louis     | Fourteenth   |
+| Louis     | Fifteenth    |
+| Henry     | Eight        |
+| Luke      | Skywalker    |
+| Alexander | Thegreat     |
+| Julius    | Caesar       |
++-----------+--------------+
+20 rows in set (0.00 sec)
+
+--------------
+SELECT fname, lname
+FROM APPLICANT A
+WHERE EXISTS (SELECT anumber
+	FROM APPLIES AP
+	WHERE AP.anumber = A.anumber
+	GROUP BY anumber
+	HAVING COUNT(*) = 1)
+--------------
+
++---------+-----------+
+| fname   | lname     |
++---------+-----------+
+| Stephen | Staunton  |
+| Joseph  | Staunton  |
+| John    | Spiderman |
++---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> notee

@@ -1,0 +1,127 @@
+SQL> SET ECHO ON
+SQL> SET FEEDBACK ON
+SQL> SET LINESIZE 200
+SQL> SET PAGESIZE 400
+SQL> SET SERVEROUTPUT ON
+SQL> 
+SQL> /* (1) First, the script creates the additional database structures to record information about the total number of orders 
+SQL>       handled by each employee.                                                                                           */
+SQL> 
+SQL> ALTER TABLE EMPLOYEE
+  2  ADD TOTAL_ORDERS NUMBER(9,0);
+
+Table EMPLOYEE altered.
+
+SQL> 
+SQL> /* (2) Next, the script stores in a sample database information the total number of the total number of orders handled by 
+SQL>       each employee. The information must be derived from the present contents of a sample database.                      */
+SQL> 
+SQL> UPDATE EMPLOYEE
+  2  SET TOTAL_ORDERS = (SELECT COUNT(EMPLOYEE_ID) FROM ORDERS WHERE ORDERS.EMPLOYEE_ID = EMPLOYEE.EMPLOYEE_ID);
+
+9 rows updated.
+
+SQL> 
+SQL> /* (3) Next, this script list information about the total number of orders handled by each employee.                       */
+SQL> 
+SQL> SELECT EMPLOYEE_ID, LASTNAME, FIRSTNAME, TOTAL_ORDERS FROM EMPLOYEE;
+
+EMPLOYEE_ID LASTNAME             FIRSTNAME  TOTAL_ORDERS
+----------- -------------------- ---------- ------------
+          1 Davolio              Nancy                18
+          2 Fuller               Andrew               15
+          3 Leverling            Janet                24
+          4 Peacock              Margaret             22
+          5 Buchanan             Steven                5
+          6 Suyama               Michael              13
+          7 King                 Robert                6
+          8 Callahan             Laura                22
+          9 Dodsworth            Anne                  5
+
+9 rows selected. 
+
+SQL> 
+SQL> /* (4) Next, the script creates a row trigger that automatically updates information about the total number of orders 
+SQL>       handled by each employee whenever a new order is submitted by a customer or an already submitted order is deleted.  */
+SQL> 
+SQL> CREATE OR REPLACE TRIGGER UPDATEEMPLOYEE
+  2  AFTER INSERT OR DELETE ON ORDERS
+  3      FOR EACH ROW
+  4  BEGIN
+  5      IF INSERTING THEN
+  6          UPDATE EMPLOYEE
+  7          SET TOTAL_ORDERS = (SELECT COUNT(EMPLOYEE_ID) FROM ORDERS WHERE EMPLOYEE_ID = :NEW.EMPLOYEE_ID)
+  8          WHERE EMPLOYEE_ID = :NEW.EMPLOYEE_ID;
+  9      ELSIF DELETING THEN
+ 10          UPDATE EMPLOYEE
+ 11          SET TOTAL_ORDERS = (SELECT COUNT(EMPLOYEE_ID) FROM ORDERS WHERE EMPLOYEE_ID = :OLD.EMPLOYEE_ID)
+ 12          WHERE EMPLOYEE_ID = :OLD.EMPLOYEE_ID;
+ 13      END IF;
+ 14  END;
+ 15  /
+
+Trigger UPDATEEMPLOYEE compiled
+
+SQL> 
+SQL> /* (5) Next, the script comprehensively tests the trigger. A test must include at least one insertion of a new order  
+SQL>       and at least one deletion of an order.   The script must list information about the total number of orders handled 
+SQL>       by each employee after insertion of a new order and after deletion of an already existing order.                    */
+SQL> 
+SQL> INSERT INTO ORDERS VALUES (386, 'ALFKI', 2, TO_DATE('09-SEP-98', 'DD-MON-YY'), TO_DATE('14-SEP-98', 'DD-MON-YY'), null, null, null, null, null, null, null, null, null);
+
+Error starting at line : 47 in command -
+INSERT INTO ORDERS VALUES (386, 'ALFKI', 2, TO_DATE('09-SEP-98', 'DD-MON-YY'), TO_DATE('14-SEP-98', 'DD-MON-YY'), null, null, null, null, null, null, null, null, null)
+Error report -
+ORA-04091: table IEM651.ORDERS is mutating, trigger/function may not see it
+ORA-06512: at "IEM651.UPDATEEMPLOYEE", line 3
+ORA-04088: error during execution of trigger 'IEM651.UPDATEEMPLOYEE'
+
+SQL> 
+SQL> SELECT EMPLOYEE_ID, LASTNAME, FIRSTNAME, TOTAL_ORDERS FROM EMPLOYEE;
+
+EMPLOYEE_ID LASTNAME             FIRSTNAME  TOTAL_ORDERS
+----------- -------------------- ---------- ------------
+          1 Davolio              Nancy                18
+          2 Fuller               Andrew               15
+          3 Leverling            Janet                24
+          4 Peacock              Margaret             22
+          5 Buchanan             Steven                5
+          6 Suyama               Michael              13
+          7 King                 Robert                6
+          8 Callahan             Laura                22
+          9 Dodsworth            Anne                  5
+
+9 rows selected. 
+
+SQL> 
+SQL> DELETE FROM ORDERS
+  2  WHERE ORDER_ID = 386;
+
+0 rows deleted.
+
+SQL> 
+SQL> SELECT EMPLOYEE_ID, LASTNAME, FIRSTNAME, TOTAL_ORDERS FROM EMPLOYEE;
+
+EMPLOYEE_ID LASTNAME             FIRSTNAME  TOTAL_ORDERS
+----------- -------------------- ---------- ------------
+          1 Davolio              Nancy                18
+          2 Fuller               Andrew               15
+          3 Leverling            Janet                24
+          4 Peacock              Margaret             22
+          5 Buchanan             Steven                5
+          6 Suyama               Michael              13
+          7 King                 Robert                6
+          8 Callahan             Laura                22
+          9 Dodsworth            Anne                  5
+
+9 rows selected. 
+
+SQL> 
+SQL> /* (6) Finally, the script removes from a data dictionary a trigger created in a step (4).                                 */
+SQL> 
+SQL> DROP TRIGGER UPDATEEMPLOYEE;
+
+Trigger UPDATEEMPLOYEE dropped.
+
+SQL> 
+SQL> SPOOL OFF

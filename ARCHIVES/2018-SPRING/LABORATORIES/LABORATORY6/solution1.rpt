@@ -1,0 +1,111 @@
+mysql> \. solution1.sql
+--------------
+/*
+  Task 1: Implement the queries by create at least two views for each of the questions in 
+  a given template script file solution1.sql for the questions below. 
+*/
+
+
+/*
+  (1) Find employee number and name for the employees who work on the same total number of projects as the employee ‘00101’ does.
+*/
+
+CREATE VIEW EMPPRO AS (
+	SELECT E.ENumber, E.Name, COUNT(PNumber) Total
+	FROM Employee E LEFT OUTER JOIN WorksOn W ON E.ENumber = W.ENumber
+	GROUP BY E.ENumber)
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE VIEW EMP101 AS (
+	SELECT *
+	FROM EMPPRO
+	WHERE ENumber = '00101')
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+SELECT ENumber, Name
+FROM EMPPRO
+WHERE total = (SELECT Total FROM EMP101)
+	AND ENumber <> '00101'
+--------------
+
++---------+----------+
+| ENumber | Name     |
++---------+----------+
+| 00110   | Alvin    |
+| 00150   | Bob      |
+| 00187   | Eadger   |
+| 00250   | Douglass |
++---------+----------+
+4 rows in set (0.00 sec)
+
+--------------
+DROP VIEW EMPPRO
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP VIEW EMP101
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+  (2) Find employee number and name for the employees who work in the department that managed by Alvin.
+*/
+
+
+CREATE VIEW EMPAlvin AS (
+	SELECT ENumber
+	FROM Employee
+	WHERE Name = 'Alvin')
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE VIEW DEPTAlvin AS (
+	SELECT DNumber
+	FROM Department
+	WHERE Manager IN (SELECT ENumber FROM EMPAlvin))
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT ENumber, Name
+FROM Employee
+WHERE DNumber IN (SELECT DNumber FROM DEPTAlvin)
+	AND ENumber NOT IN (SELECT ENumber FROM EMPAlvin)
+--------------
+
++---------+---------+
+| ENumber | Name    |
++---------+---------+
+| 00101   | Peter   |
+| 00103   | Ami     |
+| 00107   | Wendy   |
+| 00109   | Michael |
++---------+---------+
+4 rows in set (0.00 sec)
+
+--------------
+DROP VIEW EMPAlvin
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP VIEW DEPTAlvin
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> notee;

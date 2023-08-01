@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<HotelList>
+	<Hotel>
+		<HotelName>Novotel Wollongong Northbeach</HotelName>
+		<Stars>4</Stars>
+		<Reviews>3522</Reviews>
+		<Score>8.1</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Sage Hotel Wollongong</HotelName>
+		<Stars>4</Stars>
+		<Reviews>4384</Reviews>
+		<Score>7.7</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Adina Apartment Hotel Wollongong</HotelName>
+		<Stars>4</Stars>
+		<Reviews>1159</Reviews>
+		<Score>8.7</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Quality Suites Pioneer Sands</HotelName>
+		<Stars>4</Stars>
+		<Reviews>748</Reviews>
+		<Score>8.5</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Mantra Wollongong</HotelName>
+		<Stars>4</Stars>
+		<Reviews>1212</Reviews>
+		<Score>7.6</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Boat Harbour Motel</HotelName>
+		<Stars>3</Stars>
+		<Reviews>1074</Reviews>
+		<Score>8.0</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Solomon Inn Wollongong</HotelName>
+		<Stars>3</Stars>
+		<Reviews>898</Reviews>
+		<Score>7.2</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Best Western City Sands</HotelName>
+		<Stars>4</Stars>
+		<Reviews>1427</Reviews>
+		<Score>8.3</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Flinders Motel</HotelName>
+		<Stars>3</Stars>
+		<Reviews>842</Reviews>
+		<Score>7.4</Score>
+	</Hotel>
+	<Hotel>
+		<HotelName>Beach Park Motel</HotelName>
+		<Stars>3</Stars>
+		<Reviews>675</Reviews>
+		<Score>8.2</Score>
+	</Hotel>
+</HotelList>

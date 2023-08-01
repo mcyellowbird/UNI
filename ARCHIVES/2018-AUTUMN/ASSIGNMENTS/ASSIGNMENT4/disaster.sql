@@ -1,0 +1,40 @@
+SELECT * 
+FROM APPLICANT
+WHERE anumber = 1;
+
+DELETE FROM APPLIES
+WHERE anumber = 1;
+
+UPDATE APPLIES
+SET pnumber = 5 
+where anumber = 8;
+
+DELETE FROM SPOSSESSED
+WHERE anumber = 1;
+
+DELETE FROM EMPLBY
+WHERE anumber = 1;
+
+SELECT COUNT(*)
+FROM EMPLBY
+WHERE anumber = 1;
+
+DELETE FROM APPLICANT
+WHERE anumber = 1;
+
+SELECT COUNT(*)
+FROm APPLICANT;
+
+UPDATE APPLICANT
+SET city = 'Melbourne', state = 'Victoria'
+WHERE anumber IN (2, 3, 4);
+
+SELECT sname
+FROM SPOSSESSED
+WHERE anumber IN (2,3);
+
+INSERT INTO APPLICANT VALUES( 34, 'Tyrone', 'Power', '1914/05/05', 'Cincinnati', 'Ohio', 12345678, NULL, 'tyrone@gmail.com');
+INSERT INTO SPOSSESSED VALUES( 34, 'swimming', 3);
+INSERT INTO SPOSSESSED VALUES( 34, 'painting', 3);
+
+COMMIT;

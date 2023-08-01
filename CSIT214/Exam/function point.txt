@@ -1,0 +1,18 @@
+a) ILF: 15 + 10 + 10
+b) EIF: 5
+c) EI: 3
+d) EO: 4
+e) EO: 7
+f) EI: 4
+g) EQ: 4
+h) EI: 6
+i) EQ: 4
+j) EIF: 10
+
+ILFs: 15 + 10 + 10 = 35
+EIFs: 5 + 10 = 15
+EIs: 3 + 4 + 6 = 13
+EOs: 4 + 7 = 11
+EQs: 4 + 4 = 8
+
+Total Function Points: 35 + 15 + 13 + 11 + 8 = 82

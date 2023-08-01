@@ -1,0 +1,109 @@
+mysql> \. solution1.sql
+--------------
+/*
+(1)	Use self-join to find employee number and name of all employees that directly supervised by the employee Albert.
+*/
+
+SELECT E1.ENumber, E1.Name
+FROM Employee E1 JOIN Employee E2 ON E1.Supervisor = E2.ENumber
+WHERE E2.Name = 'Albert'
+--------------
+
++---------+----------+
+| ENumber | Name     |
++---------+----------+
+| 00110   | Alvin    |
+| 00120   | Alice    |
+| 00150   | Bob      |
+| 00200   | Carl     |
+| 00250   | Douglass |
++---------+----------+
+5 rows in set (0.00 sec)
+
+--------------
+/*
+(2)	Find department number and name for the departments which have the least budget of project.
+*/
+
+SELECT D.DNumber, D.DName
+FROM Department D JOIN Project P ON D.DNumber = P.DNumber
+WHERE P.Budget = (SELECT MIN(budget) FROM Project)
+--------------
+
++---------+-------+
+| DNumber | DName |
++---------+-------+
+|       3 | GAMES |
++---------+-------+
+1 row in set (0.00 sec)
+
+--------------
+/*
+(3)	Find employee number and name for the employees who have been assigned the most number of projects.
+*/
+
+SELECT E.ENumber, Name
+FROM Employee E JOIN WorksOn W ON E.ENumber = W.ENumber
+GROUP BY E.ENumber, Name
+HAVING COUNT(*) = (SELECT MAX(total_projects)
+	FROM (SELECT COUNT(*) total_projects
+		FROM WorksOn
+		GROUP BY ENumber) X)
+--------------
+
++---------+--------+
+| ENumber | Name   |
++---------+--------+
+| 00105   | Robert |
++---------+--------+
+1 row in set (0.00 sec)
+
+--------------
+/*
+(4)	Find employee number and name for the employees who work in the department that has the maximum total budgets of projects.
+*/
+
+SELECT ENumber, Name
+FROM Employee
+WHERE DNumber IN (SELECT DNumber
+	FROM Project
+	GROUP BY DNumber
+	HAVING SUM(Budget) = (SELECT MAX(total_budgets)
+		FROM (SELECT SUM(budget) total_budgets
+			FROM Project
+			GROUP BY DNumber) X ))
+--------------
+
++---------+--------+
+| ENumber | Name   |
++---------+--------+
+| 00105   | Robert |
+| 00150   | Bob    |
++---------+--------+
+2 rows in set (0.00 sec)
+
+--------------
+/*
+(5)	Find employee number and name for all employees who have the maximum number of dependents.
+*/
+
+SELECT ENumber, Name
+FROM Employee
+WHERE ENumber IN (SELECT ENumber
+	FROM Dependent
+	GROUP BY ENumber
+	HAVING COUNT(*) = (SELECT MAX(total_dependents)
+		FROM (SELECT COUNT(*) total_dependents
+			FROM Dependent
+			GROUP BY ENumber) X))
+--------------
+
++---------+--------+
+| ENumber | Name   |
++---------+--------+
+| 00100   | Albert |
+| 00120   | Alice  |
++---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> notee;

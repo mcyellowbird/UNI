@@ -1,0 +1,45 @@
+mysql> source solution1.sql
+--------------
+ALTER TABLE APPLICANT ADD COLUMN  total_application DECIMAL(1)
+--------------
+
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE POSITIONS MODIFY COLUMN specification VARCHAR(1500) NOT NULL
+--------------
+
+Query OK, 10 rows affected (0.05 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE POSITIONS MODIFY COLUMN bonus DECIMAL(10,2)
+--------------
+
+Query OK, 10 rows affected (0.05 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE APPLICANT ADD COLUMN expertise VARCHAR(30)
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE APPLICANT ADD CONSTRAINT APPLICANT_fkey FOREIGN KEY (expertise)
+ REFERENCES SKILL (sname)
+--------------
+
+Query OK, 30 rows affected (0.05 sec)
+Records: 30  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE APPLICANT DROP COLUMN fax
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> notee

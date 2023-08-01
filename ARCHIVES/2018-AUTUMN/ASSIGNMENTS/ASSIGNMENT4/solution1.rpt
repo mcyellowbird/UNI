@@ -1,0 +1,60 @@
+mysql> source solution1.sql
+--------------
+/* Created a database try, load the old backup table APPLICANT into the database try	*/
+
+/* "Deleted rows"									*/
+
+SELECT *
+FROM try.APPLICANT
+WHERE anumber NOT IN ( SELECT anumber
+	FROM csit115.APPLICANT)
+--------------
+
++---------+-------+--------+------------+-------+-------------------+-----------+------+-----------------+
+| anumber | fname | lname  | dob        | city  | state             | phone     | fax  | email           |
++---------+-------+--------+------------+-------+-------------------+-----------+------+-----------------+
+|       1 | Harry | Potter | 1980-12-12 | Perth | Western Australia | 645278453 | NULL | jones@gmail.com |
++---------+-------+--------+------------+-------+-------------------+-----------+------+-----------------+
+1 row in set (0.00 sec)
+
+--------------
+/* "Inserted new rows"									*/
+
+SELECT *
+FROM csit115.APPLICANT
+WHERE anumber NOT IN ( SELECT anumber
+	FROM try.APPLICANT)
+--------------
+
++---------+--------+-------+------------+------------+-------+----------+------+------------------+
+| anumber | fname  | lname | dob        | city       | state | phone    | fax  | email            |
++---------+--------+-------+------------+------------+-------+----------+------+------------------+
+|      34 | Tyrone | Power | 1914-05-05 | Cincinnati | Ohio  | 12345678 | NULL | tyrone@gmail.com |
++---------+--------+-------+------------+------------+-------+----------+------+------------------+
+1 row in set (0.00 sec)
+
+--------------
+/* "Updated rows"									*/
+
+SELECT TA.*, CA.*
+FROM try.APPLICANT TA JOIN csit115.APPLICANT CA
+	ON TA.anumber=CA.anumber AND (
+	TA.fname <> CA.fname OR
+	TA.lname <> CA.lname OR
+	TA.dob <> CA.dob OR
+	TA.city <> CA.city OR
+	TA.state <> CA.state OR
+	TA.phone <> CA.phone OR
+	TA.fax <> CA.fax OR
+	TA.email <> CA.email)
+--------------
+
++---------+---------+---------+------------+----------+------------+----------+----------+---------------------+---------+---------+---------+------------+-----------+----------+----------+----------+---------------------+
+| anumber | fname   | lname   | dob        | city     | state      | phone    | fax      | email               | anumber | fname   | lname   | dob        | city      | state    | phone    | fax      | email               |
++---------+---------+---------+------------+----------+------------+----------+----------+---------------------+---------+---------+---------+------------+-----------+----------+----------+----------+---------------------+
+|       2 | Johnny  | Walker  | 1990-02-13 | Geelong  | Victoria   | 63569784 | 63569785 | blunder@hotmail.com |       2 | Johnny  | Walker  | 1990-02-13 | Melbourne | Victoria | 63569784 | 63569785 | blunder@hotmail.com |
+|       4 | Michael | Collins | 1960-05-25 | Brisbane | Queensland | 63336666 |     NULL | mike@hotmail.com    |       4 | Michael | Collins | 1960-05-25 | Melbourne | Victoria | 63336666 |     NULL | mike@hotmail.com    |
++---------+---------+---------+------------+----------+------------+----------+----------+---------------------+---------+---------+---------+------------+-----------+----------+----------+----------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> notee

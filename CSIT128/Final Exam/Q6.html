@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title></title>
+        <style>
+
+        </style>
+        <script>
+            var counter = 0;
+			var counterEnabled = false;
+			var interval;
+            var studentNumber = [6,8,6,8,2,8,8];
+
+			function Count(){
+				counter++;
+                var outputText = counter + " x " + studentNumber[0] + " = " + (Number(counter) * studentNumber[0]);
+                var outputText = outputText + "<br />" + counter + " x " + studentNumber[1] + " = " + (Number(counter) * studentNumber[1]);
+                var outputText = outputText + "<br />" + counter + " x " + studentNumber[2] + " = " + (Number(counter) * studentNumber[2]);
+                var outputText = outputText + "<br />" + counter + " x " + studentNumber[3] + " = " + (Number(counter) * studentNumber[3]);
+                var outputText = outputText + "<br />" + counter + " x " + studentNumber[4] + " = " + (Number(counter) * studentNumber[4]);
+                var outputText = outputText + "<br />" + counter + " x " + studentNumber[5] + " = " + (Number(counter) * studentNumber[5]);
+                var outputText = outputText + "<br />" + counter + " x " + studentNumber[6] + " = " + (Number(counter) * studentNumber[6]);
+				document.getElementById("output").innerHTML = outputText;
+			}
+
+			function startCount(){
+				if (counterEnabled == false){
+					interval = setInterval(Count, 1000);
+					counterEnabled = true;
+				}
+			}
+
+			function stopCount(){
+				clearInterval(interval);
+				counterEnabled = false;
+                counter = 0;
+                document.getElementById("output").innerHTML = "";
+			}
+        </script>
+    </head>
+	<body style="text-align: center;">
+		<button onClick="startCount()" style="font-size: 25px;">Start Animation</button>
+		<button onClick="stopCount()" style="font-size: 25px;">Stop Animation</button>
+		<br>
+		<span id="output" style="font-size: 40px;"></span>
+	</body>
+</html>

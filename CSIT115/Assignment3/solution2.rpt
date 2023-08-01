@@ -1,0 +1,257 @@
+mysql> source solution2.sql;
+--------------
+/*
+(1)	Create a logical backup of relational tables EMPLOYEE, DRIVER, VEHICLE, SCHEDULE, ROUTE and ROUTE_STATION from the database csit115. 
+    The logical backup file name is a prefix of your UOW email account with backup.sql. For example, if your UOW email account is abc001@uow.edu.au, 
+    then the logical backup file name is abc001backup.sql. 
+											(0.5 marks)
+*/
+
+#system mysqldump csit115 EMPLOYEE DRIVER VEHICLE SCHEDULE ROUTE ROUTE_STATION -u root -p -v -l > iem651backup.sql;
+
+/*
+(2)	Implement the script makes a relational table that contains a general log empty.
+											(0.2 marks)
+*/
+
+TRUNCATE TABLE mysql.general_log
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(3)	Next, implement the script sets the appropriate values of the variables to save a general log in a relational table and start recording the general log from now. 
+											(0.3 marks)
+*/
+
+SET GLOBAL general_log='ON'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+SET GLOBAL log_output='TABLE'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(4)	Next, download dbupdates.sql from the Sample database section on Moodle if you have not done it. Implement the script makes a database csit115 a current database. 
+    Then stop recording a report.  Next, executes a script file dbupdates.sql, and then resumes recording a report into a file solution2.rpt. 
+
+	Note that a list of SQL statements processed from a script file dbupdates.sql must NOT be included in the report file solution2.rpt. 
+											(0.5 marks)
+*/
+
+use csit115
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(5)	Next, implement the script sets the appropriate values of all variables to stop recording a general log from now.
+											(0.2 marks)
+*/
+
+SET GLOBAL general_log='OFF'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* 
+(6)	Next, implement one SQL statement finds and lists how many times each one of the relational tables EMPLOYEE, DRIVER, VEHICLE, SCHEDULE, ROUTE and ROUTE_STATION 
+    in a sample database have been used by the successfully processed SQL statements included in SQL script dbupdates.sql. No other relational tables need to be considered. 
+	The script must list the names of relational tables together with the total number of times each table has been used. Please, find a fragment of a sample output listed below.
+
++------------+-------+
+| TABLE_NAME | TOTAL |
++------------+-------+
+| SCHEDULE   |     5 |
+| EMPLOYEE   |     3 |
+  ...             ...
++------------+-------+
+6 rows in set (0.01 sec)
+
+    To simplify this task, assume that a relational table is used no more than one time in a SQL statement. 
+
+    The results must be listed in the descending order of the total number of times each one of the relational tables has been used by the successfully processed SQL statements included in a script dbupdates.sql.
+											(1.5 marks)
+*/
+
+WITH EMPLOYEE_TOTAL AS (SELECT 'EMPLOYEE' TABLE_NAME, COUNT(*) TOTAL
+					    FROM mysql.general_log
+					    WHERE argument LIKE '%EMPLOYEE%'),
+                        
+	 DRIVER_TOTAL AS (SELECT 'DRIVER' TABLE_NAME, COUNT(*) TOTAL
+					  FROM mysql.general_log
+					  WHERE argument LIKE '%DRIVER%'),
+                        
+	 VEHICLE_TOTAL AS (SELECT 'VEHICLE' TABLE_NAME, COUNT(*) TOTAL
+					   FROM mysql.general_log
+					   WHERE argument LIKE '%VEHICLE%'),
+                        
+	 SCHEDULE_TOTAL AS (SELECT 'SCHEDULE' TABLE_NAME, COUNT(*) TOTAL
+						FROM mysql.general_log
+                        WHERE argument LIKE '%SCHEDULE%'),
+                        
+	 ROUTE_TOTAL AS (SELECT 'ROUTE' TABLE_NAME, COUNT(*) TOTAL
+					 FROM mysql.general_log
+					 WHERE argument LIKE '%ROUTE%'),
+                        
+	 ROUTE_STATION_TOTAL AS (SELECT 'ROUTE_STATION' TABLE_NAME, COUNT(*) TOTAL
+							 FROM mysql.general_log
+							 WHERE argument LIKE '%ROUTE_STATION%'),
+                        
+	 ALL_TOTAL AS ( SELECT * FROM EMPLOYEE_TOTAL
+					UNION
+                    SELECT * FROM DRIVER_TOTAL
+                    UNION
+                    SELECT * FROM VEHICLE_TOTAL
+                    UNION
+                    SELECT * FROM SCHEDULE_TOTAL
+                    UNION
+                    SELECT * FROM ROUTE_TOTAL
+                    UNION
+                    SELECT * FROM ROUTE_STATION_TOTAL)
+                        
+SELECT *
+FROM ALL_TOTAL
+ORDER BY TOTAL DESC
+--------------
+
++---------------+-------+
+| TABLE_NAME    | TOTAL |
++---------------+-------+
+| SCHEDULE      |     5 |
+| EMPLOYEE      |     3 |
+| ROUTE         |     3 |
+| DRIVER        |     2 |
+| ROUTE_STATION |     2 |
+| VEHICLE       |     1 |
++---------------+-------+
+6 rows in set (0.00 sec)
+
+--------------
+/*
+(7)	Next, create a database with the same name as a prefix of your University email account. For example, if your University email account is abc001@uow.edu.au then a name of a database should be abc001.
+											(0.3 marks)
+*/
+
+CREATE DATABASE iem651
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+/*
+(8)	Next, implement the script to make a database created in step (6) a current database. It stops recording a report. 
+    Then it executes the logical backup file generated in step (1) to load the contents of relational tables EMPLOYEE, DRIVER, VEHICLE, SCHEDULE, ROUTE and ROUTE_STATION 
+    into the database created in step (6). It resumes recording a report into a file solution2.rpt. It is the backup database.
+
+    Note that a list of SQL statements processed from the logical backup file generated in step (1) must NOT be included in the report file solution2.rpt.	
+											(0.5 marks)
+*/
+
+use iem651
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(9)	Use one SELECT statement to list the employee number, first name, last name and employee type for the employees that no longer exist in the database csit115. 
+    Hint: You can compare the data in the tables between the current database (csit115) and the backup database (prefix of your UOW email account).
+											(1.0 mark)
+*/
+
+SELECT ENUM, FNAME, LNAME, EMPLOYEE_TYPE
+FROM csit115.EMPLOYEE
+WHERE csit115.EMPLOYEE.ENUM NOT IN (SELECT ENUM
+									FROM iem651.EMPLOYEE)
+--------------
+
++------+-------+-------+---------------+
+| ENUM | FNAME | LNAME | EMPLOYEE_TYPE |
++------+-------+-------+---------------+
+|   41 | Marc  | Smith | Casual        |
++------+-------+-------+---------------+
+1 row in set (0.00 sec)
+
+--------------
+/*
+(10) Use one SELECT statement to list the schedule number, licence number, registration number, start date and time, return date and time, 
+    and route number for the schedules that have been modified in the database csit115.
+
+	 Note that all the columns except the primary key of the table SCHEDULE may be modified. 
+											(1.0 mark)
+
+*/
+
+SELECT db1.SNUM, db1.LNUM, db1.REGNUM, db1.START_DATE_TIME, db1.RETURN_DATE_TIME, db1.RNUM
+FROM iem651.SCHEDULE db1
+LEFT JOIN csit115.SCHEDULE db2
+ON db1.LNUM <> db2.LNUM AND db1.LNUM <> db1.LNUM
+--------------
+
++------+-------+--------+---------------------+---------------------+------+
+| SNUM | LNUM  | REGNUM | START_DATE_TIME     | RETURN_DATE_TIME    | RNUM |
++------+-------+--------+---------------------+---------------------+------+
+|    1 | 10001 | PKR768 | 2019-01-12 05:00:00 | 2019-01-17 18:00:00 |    1 |
+|    2 | 10001 | SYF777 | 2019-02-20 05:00:00 | 2019-02-22 18:00:00 |    2 |
+|    3 | 10001 | AB0804 | 2019-03-12 05:00:00 | 2019-03-17 18:00:00 |   21 |
+|    4 | 10001 | PKR768 | 2019-06-29 05:00:00 | 2019-07-06 18:00:00 |   22 |
+|    5 | 20002 | PKR768 | 2019-01-12 05:00:00 | 2019-01-17 18:00:00 |    3 |
+|    6 | 10002 | SYF777 | 2019-02-20 05:00:00 | 2019-02-25 18:00:00 |    4 |
+|    7 | 30005 | KKK007 | 2019-03-12 05:00:00 | 2019-03-26 18:00:00 |    5 |
+|    8 | 10001 | AB0804 | 2019-01-12 05:00:00 | 2019-01-17 18:00:00 |    6 |
+|    9 | 10002 | QRT834 | 2019-09-17 05:00:00 | 2019-09-19 18:00:00 |    7 |
+|   10 | 30005 | KKK007 | 2019-12-15 05:00:00 | 2019-12-25 18:00:00 |    8 |
+|   11 | 10003 | SST005 | 2018-01-23 05:00:00 | 2018-01-29 18:00:00 |    9 |
+|   12 | 10002 | PKR768 | 2018-03-12 05:00:00 | 2018-03-17 18:00:00 |    9 |
+|   13 | 20002 | QRT834 | 2019-04-23 05:00:00 | 2019-04-26 18:00:00 |   10 |
+|   14 | 20002 | PKR008 | 2019-04-23 05:00:00 | 2019-04-29 18:00:00 |    3 |
+|   15 | 30005 | PKR768 | 2019-05-24 05:00:00 | 2019-05-29 18:00:00 |    3 |
+|   16 | 30005 | SST005 | 2017-08-02 05:00:00 | 2017-08-17 18:00:00 |    4 |
+|   17 | 20002 | QRT834 | 2017-09-17 05:00:00 | 2017-09-22 18:00:00 |   33 |
+|   18 | 10001 | KKK007 | 2017-12-15 05:00:00 | 2019-12-17 18:00:00 |   25 |
+|   19 | 30005 | SST005 | 2018-01-23 05:00:00 | 2018-01-28 18:00:00 |   26 |
+|   20 | 10003 | PKR768 | 2018-03-12 05:00:00 | 2018-03-17 18:00:00 |   27 |
+|   21 | 10001 | QRT834 | 2016-04-23 05:00:00 | 2016-04-28 18:00:00 |   24 |
+|   22 | 30005 | PKR008 | 2016-04-23 05:00:00 | 2016-04-26 18:00:00 |   23 |
+|   23 | 10003 | PKR768 | 2016-05-25 05:00:00 | 2016-05-31 18:00:00 |   22 |
+|   24 | 20002 | SST005 | 2016-08-02 05:00:00 | 2016-08-17 18:00:00 |   26 |
+|   25 | 10001 | PKR768 | 2017-01-12 05:00:00 | 2017-01-17 18:00:00 |   12 |
+|   26 | 10001 | AB0804 | 2013-02-20 05:00:00 | 2013-02-26 18:00:00 |   12 |
+|   27 | 20002 | KKK007 | 2013-03-12 05:00:00 | 2013-03-17 18:00:00 |   11 |
+|   28 | 30005 | AB0804 | 2010-06-29 05:00:00 | 2010-07-05 18:00:00 |   12 |
+|   29 | 10001 | QRT834 | 2010-09-17 05:00:00 | 2010-09-25 18:00:00 |   13 |
+|   30 | 10002 | KKK007 | 2010-12-15 05:00:00 | 2010-12-17 18:00:00 |   14 |
+|   31 | 10003 | SST005 | 2010-01-23 05:00:00 | 2010-01-29 18:00:00 |   15 |
+|   32 | 20002 | PKR768 | 2010-03-12 05:00:00 | 2010-03-17 18:00:00 |    6 |
+|   33 | 30005 | QRT834 | 2003-04-23 05:00:00 | 2003-05-01 18:00:00 |   16 |
+|   34 | 30005 | PKR008 | 2004-04-23 05:00:00 | 2004-04-29 18:00:00 |    6 |
+|   35 | 10001 | PKR768 | 2018-05-24 05:00:00 | 2018-06-03 18:00:00 |   14 |
+|   36 | 10002 | SYF777 | 2017-02-25 05:00:00 | 2017-02-28 18:00:00 |   17 |
+|   37 | 30005 | PKR008 | 2017-01-23 05:00:00 | 2017-01-29 18:00:00 |    7 |
+|   38 | 10003 | SST005 | 2018-01-10 05:00:00 | 2018-01-29 18:00:00 |   17 |
+|   39 | 30005 | PKR008 | 2019-04-23 05:00:00 | 2019-04-29 18:00:00 |   18 |
+|   40 | 10002 | SYF777 | 2018-02-20 05:00:00 | 2018-02-25 18:00:00 |   19 |
+|   41 | 30005 | PKR008 | 2018-04-23 05:00:00 | 2018-04-29 18:00:00 |   20 |
+|   42 | 10003 | SST005 | 2018-05-23 05:00:00 | 2018-05-29 18:00:00 |   21 |
+|   43 | 10002 | SYF777 | 2017-02-20 05:00:00 | 2017-02-25 18:00:00 |   22 |
+|   44 | 10002 | PKR008 | 2019-04-23 05:00:00 | 2019-04-29 18:00:00 |   23 |
+|   45 | 10003 | SST005 | 2017-01-23 05:00:00 | 2017-01-29 18:00:00 |   24 |
+|   46 | 30005 | AB0988 | 2019-04-23 05:00:00 | 2019-04-29 18:00:00 |   25 |
+|   47 | 10002 | AB0804 | 2019-02-20 05:00:00 | 2019-02-25 18:00:00 |   26 |
+|   48 | 40005 | SST005 | 2018-07-23 05:00:00 | 2018-07-29 18:00:00 |   27 |
+|   49 | 10002 | SST005 | 2020-11-01 05:00:00 | 2020-11-02 18:00:00 |   28 |
+|   50 | 10001 | SST005 | 2020-10-05 05:00:00 | 2020-10-06 18:00:00 |   29 |
+|   51 | 20002 | SST005 | 2020-10-23 05:00:00 | 2020-10-29 18:00:00 |   29 |
++------+-------+--------+---------------------+---------------------+------+
+51 rows in set (0.01 sec)
+
+mysql> notee;

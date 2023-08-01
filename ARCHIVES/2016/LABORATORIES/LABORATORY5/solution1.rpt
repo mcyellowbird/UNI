@@ -1,0 +1,92 @@
+mysql> \. solution1.sql
+--------------
+INSERT INTO EMPLOYEE VALUES( 21, 'Harry', 'F', 'Potter', '1984-11-21', 25, 'Railway St.', 'Waga Waga', 'NSW', 2767)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO DRIVER VALUES( 21, 666, 'ON LEAVE')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO TRIP VALUES( 36, 666, 'PKR768', '2016-04-10')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO TRIPLEG VALUES( 36, 1, 'Sydney', 'Canberra' )
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+INSERT INTO TRIPLEG VALUES( 36, 2, 'Canberra', 'Melbourne' )
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+DELETE FROM TRIPLEG WHERE TNUM IN (5, 13,14,17,24,27,32)
+--------------
+
+Query OK, 9 rows affected (0.01 sec)
+
+--------------
+DELETE FROM TRIP WHERE LNUM = 20002
+--------------
+
+Query OK, 7 rows affected (0.01 sec)
+
+--------------
+DELETE FROM DRIVER WHERE ENUM =7
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+DELETE FROM EMPLOYEE WHERE ENUM = 7
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO TRUCK VALUES('NULL', 0, 0, 'JUNK')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+UPDATE TRIP SET REGNUM = 'NULL'
+WHERE REGNUM = 'SST005'
+--------------
+
+Query OK, 4 rows affected (0.01 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+--------------
+UPDATE TRUCK SET REGNUM = 'PKR856'
+WHERE REGNUM = 'SST005'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE TRIP SET REGNUM = 'PKR856'
+WHERE REGNUM = 'NULL'
+--------------
+
+Query OK, 4 rows affected (0.01 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+--------------
+DELETE FROM TRUCK WHERE REGNUM = 'NULL'
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+mysql> notee

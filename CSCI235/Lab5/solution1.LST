@@ -1,0 +1,203 @@
+SQL> SET ECHO ON
+SQL> SET FEEDBACK ON
+SQL> SET LINESIZE 200
+SQL> SET PAGESIZE 400
+SQL> 
+SQL> /* (1) Create a database link from the "host server" to the "remote server".                        */
+SQL> 
+SQL> CREATE DATABASE LINK "DB.DATA-PC02"
+  2  CONNECT TO iem651
+  3  IDENTIFIED BY z6416b
+  4  USING 'data-pc02.adeis.uow.edu.au:1521/db';
+
+Database link "DB.DATA-PC02" created.
+
+SQL> 
+SQL> /* (2) Create the synonym names of the empty relational tables located at the "remote server".      */
+SQL> 
+SQL> CREATE SYNONYM EMPLOYEE02 FOR EMPLOYEE@"DB.DATA-PC02";
+
+Synonym EMPLOYEE02 created.
+
+SQL> CREATE SYNONYM SHIPPER02 FOR SHIPPER@"DB.DATA-PC02";
+
+Synonym SHIPPER02 created.
+
+SQL> CREATE SYNONYM CUSTOMER02 FOR CUSTOMER@"DB.DATA-PC02";
+
+Synonym CUSTOMER02 created.
+
+SQL> CREATE SYNONYM ORDERS02 FOR ORDERS@"DB.DATA-PC02";
+
+Synonym ORDERS02 created.
+
+SQL> 
+SQL> /* (3) Use a database link to move information about the customers from USA and the orders 
+SQL>       submitted by the customers from USA from the "host server" to the "remote server".
+SQL>
+SQL>       "Move" means, that all information about the customers from USA copied from the "host server" 
+SQL>       to the "remote server" must be later on removed from the "host server".
+SQL>
+SQL>       Note that you must copy all information about employees and about shippers.                  */
+SQL> 
+SQL> INSERT INTO EMPLOYEE02
+  2  SELECT * FROM EMPLOYEE;
+
+9 rows inserted.
+
+SQL> 
+SQL> INSERT INTO SHIPPER02
+  2  SELECT * FROM SHIPPER;
+
+3 rows inserted.
+
+SQL> 
+SQL> INSERT INTO CUSTOMER02
+  2  SELECT * FROM CUSTOMER
+  3  WHERE COUNTRY = 'USA';
+
+13 rows inserted.
+
+SQL> 
+SQL> INSERT INTO ORDERS02
+  2  SELECT * FROM ORDERS
+  3  WHERE CUSTOMER_CODE IN (SELECT CUSTOMER_CODE
+  4                          FROM CUSTOMER
+  5                          WHERE COUNTRY = 'USA');
+
+20 rows inserted.
+
+SQL> 
+SQL> DELETE FROM ORDERS
+  2  WHERE CUSTOMER_CODE
+  3  IN (SELECT CUSTOMER_CODE
+  4      FROM CUSTOMER
+  5      WHERE COUNTRY = 'USA');
+
+20 rows deleted.
+
+SQL> 
+SQL> DELETE FROM CUSTOMER
+  2  WHERE COUNTRY = 'USA';
+
+13 rows deleted.
+
+SQL> 
+SQL> /* (4) Implement a query, that finds the total number of orders submitted by each customer. 
+SQL>       If a customer submitted no orders then list a customer code with a number zero. Sort 
+SQL>       the results in the ascending order of the total number of submitted orders.                  */
+SQL> 
+SQL> SELECT CUSTOMER.CUSTOMER_CODE, COUNT(ORDERS.CUSTOMER_CODE) AS TOTAL_ORDERS
+  2  FROM CUSTOMER
+  3      LEFT JOIN ORDERS ON CUSTOMER.CUSTOMER_CODE = ORDERS.CUSTOMER_CODE
+  4  GROUP BY CUSTOMER.CUSTOMER_CODE
+  5  ORDER BY TOTAL_ORDERS;
+
+CUSTO TOTAL_ORDERS
+----- ------------
+ALFKI            0
+ANATR            0
+ANTON            0
+BLAUS            0
+BSBEV            0
+CACTU            0
+CENTC            0
+COMMI            0
+DUMON            0
+FISSA            0
+FRANR            0
+GODOS            0
+HANAR            0
+HILAA            0
+ISLAT            0
+LACOR            0
+LAUGB            0
+MAISD            0
+MORGK            0
+NORTS            0
+PARIS            0
+PERIC            0
+ROMEY            0
+SPECD            0
+WANDK            0
+WILMK            0
+AROUT            1
+LINOD            1
+WELLI            1
+VINET            1
+VICTE            1
+VAFFE            1
+TRADH            1
+TORTU            1
+SIMOB            1
+SANTG            1
+RICSU            1
+RANCH            1
+OTTIK            1
+OCEAN            1
+WOLZA            1
+LEHMS            1
+KOENE            1
+GROSR            1
+GOURL            1
+GALED            1
+FURIB            1
+FRANS            1
+FOLIG            1
+EASTC            1
+DRACD            1
+BOLID            1
+CHOPS            1
+CONSH            1
+LILAS            2
+QUEEN            2
+FAMIA            2
+PICCO            2
+BLONP            2
+SEVES            2
+SUPRD            2
+QUICK            2
+QUEDE            2
+PRINI            2
+FRANK            2
+BONAP            3
+LAMAI            3
+REGGC            3
+MAGAA            3
+BOTTM            4
+MEREP            4
+TOMSP            4
+FOLKO            4
+HUNGO            4
+RICAR            4
+WARTH            5
+BERGS            7
+ERNSH           12
+
+78 rows selected. 
+
+SQL> 
+SQL> /* (5) Drop the synonyms and a database link.                                                       */
+SQL> 
+SQL> DROP SYNONYM EMPLOYEE02;
+
+Synonym EMPLOYEE02 dropped.
+
+SQL> DROP SYNONYM SHIPPER02;
+
+Synonym SHIPPER02 dropped.
+
+SQL> DROP SYNONYM CUSTOMER02;
+
+Synonym CUSTOMER02 dropped.
+
+SQL> DROP SYNONYM ORDERS02;
+
+Synonym ORDERS02 dropped.
+
+SQL> DROP DATABASE LINK "DB.data-pc02";
+
+Database link "DB.data-pc02" dropped.
+
+SQL> 
+SQL> SPOOL OFF

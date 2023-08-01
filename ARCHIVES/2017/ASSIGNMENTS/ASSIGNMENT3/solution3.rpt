@@ -1,0 +1,185 @@
+mysql> source solution3.sql
+--------------
+SELECT first_name, last_name
+FROM EMPLOYEE
+WHERE department_name IN (SELECT department_name
+                          FROM DEPARTMENT
+			  WHERE country_name = 'Canada')
+--------------
+
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Nancy      | Greenberg |
++------------+-----------+
+1 row in set (0.01 sec)
+
+--------------
+SELECT first_name, last_name
+FROM EMPLOYEE
+WHERE NOT EXISTS (SELECT 'whatever'
+                  FROM JOBHISTORY
+		  WHERE EMPLOYEE.employee_id = JOBHISTORY.employee_id)
+--------------
+
++-------------+-------------+
+| first_name  | last_name   |
++-------------+-------------+
+| Steven      | King        |
+| Alexander   | Hunold      |
+| Bruce       | Ernst       |
+| David       | Austin      |
+| Valli       | Pataballa   |
+| Diana       | Lorentz     |
+| Ismael      | Sciarra     |
+| Jose Manuel | Urman       |
+| Luis        | Popp        |
+| Alexander   | Khoo        |
+| Shelli      | Baida       |
+| Sigal       | Tobias      |
+| Guy         | Himuro      |
+| Karen       | Colmenares  |
+| Matthew     | Weiss       |
+| Adam        | Fripp       |
+| Payam       | Kaufling    |
+| Shanta      | Vollman     |
+| Kevin       | Mourgos     |
+| Julia       | Nayer       |
+| Irene       | Mikkilineni |
+| James       | Landry      |
+| Steven      | Markle      |
+| Laura       | Bissot      |
+| Mozhe       | Atkinson    |
+| James       | Marlow      |
+| TJ          | Olson       |
+| Jason       | Mallin      |
+| Michael     | Rogers      |
+| Ki          | Gee         |
+| Hazel       | Philtanker  |
+| Renske      | Ladwig      |
+| Stephen     | Stiles      |
+| John        | Seo         |
+| Joshua      | Patel       |
+| Trenna      | Rajs        |
+| Curtis      | Davies      |
+| Randall     | Matos       |
+| Peter       | Vargas      |
+| John        | Russell     |
+| Karen       | Partners    |
+| Alberto     | Errazuriz   |
+| Gerald      | Cambrault   |
+| Eleni       | Zlotkey     |
+| Peter       | Tucker      |
+| David       | Bernstein   |
+| Peter       | Hall        |
+| Christopher | Olsen       |
+| Nanette     | Cambrault   |
+| Oliver      | Tuvault     |
+| Janette     | King        |
+| Patrick     | Sully       |
+| Allan       | McEwen      |
+| Lindsey     | Smith       |
+| Jean        | Fleaur      |
+| Martha      | Sullivan    |
+| Girard      | Geoni       |
+| Nandita     | Sarchand    |
+| Alexis      | Bull        |
+| Julia       | Dellinger   |
+| Anthony     | Cabrio      |
+| Kelly       | Chung       |
+| Jennifer    | Dilly       |
+| Timothy     | Gates       |
+| Randall     | Perkins     |
+| Sarah       | Bell        |
+| Britney     | Everett     |
+| Samuel      | McCain      |
+| Vance       | Jones       |
+| Alana       | Walsh       |
+| Kevin       | Feeney      |
+| Donald      | OConnell    |
+| Douglas     | Grant       |
+| Pat         | Fay         |
+| Susan       | Mavris      |
+| Hermann     | Baer        |
+| William     | Gietz       |
++-------------+-------------+
+77 rows in set (0.00 sec)
+
+--------------
+SELECT first_name, last_name
+FROM EMPLOYEE
+WHERE employee_id IN (SELECT employee_id
+                      FROM JOBHISTORY
+		      WHERE end_date IS NOT NULL
+		      GROUP BY employee_id
+		      HAVING count(*) = 2)
+--------------
+
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Neena      | Kochhar   |
+| Jonathon   | Taylor    |
+| Jennifer   | Whalen    |
++------------+-----------+
+3 rows in set (0.04 sec)
+
+--------------
+SELECT region_name, department_name
+FROM COUNTRY JOIN DEPARTMENT
+             ON COUNTRY.country_name = DEPARTMENT.country_name
+--------------
+
++-----------------------+------------------------+
+| region_name           | department_name        |
++-----------------------+------------------------+
+| Australia and Oceania | Administration         |
+| Australia and Oceania | Payroll                |
+| Asia                  | Benefits               |
+| Asia                  | Marketing              |
+| Asia                  | Recruiting             |
+| Asia                  | Treasury               |
+| Europe                | Accounting             |
+| Europe                | Sales                  |
+| Americas              | Corporate Tax          |
+| Americas              | Shipping               |
+| Americas              | Control And Credit     |
+| Asia                  | Contracting            |
+| Asia                  | Construction           |
+| Asia                  | Manufacturing          |
+| Asia                  | Purchasing             |
+| Americas              | Finance                |
+| Europe                | Operations             |
+| Europe                | Government Sales       |
+| Europe                | Information Technology |
+| Europe                | Public Relations       |
+| Europe                | Retail Sales           |
+| Asia                  | Human Resources        |
+| Americas              | Executive              |
+| Americas              | Shareholder Services   |
++-----------------------+------------------------+
+24 rows in set (0.00 sec)
+
+--------------
+SELECT department_name
+FROM DEPARTMENT
+WHERE EXISTS (SELECT 'whatever'
+              FROM COUNTRY
+	      WHERE DEPARTMENT.country_name = COUNTRY.country_name AND
+	            region_name = 'Europe')
+--------------
+
++------------------------+
+| department_name        |
++------------------------+
+| Accounting             |
+| Sales                  |
+| Operations             |
+| Government Sales       |
+| Information Technology |
+| Public Relations       |
+| Retail Sales           |
++------------------------+
+7 rows in set (0.00 sec)
+
+mysql> notee

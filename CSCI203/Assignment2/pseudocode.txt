@@ -1,0 +1,167 @@
+MAX_CUSTOMERS = 100
+tellerCount = 0
+customerCount = 0
+servedCustomers = 0
+maxQueueLength = 0
+currentQueueLength = 0
+simulationTime = 0.0000
+totalServingTime = 0.0000
+totalWaitingTime = 0.0000
+highPriority[MAX_CUSTOMERS][3]
+medPriority[MAX_CUSTOMERS][3]
+lowPriority[MAX_CUSTOMERS][3]
+lowPointer = 0
+medPointer = 0
+highPointer = 0
+tellers[tellerCount][4] = 0,0,0,0
+
+Procedure main()
+	tellerCount = input number of tellers
+
+	call Procedure loadCustomerData
+	call Procedure runSimulation
+end
+
+Procedure loadCustomerData
+	filename[20]
+
+	filename = input file name
+	open file
+	if file not found then
+		print error
+	endif
+
+	lowCounter = 0
+	medCounter = 0
+	highCounter = 0
+	while reading lines in file get arrivalTime, serviceTime, priority
+		switch for priority
+			case 1
+				insert arrivalTime, serviceTime, priority into lowPriority[lowCounter]
+				lowCounter++
+			case 2
+				insert arrivalTime, serviceTime, priority into medPriority[medCounter]
+				medCounter++
+			case 3
+				insert arrivalTime, serviceTime, priority into highPriority[highCounter]
+				highCounter++
+		end switch
+
+		customerCount++
+
+		if arrivalTime = 0 and serviceTime = 0 then
+			break
+		endif
+
+	close file
+end
+
+Procedure runSimulation
+
+	while servedCustomers < customerCount
+		nextTeller = call Procedure getNextTeller
+
+		nextCustomer = call Procedure getNextCustomer(nextTeller)
+		if nextCustomer arrivalTime < nextTeller finishTime then
+			totalWaitingTime += nextTeller finishTime - nextCustomer arrivalTime
+			maxQueueLength = call Procedure getQueueLength(nextTeller)
+		endif
+
+		if nextTeller finishTime < nextCustomer arrivalTime then
+			nextTeller idleTime += nextCustomer arrivalTime - nextTeller finishTime
+			nextTeller finishTime = nextCustomer arrivalTime + nextCustomer serviceTime
+
+			if currentQueueLength > maxQueueLength then
+				maxQueueLength = currentQueueLength
+			endif
+		else
+			nextTeller finishTime += nextCustomer serviceTime
+		endif
+
+		currentQueueLength--
+		nextTeller servingTime += nextCustomer serviceTime
+		nextTeller customersServed++
+		simulationTime = nextTeller finishTime
+		totalServingTime += nextTeller servingTime
+		servedCustomers++
+	endwhile
+
+	call Procedure printStatistics
+end
+
+Procedure getNextTeller
+	nextTeller = 0
+	for each teller
+		compare other tellers
+			nextTeller = teller with earliest finish time
+	endfor
+	return nextTeller
+end
+
+Procedure getQueueLength(nextTeller)
+	currentQueueLength++
+
+	for each customer starting at index priority pointer in each priority queue
+		if simulationTime <= customer arrivalTime < nextTeller finishTime then
+			currentQueueLength++
+		endif
+	endfor
+
+	if currentQueueLength > maxQueueLength then
+		return currentQueueLength
+	else
+		return maxQueueLength
+	endif
+end
+
+// Identify next customer by checking the customer arrival times in each priority queue against the next teller's finish time
+Procedure getNextCustomer(nextTeller)
+	customerDetails[2]
+
+	// Checking if a customer is queued
+	if highPriority[highPointer] arrivalTime < nextTeller finishTime then
+		customerDetails = highPriority[highPointer] arrivalTime and serviceTime
+		highPointer++
+		return customerDetails
+
+	elseif medPriority[medPointer] arrivalTime < nextTeller finishTime then
+		customerDetails = medPriority[medPointer] arrivalTime and serviceTime
+		medPointer++
+		return customerDetails
+
+	elseif lowPriority[lowPointer] arrivalTime < nextTeller finishTime then
+		customerDetails = lowPriority[lowPointer] arrivalTime and serviceTime
+		lowPointer++
+		return customerDetails
+	endif
+
+	// If no customer in the queue, identify customer with the earliest arrival time
+	if (highPriority[highPointer] arrivalTime < medPriority[medPointer] arrivalTime) AND (highPriority[highPointer] arrivalTime < lowPriority[lowPointer] arrivalTime) then
+		customerDetails = highPriority[highPointer] arrivalTime and serviceTime
+		highPointer++
+		return customerDetails
+
+	else if (medPriority[medPointer] arrivalTime < highPriority[highPointer] arrivalTime) AND (medPriority[medPointer] arrivalTime < lowPriority[lowPointer] arrivalTime) then
+		customerDetails = medPriority[medPointer] arrivalTime and serviceTime
+		medPointer++
+		return customerDetails
+
+	else if (lowPriority[lowPointer] arrivalTime < medPriority[medPointer] arrivalTime) AND (lowPriority[lowPointer] arrivalTime < highPriority[highPointer] arrivalTime) then
+		customerDetails = lowPriority[lowPointer] arrivalTime and serviceTime
+		lowPointer++
+		return customerDetails
+	endif
+end
+
+Procedure printStatistics
+	print simulationTime
+	print average service time
+	print average waiting time
+	print maxQueueLength
+	print average queue length
+
+	for each teller
+		print customers served
+		print idle rate
+	endfor
+end

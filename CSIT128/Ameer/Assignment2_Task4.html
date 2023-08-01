@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- Assignment 2 (Task 1) by AMEER AL HARIRI (7615917) -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>DPIT128: Assignment 2 (Task 1)</title>
+		<style>
+			/* BEGIN: Template CSS (DO NOT ALTER/REMOVE) ----------- */
+			.container {
+				border: 1px dotted #404040;
+				box-shadow: 5px 5px 5px #808080;
+				margin-bottom: 30px;
+				margin-left: auto;
+				margin-right: auto;
+				text-align: left;
+				width: 665px;
+			}
+
+			.field-label {
+				float: left;
+				line-height: 27px;
+				width: 110px;
+			}
+
+			body {
+				background-color: #ededed;
+				text-align: center;
+			}
+
+			input:focus,
+			select:focus,
+			textarea:focus {
+				box-shadow: 0px 0px 1px 1px #99c65c;
+				outline: none;
+			}
+
+			input[type="reset"],
+			input[type="submit"],
+			label {
+				height: 25px;
+				width: 60px;
+			}
+
+			input[type="reset"],
+			input[type="submit"],
+			select {
+				border: 1px dotted #404040;
+			}
+
+			input[type="reset"]:hover,
+			input[type="submit"]:hover,
+			label:hover,
+			select:hover {
+				cursor: pointer;
+			}
+
+			/* END: Template CSS (DO NOT ALTER/REMOVE) ------------- */
+			/* INSERT INTERNAL CSS HERE */
+			div {
+				font-family: arial;
+				font-size: 14px;
+				border-radius: 5px;
+				width: 650px;
+			}
+
+			.margin {
+				margin: 20px;
+			}
+
+			.format {
+				border-radius: 5px;
+				padding: 5px;
+                margin-bottom: 10px;
+			}
+
+			input[type="text"],
+			input[type="email"],
+			input[type="select"] {
+				background-color: #fffff9;
+				border: 1px dotted #404040;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>DPIT128: Assignment 2</h1>
+		<h2>AMEER AL HARIRI (7615917)</h2>
+		<h3>Date Due: 29/07/2022</h3>
+		<hr />
+		<p style="font-weight:bold;"> I have viewed the College&apos;s policy regarding Academic Integrity as provided at the following URL: <br />
+			<a href="https://documents.uow.edu.au/content/groups/public/@web/@uowc/documents/doc/uow218734.pdf" target="_blank"> https://documents.uow.edu.au/content/groups/public/@web/@uowc/documents/doc/uow218734.pdf </a>
+		</p>
+		<hr />
+		<h2>Task 3</h2>
+		<!-- BEGIN: Task 1 Solution -->
+		<h1>Week 4: HTML Form Coding Solutions</h1>
+		<hr>
+		<div class="container" style="background-color: #f9fff9;">
+			<form action="https://mywebspace.net.au/UOWC128/assignment_2/php/task_4.php" target="_blank" method="post" width="100%">
+				<img class="margin" src="https://mywebspace.net.au/UOWC128/assignment_2/images/task_4.png" width="200px">
+				<div class="margin">
+					<label for="full-name">Full Name:</label>
+					<input class="format" type="text" name="full-name" placeholder="Full Name" required="required" autofocus="autofocus" style="width: 200px">
+                    <br>
+					<label for="email-address">Email Address:</label>
+					<input class="format" type="email" name="email-address" placeholder="Email Address" required="required" autofocus="autofocus" style="width: 200px">
+                    <br>
+                    <label for="services[]">Services:</label>
+                    <select class="format" name="services[]" multiple>
+                        <option value="Consulting">Consulting</option>
+                        <option value="Designing">Designing</option>
+                        <option value="Implementation">Implementation</option>
+                        <option value="Testing">Testing</option>
+                    </select>
+                    <br>
+					<label for="comments">Comments:</label>
+					<input class="format" type="text" name="comments" required="required" autofocus="autofocus" style="width: 200px; height: 50px; text-align: left;">
+                    <br><br>
+					<input class="format" type="submit" value="Submit">
+					<input class="format" type="reset" value="Reset">
+				</div>
+			</form>
+		</div>
+		<!-- END: Task 1 Solution -->
+		<p>&copy; Ameer Al-Hariri</p>
+	</body>
+</html>

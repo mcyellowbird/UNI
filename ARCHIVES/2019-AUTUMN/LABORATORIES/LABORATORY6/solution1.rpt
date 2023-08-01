@@ -1,0 +1,215 @@
+mysql> source solution1.sql
+--------------
+/* (1)  Create a database with the same name as a prefix of your University email account. For example, 
+        if your University email account is xyz007@uow.edu.au then a name of a database should be xyz007. 0.1    */ 
+
+CREATE DATABASE xyz007
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+/* (2)  Create three users with the following names: admin, cust, and emp. The passwords to the user
+        accounts are up to you. 0.1                                                                              */
+
+CREATE USER admin IDENTIFIED BY 'admin'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE USER cust IDENTIFIED BY 'cust'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE USER emp IDENTIFIED BY 'emp'
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+/* (3)  While connected as a user root, process the scripts dbcreate.sql and dbload.sql to create and to load 
+        data into the relational tables later on used in this laboratory class. All relational tables must be 
+        located in a database created in step (1). SQL statements processed by the scripts must NOT be 
+        included in a report from processing of a script solution1.sql. It means that before processing of 
+        the scripts you must process notee statement to turn off spooling and after processing of the scripts 
+        process a statement tee solution1.rpt to turn on spooling into a report file. 0.1                        */
+
+use xyz007
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (4)  Next, grant to a user admin the read and write privileges on the entire database. The privileges must be 
+        granted such that a user admin is not allowed to grant the same privileges to another user. 0.2          */
+
+GRANT SELECT, INSERT, DELETE, UPDATE ON xyz007.* TO admin
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (5)  Next, grant to a user cust a read privilege on a relational table PRODUCT located in the database. 
+        The privilege must be granted such that a user cust is not able to grant the same privileges to 
+        the other users. 0.2                                                                                     */
+       
+
+GRANT SELECT ON xyz007.PRODUCT TO cust
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (6)  Next, grant to a user cust the read and write privileges on the relational table CUSTOMER located in 
+        the database. A user cust must be able to propage read privilege on CUSTOMER to the other users and 
+        a user cust must not be able to propoagate the write privileges to the other users. 0.2                  */
+
+GRANT SELECT ON xyz007.CUSTOMER TO cust WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT INSERT, DELETE, UPDATE ON xyz007.CUSTOMER TO cust
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (7)  Next, grant to a user emp the write privileges on the relational tables ORDERS, ORDER_DETAIL located in 
+        the database. The privileges must be granted such that a user emp will not be able to grant the same 
+        privileges to the other users. 0.2                                                                        */
+
+GRANT INSERT, DELETE, UPDATE ON xyz007.ORDERS TO emp
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT INSERT, DELETE, UPDATE ON xyz007.ORDER_DETAIL TO emp
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (8)  Next, grant to a user cust the read privileges on the columns company_name, contact_name, phone 
+        in a relational table SUPPLIER to a user cust. The privileges must be granted such that a user cust will 
+        not be able to grant the same privileges to the other users. 0.2                                          */
+
+GRANT SELECT(company_name, contact_name, phone) ON xyz007.SUPPLIER TO cust
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (9)  Next, grant insert privilege on a column company_name in a relational table SHIPPER to a user emp. 
+        The privilege can be propagated to the other users. 0.2                                                   */ 
+
+GRANT INSERT(company_name) ON xyz007.SHIPPER TO emp WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (10) Next, grant to a user admin a privilege to create the relational tables located in the database.
+        The privilege must be granted such that a user admin is not allowed to grant the same privilege to 
+        another user. 0.2                                                                                         */
+
+GRANT CREATE ON xyz007.* TO admin
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (11) Next, grant to a user emp a privilege to create the relational views located in the database. The granted 
+        privilege cannot be propagated to the other users. 0.2                                                    */
+
+GRANT CREATE VIEW ON xyz007.* TO emp
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (12) Next, grant to a user emp the references privileges on a column order_id in a relational table ORDERS.
+        The granted privilege cannot be propagated to the other users. 0.2                                        */
+
+GRANT REFERENCES(order_id) ON xyz007.ORDERS TO emp
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (13) Next, grant to a user admin the read privileges on the complete descriptions of the customers who 
+        submitted no orders. For example, these are the customers registered themselves and submitted no 
+        orders so far. The granted privilege cannot be propagated to the other users. 0.3                         */
+
+CREATE VIEW NO_ORDERS AS
+ SELECT *
+ FROM CUSTOMER
+ WHERE customer_code NOT IN ( SELECT customer_code
+                              FROM ORDERS )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+GRANT SELECT ON xyz007.NO_ORDERS TO admin
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (14) Next, grant to a user admin the read privileges on information about the total number of orders submitted 
+        by each customer. Note, that some customers could drop their orders and at the moment they have no 
+        submitted orders. For such customers the total number of submitted orders is equal to zero. 
+        The privileges must provide read access to a customer code and the total number of orders submitted by
+        a customer. The privileges cannot be propagated to the other users. 0.3                                   */
+
+CREATE VIEW TOTAL_ORDERS(customer_code, total) AS
+ SELECT CUSTOMER.customer_code, count(order_id)
+ FROM CUSTOMER LEFT OUTER JOIN ORDERS
+              ON CUSTOMER.customer_code = ORDERS.customer_code
+ GROUP BY CUSTOMER.customer_code
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT SELECT ON xyz007.TOTAL_ORDERS TO admin
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (15) Next, set a resource limit on maximum total number of concurrent connections available to a user
+        cust to two. 0.2                                                                                          */
+
+ALTER USER cust WITH MAX_USER_CONNECTIONS 2
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (16) Finally, lock the accounts of the new users: admin, cust , and emp. 0.1                                   */
+
+ALTER USER admin ACCOUNT LOCK
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER USER cust ACCOUNT LOCK
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+ALTER USER emp ACCOUNT LOCK
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> notee

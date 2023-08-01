@@ -1,0 +1,141 @@
+mysql> source solution2.sql
+--------------
+/* The queries listed below must be implemented as SELECT statements with JOIN or 
+   OUTER JOIN operation.                                                                */
+/* (1)	Find the first and the last name of the drivers who are on leave at the moment. */
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE JOIN DRIVER
+              ON EMPLOYEE.ENUM = DRIVER.ENUM
+WHERE STATUS = 'ON LEAVE'
+--------------
+
++-------+--------+
+| FNAME | LNAME  |
++-------+--------+
+| Peter | Taylor |
+| Adam  | Taylor |
++-------+--------+
+2 rows in set (0.00 sec)
+
+--------------
+/* (2)	Find the registration numbers of trucks that are used just now and that have 
+        been used for at least one trip in 2016.                                        */
+
+SELECT DISTINCT TRUCK.REGNUM
+FROM TRUCK JOIN TRIP
+              ON TRUCK.REGNUM = TRIP.REGNUM
+WHERE TRUCK.STATUS = 'USED' AND 
+      YEAR(TRIP.TDATE) = 2016
+--------------
+
++--------+
+| REGNUM |
++--------+
+| SST005 |
++--------+
+1 row in set (0.00 sec)
+
+--------------
+/* (3)	Find the first and the last names of drivers who performed at least one trip 
+        in January 2016. It is your task to find an appropriate standard function that 
+        can be used to extract a month and year from a date.                            */
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE JOIN DRIVER
+              ON EMPLOYEE.ENUM = DRIVER.ENUM
+              JOIN TRIP
+              ON DRIVER.LNUM = TRIP.LNUM
+WHERE YEAR(TDATE) = 2016 AND MONTH(TDATE)= 01
+--------------
+
++-------+--------+
+| FNAME | LNAME  |
++-------+--------+
+| Adam  | Taylor |
+| John  | Lucas  |
++-------+--------+
+2 rows in set (0.00 sec)
+
+--------------
+/* (4)	Find the first and last names of employees who are not drivers.                 */
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE LEFT OUTER JOIN DRIVER
+              ON EMPLOYEE.ENUM = DRIVER.ENUM
+WHERE LNUM IS NULL
+--------------
+
++-------+--------+
+| FNAME | LNAME  |
++-------+--------+
+| Paris | Hilton |
+| Lady  | Gaga   |
+| Robin | Hood   |
++-------+--------+
+3 rows in set (0.00 sec)
+
+--------------
+/* (5)	Find the first and last name of drivers who performed no trips so far.          */
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE JOIN DRIVER
+              ON EMPLOYEE.ENUM = DRIVER.ENUM
+              LEFT OUTER JOIN TRIP
+              ON DRIVER.LNUM = TRIP.LNUM
+WHERE TRIP.TNUM IS NULL
+--------------
+
++---------+---------+
+| FNAME   | LNAME   |
++---------+---------+
+| John    | Gray    |
+| Peter   | Taylor  |
+| Michael | Jones   |
+| Andrew  | Smith   |
+| Michael | Potter  |
+| Harry   | Potter  |
+| Peter   | O'Brien |
+| Adam    | Fox     |
+| Phillip | ,Cox    |
+| Andrew  | Smith   |
+| John    | Fox     |
+| James   | Bond    |
++---------+---------+
+12 rows in set (0.00 sec)
+
+--------------
+/* (6)	Find the total number of trips performed by each driver. List the driving 
+        licence numbers associated with the total number of trips. Do not ignore 
+        the drivers who performed no trips so far.                                      */
+        
+SELECT DRIVER.LNUM, COUNT(TRIP.TNUM)
+FROM DRIVER LEFT OUTER JOIN TRIP
+            ON DRIVER.LNUM = TRIP.LNUM
+GROUP BY DRIVER.LNUM
+--------------
+
++-------+------------------+
+| LNUM  | COUNT(TRIP.TNUM) |
++-------+------------------+
+| 10001 |               11 |
+| 10002 |                4 |
+| 10003 |                4 |
+| 10004 |                0 |
+| 10008 |                0 |
+| 10012 |                0 |
+| 10305 |                0 |
+| 10345 |                0 |
+| 10705 |                0 |
+| 20002 |                7 |
+| 20003 |                0 |
+| 20045 |                0 |
+| 20055 |                0 |
+| 20065 |                0 |
+| 30005 |                9 |
+| 40002 |                0 |
+| 40005 |                0 |
++-------+------------------+
+17 rows in set (0.00 sec)
+
+mysql> notee

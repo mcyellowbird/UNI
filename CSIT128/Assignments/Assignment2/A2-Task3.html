@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<style>
+			button {
+				width: 150px;
+				height: 50px;
+				font-size:20px;
+			}
+
+			#bird {
+				width: 400px;
+			}
+		</style>
+		<script>
+			var number = 0;
+
+			function changeBird(){
+				var val = bird.alt;
+
+				if (val == "red"){
+					bird.alt = "green";
+					bird.src = "greenBird.png";
+				}
+				else if (val == "green"){
+					bird.alt = "blue";
+					bird.src = "blueBird.png";
+				}
+				else if (val == "blue"){
+					bird.alt = "yellow";
+					bird.src = "yellowBird.png";
+				}
+				else if (val == "yellow"){
+					bird.alt = "red";
+					bird.src = "redBird.png";
+				}
+			}
+
+		</script>
+	</head>
+	<body style="text-align:center; padding-top: 50px">
+		<img id="bird" src="redBird.png" alt="red" onclick="changeBird()"/>
+	</body>
+</html>

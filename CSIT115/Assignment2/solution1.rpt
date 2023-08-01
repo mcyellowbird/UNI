@@ -1,0 +1,370 @@
+mysql> source solution1.sql;
+Database changed
+--------------
+/*
+(1)			List all the route number together with the driver's licence number. 
+The list should be sorted by the route number in the acceding order and should include the route number that doesn't have anyone drive on before.  
+*/
+
+SELECT RNUM, LNUM
+FROM ROUTE LEFT OUTER JOIN SCHEDULE
+USING (RNUM)
+ORDER BY RNUM ASC
+--------------
+
++------+-------+
+| RNUM | LNUM  |
++------+-------+
+|    1 | 10001 |
+|    2 | 10001 |
+|    3 | 20002 |
+|    3 | 20002 |
+|    3 | 30005 |
+|    4 | 10002 |
+|    4 | 30005 |
+|    5 | 30005 |
+|    6 | 10001 |
+|    6 | 20002 |
+|    6 | 30005 |
+|    7 | 10002 |
+|    7 | 30005 |
+|    8 | 30005 |
+|    9 | 10003 |
+|    9 | 10002 |
+|   10 | 20002 |
+|   11 | 20002 |
+|   12 | 10001 |
+|   12 | 10001 |
+|   12 | 30005 |
+|   13 | 10001 |
+|   14 | 10002 |
+|   14 | 10001 |
+|   15 | 10003 |
+|   16 | 30005 |
+|   17 | 10002 |
+|   17 | 10003 |
+|   18 | 30005 |
+|   19 | 10002 |
+|   20 | 30005 |
+|   21 | 10001 |
+|   21 | 10003 |
+|   22 | 10001 |
+|   22 | 10003 |
+|   22 | 10002 |
+|   23 | 30005 |
+|   23 | 10002 |
+|   24 | 10001 |
+|   24 | 10003 |
+|   25 | 10001 |
+|   25 | 30005 |
+|   26 | 30005 |
+|   26 | 20002 |
+|   26 | 10002 |
+|   27 | 10003 |
+|   27 | 40005 |
+|   28 | 10002 |
+|   29 | 10001 |
+|   29 | 20002 |
+|   30 |  NULL |
+|   31 |  NULL |
+|   32 |  NULL |
+|   33 | 20002 |
++------+-------+
+54 rows in set (0.00 sec)
+
+--------------
+/*
+(2)	List all of the route numbers that the total distance is more than the average distance per route. 
+*/
+
+WITH ROUTE_AVG AS
+	(SELECT AVG(TOTAL_DISTANCE) AS AVG_DISTANCE
+	FROM ROUTE)
+SELECT RNUM
+FROM ROUTE, ROUTE_AVG
+WHERE ROUTE.TOTAL_DISTANCE > ROUTE_AVG.AVG_DISTANCE
+--------------
+
++------+
+| RNUM |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    5 |
+|    8 |
+|   14 |
+|   15 |
+|   16 |
+|   17 |
+|   20 |
+|   21 |
+|   24 |
+|   25 |
+|   26 |
+|   27 |
+|   32 |
+|   33 |
++------+
+17 rows in set (0.00 sec)
+
+--------------
+/*
+(3)	List full name (first name and last name) and the speciality certificate of all employee. 
+The list may contain null for the speciality certificate.  "RIGHT OUTER JOIN" should be used in the query statement.  
+*/
+
+SELECT FNAME, LNAME, SPEC
+FROM TECHNICIAN RIGHT OUTER JOIN EMPLOYEE
+ON TECHNICIAN.ENUM = EMPLOYEE.ENUM
+--------------
+
++----------+----------+-------------------+
+| FNAME    | LNAME    | SPEC              |
++----------+----------+-------------------+
+| Adam     | Fox      | NULL              |
+| Adam     | Taylor   | NULL              |
+| Amos     | Li       | NULL              |
+| Andre    | Smith    | NULL              |
+| Andrew   | Smith    | NULL              |
+| Andrew   | Smith    | NULL              |
+| Andy     | Zhu      | NULL              |
+| Ave      | Smith    | Navigation        |
+| Bart     | Zhang    | NULL              |
+| Barton   | Yang     | Gear              |
+| Ben      | Franklin | Breaks            |
+| Carl     | Lucas    | Cylinders         |
+| Clark    | ,Cox     | Breaks            |
+| Daniel   | Smith    | Security          |
+| David    | Gaga     | Tyre Support      |
+| Don      | Fox      | Exhaust           |
+| Edison   | Potter   | Battery           |
+| Frank    | Fox      | Transmission      |
+| Frederic | Jones    | NULL              |
+| Gale     | Potter   | Cruise control    |
+| Harry    | Potter   | NULL              |
+| Ivan     | Bond     | Engine            |
+| James    | Bond     | NULL              |
+| John     | Doe      | NULL              |
+| John     | Fox      | NULL              |
+| John     | Gray     | NULL              |
+| John     | Lucas    | NULL              |
+| John     | Smith    | NULL              |
+| Kyle     | Wang     | Electrical System |
+| Lady     | Gaga     | NULL              |
+| Larry    | Jones    | Suspension        |
+| Len      | O'Brien  | Power steering    |
+| Matt     | Hilton   | Engine            |
+| Michael  | Jones    | NULL              |
+| Michael  | Potter   | NULL              |
+| Paris    | Hilton   | NULL              |
+| Peter    | O'Brien  | NULL              |
+| Peter    | Taylor   | NULL              |
+| Phillip  | ,Cox     | NULL              |
+| Robin    | Hood     | NULL              |
++----------+----------+-------------------+
+40 rows in set (0.00 sec)
+
+--------------
+/*
+(4)	List all the route that has the total distance more than 1000 KM.
+*/
+
+SELECT *
+FROM ROUTE
+WHERE TOTAL_DISTANCE > 1000
+--------------
+
++------+----------------+
+| RNUM | TOTAL_DISTANCE |
++------+----------------+
+|    1 |        1450.00 |
+|    2 |        1150.00 |
+|    3 |        1050.00 |
+|   17 |        1050.00 |
+|   27 |        1050.00 |
++------+----------------+
+5 rows in set (0.00 sec)
+
+--------------
+/*
+(5)	Find the number of the route that has more than two stations.
+Hint: Use Group By first before counting the number of the route. 
+*/
+
+SELECT COUNT(*) AS ROUTES_OVER_2_STOPS
+FROM
+	(SELECT RNUM, COUNT(*)
+    FROM ROUTE_STATION
+    GROUP BY RNUM
+    HAVING COUNT(*) > 2)
+    ROUTE
+--------------
+
++---------------------+
+| ROUTES_OVER_2_STOPS |
++---------------------+
+|                   4 |
++---------------------+
+1 row in set (0.00 sec)
+
+--------------
+/*
+(6)	Find the licence number of all drivers who drove on route number 9 before but never drive on route number 4 before.
+ Hint: Using INTERSECTION, UNION or DIFFERENCE concepts in this question.   
+*/
+
+SELECT LNUM
+FROM DRIVER
+WHERE LNUM IN
+	(SELECT LNUM
+	FROM SCHEDULE
+	WHERE RNUM = 9)
+AND LNUM NOT IN
+	(SELECT LNUM
+	FROM SCHEDULE
+	WHERE RNUM = 4)
+--------------
+
++-------+
+| LNUM  |
++-------+
+| 10003 |
++-------+
+1 row in set (0.00 sec)
+
+--------------
+/*
+(7)	Find the route number together with the number of drivers (do not count the duplicate row) who scheduled to stop at Wollongong before.     
+*/
+
+SELECT RNUM, COUNT(DISTINCT LNUM)
+FROM SCHEDULE
+WHERE RNUM IN
+	(SELECT RNUM
+    FROM ROUTE_STATION
+    WHERE STATION = "Wollongong")
+GROUP BY RNUM
+--------------
+
++------+----------------------+
+| RNUM | COUNT(DISTINCT LNUM) |
++------+----------------------+
+|    3 |                    2 |
+|    7 |                    2 |
+|   10 |                    1 |
+|   12 |                    2 |
+|   14 |                    2 |
+|   15 |                    1 |
+|   23 |                    2 |
++------+----------------------+
+7 rows in set (0.00 sec)
+
+--------------
+/*
+(8) Find the total distance that the vehicle with the registration number AB0804 has travelled so far based on its schedule and route.       
+*/
+
+SELECT SUM(ROUTE.TOTAL_DISTANCE) AS TOTAL_DISTANCE
+FROM ROUTE JOIN SCHEDULE
+ON ROUTE.RNUM = SCHEDULE.RNUM
+WHERE REGNUM = 'AB0804'
+--------------
+
++----------------+
+| TOTAL_DISTANCE |
++----------------+
+|        2400.00 |
++----------------+
+1 row in set (0.00 sec)
+
+--------------
+/* 
+(9) Using JOIN clauses, find the first and last names of all employee who drive VAN before. 
+Note that you should use only the JOIN clause to connect the tables
+*/
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE JOIN DRIVER
+WHERE (EMPLOYEE.ENUM = DRIVER.ENUM)
+AND DRIVER.LNUM IN
+	(SELECT LNUM
+	FROM SCHEDULE
+	WHERE REGNUM IN
+		(SELECT REGNUM
+		FROM VAN))
+--------------
+
++-------+-------+
+| FNAME | LNAME |
++-------+-------+
+| John  | Doe   |
+| John  | Lucas |
+| John  | Smith |
++-------+-------+
+3 rows in set (0.00 sec)
+
+--------------
+/* 
+(10)	Using JOIN and WITH clause, find the first and last names of all employees who drove BUS before. Please remove the duplicate row. 
+Note that you may only use the JOIN clause to join two tables once at a time and have to use WITH clause to connect them.   
+*/
+
+WITH BUS_DRIVERS(FNAME,LNAME) AS
+	(SELECT FNAME, LNAME
+    FROM EMPLOYEE)
+SELECT FNAME, LNAME
+FROM EMPLOYEE JOIN DRIVER
+WHERE (EMPLOYEE.ENUM = DRIVER.ENUM)
+AND DRIVER.LNUM IN
+	(SELECT LNUM
+	FROM SCHEDULE
+	WHERE REGNUM IN
+		(SELECT REGNUM
+		FROM BUS))
+--------------
+
++----------+--------+
+| FNAME    | LNAME  |
++----------+--------+
+| Adam     | Taylor |
+| Frederic | Jones  |
+| James    | Bond   |
+| John     | Doe    |
+| John     | Lucas  |
+| John     | Smith  |
++----------+--------+
+6 rows in set (0.00 sec)
+
+--------------
+/*
+(11)	Using INTERSECTION, UNION or DIFFERENCE concepts, Find all driver's first name and  last name who have been scheduled for route 3 
+or who have been driven a vehicle made by the manufacture named "Daimler" before. 
+*/
+
+SELECT FNAME, LNAME
+FROM EMPLOYEE
+WHERE ENUM IN
+	(SELECT ENUM
+    FROM DRIVER
+    WHERE LNUM IN
+		(SELECT LNUM
+        FROM SCHEDULE
+        WHERE (RNUM = 3)
+        OR REGNUM IN
+			(SELECT REGNUM
+            FROM VEHICLE
+            WHERE MANUFACT = "Daimler")))
+--------------
+
++----------+-------+
+| FNAME    | LNAME |
++----------+-------+
+| John     | Smith |
+| Frederic | Jones |
+| John     | Lucas |
+| John     | Doe   |
++----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> notee;

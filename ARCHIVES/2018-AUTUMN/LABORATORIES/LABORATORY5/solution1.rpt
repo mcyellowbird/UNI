@@ -1,0 +1,178 @@
+mysql> source solution1.sql
+--------------
+SELECT ename 
+FROM EMPLOYER 
+WHERE city='Perth' AND state='Western Australia'
+--------------
+
++---------------------------------+
+| ename                           |
++---------------------------------+
+| Curtin University               |
+| Murdoch University              |
+| University of Western Australia |
++---------------------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT pnumber, title 
+FROM POSITIONS
+WHERE salary BETWEEN 200000 AND 800000
+--------------
+
++---------+---------------------+
+| pnumber | title               |
++---------+---------------------+
+|       2 | lecturer            |
+|       4 | associate professor |
+|       5 | professor           |
+|       7 | professor           |
+|       9 | lecturer            |
++---------+---------------------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT ename, email, web
+FROM EMPLOYER
+WHERE ((email IS NULL) OR (web IS NULL))
+--------------
+
++---------------------+-------+--------------------+
+| ename               | email | web                |
++---------------------+-------+--------------------+
+| La Trobe University | NULL  | www.latrobe.edu.au |
+| RMIT                | NULL  | www.rmit.edu.au    |
++---------------------+-------+--------------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT fname, lname
+FROM APPLICANT
+WHERE YEAR(dob)=1960
+--------------
+
++---------+----------+
+| fname   | lname    |
++---------+----------+
+| Michael | Collins  |
+| James   | Bond     |
+| Neil    | Superman |
++---------+----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT pnumber, title
+FROM POSITIONS
+ORDER BY salary ASC, title DESC
+--------------
+
++---------+---------------------+
+| pnumber | title               |
++---------+---------------------+
+|       8 | senior lecturer     |
+|       1 | lecturer            |
+|       3 | senior lecturer     |
+|      10 | associate professor |
+|       6 | professor           |
+|       5 | professor           |
+|       4 | associate professor |
+|       2 | lecturer            |
+|       9 | lecturer            |
+|       7 | professor           |
++---------+---------------------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT COUNT(*) AS "TOTAL POSITIONS", AVG(salary) AS "AVERAGE SALARY", MAX(salary) AS "MAXIMUM SALARY", MIN(salary) AS "MINIMUM SALARY"
+FROM POSITIONS
+--------------
+
++-----------------+----------------+----------------+----------------+
+| TOTAL POSITIONS | AVERAGE SALARY | MAXIMUM SALARY | MINIMUM SALARY |
++-----------------+----------------+----------------+----------------+
+|              10 |  239000.000000 |      800000.00 |       45000.00 |
++-----------------+----------------+----------------+----------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT ename, COUNT(pnumber) AS "TOTAL POSITIONS"
+FROM  POSITIONS
+GROUP BY ename
+--------------
+
++----------------------------------+-----------------+
+| ename                            | TOTAL POSITIONS |
++----------------------------------+-----------------+
+| University of New South Wales    |               2 |
+| University of Queensland         |               1 |
+| University of Technology, Sydney |               2 |
+| University of Wollongong         |               5 |
++----------------------------------+-----------------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT sname, COUNT(anumber) AS "TOTAL APPLICANTS"
+FROM SPOSSESSED
+WHERE sname IN ('C programming', 'C++ programming', 'SQL programming') AND
+      slevel > 5
+GROUP BY sname
+--------------
+
++-----------------+------------------+
+| sname           | TOTAL APPLICANTS |
++-----------------+------------------+
+| C++ programming |                1 |
+| SQL programming |                7 |
++-----------------+------------------+
+2 rows in set (0.05 sec)
+
+--------------
+SELECT anumber, COUNT(sname) AS "TOTAL SKILLS POSSESSED"
+FROM  SPOSSESSED 
+GROUP BY anumber
+HAVING COUNT(*) > 3
+--------------
+
++---------+------------------------+
+| anumber | TOTAL SKILLS POSSESSED |
++---------+------------------------+
+|      10 |                      4 |
+|      18 |                      4 |
+|      26 |                      4 |
++---------+------------------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT sname
+FROM SNEEDED 
+UNION 
+SELECT sname
+FROM SPOSSESSED
+--------------
+
++-------------------------+
+| sname                   |
++-------------------------+
+| bricklaying             |
+| C programming           |
+| C++ programming         |
+| cooking                 |
+| database design         |
+| driving                 |
+| Java programming        |
+| painting                |
+| singing                 |
+| SQL programming         |
+| database administration |
+| network administration  |
+| PHP programming         |
+| reading                 |
+| skiing                  |
+| snowboarding            |
+| thinking                |
+| writing                 |
++-------------------------+
+18 rows in set (0.00 sec)
+
+mysql> 
+mysql> exit

@@ -1,0 +1,147 @@
+mysql> \. solution3.sql
+--------------
+/*
+(1)	For each department, find the department name and total budgets of the projects allocated 
+    for the department.
+*/
+
+SELECT DName, SUM(IFNULL(Budget, 0)) "Total budget"
+FROM Department D LEFT OUTER JOIN Project P ON D.DNumber = P.DNumber
+GROUP BY DName
+--------------
+
++-----------------+--------------+
+| DName           | Total budget |
++-----------------+--------------+
+| ACCOUNTING      |         0.00 |
+| GAMES           |    240000.00 |
+| HUMAN RESOURCES |         0.00 |
+| SALES           |     25000.00 |
+| SPORTS          |    160000.00 |
++-----------------+--------------+
+5 rows in set (0.09 sec)
+
+--------------
+/*
+(2)	For each employee, find the name and total number of projects that the employee works on.
+*/
+
+SELECT Name, COUNT(PNumber) "Total projects"
+FROM Employee E LEFT OUTER JOIN WorksOn W On E.ENumber = W.ENumber
+GROUP BY E.ENumber
+--------------
+
++----------+----------------+
+| Name     | Total projects |
++----------+----------------+
+| Albert   |              0 |
+| Peter    |              1 |
+| Ami      |              0 |
+| Robert   |              4 |
+| Wendy    |              0 |
+| Michael  |              0 |
+| Alvin    |              1 |
+| Alice    |              0 |
+| Angela   |              0 |
+| Aban     |              0 |
+| Bob      |              1 |
+| Eadger   |              1 |
+| Carl     |              0 |
+| Douglass |              1 |
++----------+----------------+
+14 rows in set (0.00 sec)
+
+--------------
+/*
+(3)	Find the names of the all employees who work on the projects that the budgets are 
+    more than $100000.
+*/
+
+SELECT DISTINCT Name
+FROM Employee E JOIN WorksOn W ON E.ENumber = W.ENumber
+	JOIN Project P ON W.PNumber = P.PNumber
+WHERE Budget > 100000
+--------------
+
++--------+
+| Name   |
++--------+
+| Robert |
++--------+
+1 row in set (0.04 sec)
+
+--------------
+/*
+(4)	Find the number and names of all departments that only located in NSW.
+*/
+
+SELECT DNumber, DName
+FROM Department
+WHERE DNumber IN (SELECT DNumber FROM DeptLocation
+	WHERE Address LIKE '%NSW%')
+	AND
+	DNumber NOT IN (SELECT DNumber FROM DeptLocation
+	WHERE Address NOT LIKE '%NSW%')
+--------------
+
++---------+-----------------+
+| DNumber | DName           |
++---------+-----------------+
+|       2 | ACCOUNTING      |
+|       3 | GAMES           |
+|       4 | HUMAN RESOURCES |
+|       5 | SPORTS          |
++---------+-----------------+
+4 rows in set (0.01 sec)
+
+--------------
+/*
+The queries listed below must be implemented as nested queries with EXISTS/NOT EXISTS clauses.
+*/
+
+/*
+(5)	Find the number and name for the employees who have dependents.
+*/
+
+SELECT ENumber, Name
+FROM Employee E
+WHERE EXISTS (SELECT * FROM Dependent D
+	WHERE D.ENumber = E.ENUmber)
+--------------
+
++---------+--------+
+| ENumber | Name   |
++---------+--------+
+| 00100   | Albert |
+| 00120   | Alice  |
+| 00187   | Eadger |
++---------+--------+
+3 rows in set (0.00 sec)
+
+--------------
+/*
+(6)	Find the number and name for the employees who have no project.
+*/
+
+SELECT ENumber, Name
+FROM Employee E
+WHERE NOT EXISTS (SELECT * FROM WorksOn W JOIN Project P 
+	ON W.PNumber = P.PNumber
+	WHERE W.ENumber = E.ENumber)
+--------------
+
++---------+---------+
+| ENumber | Name    |
++---------+---------+
+| 00100   | Albert  |
+| 00103   | Ami     |
+| 00107   | Wendy   |
+| 00109   | Michael |
+| 00120   | Alice   |
+| 00125   | Angela  |
+| 00136   | Aban    |
+| 00200   | Carl    |
++---------+---------+
+8 rows in set (0.01 sec)
+
+mysql> notee;

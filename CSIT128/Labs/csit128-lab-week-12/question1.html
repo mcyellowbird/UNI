@@ -1,0 +1,113 @@
+<html>
+	<head>
+		<script>
+			function drawTriangle(){
+				var x1D = document.getElementById("x1");
+				var x1 = Number(x1D.value);
+
+				var x2D = document.getElementById("x2");
+				var x2 = Number(x2D.value);
+
+				var x3D = document.getElementById("x3");
+				var x3 = Number(x3D.value);
+
+				var y1D = document.getElementById("y1");
+				var y1 = Number(y1D.value);
+
+				var y2D = document.getElementById("y2");
+				var y2 = Number(y2D.value);
+
+				var y3D = document.getElementById("y3");
+				var y3 = Number(y3D.value);
+
+				var canvas = document.getElementById("canvas");
+				var context = canvas.getContext("2d");
+
+				context.clearRect(0, 0, canvas.width, canvas.height);
+
+				context.beginPath();
+				context.moveTo(x1, y1);
+				context.lineTo(x2, y2);
+				context.lineTo(x3, y3);
+				context.closePath();
+
+				context.strokeStyle = "#8B008B"
+				context.lineWidth = "3";
+				context.stroke();
+
+				context.fillStyle = "#DDA0DD";
+				context.fill();
+
+				context.strokeStyle = "white";
+				context.lineWidth = "2";
+
+				context.beginPath();
+				context.moveTo(x1, y1);
+				context.lineTo((x2+x3)/2, (y2+y3)/2);
+				context.stroke();
+
+				context.beginPath();
+				context.moveTo(x2, y2);
+				context.lineTo((x1+x3)/2, (y1+y3)/2);
+				context.stroke();
+
+				context.beginPath();
+				context.moveTo(x3, y3);
+				context.lineTo((x1+x2)/2, (y1+y2)/2);
+				context.stroke();
+
+				context.fillStyle = "black";
+				context.font = "bold 20px Arial";
+				context.fillText("A", x1, y1);
+				context.fillText("B", x2, y2);
+				context.fillText("C", x3, y3);
+			}
+		</script>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td>
+					Enter coordinate for 1st point:
+				</td>
+				<td>
+					X=<input type="number" id="x1" style="width: 80px;" />
+				</td>
+				<td>
+					Y=<input type="number" id="y1" style="width: 80px;" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Enter coordinate for 2nd point:
+				</td>
+				<td>
+					X=<input type="number" id="x2" style="width: 80px;" />
+				</td>
+				<td>
+					Y=<input type="number" id="y2" style="width: 80px;" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Enter coordinate for 3rd point:
+				</td>
+				<td>
+					X=<input type="number" id="x3" style="width: 80px;" />
+				</td>
+				<td>
+					Y=<input type="number" id="y3" style="width: 80px;" />
+				</td>
+			</tr>
+		</table>
+
+		<br />
+
+		<canvas id="canvas" style="border: 1px black dotted;"></canvas>
+
+		<br /><br />
+
+		<button onClick="drawTriangle()">Draw Triangle</button>
+
+	</body>
+</html>

@@ -1,0 +1,49 @@
+mysql> source solution1.sql;
+--------------
+/*
+  (1) The total hours for each employee works on the projects must be
+      less than or equals to 30 hours.
+
+      List the employee number, name and the message “works on the
+      projects more than 30 hours” for the employees who violate the
+      above constraint.  
+*/
+
+SELECT E.ENumber, E.Name, 'works on the projects more than 30 hours'
+FROM Employee E JOIN WorksOn W USING (ENumber)
+GROUP BY E.ENumber, E.Name
+HAVING SUM(Hours) > 30
+--------------
+
++---------+--------+------------------------------------------+
+| ENumber | Name   | works on the projects more than 30 hours |
++---------+--------+------------------------------------------+
+| 00105   | Robert | works on the projects more than 30 hours |
+| 00150   | Bob    | works on the projects more than 30 hours |
++---------+--------+------------------------------------------+
+2 rows in set (0.01 sec)
+
+--------------
+/*
+  (2) The manager of a department must work in the same department
+      with the employees that supervised by him / her.
+
+      List the employee number, the department number that the employee works in,
+      manager number, the department number that the manager manages,
+      and the message “are not in the same department” for the managers 
+      and employees who violate the above constraint. 
+*/
+
+SELECT E.ENumber, E.DNumber "Employee dnumber", D.Manager, D.DNumber "Manager dnumber",  'are not in the same department'
+FROM Department D JOIN Employee E ON D.Manager = E.Supervisor
+WHERE E.DNumber <> D.DNumber
+--------------
+
++---------+------------------+---------+-----------------+--------------------------------+
+| ENumber | Employee dnumber | Manager | Manager dnumber | are not in the same department |
++---------+------------------+---------+-----------------+--------------------------------+
+| 00107   |                1 | 00120   |               2 | are not in the same department |
++---------+------------------+---------+-----------------+--------------------------------+
+1 row in set (0.00 sec)
+
+mysql> notee;

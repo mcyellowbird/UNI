@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<style>
+			input {
+				width:100px;
+			}
+		</style>
+
+		<script>
+			var counter = 0;
+			function Increase(){
+				counter++;
+				output.innerHTML = counter;
+			}
+
+		</script>		
+	</head>
+	<body style="text-align: center;">
+		<button onClick="Increase()" style="font-size: 25px;">Increase Counter</button>
+		<br>
+		<span id="output" style="font-size: 40px;">0</span>
+	</body>
+</html>

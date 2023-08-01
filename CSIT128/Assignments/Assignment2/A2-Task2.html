@@ -1,0 +1,179 @@
+<html>
+	<head>
+		<style>
+			button {
+				width: 100px;
+				height: 30px;
+				font-size:15px;
+			}
+
+			table {
+				margin: auto;
+			}
+
+			#outputNumber {
+				font-size: 20px;
+			}
+
+		</style>
+		<script>
+			function calculate() {
+				int1 = Number(document.getElementById("int1").value);
+
+				int2 = Number(document.getElementById("int2").value);
+
+				int3 = Number(document.getElementById("int3").value);
+
+				int4 = Number(document.getElementById("int4").value);
+
+				int5 = Number(document.getElementById("int5").value);
+
+				var sum = int1 + int2 + int3 + int4 + int5;
+				sumOutput.innerHTML = sum;
+
+				var product = int1 * int2 * int3 * int4 * int5;
+				document.getElementById("productOutput").innerHTML = product;
+
+				var max = Math.max(int1, int2, int3, int4, int5);
+				document.getElementById("maxOutput").innerHTML = max;
+
+				var min = Math.min(int1, int2, int3, int4, int5);
+				document.getElementById("minOutput").innerHTML = min;
+
+				var oddNumbers = 0;
+				oddNumbers = oddNumbers + Number(int1 % 2 == 1);
+				oddNumbers = oddNumbers + Number(int2 % 2 == 1);
+				oddNumbers = oddNumbers + Number(int3 % 2 == 1);
+				oddNumbers = oddNumbers + Number(int4 % 2 == 1);
+				oddNumbers = oddNumbers + Number(int5 % 2 == 1);
+				document.getElementById("oddOutput").innerHTML = oddNumbers;
+
+				var evenNumbers = 0;
+				evenNumbers = evenNumbers + Number(int1 % 2 == 0);
+				evenNumbers = evenNumbers + Number(int2 % 2 == 0);
+				evenNumbers = evenNumbers + Number(int3 % 2 == 0);
+				evenNumbers = evenNumbers + Number(int4 % 2 == 0);
+				evenNumbers = evenNumbers + Number(int5 % 2 == 0);
+				document.getElementById("evenOutput").innerHTML = evenNumbers;
+
+				var positiveNumbers = 0;
+				positiveNumbers = positiveNumbers + Number(Math.sign(int1) > 0);
+				positiveNumbers = positiveNumbers + Number(Math.sign(int2) > 0);
+				positiveNumbers = positiveNumbers + Number(Math.sign(int3) > 0);
+				positiveNumbers = positiveNumbers + Number(Math.sign(int4) > 0);
+				positiveNumbers = positiveNumbers + Number(Math.sign(int5) > 0);
+				document.getElementById("positiveOutput").innerHTML = positiveNumbers;
+
+				var negativeNumbers = 0;
+				negativeNumbers = negativeNumbers + Number(Math.sign(int1) < 0);
+				negativeNumbers = negativeNumbers + Number(Math.sign(int2) < 0);
+				negativeNumbers = negativeNumbers + Number(Math.sign(int3) < 0);
+				negativeNumbers = negativeNumbers + Number(Math.sign(int4) < 0);
+				negativeNumbers = negativeNumbers + Number(Math.sign(int5) < 0);
+				document.getElementById("negativeOutput").innerHTML = negativeNumbers;
+
+				var zeros = 0;
+				zeros = zeros + Number(Math.sign(int1) == 0);
+				zeros = zeros + Number(Math.sign(int2) == 0);
+				zeros = zeros + Number(Math.sign(int3) == 0);
+				zeros = zeros + Number(Math.sign(int4) == 0);
+				zeros = zeros + Number(Math.sign(int5) == 0);
+				document.getElementById("zeroOutput").innerHTML = zeros;
+			}
+
+		</script>
+	</head>
+	<body style="text-align:center; padding-top: 50px">
+		Enter 1st integer:
+		<input type="number" id="int1"/>
+		<br><br>
+		Enter 2nd integer:
+		<input type="number" id="int2"/>
+		<br><br>
+		Enter 3rd integer:
+		<input type="number" id="int3"/>
+		<br><br>
+		Enter 4th integer:
+		<input type="number" id="int4"/>
+		<br><br>
+		Enter 5th integer:
+		<input type="number" id="int5"/>
+		<br><br>
+		<button onclick="calculate()">Calculate</button>
+		<br><br>
+		<table>
+			<tr>
+				<td>
+					Sum: 
+				</td>
+				<td>
+					<span id="sumOutput">0</span> 
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Product: 
+				</td>
+				<td>
+					<span id="productOutput">0</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Maximum: 
+				</td>
+				<td>
+					<span id="maxOutput">0</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Minimum: 
+				</td>
+				<td>
+					<span id="minOutput">0</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Amount of odd integers: 
+				</td>
+				<td>
+					<span id="oddOutput">0</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Amount of even integers: 
+				</td>
+				<td>
+					<span id="evenOutput">0</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Amount of positive integers: 
+				</td>
+				<td>
+					<span id="positiveOutput">0</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Amount of negative integers: 
+				</td>
+				<td>
+					<span id="negativeOutput">0</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Amount of zeros: 
+				</td>
+				<td>
+					<span id="zeroOutput">0</span>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

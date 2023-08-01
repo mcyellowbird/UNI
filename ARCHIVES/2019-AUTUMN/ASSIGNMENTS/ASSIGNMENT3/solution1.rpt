@@ -1,0 +1,84 @@
+mysql> source solution1.sql
+--------------
+/* (1)	First, the script inserts into a sample database information about a new order submitted today that includes two products. 
+        One of the products is discontinued while the other is not discontinued. You are allowed to examine the contents of a sample 
+        database to find out which products are discontinued and which products are not discontinued and later on apply INSERT 
+        statements to implement this step. All other information related to a new order is up to you.                                     */	
+
+INSERT INTO ORDERS VALUES (386, 'WOLZA', 9, '2019-05-13', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+--------------
+
+Query OK, 1 row affected (0.07 sec)
+
+--------------
+INSERT INTO ORDER_DETAIL VALUES( 386, 'Thuringer Rostbratwurst', 2.7, 25, 0.2)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO ORDER_DETAIL VALUES( 386, 'Tunnbrod', 1.4, 100, 0.1)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+/* (2)	Next, the script creates a single column relational table MESSAGES to store variable size strings no longer than 500 characters.  */
+
+CREATE TABLE MESSAGES( message VARCHAR(500) )
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* (3)	Next, the script inserts into a relational table MESSAGE information about the contents of a sample database that violate 
+        the following consistency constraint.
+											
+	"All orders submitted after 30 April 2019 must not include discontinued products"                                                 
+
+        The script must list the outcomes of verification of the consistency constraint as a single column table with the following 
+        messages as the rows in the table.
+
+        Order <insert order_id here> includes a discontinued product <insert product_name here>
+
+        For example, if order_id of an order submitted on 1 May 2019 is equal to 278 and product Chai is discontinued and the product is 
+        included into the order then verification of the consistency constraint must return the following message.
+
+        Order 278 submitted on 2019-05-01 includes a discontinued product Chai
+
+	Use a function CONCAT to create the messages like the one listed above.                                                           */
+
+INSERT INTO MESSAGES ( SELECT CONCAT('Order ',ORDERS.order_id,' submitted on ', ORDERS.order_date, ' includes a discontinued product ', PRODUCT.product_name)
+                       FROM ORDERS JOIN ORDER_DETAIL
+		                   ON ORDERS.order_id = ORDER_DETAIL.order_id
+                                   JOIN PRODUCT
+				   ON ORDER_DETAIL.product_name = PRODUCT.product_name
+		       WHERE ORDERS.order_date > '2019-04-30' AND
+		             PRODUCT.discontinued = 'Y' )
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+--------------
+			     
+/* (4) 	Finally, the script makes the contents of a relational table MESSAGE permanent and lists the contents of the table.               */
+
+COMMIT
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT message
+FROM MESSAGES
+--------------
+
++-------------------------------------------------------------------------------------------+
+| message                                                                                   |
++-------------------------------------------------------------------------------------------+
+| Order 386 submitted on 2019-05-13 includes a discontinued product Thuringer Rostbratwurst |
++-------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> notee

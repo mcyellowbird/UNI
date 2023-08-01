@@ -1,0 +1,248 @@
+mysql> source solution1.sql
+--------------
+-- (1) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER TABLE APPLICANT ADD COLUMN totskills DECIMAL(1)
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+-- (2) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+UPDATE APPLICANT A 
+SET totskills=(SELECT COUNT(*) 
+	       FROM SPOSSESSED
+	       WHERE anumber=A.anumber)
+--------------
+
+Query OK, 30 rows affected (0.00 sec)
+Rows matched: 30  Changed: 30  Warnings: 0
+
+--------------
+-- (3) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER TABLE APPLICANT ADD COLUMN interview DECIMAL(2)
+--------------
+
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+-- (4) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+UPDATE APPLICANT A 
+SET interview = -1
+WHERE totskills = 0
+--------------
+
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+--------------
+UPDATE APPLICANT A 
+SET interview = 2*totskills
+WHERE totskills <> 0
+--------------
+
+Query OK, 26 rows affected (0.00 sec)
+Rows matched: 26  Changed: 26  Warnings: 0
+
+--------------
+-- (5) --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- Create the tables --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE TABLE NUMBERS(
+ n DECIMAL(2) NOT NULL,
+   CONSTRAINT NUMBERS_PKey PRIMARY KEY (n) )
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (-1)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (0)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (1)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (2)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (3)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (4)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (5)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (6)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (7)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (8)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (9)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+INSERT INTO NUMBERS VALUES (10)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+   
+
+CREATE VIEW APPTOTSKILLS(n) AS ( SELECT *
+                              FROM NUMBERS
+                              WHERE n >= 1 AND n <= 5 )
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE VIEW APPINTERVIEW(n) AS ( SELECT *
+                              FROM NUMBERS
+                              WHERE n >= 0 AND n <= 10 )
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE TABLE APPCHECK (
+	totskills DECIMAL(1) NOT NULL,
+	interview DECIMAL(2) NOT NULL,
+	CONSTRAINT APPCHECK_PKEY PRIMARY KEY (totskills, interview) )
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+-- Insert values of combinations --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+INSERT INTO APPCHECK VALUES( 0, -1)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+INSERT INTO APPCHECK ( SELECT APPTOTSKILLS.n, APPINTERVIEW.n
+                       FROM APPTOTSKILLS CROSS JOIN APPINTERVIEW )
+--------------
+
+Query OK, 55 rows affected (0.00 sec)
+Records: 55  Duplicates: 0  Warnings: 0
+
+--------------
+COMMIT
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+-- Add foreign key constraint for APPLICANT --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER TABLE APPLICANT ADD CONSTRAINT APPLICANT_FKey FOREIGN KEY (totskills, interview) REFERENCES APPCHECK (totskills, interview)
+--------------
+
+Query OK, 30 rows affected (0.06 sec)
+Records: 30  Duplicates: 0  Warnings: 0
+
+--------------
+-- Test the values --
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+UPDATE APPLICANT 
+SET totskills = 0, interview = -1
+WHERE anumber = 1
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+UPDATE APPLICANT 
+SET totskills = 0, interview = 1
+WHERE anumber = 1
+--------------
+
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails ("csit115"."APPLICANT", CONSTRAINT "APPLICANT_FKey" FOREIGN KEY ("totskills", "interview") REFERENCES "APPCHECK" ("totskills", "interview"))
+mysql> notee

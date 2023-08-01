@@ -1,0 +1,54 @@
+<head>
+	<style>
+		.select-seat  input{
+		  display: none;
+		}
+
+		label {
+		  display: inline-block;
+		  width: 50px;
+		  height: 50px;
+		  text-align: center;
+		  border: 1px solid #ddd;
+		  line-height: 50px;
+		  cursor: pointer;
+		}
+
+		#seat4A:checked ~ label[for="seat4A"],
+		#seat4B:checked ~ label[for="seat4B"],
+		#seat4C:checked ~ label[for="seat4C"],
+		#seat4D:checked ~ label[for="seat4D"],
+		#seat4E:checked ~ label[for="seat4E"],
+		#seat4F:checked ~ label[for="seat4F"] {
+		  background: #999;
+		  color: #ffffff;
+		}
+	</style>
+	
+	<script>
+		function selectSeat(seat){
+			console.log(seat);
+		}
+
+	</script>
+</head>
+
+<body>
+	<div class="select-seat">
+	  <input type="radio" name="seat" id="seat4A" onclick="selectSeat('4A')" checked/>
+	  <input type="radio" name="seat" id="seat4B" onclick="selectSeat('4B')"/>
+	  <input type="radio" name="seat" id="seat4C" onclick="selectSeat('4C')"/>
+	  <input type="radio" name="aisle" id="aisle" disabled/>
+	  <input type="radio" name="seat" id="seat4D" onclick="selectSeat('4D')"/>
+	  <input type="radio" name="seat" id="seat4E" onclick="selectSeat('4E')"/>
+	  <input type="radio" name="seat" id="seat4F" onclick="selectSeat('4F')"/>
+
+	  <label for="seat4A">4A</label>
+	  <label for="seat4B">4B</label>
+	  <label for="seat4C">4C</label>
+	  <label for="aisle">&nbsp</label>
+	  <label for="seat4D">4D</label>
+	  <label for="seat4E">4E</label>
+	  <label for="seat4F">4F</label>
+	</div>
+</body>

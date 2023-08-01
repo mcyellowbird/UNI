@@ -1,0 +1,72 @@
+SPOOL solution1
+SET ECHO ON
+SET FEEDBACK ON
+SET LINESIZE 200
+SET PAGESIZE 400
+
+/* (1) Create a database link from the "host server" to the "remote server".                        */
+
+CREATE DATABASE LINK "DB.DATA-PC02"
+CONNECT TO iem651
+IDENTIFIED BY z6416b
+USING 'data-pc02.adeis.uow.edu.au:1521/db';
+
+/* (2) Create the synonym names of the empty relational tables located at the "remote server".      */
+
+CREATE SYNONYM EMPLOYEE02 FOR EMPLOYEE@"DB.DATA-PC02";
+CREATE SYNONYM SHIPPER02 FOR SHIPPER@"DB.DATA-PC02";
+CREATE SYNONYM CUSTOMER02 FOR CUSTOMER@"DB.DATA-PC02";
+CREATE SYNONYM ORDERS02 FOR ORDERS@"DB.DATA-PC02";
+
+/* (3) Use a database link to move information about the customers from USA and the orders 
+       submitted by the customers from USA from the "host server" to the "remote server".
+
+       "Move" means, that all information about the customers from USA copied from the "host server" 
+       to the "remote server" must be later on removed from the "host server".
+
+       Note that you must copy all information about employees and about shippers.                  */
+
+INSERT INTO EMPLOYEE02
+SELECT * FROM EMPLOYEE;
+
+INSERT INTO SHIPPER02
+SELECT * FROM SHIPPER;
+
+INSERT INTO CUSTOMER02
+SELECT * FROM CUSTOMER
+WHERE COUNTRY = 'USA';
+
+INSERT INTO ORDERS02
+SELECT * FROM ORDERS
+WHERE CUSTOMER_CODE IN (SELECT CUSTOMER_CODE
+                        FROM CUSTOMER
+                        WHERE COUNTRY = 'USA');
+				    
+DELETE FROM ORDERS
+WHERE CUSTOMER_CODE
+IN (SELECT CUSTOMER_CODE
+    FROM CUSTOMER
+    WHERE COUNTRY = 'USA');
+        
+DELETE FROM CUSTOMER
+WHERE COUNTRY = 'USA';
+
+/* (4) Implement a query, that finds the total number of orders submitted by each customer. 
+       If a customer submitted no orders then list a customer code with a number zero. Sort 
+       the results in the ascending order of the total number of submitted orders.                  */
+
+SELECT CUSTOMER.CUSTOMER_CODE, COUNT(ORDERS.CUSTOMER_CODE) AS TOTAL_ORDERS
+FROM CUSTOMER
+    LEFT JOIN ORDERS ON CUSTOMER.CUSTOMER_CODE = ORDERS.CUSTOMER_CODE
+GROUP BY CUSTOMER.CUSTOMER_CODE
+ORDER BY TOTAL_ORDERS;
+
+/* (5) Drop the synonyms and a database link.                                                       */
+
+DROP SYNONYM EMPLOYEE02;
+DROP SYNONYM SHIPPER02;
+DROP SYNONYM CUSTOMER02;
+DROP SYNONYM ORDERS02;
+DROP DATABASE LINK "DB.data-pc02";
+
+SPOOL OFF

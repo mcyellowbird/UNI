@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Book a Flight</title>
+		<style>
+			#navbar {
+				background-color: #00008B;
+				position: fixed;
+				width: 100%;
+				top: 0px;
+				left: 0px;
+			}
+			#navbar a {
+				text-decoration: none;
+				display: inline-block;
+				text-align: centre;
+				padding: 20px 30px;
+				background-color: #FF0000;
+				color: white;
+				border: 2px solid white;
+			}
+			#navbar h3 {
+				color: white;
+				display: inline-block;
+			}
+			#homeButton {
+				float: left;
+			}
+			#signOutButton {
+				float: right;
+			}
+			#main {
+				margin-top: 6%;
+				width: 100%
+			}
+		</style>
+		<script>
+			var currentUser;
+			function displayUserName() {
+				currentUser = JSON.parse(sessionStorage.currentUser);
+				document.getElementById("userNameDisplay").innerHTML = currentUser.userName;
+			}
+			function manageBooking() {
+				/*for(var i=0; i<currentUser.flightsBooked.length; i++) {
+					if(currentUser.flightsBooked[i].seat == seat) {
+						console.log(seat);
+						//sessionStorage.currentBooking = JSON.stringify(currentUser.flightsBooked[i]);
+					}
+				}*/
+				window.location.href = "SeatSelection.html";
+			}
+			function displayBookings() {
+				var html = "";
+                html += "<table>";
+                html += "<tr>";
+                html += "<th></th>";
+                html += "<th>Return Trip</th>";
+                html += "<th>Departure</th>";
+                html += "<th>Date</th>";
+				html += "<th>Arrival</th>";
+				html += "<th>FareType</th>";
+				html += "<th>Services</th>";
+				html += "<th>Seat</th>";
+				html += "<th>Flight ID</th>";
+                html += "</tr>";
+				console.log(JSON.stringify(currentUser));
+				for(var booking of currentUser.flightsBooked) {
+					
+					html += "<tr>";
+					html += "<td><button onclick='manageBooking( /*+ booking.seat +*/ );'>Manage Booking</button></td>";
+					html += "<td>" + booking.returnChoice + "</td>";
+					html += "<td>" + booking.departureCity + "</td>";
+					html += "<td>" + booking.departureDate + "</td>";
+					html += "<td>" + booking.arrivalCity + "</td>";
+					html += "<td>" + booking.fareType + "</td>";
+					html += "<td>" 
+					for(i=0; i<booking.services.length; i++){ 
+						html += booking.services[i];
+						html += "<br>";
+					}
+					html += "</td>";
+					html += "<td>" + booking.seat + "</td>";
+					html += "<td>" + booking.flightID + "</td>";
+					html += "</tr>";
+				}
+				html += "</table>";
+				document.getElementById("table").innerHTML = html;
+			}
+			
+		</script>
+	</head>
+	<body style="background-color: #F0F8FF;" onload="displayUserName();displayBookings();">
+		<div id="navbar">
+			<a href="HomePage.html" id="homeButton">Home</a>
+			<h3>Welcome, </h3><h3 id="userNameDisplay"></h3>
+			<a href="LogInPage.html" id="signOutButton">Sign Out</a>
+		</div>
+		
+		<div id="main">
+			<a href="BookingPage.html" id="bookingButton">Make a booking.</a>
+			<span id="table"></span>
+		</div>
+	</body>
+</html>

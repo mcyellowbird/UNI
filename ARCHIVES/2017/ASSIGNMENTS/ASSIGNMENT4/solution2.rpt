@@ -1,0 +1,48 @@
+mysql> source solution2.sql
+--------------
+SELECT *
+FROM EMPLOYEE
+WHERE employee_id  NOT IN ( SELECT employee_id
+                            FROM jrg_EMP)
+--------------
+
++-------------+------------+-----------+----------+--------------+------------+------------+---------+----------------+---------------+-----------------+
+| employee_id | first_name | last_name | email    | phone_number | hire_date  | job_title  | salary  | commission_pct | supervisor_id | department_name |
++-------------+------------+-----------+----------+--------------+------------+------------+---------+----------------+---------------+-----------------+
+|         210 | Marry      | Webster   | MWEBSTER | 515.134.8182 | 2010-06-15 | Accountant | 8200.00 |           NULL |           105 | Accounting      |
+|         211 | Simon      | Cronaca   | SCRONACA | 515.135.8281 | 2015-08-10 | Accountant | 8350.00 |           NULL |           105 | Accounting      |
++-------------+------------+-----------+----------+--------------+------------+------------+---------+----------------+---------------+-----------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM jrg_EMP
+WHERE employee_id  NOT IN ( SELECT employee_id
+                            FROM EMPLOYEE)
+--------------
+
++-------------+------------+------------+----------+--------------------+------------+----------------------+---------+----------------+---------------+-----------------+
+| employee_id | first_name | last_name  | email    | phone_number       | hire_date  | job_title            | salary  | commission_pct | supervisor_id | department_name |
++-------------+------------+------------+----------+--------------------+------------+----------------------+---------+----------------+---------------+-----------------+
+|         177 | Jack       | Livingston | JLIVINGS | 011.44.1644.429264 | 1998-04-23 | Sales Representative | 8400.00 |           0.20 |           149 | Sales           |
++-------------+------------+------------+----------+--------------------+------------+----------------------+---------+----------------+---------------+-----------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT EMPLOYEE.*
+FROM EMPLOYEE JOIN jrg_EMP
+              ON   EMPLOYEE.employee_id      =  jrg_EMP.employee_id   AND
+	         ( EMPLOYEE.first_name      != jrg_EMP.first_name     OR
+		   EMPLOYEE.email           != jrg_EMP.email          OR 
+		   EMPLOYEE.phone_number    != jrg_EMP.phone_number   OR
+		   EMPLOYEE.hire_date       != jrg_EMP.hire_date      OR
+		   EMPLOYEE.job_title       != jrg_EMP.job_title      OR
+		   EMPLOYEE.salary          != jrg_EMP.salary         OR
+		   EMPLOYEE.commission_pct  != jrg_EMP.commission_pct OR
+		   EMPLOYEE.supervisor_id   != jrg_EMP.supervisor_id  OR
+		   EMPLOYEE.department_name != jrg_EMP.department_name   )
+--------------
+
+Empty set (0.00 sec)
+
+mysql> notee

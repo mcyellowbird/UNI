@@ -1,0 +1,94 @@
+mysql> \. solution2.sql
+--------------
+CREATE TABLE EMPLOYEE(
+ enum  	     DECIMAL(7)		NOT NULL,
+ first_name  VARCHAR(30)	NOT NULL,
+ last_name   VARCHAR(30)	NOT NULL,
+ salary	     DECIMAL(8,2)	NOT NULL,
+  CONSTRAINT employee_pkey PRIMARY KEY (enum),
+  CONSTRAINT employee_check1 CHECK( enum > 0),
+  CONSTRAINT employee_check2 CHECK( salary > 0) )
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+
+--------------
+CREATE TABLE DRIVER(
+ enum  	     DECIMAL(7)		NOT NULL,
+ license     CHAR(7)		NOT NULL,
+ category    CHAR(1)		NOT NULL,
+ experience  VARCHAR(2000)	NOT NULL,
+  CONSTRAINT driver_pkey PRIMARY KEY (license),
+  CONSTRAINT driver_ckey UNIQUE (enum),
+  CONSTRAINT driver_fkey FOREIGN KEY (enum) REFERENCES EMPLOYEE(enum),
+  CONSTRAINT driver_check CHECK ( category IN ('A', 'B', 'C') ) )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+CREATE TABLE ADMIN(
+ enum  	     DECIMAL(7)		NOT NULL,
+ position    VARCHAR(30)	NOT NULL,
+  CONSTRAINT admin_pkey PRIMARY KEY (enum),
+  CONSTRAINT admin_fkey FOREIGN KEY (enum) REFERENCES EMPLOYEE(enum) ON DELETE CASCADE )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+CREATE TABLE TRUCK(
+ rego  	     CHAR(8)		NOT NULL,
+ capacity    REAL		NOT NULL,
+ manufacturer VARCHAR(50)	    NULL,
+ model	     VARCHAR(50)	    NULL,
+  CONSTRAINT truck_pkey PRIMARY KEY (rego) )
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+CREATE TABLE TRIP(
+ origin      VARCHAR(30)	NOT NULL,
+ destination VARCHAR(30)	NOT NULL,
+ license     CHAR(7)		NOT NULL,
+ rego	     CHAR(8)		NOT NULL,
+ tdate	     DATE		NOT NULL,
+  CONSTRAINT trip_pkey PRIMARY KEY (license, rego, tdate),
+  CONSTRAINT trip_fkey1 FOREIGN KEY (license) REFERENCES DRIVER(license),
+  CONSTRAINT trip_fkey2 FOREIGN KEY (rego) REFERENCES TRUCK(rego) )
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+DROP TABLE TRIP
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+DROP TABLE TRUCK
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+DROP TABLE ADMIN
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+DROP TABLE DRIVER
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+DROP TABLE EMPLOYEE
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> notee;

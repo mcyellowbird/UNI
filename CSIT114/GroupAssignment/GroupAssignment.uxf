@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>12</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>384</x>
+      <y>444</y>
+      <w>252</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>Pothole
+-
+location
+date
+image [0..*]
+size
+status</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>624</x>
+      <y>504</y>
+      <w>132</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>732</x>
+      <y>444</y>
+      <w>204</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>RMS
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>384</x>
+      <y>696</y>
+      <w>204</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>User
+-
+name
+phone
+email
+dateOfBirth
+address</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>468</x>
+      <y>588</y>
+      <w>48</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1056</x>
+      <y>444</y>
+      <w>204</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>Contractor
+-
+name
+phone
+email</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>924</x>
+      <y>480</y>
+      <w>156</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..*
+m2=1
+</panel_attributes>
+    <additional_attributes>110.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>696</y>
+      <w>204</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Account
+-
+accountID
+creationDate</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>252</x>
+      <y>720</y>
+      <w>156</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..1
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>732</x>
+      <y>156</y>
+      <w>204</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>LocalCouncil
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>828</x>
+      <y>300</y>
+      <w>60</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>924</x>
+      <y>216</y>
+      <w>300</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..*
+m2=1
+</panel_attributes>
+    <additional_attributes>210.0;190.0;210.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

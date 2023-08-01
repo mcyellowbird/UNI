@@ -1,0 +1,85 @@
+mysql> source solution1.sql
+--------------
+CREATE TABLE LECTURER (								
+	empNum				DECIMAL(7)		NOT NULL,	
+	fName				VARCHAR(30)		NOT NULL,	
+	lName				VARCHAR(30)		NOT NULL,	
+	bldgNum				DECIMAL(3)		NOT NULL,	
+	roomNum				DECIMAL(3),				
+	CONSTRAINT Lecturer_PK PRIMARY KEY(empNum)
+)
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+CREATE TABLE STUDENT (								
+	sNum				DECIMAL(7)		NOT NULL, 	
+	fName				VARCHAR(30)		NOT NULL, 	
+	lName				VARCHAR(30)		NOT NULL, 	
+	DOB				DATE			NOT NULL, 	
+	stype				CHAR(1)			NOT NULL,	 
+	BachelorDegree			VARCHAR(20),				
+	CONSTRAINT Student_PK PRIMARY KEY(sNum),
+	CONSTRAINT Student_C CHECK (stype IN ('U', 'P'))
+)
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+CREATE TABLE SUBJECTDESC (							
+	code				CHAR(8)			NOT NULL, 	
+	title				VARCHAR(30)		NOT NULL, 	
+	credits				DECIMAL(2),			  	
+	CONSTRAINT SubjectDesc_PK PRIMARY KEY(code),
+	CONSTRAINT SubjectDesc_CK UNIQUE (title)
+)
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+CREATE TABLE SUBJECTOUTC (							
+	code				CHAR(8)			NOT NULL, 	
+	loutcome			VARCHAR(50)		NOT NULL, 	
+	CONSTRAINT SubjectOut_PK PRIMARY KEY(code, loutcome),
+	CONSTRAINT SubjectOut_FK FOREIGN KEY (code) REFERENCES SUBJECTDESC(code)
+)
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+CREATE TABLE RUNNINGSUB (							
+	empNum				DECIMAL(7)		NOT NULL, 	
+	code				CHAR(8)			NOT NULL, 	
+	session				CHAR(6)			NOT NULL, 	
+	year				DECIMAL(4)		NOT NULL,	
+	CONSTRAINT RunningSub_PK PRIMARY KEY(code, session, year),  		
+	CONSTRAINT RunningSub_FK1 FOREIGN KEY(empNum) REFERENCES LECTURER(empNum),	
+	CONSTRAINT RunningSub_FK2 FOREIGN KEY(code) REFERENCES SUBJECTDESC(code),
+	CONSTRAINT RunningSub_C	CHECK (session IN ('AUTUMN', 'SPRING', 'SUMMER', 'ANNUAL'))
+)
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+CREATE TABLE ENROLMENT (							
+	sNum				DECIMAL(7)		NOT NULL, 	
+	code				CHAR(8)			NOT NULL, 	
+	session				CHAR(6)			NOT NULL, 	
+	year				DECIMAL(4)		NOT NULL,	
+	enrolDate			DATETIME		NOT NULL, 	
+	result				DECIMAL(3),			  	
+	CONSTRAINT Enrolment_PK PRIMARY KEY(sNum, code, session, year, enrolDate),
+	CONSTRAINT Enrolment_FK1 FOREIGN KEY(sNum) REFERENCES STUDENT(sNum),	
+	CONSTRAINT Enrolment_FK2 FOREIGN KEY(code, session, year) REFERENCES RUNNINGSUB(code, session, year),
+	CONSTRAINT Dependent_C CHECK (result between 0 AND 100)
+)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> notee

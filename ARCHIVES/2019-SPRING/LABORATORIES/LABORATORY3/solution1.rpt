@@ -1,0 +1,127 @@
+mysql> source solution1.sql
+--------------
+CREATE TABLE ITEM(
+ code       CHAR(8)         NOT NULL,
+ price      DECIMAL(7,2)    NOT NULL,
+  CONSTRAINT ITEM_PK PRIMARY KEY(code),
+  CONSTRAINT ITEM_CHK CHECK(price > 0.0 AND price <= 99999.99) )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+  
+CREATE TABLE BOOK(
+ code       CHAR(8)         NOT NULL,
+ isbn       VARCHAR(15)     NOT NULL,
+ title      VARCHAR(100)    NOT NULL,
+ publisher  VARCHAR(50)     NOT NULL,
+  CONSTRAINT BOOK_PK PRIMARY KEY(code),
+  CONSTRAINT BOOK_CK UNIQUE(isbn),
+  CONSTRAINT BOOK_FK FOREIGN KEY(code) REFERENCES ITEM(code) )
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+
+--------------
+  
+CREATE TABLE DVD(
+ code       CHAR(8)         NOT NULL,
+ dvd_number DECIMAL(7)      NOT NULL,
+ producer   VARCHAR(50)     NOT NULL,
+  CONSTRAINT DVD_PK PRIMARY KEY(code),
+  CONSTRAINT DVD_CK UNIQUE(dvd_number),
+  CONSTRAINT DVD_FK FOREIGN KEY(code) REFERENCES ITEM(code) )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+  
+CREATE TABLE COUNTRY(
+ cname      VARCHAR(30)   NOT NULL,
+  CONSTRAINT COUNTRY_PK PRIMARY KEY(cname) )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+  
+CREATE TABLE CUSTOMER(
+ cnumber    DECIMAL(10)     NOT NULL,
+ cname      VARCHAR(30)     NOT NULL,
+ phone      DECIMAL(9)      NOT NULL,
+ first_name VARCHAR(30)     NOT NULL,
+ last_name  VARCHAR(30)     NOT NULL,
+  CONSTRAINT CUSTOMER_PK PRIMARY KEY(cnumber,cname),
+  CONSTRAINT CUSTOMER_CK UNIQUE(phone),
+  CONSTRAINT CUSTOMER_FK FOREIGN KEY(cname) REFERENCES COUNTRY(cname) )
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+
+--------------
+  
+CREATE TABLE EMAIL(
+ email      VARCHAR(50)     NOT NULL,
+ cnumber    DECIMAL(10)     NOT NULL,
+ cname      VARCHAR(30)     NOT NULL,
+  CONSTRAINT EMAIL_PK PRIMARY KEY(email),
+  CONSTRAINT EMAIL_FK FOREIGN KEY(cnumber,cname) REFERENCES CUSTOMER(cnumber,cname) )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+  
+CREATE TABLE HOBBY(
+ hobby      VARCHAR(30)     NOT NULL,
+   CONSTRAINT HOBBY_PK PRIMARY KEY(hobby) )
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+   
+CREATE TABLE HASHOBBY(
+ cnumber    DECIMAL(10)     NOT NULL,
+ cname      VARCHAR(30)     NOT NULL,
+ hobby      VARCHAR(30)     NOT NULL,
+  CONSTRAINT HASHOBBY_PK PRIMARY KEY(cnumber,cname,hobby),
+  CONSTRAINT HASHOBBY_FK1 FOREIGN KEY(cnumber,cname) REFERENCES CUSTOMER(cnumber,cname),
+  CONSTRAINT HASHOBBY_FK2 FOREIGN KEY(hobby) REFERENCES HOBBY(hobby) )
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+  
+CREATE TABLE ORDERS(
+ onumber    DECIMAL(10)     NOT NULL,
+ cnumber    DECIMAL(10)     NOT NULL,
+ cname      VARCHAR(30)     NOT NULL,
+ order_date DATE            NOT NULL,
+ discount   DECIMAL(2,1)        NULL,
+  CONSTRAINT ORDERS_PK PRIMARY KEY(onumber),
+  CONSTRAINT ORDERS_FK FOREIGN KEY(cnumber,cname) REFERENCES CUSTOMER(cnumber,cname),
+  CONSTRAINT ORDERS_CHK CHECK (discount > 0 AND discount < 1) )
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+
+--------------
+  
+CREATE TABLE INCLUDES(
+ onumber   DECIMAL(10)     NOT NULL,
+ code       CHAR(8)         NOT NULL,
+ ship_date  DATE            NOT NULL,
+ quantity   DECIMAL(6)      NOT NULL,
+  CONSTRAINT INCLUDES_PK PRIMARY KEY(onumber,code,ship_date),
+  CONSTRAINT INCLUDES_FK1 FOREIGN KEY(code) REFERENCES ITEM(code),
+  CONSTRAINT INCLUDES_FK2 FOREIGN KEY(onumber) REFERENCES ORDERS(onumber),
+  CONSTRAINT INCLUDES_CHK CHECK(quantity > 0) )
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> notee

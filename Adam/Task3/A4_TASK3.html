@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<!-- Assignment 4 (Task 3) by JOEL MEIZER (7164452) -->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DPIT128/UCIT128: Assignment 4 (Task 3)</title>
+    <style>
+
+      /* BEGIN: Template CSS (DO NOT ALTER/REMOVE) ----------- */
+
+      body {
+        background-color:#ededed;
+        text-align:center;
+      }
+
+      input:focus, select:focus {
+        box-shadow:0px 0px 1px 1px #95b7ee;
+        outline:none;
+      }
+
+      /* END: Template CSS (DO NOT ALTER/REMOVE) ------------- */
+
+      .result {
+        width: 110px;
+        height: 80px;
+        font-size: 50px;
+        border: 1px dotted #ffa500;
+        border-radius: 25px;
+        background-color: #fff9ef;
+        color: #ffa500;
+        margin: 20px;
+        text-align:center;
+      }
+
+      .label-font {
+        font-family: arial;
+        font-size: 16px;
+        line-height: 23px;
+      }
+      
+      .input {
+        width: 150px;
+        height: 80px;
+        font-size: 50px;
+        border: 1px dotted #0080ff;
+        border-radius: 5px;
+        background-color: #ecf2f4;
+        color: #0080ff;
+        margin: 10px;
+        text-align:center;
+      }
+      
+      .button {
+        width:100px;
+        padding:10px;
+        border:1px dotted #008000;
+        background-color: #ecf4f2;
+        color: #008000;
+        border-radius: 5px;
+      }
+      
+      label:hover{
+        cursor:pointer;
+      }
+      
+      input[value]:hover{
+        cursor:pointer;
+      }
+
+    </style>
+    <script>
+
+function validateInput()
+      {
+        var input = document.getElementById("users-input-number").value;
+        
+        if(input < 1 || input > 10 || (/[a-zA-Z]/).test(input))
+        {
+          document.getElementById("generated-image").src="https://mywebspace.net.au/UOWC128/assignment_4/images/error_state.png";
+        }
+        else
+        {
+          generateRanNum(input);
+        }
+      }
+      
+      function generateRanNum(input)
+      {
+        var values = [];
+        var num;
+        var match = false;
+        
+        values.push(Math.floor(Math.random() * 10) +1);
+        if( values[0] == input)
+        {
+          match = true;
+        }
+        
+        do
+        {
+        num = Math.floor(Math.random() * 10) +1;
+        }
+        while(values.indexOf(num) != -1)
+        
+        values.push(num);
+        if( num == input)
+        {
+          match = true;
+        }
+        
+        do
+        {
+        num = Math.floor(Math.random() * 10) +1;
+        }
+        while(values.indexOf(num) != -1)
+        
+        values.push(num);
+        if( num == input)
+        {
+          match = true;
+        }
+        
+        document.getElementById("random-1").value = values[0];
+        document.getElementById("random-2").value = values[1];
+        document.getElementById("random-3").value = values[2];
+        
+        
+        if(match)
+        {
+          document.getElementById("generated-image").src = "https://mywebspace.net.au/UOWC128/assignment_4/images/win_state.png"; //displays "your the winner" image
+          var audio = new Audio("https://mywebspace.net.au/UOWC128/assignment_4/audio/applause.mp3"); //plays audio for winning randomisation
+          audio.play();
+        }
+        else
+        {
+          document.getElementById("generated-image").src = "https://mywebspace.net.au/UOWC128/assignment_4/images/loss_state.png"; //displays "better luck next time" image
+        }
+          
+      }
+
+    </script>
+  </head>
+  <body>
+    <h1>DPIT128/UCIT128: Assignment 4</h1>
+    <h2>JOEL MEIZER (7164452)</h2>
+    <h3>Date Due: 27/08/2021</h3>
+    <hr />
+    <p style="font-weight:bold;">
+      I have viewed the College&apos;s policy regarding Academic Integrity as provided at the following URL:<br />
+      <a href="https://documents.uow.edu.au/content/groups/public/@web/@uowc/documents/doc/uow218734.pdf" target="_blank">
+        https://documents.uow.edu.au/content/groups/public/@web/@uowc/documents/doc/uow218734.pdf
+      </a>
+    </p>
+    <hr />
+    <h2>Task 3: 6</h2>
+
+    <!-- BEGIN: Task 3 Solution -->
+
+    <img id="generated-image" alt="State Image" src="https://mywebspace.net.au/UOWC128/assignment_4/images/initial_state.png" />
+    
+    <!-- creates div for randomly generated inputs -->
+
+    <div>
+      <input type="text" readonly="readonly" id="random-1" name="randoms" value="?" class="result" />
+      <input type="text" readonly="readonly" id="random-2" name="randoms" value="?" class="result" />
+      <input type="text" readonly="readonly" id="random-3" name="randoms" value="?" class="result" />
+    </div>
+    
+    <!-- label for users input -->
+
+    <label class="label-font" for="users-input-number" >Enter a number between 1 to 10 (inclusive)<br>and then click the "start" button to begin</label>
+    <div>
+      <input type="text" id="users-input-number" name="users-input-number" class="input" autofocus="autofocus" />
+    </div>
+    
+    <div>
+    `<input type="button" value="Start" class="button" onclick="validateInput();"/>
+    </div>
+
+    <!-- END: Task 3 Solution -->
+
+    <p>&copy; JOEL MEIZER</p>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<libraryUser>
+	<firstName>John</firstName>
+	<lastName>Smith</lastName>
+	<records>
+		<book>
+			<title>Network Security</title>
+			<author>K. Wrightson</author>
+			<callNumber>212.37/300</callNumber>
+			<dueDate>26-07-2016</dueDate>
+		</book>
+		<book>
+			<title>Analysis</title>
+			<author>T. Tao</author>
+			<callNumber>515/465</callNumber>
+			<dueDate>23-12-2016</dueDate>
+		</book>
+		<book>
+			<title>The Art of Computer Programming</title>
+			<author>D.E. Knuth</author>
+			<callNumber>005.1/300</callNumber>
+			<dueDate>25-11-2016 Overdue</dueDate>
+		</book>
+		<book>
+			<title>Python For Dummies</title>
+			<author>S. Maruch and M. Renum</author>
+			<callNumber>145.3/57</callNumber>
+			<dueDate>01-10-2016 Overdue</dueDate>
+		</book>
+	</records>
+</libraryUser>

@@ -1,0 +1,273 @@
+mysql> source solution1.sql;
+--------------
+/* 
+(1)	Create a database with the same name as a prefix of your University email account. 
+    For example, if your University email account is abc001@uow.edu.au then a name of a database should be abc001. 
+											0.1 mark                           
+*/
+
+CREATE DATABASE iem651
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+/* 
+(2)	Create two new user accounts. The names of user accounts and the passwords are up to you. 
+								                        	0.2 marks                                                                          
+*/
+
+CREATE USER iem1 IDENTIFIED BY 'iem1'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE USER iem2 IDENTIFIED BY 'iem2'
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(3)	While connected as a user root, process the scripts dbcreate.sql to create and to load data into the relational tables later on used in this laboratory class. 
+    All relational tables must be located in a database created in step (1). A listing of SQL statements processed by the scripts must NOT be included in a report 
+	from processing of a script solution1.sql. It means that before processing of the script you must process notee statement (after use database_name command) to 
+	turn the spooling off and after processing of the scripts you must process a statement tee solution1.rpt to turn the spooling on into a report file. 
+											0.3 marks                                                           
+*/
+
+use iem651
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(4)	Next, create two new roles: staff and transport. 
+											0.2 marks         
+*/
+
+CREATE ROLE staff
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE ROLE transport
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(5)	Next, grant to a role staff the read privileges on the entire database created in step (1). The privileges must be granted such that any owner of a role staff 
+    cannot grant the same privileges to another role or user. 
+											0.2 marks         
+*/
+
+GRANT SELECT ON iem651.* TO staff
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(6)	Next, grant to a role transport a read privilege on the relational table ROUTE in the database created in step (1). The privilege must be granted such that 
+    any owner of a role transport can grant the same privileges to another role or user.
+											0.3 marks                                                                                                                       
+*/                                                                        
+
+GRANT SELECT ON iem651.ROUTE TO transport WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(7)	Next, grant to a role transport the read and write privileges on the relational table SCHEDULE in the database created in step (1). 
+    The privileges must be granted such that any owner of a role transport cannot grant the same privileges to another role or user.
+											0.3 marks                       
+*/
+
+GRANT SELECT, INSERT, DELETE, UPDATE ON iem651.SCHEDULE TO transport
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(8)	Next, grant to a role transport the read privileges on the columns ENUM, FNAME, INITIALS, LNAME in a relational table EMPLOYEE in the database created in step (1). 
+    The privileges must be granted such that any owner of a role transport can grant the same privileges to another role or user.	
+											0.4 marks                                         
+*/
+
+GRANT SELECT(ENUM, FNAME, INITIALS, LNAME) ON iem651.EMPLOYEE TO transport WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(9)	Next, grant to a role staff write privilege on a relational table SCHEDULE in the database created in step (1). 
+    The privileges must be granted such that any owner of a role staff cannot propagate the same privileges to another role or user.
+											0.4 marks                                                    
+*/
+
+GRANT INSERT, DELETE, UPDATE ON iem651.SCHEDULE TO staff
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(10) Next, grant to a role staff a privilege to create relational tables in the database created in step (1). 
+    The privileges must be granted such that any owner of a role staff cannot grant the same privileges to another role or user. 
+											0.3 marks                                                                                         
+*/
+
+GRANT CREATE ON iem651.* TO staff
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(11) Next, grant to a role staff a privilege to create relational views located in the database created in step (1). 
+     The privileges must be granted such that any owner of a role staff cannot grant the same privileges to another role or user. 
+											0.3 marks                                                                                                 
+*/
+
+GRANT CREATE VIEW ON iem651.* TO staff
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(12) Next, grant to a role transport the read privileges on information about the employee number, driving licence number and total number of schedules for each driver. 
+     A hint is on create a relational view and grant the read privileges on the view. The privileges must be granted such that any owner of a role transport 
+	 can grant the same privileges to another role or user.	
+											0.6 marks                                                                         
+*/
+
+CREATE VIEW DRIVING_SCHEDULE AS
+	(SELECT D.ENUM, D.LNUM, COUNT(SNUM)
+    FROM DRIVER D LEFT JOIN
+    SCHEDULE S ON D.LNUM = S.LNUM
+    GROUP BY D.LNUM)
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+GRANT SELECT ON iem651.DRIVING_SCHEDULE TO transport WITH GRANT OPTION
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(13) Next, grant a role staff to one of the users created in step (2), and then grant a role transport to another user created in step (2).	
+											0.3 marks                                                                                                      
+*/
+
+GRANT staff TO iem1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+GRANT transport TO iem2
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(14) Next, set a resource limit on maximum total number of queries, total number of updates an account can issue per hour to both users created in step (2). 
+     The values of maximum total number of queries, total number of updates an account can issue per hour are up to you.
+											0.4marks  
+*/ 
+
+ALTER USER iem1 WITH MAX_QUERIES_PER_HOUR 40 MAX_UPDATES_PER_HOUR 20
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+ALTER USER iem2 WITH MAX_QUERIES_PER_HOUR 40 MAX_UPDATES_PER_HOUR 20
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/* 
+(15) Next, lock the accounts of the new users.
+											0.2 marks                                
+*/
+
+ALTER USER iem1 ACCOUNT LOCK
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+ALTER USER iem2 ACCOUNT LOCK
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/*
+(16) Next, unlock the accounts of the new users.
+											0.2 marks                                 
+*/
+
+ALTER USER iem1 ACCOUNT UNLOCK
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+ALTER USER iem2 ACCOUNT UNLOCK
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+/*
+(17) Drop the users, the roles and the database that created in steps (1), (2) and (4).
+											0.3 marks                                
+*/
+
+DROP USER iem1
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+DROP USER iem2
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+DROP ROLE transport
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP ROLE staff
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP DATABASE iem651
+--------------
+
+Query OK, 12 rows affected (0.14 sec)
+
+mysql> notee;

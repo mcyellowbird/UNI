@@ -1,0 +1,190 @@
+SQL> set feedback on
+SQL> set linesize 200
+SQL> set pagesize 400
+SQL> 
+SQL> /* (1) Implement a stored function that finds the total number of distinct products ordered by a customer. Make a customer code 
+SQL>       a formal parameter of the function.                                                                                     
+SQL>
+SQL>       For example, if a customer submitted 3 orders with the following contents of each order: [a,b], [b,c,d] and [a,b,d] 
+SQL>       then the total number of distinct products ordered is 4 because the customer ordered the products a, b, c and d.
+SQL>
+SQL>       For example, if a customer submitted 2 orders with the following contents of each order: [a,b,c,d] and [a,b,d,e] 
+SQL>       then the total number of distinct products ordered is 5 because the customer ordered the products a, b, c, d and e.
+SQL>
+SQL>       If a customer submitted no orders then the function must return a value 0 (zero).                                             */
+SQL> 
+SQL> CREATE OR REPLACE FUNCTION DISTINCT_ORDERS ( custCode IN VARCHAR) RETURN NUMBER IS
+  2      orderCount NUMBER := 0;
+  3  BEGIN
+  4      SELECT COUNT(DISTINCT PRODUCT_NAME)
+  5      INTO orderCount
+  6      FROM ORDERS o, ORDER_DETAIL od
+  7      WHERE o.ORDER_ID = od.ORDER_ID AND o.CUSTOMER_CODE = custCode
+  8      GROUP BY CUSTOMER_CODE;
+  9  
+ 10      RETURN orderCount;
+ 11  
+ 12  END DISTINCT_ORDERS;
+ 13  /
+
+Function DISTINCT_ORDERS compiled
+
+SQL> show errors;
+SQL> 
+SQL> /*     To test your function, implement the following SELECT statements that use the function.                                
+SQL>
+SQL>   (2) Find the codes of customers who submitted no distinct products (you may have to insert a new customer to get a nonempty answer). */
+SQL> 
+SQL> SELECT DISTINCT CUSTOMER_CODE, COALESCE(DISTINCT_ORDERS(CUSTOMER_CODE), 0) AS DISTINCT_PRODUCTS
+  2  FROM CUSTOMER;
+
+CUSTO DISTINCT_PRODUCTS
+----- -----------------
+ALFKI                 0
+ANATR                 0
+ANTON                 0
+AROUT                 5
+BERGS                19
+BLAUS                 0
+BLONP                 4
+BOLID                 1
+BONAP                 5
+BOTTM                 6
+BSBEV                 0
+CACTU                 0
+CENTC                 0
+CHOPS                 5
+COMMI                 0
+CONSH                 3
+DRACD                 3
+DUMON                 0
+EASTC                 2
+ERNSH                24
+FAMIA                 4
+FISSA                 0
+FOLIG                 5
+FOLKO                 8
+FRANK                 5
+FRANR                 0
+FRANS                 3
+FURIB                 2
+GALED                 5
+GODOS                 0
+GOURL                 4
+GREAL                 0
+GROSR                 2
+HANAR                 0
+HILAA                 0
+HUNGC                 4
+HUNGO                 9
+ISLAT                 0
+KOENE                 5
+LACOR                 0
+LAMAI                 4
+LAUGB                 0
+LAZYK                 0
+LEHMS                 1
+LETSS                 0
+LILAS                 5
+LINOD                 1
+LONEP                 0
+MAGAA                10
+MAISD                 0
+MEREP                 8
+MORGK                 0
+NORTS                 0
+OCEAN                 2
+OLDWO                 7
+OTTIK                 2
+PARIS                 0
+PERIC                 0
+PICCO                 5
+PRINI                 8
+QUEDE                 3
+QUEEN                 4
+QUICK                 4
+RANCH                 2
+RATTC                 8
+REGGC                 6
+RICAR                 9
+RICSU                 1
+ROMEY                 0
+SANTG                 4
+SAVEA                20
+SEVES                 5
+SIMOB                 1
+SPECD                 0
+SPLIR                 7
+SUPRD                 8
+THEBI                 0
+THECR                 0
+TOMSP                10
+TORTU                 2
+TRADH                 2
+TRAIH                 0
+VAFFE                 2
+VICTE                 3
+VINET                 2
+WANDK                 0
+WARTH                 9
+WELLI                 2
+WHITC                 2
+WILMK                 0
+WOLZA                 2
+
+91 rows selected. 
+
+SQL> 
+SQL> /* (3) Find the codes of customers and the total number of distinct products submitted by each customer such that the total number 
+SQL>       of distinct products is greater than 1 and less then 5.                                                                          */
+SQL> 
+SQL> SELECT DISTINCT CUSTOMER_CODE, DISTINCT_ORDERS(CUSTOMER_CODE) AS DISTINCT_PRODUCTS
+  2  FROM ORDERS
+  3  WHERE DISTINCT_ORDERS(CUSTOMER_CODE) > 1 AND DISTINCT_ORDERS(CUSTOMER_CODE) < 5;
+
+CUSTO DISTINCT_PRODUCTS
+----- -----------------
+RANCH                 2
+VINET                 2
+FURIB                 2
+QUEEN                 4
+VAFFE                 2
+EASTC                 2
+TORTU                 2
+WHITC                 2
+QUICK                 4
+TRADH                 2
+QUEDE                 3
+SANTG                 4
+BLONP                 4
+OTTIK                 2
+OCEAN                 2
+WELLI                 2
+LAMAI                 4
+WOLZA                 2
+FAMIA                 4
+FRANS                 3
+GROSR                 2
+HUNGC                 4
+DRACD                 3
+VICTE                 3
+CONSH                 3
+GOURL                 4
+
+26 rows selected. 
+
+SQL> 
+SQL> /* (4) Find the codes of customers who submitted the largest number of distinct products.                                               */
+SQL> 
+SQL> SELECT DISTINCT CUSTOMER_CODE, DISTINCT_ORDERS(CUSTOMER_CODE) AS DISTINCT_PRODUCTS
+  2  FROM ORDERS
+  3  WHERE DISTINCT_ORDERS(CUSTOMER_CODE) = (SELECT MAX(DISTINCT_ORDERS(CUSTOMER_CODE)) FROM ORDERS);
+
+CUSTO DISTINCT_PRODUCTS
+----- -----------------
+ERNSH                24
+
+1 row selected. 
+
+SQL> 
+SQL> spool off

@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <script>
+            var urlParams = new URLSearchParams(window.location.search);
+            var dataStringBase64Safe = urlParams.get('data');
+
+            var dataStringBase64 = decodeURIComponent(dataStringBase64Safe);
+            var dataString = window.atob(dataStringBase64);
+            var data = JSON.parse(dataString);
+            console.log(data);
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

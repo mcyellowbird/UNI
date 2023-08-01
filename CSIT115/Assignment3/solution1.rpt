@@ -1,0 +1,98 @@
+mysql> source solution1.sql;
+--------------
+/* 
+(1)	Write a SQL statement to create a single column relational table MESSAGE to store variable size strings no longer than 500 characters.
+											(0.5 marks)
+*/
+
+CREATE TABLE MESSAGE(
+	error VARCHAR(500) NOT NULL,
+    CONSTRAINT MESSAGE_PKEY PRIMARY KEY ( error )
+)
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+
+--------------
+/*
+(2)	Next, write one SQL statement to insert into the relational table MESSAGE information about the contents of a sample database that verifies the consistency constraint 
+    for each driver of all driving schedules.											
+    " The different driving schedules assigned to a driver must not overlap with each other."
+
+    The script must insert the outcomes of the consistency constraint verifications as a single column table with the following messages as the rows in the table.
+
+    A driver <insert driver licence number here> schedule <insert schedule number here> between <insert start date time here> and <insert end date time here> 
+    overlapped with schedule <insert schedule number here> between <insert the start date time here> and < insert end date time here>.
+
+    For example, if a driver 101 schedule 1 between 2018-10-01 15:30:00 and 2019-10-10 16:20:00 overlapped with schedule 20 between 2018-10-05 8:00:00 and 2019-01-10 17:00:00, 
+    then verification of the consistency constraint must return the following message.
+
+    A driver 101 schedule 1 between 2018-10-01 15:30:00 and 2019-10-10 16:20:00  overlapped with schedule 20 between 2018-10-05 8:00:00 and 2019-01-10 17:00:00.
+
+    Use a function CONCAT to create the messages like the one listed above.
+	
+	Note that if two schedules of a driver overlapped, only insert one row of the verification message for the pair.
+											(4.0 marks)
+*/
+
+INSERT INTO MESSAGE (
+					SELECT CONCAT(
+						'A driver ', S.LNUM, ' schedule ', S.SNUM, ' between ' , S.START_DATE_TIME, ' and ', S.RETURN_DATE_TIME, ' overlapped with schedule ', 
+						SS.SNUM, ' between ', SS.START_DATE_TIME, ' and ', SS.RETURN_DATE_TIME)
+					FROM SCHEDULE AS S, SCHEDULE AS SS
+                    WHERE (S.START_DATE_TIME BETWEEN SS.START_DATE_TIME AND SS.RETURN_DATE_TIME) AND (SS.START_DATE_TIME BETWEEN S.START_DATE_TIME AND S.RETURN_DATE_TIME) AND S.SNUM < SS.SNUM
+                    )
+--------------
+
+Query OK, 21 rows affected (0.01 sec)
+Records: 21  Duplicates: 0  Warnings: 0
+
+--------------
+/* 
+(3) Next, lists the contents of the table MESSAGE.
+											(0.3 marks)
+*/
+	
+SELECT *
+FROM MESSAGE
+--------------
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| error                                                                                                                                                          |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| A driver 10001 schedule 1 between 2019-01-12 05:00:00 and 2019-01-17 18:00:00 overlapped with schedule 5 between 2019-01-12 05:00:00 and 2019-01-17 18:00:00   |
+| A driver 10001 schedule 1 between 2019-01-12 05:00:00 and 2019-01-17 18:00:00 overlapped with schedule 8 between 2019-01-12 05:00:00 and 2019-01-17 18:00:00   |
+| A driver 10001 schedule 2 between 2019-02-20 05:00:00 and 2019-02-22 18:00:00 overlapped with schedule 47 between 2019-02-20 05:00:00 and 2019-02-25 18:00:00  |
+| A driver 10001 schedule 2 between 2019-02-20 05:00:00 and 2019-02-22 18:00:00 overlapped with schedule 6 between 2019-02-20 05:00:00 and 2019-02-25 18:00:00   |
+| A driver 10001 schedule 21 between 2016-04-23 05:00:00 and 2016-04-28 18:00:00 overlapped with schedule 22 between 2016-04-23 05:00:00 and 2016-04-26 18:00:00 |
+| A driver 10001 schedule 3 between 2019-03-12 05:00:00 and 2019-03-17 18:00:00 overlapped with schedule 7 between 2019-03-12 05:00:00 and 2019-03-26 18:00:00   |
+| A driver 10002 schedule 12 between 2018-03-12 05:00:00 and 2018-03-17 18:00:00 overlapped with schedule 20 between 2018-03-12 05:00:00 and 2018-03-17 18:00:00 |
+| A driver 10002 schedule 44 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 overlapped with schedule 46 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 10002 schedule 6 between 2019-02-20 05:00:00 and 2019-02-25 18:00:00 overlapped with schedule 47 between 2019-02-20 05:00:00 and 2019-02-25 18:00:00  |
+| A driver 10003 schedule 11 between 2018-01-23 05:00:00 and 2018-01-29 18:00:00 overlapped with schedule 19 between 2018-01-23 05:00:00 and 2018-01-28 18:00:00 |
+| A driver 20002 schedule 13 between 2019-04-23 05:00:00 and 2019-04-26 18:00:00 overlapped with schedule 14 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 20002 schedule 13 between 2019-04-23 05:00:00 and 2019-04-26 18:00:00 overlapped with schedule 39 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 20002 schedule 13 between 2019-04-23 05:00:00 and 2019-04-26 18:00:00 overlapped with schedule 44 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 20002 schedule 13 between 2019-04-23 05:00:00 and 2019-04-26 18:00:00 overlapped with schedule 46 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 20002 schedule 14 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 overlapped with schedule 39 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 20002 schedule 14 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 overlapped with schedule 44 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 20002 schedule 14 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 overlapped with schedule 46 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 20002 schedule 5 between 2019-01-12 05:00:00 and 2019-01-17 18:00:00 overlapped with schedule 8 between 2019-01-12 05:00:00 and 2019-01-17 18:00:00   |
+| A driver 30005 schedule 37 between 2017-01-23 05:00:00 and 2017-01-29 18:00:00 overlapped with schedule 45 between 2017-01-23 05:00:00 and 2017-01-29 18:00:00 |
+| A driver 30005 schedule 39 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 overlapped with schedule 44 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
+| A driver 30005 schedule 39 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 overlapped with schedule 46 between 2019-04-23 05:00:00 and 2019-04-29 18:00:00 |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+21 rows in set (0.00 sec)
+
+--------------
+/* 
+(4) Finally, drop the tables SALARY and MESSAGE.
+											(0.2 marks)
+*/
+
+DROP TABLE MESSAGE
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> notee;

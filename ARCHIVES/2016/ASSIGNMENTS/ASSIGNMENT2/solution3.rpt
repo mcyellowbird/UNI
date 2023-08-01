@@ -1,0 +1,181 @@
+mysql> \. solution3.sql
+--------------
+SELECT 'Task (1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++----------------------------------------------------------------------+
+| Task (1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++----------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE DEPTLOC ADD (TOTALEMP DECIMAL(4) NOT NULL)
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPTLOC ADD CONSTRAINT CHECK ( TOTALEMP >= 0 AND TOTALEMP <= 1000)
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task (2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++----------------------------------------------------------------------+
+| Task (2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++----------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE DEPARTMENT MODIFY DNAME VARCHAR(50) NOT NULL
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPTLOC MODIFY DNAME VARCHAR(50) NOT NULL
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYEE MODIFY DNAME VARCHAR(50)    NULL
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task (3) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++----------------------------------------------------------------------+
+| Task (3) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++----------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE DEPARTMENT MODIFY CHAIRMAN DECIMAL(4,0) NULL
+--------------
+
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPARTMENT ADD CONSTRAINT department_fkey FOREIGN KEY(CHAIRMAN)
+  REFERENCES EMPLOYEE(ENUM)
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task (4) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++----------------------------------------------------------------------+
+| Task (4) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++----------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE DEPARTMENT DROP COLUMN BUDGET
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPARTMENT ADD (BUDGET DECIMAL(4) NULL)
+--------------
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPARTMENT ADD CONSTRAINT budget_check CHECK (BUDGET > 0 AND BUDGET <= 5000)
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+SELECT 'Task (5) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' FROM DUAL
+--------------
+
++----------------------------------------------------------------------+
+| Task (5) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |
++----------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+ALTER TABLE EMPLOYEE DROP FOREIGN KEY EMPLOYEE_FKEY1
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYEE DROP FOREIGN KEY EMPLOYEE_FKEY2
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPTLOC DROP FOREIGN KEY DEPTLOC_FKEY
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPTLOC DROP PRIMARY KEY
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPTLOC MODIFY DNAME VARCHAR(50) NULL
+--------------
+
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPTLOC ADD CONSTRAINT DEPTLOC_FKEY FOREIGN KEY(DNAME) REFERENCES DEPARTMENT(DNAME) ON DELETE SET NULL
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE DEPTLOC ADD CONSTRAINT DEPTLOC_PKEY UNIQUE KEY (DNAME, CITY, STREET, BLDG, BLEVEL)
+--------------
+
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYEE ADD CONSTRAINT EMPLOYEE_FKEY1 FOREIGN KEY(DNAME) REFERENCES DEPARTMENT(DNAME) ON DELETE CASCADE
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+ALTER TABLE EMPLOYEE ADD CONSTRAINT EMPLOYEE_FKEY2 FOREIGN KEY(DNAME,CITY,STREET,BLDG,BLEVEL) REFERENCES DEPTLOC(DNAME,CITY,STREET,BLDG,BLEVEL) ON UPDATE SET NULL
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> notee

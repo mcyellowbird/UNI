@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>310</y>
+      <w>220</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>KineticEnergy
+--
+__- density = 7.8 {read only}__
+- mass: Double
+- inertia: Double
+- angularVelocity: Double
+- angularKineticEnergy: Double
+- linearKineticEnergy: Double
+- totalKineticEnergy: Double
+--
+__+ main(): void__
+ 
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>160</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>input : Scanner
+--
+__+ nextDouble(): Double__
+
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>160</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Math
+--
+__+ PI(): Double__
+__+ pow(): Double__
+bg=#dddddd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>210</y>
+      <w>120</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+uses</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>210</y>
+      <w>110</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+uses</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+</diagram>

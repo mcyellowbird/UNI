@@ -1,0 +1,68 @@
+mysql> \. solution2.sql
+--------------
+/*
+  (1) Insert a new project with project 1006, title Puzzle, sponsored by Education committee, 
+      handled by a department 3 with budget $80000.0. Employee 00107 has been assigned to this new project. 
+      She spends 15 hours on the project. Employee 00187 has been changed to this new project. 
+      He spends 30 hours.
+*/
+ 
+INSERT INTO Project VALUES (1006, 'Puzzle', 'Education committee', 3, 80000.00)
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+INSERT INTO WorksOn VALUES ('00107', 1006, 15)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+UPDATE WorksOn SET PNumber=1006, Hours=30
+WHERE ENumber='00187'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+/*
+  (2) An employee 00187 (neither a manager nor a supervisor) decided to quit a job. 
+      Remove all information about the employee from the database.
+*/
+
+DELETE FROM Dependent WHERE ENumber='00187'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+DELETE FROM WorksOn WHERE ENumber='00187'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+DELETE FROM Employee WHERE ENumber='00187'
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+/*
+  (3)	The project 1005 has been cancelled.  Remove the related data from the database.
+*/
+
+DELETE FROM WorksOn WHERE PNumber = 1005
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+DELETE FROM Project WHERE PNumber = 1005
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+mysql> notee;

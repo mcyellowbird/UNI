@@ -1,0 +1,104 @@
+mysql> source solution2.sql
+--------------
+/* (1) Find a code of customer and company name of all customers who submitted at least one order in April 1997.          */
+
+SELECT CUSTOMER.CUSTOMER_CODE, COMPANY_NAME
+FROM CUSTOMER JOIN ORDERS
+              ON CUSTOMER.CUSTOMER_CODE = ORDERS.CUSTOMER_CODE
+WHERE YEAR(ORDER_DATE) = 1997 AND MONTH(ORDER_DATE) = 4
+--------------
+
++---------------+--------------------+
+| CUSTOMER_CODE | COMPANY_NAME       |
++---------------+--------------------+
+| SAVEA         | Save-a-lot Markets |
+| ERNSH         | Ernst Handel       |
++---------------+--------------------+
+2 rows in set (0.00 sec)
+
+--------------
+/* (2) Find a name of product ordered and order date of all products ordered by a customer with customer code SAVEA 
+       and such that quantity of product is 10.                                                                              */
+
+SELECT PRODUCT_NAME, ORDER_DATE
+FROM ORDERS JOIN ORDER_DETAIL
+            ON ORDERS.ORDER_ID = ORDER_DETAIL.ORDER_ID
+WHERE CUSTOMER_CODE = 'SAVEA' AND QUANTITY = 10
+--------------
+
++-------------------------------+------------+
+| PRODUCT_NAME                  | ORDER_DATE |
++-------------------------------+------------+
+| Singaporean Hokkien Fried Mee | 1997-02-10 |
+| Guarana Fantastica            | 1996-10-08 |
++-------------------------------+------------+
+2 rows in set (0.00 sec)
+
+--------------
+/* (3) Find the total number of cities the customers who submitted at least one order in 1996 or in 1997 or in 1998 come 
+       from.                                                                                                               */
+SELECT COUNT(DISTINCT CITY)
+FROM CUSTOMER JOIN ORDERS
+              ON CUSTOMER.CUSTOMER_CODE = ORDERS.CUSTOMER_CODE
+WHERE YEAR(ORDER_DATE) IN (1996, 1997, 1998)
+--------------
+
++----------------------+
+| COUNT(DISTINCT CITY) |
++----------------------+
+|                   51 |
++----------------------+
+1 row in set (0.00 sec)
+
+--------------
+/* (4) Find a description of category such that at least one product from the category has unit price > 100               */
+SELECT DISTINCT DESCRIPTION
+FROM CATEGORY JOIN PRODUCT
+              ON CATEGORY.CATEGORY_NAME = PRODUCT.CATEGORY_NAME
+WHERE UNIT_PRICE > 100
+--------------
+
++---------------------------------------------+
+| DESCRIPTION                                 |
++---------------------------------------------+
+| Soft drinks, coffees, teas, beers, and ales |
+| Prepared meats                              |
++---------------------------------------------+
+2 rows in set (0.00 sec)
+
+--------------
+/* (5) Find the names of products that have not been ordered yet. Your implementation must use outer join operation       */
+SELECT PRODUCT.PRODUCT_NAME
+FROM PRODUCT LEFT OUTER JOIN ORDER_DETAIL
+             ON PRODUCT.PRODUCT_NAME = ORDER_DETAIL.PRODUCT_NAME
+WHERE ORDER_DETAIL.PRODUCT_NAME IS NULL
+--------------
+
++----------------------------+
+| PRODUCT_NAME               |
++----------------------------+
+| Chartreuse verte           |
+| Laughing Lumberjack Lager  |
+| Northwoods Cranberry Sauce |
+| NuNuCa Nuss-Nougat-Creme   |
+| Mishi Kobe Niku            |
++----------------------------+
+5 rows in set (0.00 sec)
+
+--------------
+/* (6) Find the first and last name of a direct manager of employee whose first name is Nancy  and last name is Davolio. 
+       Your implementation must use join operation                                                                         */
+SELECT E2.FIRSTNAME, E2.LASTNAME
+FROM EMPLOYEE E1 JOIN EMPLOYEE E2
+				ON E1.REPORTS_TO = E2.EMPLOYEE_ID
+WHERE E1.FIRSTNAME = 'Nancy' AND E1.LASTNAME = 'Davolio'
+--------------
+
++-----------+----------+
+| FIRSTNAME | LASTNAME |
++-----------+----------+
+| Andrew    | Fuller   |
++-----------+----------+
+1 row in set (0.01 sec)
+
+mysql> notee

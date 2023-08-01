@@ -1,0 +1,125 @@
+<html>
+	<head>
+		<title>Whosville Holiday Reserve</title>
+
+		<style>
+			table {
+				border-collapse: collapse;
+				margin: auto;
+				font-size: 0.9em;
+				font-family: sans-serif;
+				min-width: 400px;
+				box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+			}
+
+			table td {
+			    padding: 12px 15px;
+			}
+
+			table tbody tr {
+			    border-bottom: 1px solid #dddddd;
+			}
+
+			table tbody tr:nth-of-type(even) {
+			    background-color: #f3f3f3;
+			    color: black;
+			}
+
+			table tbody tr:last-of-type {
+			    border-bottom: 2px solid #009879;
+			    text-align: center;
+			}
+
+		</style>
+	</head>
+	<body style="text-align: center;">
+		<h1>Whosville Holiday Reserve</h1>
+
+		<form action="http://holiday.whosville.com/query" method="get">
+			
+			<table>
+				<tr>
+					<td>
+						Adults:
+					</td>
+					<td>
+						<input type="number" name="a" value="0" min=0 max=6 style="width: 50px"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Children:
+					</td>
+					<td>
+						<input type="number" name="c" value="0" min=0 max=6 style="width: 50px"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Days:
+					</td>
+					<td>
+						<input type="number" name="d" value="0" min=0 max=365 style="width: 50px"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Accommodation Type:
+					</td>
+					<td>
+						<select id="accomodation" name="accom">
+							<option value="1" /> Cabin
+							<br>
+							<option value="2" /> Dormitory
+							<br>
+							<option value="3" /> Cottage
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Cave Tours:
+					</td>
+					<td>
+						<input type="checkbox" name="t" value="K" /> Ktar Koon Cave Tour
+						<br>
+						<input type="checkbox" name="t" value="B" /> Beyoh Boon Cave Tour
+						<br>
+						<input type="checkbox" name="t" value="S" /> Sontain Soon Cave Tour
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Internet Access:
+					</td>
+					<td>
+						<input type="radio" name="internet" value="y" /> Include Internet Service
+						<br>
+						<input type="radio" name="internet" value="n" /> No Internet
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Questions
+					</td>
+					<td>
+						<input type="text" name="question" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="Submit"/>
+						<input type="reset" value="Clear"/>
+					</td>
+				</tr>
+			</table>
+
+
+
+
+			<br>
+
+
+		</form>
+	</body>
+</html>

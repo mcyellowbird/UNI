@@ -1,0 +1,129 @@
+mysql> \. solution2.sql
+--------------
+SELECT fname, initials, lname
+FROM EMPLOYEE WHERE state IN('NSW', 'WA')
+--------------
+
++----------+----------+---------+
+| fname    | initials | lname   |
++----------+----------+---------+
+| John     | NULL     | Smith   |
+| Peter    | NULL     | Taylor  |
+| John     | NULL     | Doe     |
+| John     | NULL     | Gray    |
+| Adam     | NULL     | Taylor  |
+| Michael  | NULL     | Jones   |
+| Frederic | NULL     | Jones   |
+| Peter    | NULL     | O'Brien |
+| John     | NULL     | Lucas   |
+| John     | NULL     | Fox     |
+| Adam     | NULL     | Fox     |
+| Phillip  | NULL     | Cox     |
+| Andrew   | K        | Smith   |
+| Andrew   | R        | Smith   |
+| Michael  | NULL     | Potter  |
+| Harry    | NULL     | Potter  |
+| James    | NULL     | Bond    |
+| Robin    | NULL     | Hood    |
++----------+----------+---------+
+18 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM TRUCK
+WHERE status <> 'AVAILABLE'
+--------------
+
++--------+----------+--------+------------+
+| REGNUM | CAPACITY | WEIGHT | STATUS     |
++--------+----------+--------+------------+
+| KKK007 |    10000 |   3000 | MAINTAINED |
+| QRT834 |     5550 |    400 | USED       |
+| SST005 |    12000 |  50000 | USED       |
+| SYF777 |     3333 |   4566 | MAINTAINED |
++--------+----------+--------+------------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT trip_date
+FROM TRIP
+WHERE LNUM = 10001 AND REGNUM <> 'PKR768'
+--------------
+
++------------+
+| trip_date  |
++------------+
+| 2015-02-20 |
+| 2015-03-12 |
+| 2014-12-15 |
+| 2012-04-23 |
+| 2013-02-20 |
+| 2010-09-17 |
++------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM TRIP
+WHERE LNUM IN (10001, 10002, 10003)
+ORDER BY LNUM DESC, REGNUM ASC
+--------------
+
++------+-------+--------+------------+
+| TNUM | LNUM  | REGNUM | TRIP_DATE  |
++------+-------+--------+------------+
+|   20 | 10003 | PKR768 | 2016-03-12 |
+|   23 | 10003 | PKR768 | 2012-05-25 |
+|   31 | 10003 | SST005 | 2010-01-23 |
+|   11 | 10003 | SST005 | 2016-01-23 |
+|   30 | 10002 | KKK007 | 2010-12-15 |
+|   12 | 10002 | PKR768 | 2016-03-12 |
+|    9 | 10002 | QRT834 | 2015-09-17 |
+|    6 | 10002 | SYF777 | 2015-02-20 |
+|    3 | 10001 | KKK007 | 2015-03-12 |
+|   18 | 10001 | KKK007 | 2014-12-15 |
+|   35 | 10001 | PKR768 | 2016-05-24 |
+|    1 | 10001 | PKR768 | 2015-01-12 |
+|   25 | 10001 | PKR768 | 2014-01-12 |
+|    8 | 10001 | PKR768 | 2015-01-12 |
+|    4 | 10001 | PKR768 | 2015-06-29 |
+|   21 | 10001 | QRT834 | 2012-04-23 |
+|   29 | 10001 | QRT834 | 2010-09-17 |
+|   26 | 10001 | SYF777 | 2013-02-20 |
+|    2 | 10001 | SYF777 | 2015-02-20 |
++------+-------+--------+------------+
+19 rows in set (0.00 sec)
+
+--------------
+SELECT UPPER(fname), UPPER(initials), UPPER(lname)
+FROM EMPLOYEE
+ORDER BY lname DESC
+--------------
+
++--------------+-----------------+--------------+
+| UPPER(fname) | UPPER(initials) | UPPER(lname) |
++--------------+-----------------+--------------+
+| PETER        | NULL            | TAYLOR       |
+| ADAM         | NULL            | TAYLOR       |
+| JOHN         | NULL            | SMITH        |
+| ANDREW       | R               | SMITH        |
+| ANDREW       | K               | SMITH        |
+| HARRY        | NULL            | POTTER       |
+| MICHAEL      | NULL            | POTTER       |
+| PETER        | NULL            | O'BRIEN      |
+| JOHN         | NULL            | LUCAS        |
+| MICHAEL      | NULL            | JONES        |
+| FREDERIC     | NULL            | JONES        |
+| ROBIN        | NULL            | HOOD         |
+| PARIS        | NULL            | HILTON       |
+| JOHN         | NULL            | GRAY         |
+| LADY         | NULL            | GAGA         |
+| ADAM         | NULL            | FOX          |
+| JOHN         | NULL            | FOX          |
+| JOHN         | NULL            | DOE          |
+| PHILLIP      | NULL            | COX          |
+| JAMES        | NULL            | BOND         |
++--------------+-----------------+--------------+
+20 rows in set (0.00 sec)
+
+mysql> notee

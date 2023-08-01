@@ -1,0 +1,57 @@
+> /* (1) Display in a pretty format company name and city of all suppliers located at the cities Paris or London. */;
+> 
+> db.suppliers.find({$or: [{"SUPPLIER.city": "Paris"},{"SUPPLIER.city": "London"}]}, {"SUPPLIER.company name": 1, "SUPPLIER.city": 1}).pretty();
+{
+	"_id" : "Aux joyeux ecclesiastiques",
+	"SUPPLIER" : {
+		"company name" : "Aux joyeux ecclesiastiques",
+		"city" : "Paris"
+	}
+}
+{
+	"_id" : "Exotic Liquids",
+	"SUPPLIER" : {
+		"company name" : "Exotic Liquids",
+		"city" : "London"
+	}
+}
+> 
+> /* (2)Display information about the total number of suppliers who have no home page information recorded in a collection. */;
+> 
+> db.suppliers.find({"SUPPLIER.home page": null}).count();
+29
+> 
+> /* (3)Display in a pretty format company name and city name of all suppliers who supply a product Chai or who supply a product Filo Mix. */;
+> 
+> db.suppliers.find({"SUPPLIER.supplies.PRODUCT.product name": "Chai"},{"SUPPLIER.company name": 1, "SUPPLIER.city": 1}).pretty();
+{
+	"_id" : "Exotic Liquids",
+	"SUPPLIER" : {
+		"company name" : "Exotic Liquids",
+		"city" : "London"
+	}
+}
+>  
+> /* (4)Display in a pretty format company name and contact name of all suppliers who supply at least four products. */;
+> 
+> db.suppliers.find({"SUPPLIER.supplies.4":{$exists:true}},{"SUPPLIER.company name": 1, "SUPPLIER.contact name": 1}).pretty();
+{
+	"_id" : "Pavlova, Ltd.",
+	"SUPPLIER" : {
+		"company name" : "Pavlova, Ltd.",
+		"contact name" : "Ian Devling"
+	}
+}
+{
+	"_id" : "Plutzer Lebensmittelgrossmarkte AG",
+	"SUPPLIER" : {
+		"company name" : "Plutzer Lebensmittelgrossmarkte AG",
+		"contact name" : "Martin Bein"
+	}
+}
+> 
+> /* (5)Display information about the total number of suppliers who supply at least one product that has a unit price greater than 35. */;
+> 
+> db.suppliers.find({"SUPPLIER.supplies.PRODUCT.unit price": {$gt:35}}).count();
+14
+

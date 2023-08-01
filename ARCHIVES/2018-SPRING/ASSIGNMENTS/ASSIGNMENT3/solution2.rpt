@@ -1,0 +1,93 @@
+mysql> \. solution2.sql
+--------------
+/* 
+   Your task is to use restored logical backup of relational tables
+   Department and DeptLocation to find the rows that have been deleted, 
+   the rows that have been inserted, and the rows that have been updated 
+   in the relational tables Department and DeptLocation. 
+*/
+
+/* 
+   Deleted rows in the relational tables Department and DeptLocation.
+*/
+
+SELECT *
+FROM txia.Department
+WHERE DNumber NOT IN ( 
+	SELECT DNumber
+	FROM csit115.Department)
+--------------
+
+Empty set (0.12 sec)
+
+--------------
+SELECT *
+FROM txia.DeptLocation
+WHERE (DNumber, Address) NOT IN ( 
+	SELECT DNumber, Address
+	FROM csit115.DeptLocation)
+--------------
+
++---------+---------------------------------------+
+| DNumber | Address                               |
++---------+---------------------------------------+
+|       5 | 263 Box road, Sydney, NSW 2170        |
+|       5 | 77 Kenny Street, Wollongong, NSW 2500 |
++---------+---------------------------------------+
+2 rows in set (0.02 sec)
+
+--------------
+/* 
+   Inserted new rows in the relational tables Department and DeptLocation.
+*/
+
+SELECT *
+FROM csit115.Department
+WHERE DNumber NOT IN ( SELECT DNumber
+	FROM txia.Department)
+--------------
+
++---------+---------+---------+------------+
+| DNumber | DName   | Manager | MSDate     |
++---------+---------+---------+------------+
+|       6 | SUPPORT | 00103   | 2016-10-12 |
++---------+---------+---------+------------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT *
+FROM csit115.DeptLocation
+WHERE (DNumber, Address) NOT IN ( SELECT DNumber, Address
+	FROM txia.DeptLocation)
+--------------
+
++---------+--------------------------------------+
+| DNumber | Address                              |
++---------+--------------------------------------+
+|       6 | 121 Gipps Road, Wollongong, NSW 2500 |
++---------+--------------------------------------+
+1 row in set (0.00 sec)
+
+--------------
+/* 
+   Updated rows in the relational tables Department.
+*/
+
+SELECT TD.*, CD.*
+FROM txia.Department TD JOIN csit115.Department CD
+	ON TD.DNumber=CD.DNumber 
+WHERE TD.DName <> CD.DName OR
+	TD.Manager <> CD.Manager OR
+	TD.MSDate <> CD.MSDate
+--------------
+
++---------+-----------------+---------+------------+---------+------------------+---------+------------+
+| DNumber | DName           | Manager | MSDate     | DNumber | DName            | Manager | MSDate     |
++---------+-----------------+---------+------------+---------+------------------+---------+------------+
+|       3 | GAMES           | 00150   | 2008-03-01 |       3 | GAMES            | 00187   | 2008-03-01 |
+|       4 | HUMAN RESOURCES | 00200   | 2013-01-02 |       4 | PEOPLE RESOURCES | 00200   | 2013-01-02 |
+|       5 | SPORTS          | 00250   | 2010-05-10 |       5 | SPORTS           | 00250   | 2018-10-01 |
++---------+-----------------+---------+------------+---------+------------------+---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> notee;

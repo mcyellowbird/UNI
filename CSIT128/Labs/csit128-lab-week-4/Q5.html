@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<script>
+			// Global variables, counters
+			var lionClicks = 0;
+			var frogClicks = 0;
+
+			// Function declares a method
+			function lionClick(){
+				// Increase counter by one
+				lionClicks++;
+				// Set the DATA of the element with the 'lionCount' ID EQUAL to the counter
+				lionCount.innerHTML = lionClicks;
+			}
+
+			function frogClick(){
+				// Increase counter by one
+				frogClicks++;
+				// Set the DATA of the element with the 'frogCount' ID EQUAL to the counter
+				frogCount.innerHTML = frogClicks;
+			}
+		</script>
+	</head>
+
+	<body>
+		<!-- The onClick command will run the lionClick() function -->
+		<img id="lionClick" src="Lion.png" width="300px" onClick="lionClick()" />
+		Number of lion clicks: <span id="lionCount">0</span>
+
+		<!-- The onClick command will run the frogClick() function -->
+		<img id="frogClick" src="Frog.jpg" width="300px" onClick="frogClick()"/>
+		Number of frog clicks: <span id="frogCount">0</span>
+
+	</body>
+</html>

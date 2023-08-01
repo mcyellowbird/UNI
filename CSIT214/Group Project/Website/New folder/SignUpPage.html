@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sign Up</title>
+		<style>
+			#navbar {
+				background-color: #00008B;
+				position: fixed;
+				width: 100%;
+				top: 0px;
+				left: 0px;
+			}
+			#navbar a {
+				text-decoration: none;
+				display: inline-block;
+				text-align: centre;
+				padding: 20px 30px;
+				background-color: #FF0000;
+				color: white;
+				border: 2px solid white;
+			}
+			#navbar h3 {
+				color: white;
+				display: inline-block;
+			}
+			#signUpButton {
+				float: right;
+			}
+			#logInButton {
+				float: right;
+			}
+			#main {
+				width: 100%;
+				margin-top: 6%;
+			}
+		</style>
+		<script>
+			var users = [];
+			var user = {};
+			
+			function createUser() {
+				if(sessionStorage.getItem('users') !== null) {
+					users = JSON.parse(sessionStorage.users);
+				}
+				for(const checkUsers of users) {
+					if(checkUsers.userName == document.getElementById("userName").value){
+						document.getElementById("messageDisplay").innerHTML = "That username is taken, please try again.";
+						return;
+					} else {
+						user.userName = document.getElementById("userName").value;
+					}
+				}
+				user.password = document.getElementById("password").value;
+				var bookings = [];
+				user.flightsBooked = bookings;
+				console.log(JSON.stringify(user.flightsBooked));
+				users.push(user);
+				sessionStorage.currentUser = JSON.stringify(user);
+				sessionStorage.users = JSON.stringify(users);
+				window.location.href = "LogInPage.html";
+			}
+		</script>
+	</head>
+	<body style="background-color: #F0F8FF;">
+		<div id="navbar">
+			<h3>Fly Dream Air</h3>
+			<a href="SignUpPage.html" id="signUpButton">Sign Up</a>
+			<a href="LogInPage.html" id="logInButton">Log In</a>
+		</div>
+		<div id="main">
+			<h1>Create Account:</h1>
+			<table border="0">
+				<tr>
+					<td>Username:</td>
+					<td>
+						<input type="text" id="userName">
+					</td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td>
+						<input type="text" id="password">
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button onclick="createUser();">Sign Up</button>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<span id="messageDisplay"></span>
+		</div>
+	</body>
+</html>

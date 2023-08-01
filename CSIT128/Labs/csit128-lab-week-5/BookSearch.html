@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<title>Library Book Search</title>
+	</head>
+	<body>
+		<h1>Whosville Library Book Search</h1>
+
+		<form action="http://library.whosville/bsearch" method="get">
+			
+			<table border=0>
+				<tr>
+					<td>
+						Author Name:
+					</td>
+					<td>
+						<input type="text" name="author"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Publication Year:
+					</td>
+					<td>
+						<input type="text" name="year"/>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align: top">
+						Subject:
+					</td>
+					<td>
+						<input type="checkbox" name="sub" value="mth" /> Mathematics
+						<br>
+						<input type="checkbox" name="sub" value="cs" /> Computer Science
+						<br>
+						<input type="checkbox" name="sub" value="bio" /> Biology
+						<br>
+						<input type="checkbox" name="sub" value="phy" /> Physics
+						<br>
+						<input type="checkbox" name="sub" value="chem" /> Chemistry
+					</td>
+				</tr>
+				<tr>
+					<td />
+					<td>
+						<input type="submit" value="Search"/>
+						<input type="reset" value="Clear"/>
+					</td>
+				</tr>
+			</table>
+
+
+
+
+			<br>
+
+
+		</form>
+	</body>
+</html>

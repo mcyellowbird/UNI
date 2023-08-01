@@ -1,0 +1,190 @@
+Microsoft Windows [Version 10.0.19042.1165]
+(c) Microsoft Corporation. All rights reserved.
+
+D:\Desktop\UNI\CSIT121\Assignment1>javac OrderingSystem.java
+
+D:\Desktop\UNI\CSIT121\Assignment1>java OrderingSystem
+Welcome to our computer shop
+Enter your customer ID if you have one (If not, press enter):
+Name: Idries Eagle-Masuak
+Gender: Male
+Contact Number: 0455508110
+Delivery Address: 78 Real St, RealCity, NSW, 5555
+
+Please make a selection from the following:
+1: Select a CPU
+2: Select a Motherboard
+3: Select Memory
+4: Select a Graphics Card
+5: Select a Monitor
+6: View/Modify the order
+7: Submit the order
+8: Cancel order and Exit
+
+Selection: 1
+
+We offer the following CPU products:
+(0): CPU | Brand: Intel | Model: 9600K | Cores: i5 | Price: $323
+(1): CPU | Brand: Intel | Model: 9700K | Cores: i7 | Price: $462
+(2): CPU | Brand: Intel | Model: 9700F | Cores: i7 | Price: $396
+(3): CPU | Brand: Intel | Model: 9900K | Cores: i9 | Price: $591
+(4): CPU | Brand: AMD | Model: Ryzen 2200 | Cores: 4 | Price: $200
+(5): CPU | Brand: AMD | Model: Ryzen 3600 | Cores: 6 | Price: $310
+(6): CPU | Brand: AMD | Model: Ryzen 3700 | Cores: 8 | Price: $489
+(7): CPU | Brand: AMD | Model: Ryzen 5800 | Cores: 8 | Price: $669
+Please select a CPU (-1 for no purchase): 3
+
+Please make a selection from the following:
+1: Select a CPU
+2: Select a Motherboard
+3: Select Memory
+4: Select a Graphics Card
+5: Select a Monitor
+6: View/Modify the order
+7: Submit the order
+8: Cancel order and Exit
+
+Selection: 2
+
+We offer the following Motherboard products:
+(0): Motherboard | Brand: Gigabyte | Model: H81M-DS2 | Socket: Intel | Price: $129
+(1): Motherboard | Brand: Asus | Model: J40051-C | Socket: Intel | Price: $169
+(2): Motherboard | Brand: MSI | Model: MGP-2390 | Socket: Intel | Price: $225
+(3): Motherboard | Brand: Gigabyte | Model: Z490 | Socket: Intel | Price: $471
+(4): Motherboard | Brand: Gigabyte | Model: B-450 | Socket: AMD | Price: $117
+(5): Motherboard | Brand: Asus | Model: A320I | Socket: AMD | Price: $128
+(6): Motherboard | Brand: MSI | Model: B450 | Socket: AMD | Price: $232
+(7): Motherboard | Brand: Gigabyte | Model: X570S | Socket: AMD | Price: $679
+Please select a Motherboard (-1 for no purchase): 3
+
+Please make a selection from the following:
+1: Select a CPU
+2: Select a Motherboard
+3: Select Memory
+4: Select a Graphics Card
+5: Select a Monitor
+6: View/Modify the order
+7: Submit the order
+8: Cancel order and Exit
+
+Selection: 3
+
+We offer the following Memory products:
+(0): Memory | Brand: Kingston | Model: KCP316ND8 | Type: DDR3 | Size: 8G | Price: $116
+(1): Memory | Brand: ADATA | Model: AX4U360038G18 | Type: DDR3 | Size: 16G | Price: $189
+(2): Memory | Brand: G.Skill | Model: F3-10666CL9D | Type: DDR3 | Size: 8G | Price: $96
+(3): Memory | Brand: Kingston | Model: KCP426SS8 | Type: DDR4 | Size: 8G | Price: $93
+(4): Memory | Brand: G.Skill | Model: F4-2666C18S | Type: DDR4 | Size: 16G | Price: $158
+(5): Memory | Brand: Crucial | Model: CT32G4SFD832A | Type: DDR4 | Size: 32G | Price: $259
+Please select a Memory (-1 for no purchase): 5
+
+Please make a selection from the following:
+1: Select a CPU
+2: Select a Motherboard
+3: Select Memory
+4: Select a Graphics Card
+5: Select a Monitor
+6: View/Modify the order
+7: Submit the order
+8: Cancel order and Exit
+
+Selection: 4
+
+We offer the following Graphics Card products:
+(0): Graphics Card | Brand: Gigabyte | Model: GeForce RTX 3070 | Socket Type: NVIDIA | Price: $1999
+(1): Graphics Card | Brand: Asus | Model: GeForce RTX 3070 | Socket Type: NVIDIA | Price: $1899
+(2): Graphics Card | Brand: MSI | Model: GeForce RTX 3080 | Socket Type: NVIDIA | Price: $3099
+(3): Graphics Card | Brand: Gigabyte | Model: Radeon RX 6900 | Socket Type: AMD | Price: $3699
+(4): Graphics Card | Brand: Asus | Model: Radeon RX 6900 | Socket Type: AMD | Price: $3199
+(5): Graphics Card | Brand: MSI | Model: Radeon RX 6900 | Socket Type: AMD | Price: $2699
+Please select a Graphics Card (-1 for no purchase): 2
+
+Please make a selection from the following:
+1: Select a CPU
+2: Select a Motherboard
+3: Select Memory
+4: Select a Graphics Card
+5: Select a Monitor
+6: View/Modify the order
+7: Submit the order
+8: Cancel order and Exit
+
+Selection: 5
+
+We offer the following Monitor products:
+(0): Monitor | Brand: Acer | Model: K242HYLB | Size: 24 | Price: $194
+(1): Monitor | Brand: LG | Model: 32QN600 | Size: 32 | Price: $506
+(2): Monitor | Brand: Asus | Model: MB16ACZ | Size: 16 | Price: $429
+(3): Monitor | Brand: MSI | Model: MP271QP | Size: 27 | Price: $399
+(4): Monitor | Brand: BenQ | Model: PD3200Q | Size: 32 | Price: $653
+(5): Monitor | Brand: Philips | Model: 272M8CZ | Size: 27 | Price: $289
+Please select a Monitor (-1 for no purchase): 4
+
+Please make a selection from the following:
+1: Select a CPU
+2: Select a Motherboard
+3: Select Memory
+4: Select a Graphics Card
+5: Select a Monitor
+6: View/Modify the order
+7: Submit the order
+8: Cancel order and Exit
+
+Selection: 6
+(0): CPU | Brand: Intel | Model: 9900K | Cores: i9 | Price: $591
+(1): Motherboard | Brand: Gigabyte | Model: Z490 | Socket: Intel | Price: $471
+(2): Memory | Brand: Crucial | Model: CT32G4SFD832A | Type: DDR4 | Size: 32G | Price: $259
+(3): Graphics Card | Brand: MSI | Model: GeForce RTX 3080 | Socket Type: NVIDIA | Price: $3099
+(4): Monitor | Brand: BenQ | Model: PD3200Q | Size: 32 | Price: $653
+Total Price: $5073
+
+Make a selection to remove a product (-1 for no removal)
+0
+Removed product at index 0
+
+Please make a selection from the following:
+1: Select a CPU
+2: Select a Motherboard
+3: Select Memory
+4: Select a Graphics Card
+5: Select a Monitor
+6: View/Modify the order
+7: Submit the order
+8: Cancel order and Exit
+
+Selection: 1
+
+We offer the following CPU products:
+(0): CPU | Brand: Intel | Model: 9600K | Cores: i5 | Price: $323
+(1): CPU | Brand: Intel | Model: 9700K | Cores: i7 | Price: $462
+(2): CPU | Brand: Intel | Model: 9700F | Cores: i7 | Price: $396
+(3): CPU | Brand: Intel | Model: 9900K | Cores: i9 | Price: $591
+(4): CPU | Brand: AMD | Model: Ryzen 2200 | Cores: 4 | Price: $200
+(5): CPU | Brand: AMD | Model: Ryzen 3600 | Cores: 6 | Price: $310
+(6): CPU | Brand: AMD | Model: Ryzen 3700 | Cores: 8 | Price: $489
+(7): CPU | Brand: AMD | Model: Ryzen 5800 | Cores: 8 | Price: $669
+Please select a CPU (-1 for no purchase): 1
+
+Please make a selection from the following:
+1: Select a CPU
+2: Select a Motherboard
+3: Select Memory
+4: Select a Graphics Card
+5: Select a Monitor
+6: View/Modify the order
+7: Submit the order
+8: Cancel order and Exit
+
+Selection: 7
+Here is the summary of your order:
+Order: O71492 | Total Price: $4944
+Customer: C80987 | Idries Eagle-Masuak | Male | 0455508110 | 78 Real St, RealCity, NSW, 5555
+
+Product List:
+Motherboard | Brand: Gigabyte | Model: Z490 | Socket: Intel | Price: $471
+Memory | Brand: Crucial | Model: CT32G4SFD832A | Type: DDR4 | Size: 32G | Price: $259
+Graphics Card | Brand: MSI | Model: GeForce RTX 3080 | Socket Type: NVIDIA | Price: $3099
+Monitor | Brand: BenQ | Model: PD3200Q | Size: 32 | Price: $653
+CPU | Brand: Intel | Model: 9700K | Cores: i7 | Price: $462
+
+Order O71492 has been placed. Thank you for your purchase :)

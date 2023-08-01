@@ -1,0 +1,125 @@
+mysql> source solution2.sql
+--------------
+/* (4)	Create a relational table with a name a prefix of your University email account and with the same structure as already 
+        created relational table ORDER_DETAIL. Remember, to enforce the appropriate consistency constraints for the new table. */ 
+
+CREATE TABLE jrg
+(
+    ORDER_ID		 DECIMAL(9)	NOT NULL,
+    PRODUCT_NAME 	 VARCHAR(40) 	NOT NULL,
+    UNIT_PRICE 		 DECIMAL(10,2)	NOT NULL	DEFAULT 0,
+    QUANTITY 		 DECIMAL(9)	NOT NULL  	DEFAULT 1 ,
+    DISCOUNT 		 DECIMAL(4,2)	NOT NULL  	DEFAULT 0,
+    CONSTRAINT PK_jrg PRIMARY KEY (ORDER_ID, PRODUCT_NAME),
+    CONSTRAINT FK_jrg_ORDER_ID FOREIGN KEY (ORDER_ID) REFERENCES ORDERS (ORDER_ID),
+    CONSTRAINT FK_jrg_PRODUCT_NAME FOREIGN KEY (PRODUCT_NAME) REFERENCES PRODUCT (PRODUCT_NAME),
+    CONSTRAINT CK_jrg_ORDER_DETAIL_UNIT_PRICE CHECK (UNIT_PRICE >= 0),
+    CONSTRAINT CK_jrg_ORDER_DETAIL_QUANTITY CHECK (QUANTITY > 0),
+    CONSTRAINT CK_jrg_ORDER_DETAIL_DISCOUNT CHECK (DISCOUNT between 0 and 1)
+)
+--------------
+
+Query OK, 0 rows affected (0.14 sec)
+
+--------------
+/* (5)	Use a backup modified in step (2) to load the original contents of a relational table ORDER_DETAIL into a relational table 
+        with a name the same as a prefix of your University email account.  
+                                                                     
+        mysqldump utility program has been used to create a backup of a relational table ORDER_DETAIL located in a database csit115
+        mysqldump csit115 ORDER_DETAIL   user root   password   verbose   lock_tables > jrg.sql
+  
+        The following modifications have been done to a backup file before restoring it into a table with a name the same as
+        a prefix of your University email account. 
+        (i) the statements: DROP TABLE IF EXISTS `ORDER_DETAIL`;
+                            CREATE TABLE `ORDER_DETAIL` ( ...
+            have been commented out.
+        (ii) a name of a table ORDER_DETAIL has been replaced with a name of a table the same as a perfix of your email account. */
+use csit115
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (6)	Use SELECT statements to list the rows that have been deleted, modified, and inserted into a relational table ORDER_DETAIL
+        by a lazy hacker.                                                                                                          */
+
+SELECT *
+FROM jrg
+WHERE (order_id, product_name) NOT IN (SELECT order_id, product_name
+                                       FROM ORDER_DETAIL)
+--------------
+
++----------+----------------------+------------+----------+----------+
+| ORDER_ID | PRODUCT_NAME         | UNIT_PRICE | QUANTITY | DISCOUNT |
++----------+----------------------+------------+----------+----------+
+|      267 | Boston Crab Meat     |      14.70 |       50 |     0.00 |
+|      267 | Lakkalikoori         |      14.40 |       15 |     0.15 |
+|      267 | Raclette Courdavault |      44.00 |       70 |     0.15 |
++----------+----------------------+------------+----------+----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT ORDER_DETAIL.*
+FROM ORDER_DETAIL JOIN jrg
+                  ON ORDER_DETAIL.order_id = jrg.order_id AND
+		     ORDER_DETAIL.product_name = jrg.product_name
+WHERE ORDER_DETAIL.unit_price <> jrg.unit_price OR
+      ORDER_DETAIL.quantity <> jrg.quantity OR
+      ORDER_DETAIL.discount <> jrg.discount
+--------------
+
++----------+-------------------------------+------------+----------+----------+
+| ORDER_ID | PRODUCT_NAME                  | UNIT_PRICE | QUANTITY | DISCOUNT |
++----------+-------------------------------+------------+----------+----------+
+|      248 | Mozzarella di Giovanni        |      35.80 |        6 |     0.00 |
+|      248 | Queso Cabrales                |      15.00 |       13 |     0.00 |
+|      248 | Singaporean Hokkien Fried Mee |      10.80 |       11 |     0.00 |
++----------+-------------------------------+------------+----------+----------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT *
+FROM ORDER_DETAIL
+WHERE (order_id, product_name) NOT IN (SELECT order_id, product_name
+                                       FROM jrg)
+--------------
+
++----------+-------------------------------+------------+----------+----------+
+| ORDER_ID | PRODUCT_NAME                  | UNIT_PRICE | QUANTITY | DISCOUNT |
++----------+-------------------------------+------------+----------+----------+
+|      249 | Singaporean Hokkien Fried Mee |       0.00 |        0 |     0.00 |
+|      250 | Singaporean Hokkien Fried Mee |       0.00 |        0 |     0.00 |
+|      251 | Manjimup Dried Apples         |       0.00 |        0 |     0.00 |
++----------+-------------------------------+------------+----------+----------+
+3 rows in set (0.00 sec)
+
+--------------
+/* (7)	Restore the original contents of a relational table ORDER_DETAIL and make the restored contents permanent.                  */
+
+TRUNCATE TABLE ORDER_DETAIL
+--------------
+
+Query OK, 0 rows affected (0.09 sec)
+
+--------------
+INSERT INTO ORDER_DETAIL (SELECT * FROM jrg)
+--------------
+
+Query OK, 327 rows affected (0.06 sec)
+Records: 327  Duplicates: 0  Warnings: 0
+
+--------------
+COMMIT
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+/* (8)	Drop a relational table a prefix of your University email account. */                                                         
+
+DROP TABLE jrg
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> notee;
