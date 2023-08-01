@@ -4,15 +4,25 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="main.css">  <!-- URL Relative Referencing 1 & Link Destination 1 -->
         <style>
-        
+            /* Location */
+
+            .available {
+                color: green;
+            }
+
+            .unavailable {
+                color: red;
+            }
         </style>
     </head>
     <body>
         <div class="nav">
             <a href="index.html">Car Rentals</a>
-            <a href="pages/book.html">Book A Car</a> <!-- URL Relative Referencing 2 -->
-            <a>Link Destination 2</a>
-            <a>Link Destination 3</a>
+            <div class="nav-right">
+                <a href="pages/book.html">Book A Car</a> <!-- URL Relative Referencing 2 -->
+                <a>Link Destination 2</a>
+                <a>Link Destination 3</a>
+            </div>
         </div>
         
         <div class="content">
@@ -89,10 +99,9 @@
                     </tr>
                     <tr>
                         <td rowspan="2">Contact</td> <!-- rowspan -->
-                        <td colspan="2">+61 488 555 999</td>
+                        <td colspan="2">+61 488 555 999<br>+61 455 999 888</td> <!-- colspan -->
                     </tr>
                     <tr>
-                        <td colspan="2">+61 455 999 888</td> <!-- colspan -->
                     </tr>
                 </table>
             </div>

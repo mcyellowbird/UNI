@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@100;300;400;600;700&family=Oxygen:wght@300&family=Sen:wght@400;700&display=swap');
+
+html {
+    font-family: Lato;
+    font-weight: 400;
+}
+
 body {
     width: 100%;
     height: 100%;
@@ -26,9 +33,13 @@ element for to override {
     color: black;
 }
 
-/* Location - in lab1.html embedded css, _this_ element is overridden */
+/* Location - in lab1.html embedded css, .available & .unavailable is overridden */
 
-element {
+.available {
+    color: blue;
+}
+
+.unavailable {
     color: orange;
 }
 
@@ -43,29 +54,26 @@ element2 {
 }
 
 .nav {
-    position: static; /* Position Type Fixed */
-    width: 100%;
-    height: 60px;
+    position: static;
+    overflow: hidden;
     background: #394a57;
 }
 
-.nav a:first-of-type {
-    float: left;
-    font-size: 30px;
-}
-
 .nav a {
-    float: right;
-    margin-top: auto;
-    margin-bottom: auto;
-    padding: 15px;
-    font-size: 20px;
-    color: #e3f4ff;
-    text-decoration: none
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 20px;
+    text-decoration: none;
+    font-size: 1.4rem;
 }
 
 .nav a:hover {
-    text-shadow: 0 0 3px blue;
+    background-color: #4a6274;
+}
+
+.nav-right {
+    float: right;
 }
 
 /* Floating Elements */
@@ -89,7 +97,7 @@ element {
 }
 
 table {
-    width: 70%;
+    width: 60rem;
     border-collapse: collapse;
     align-self: center;
 }
@@ -109,6 +117,7 @@ tr:hover {
 
 td, th {
     border: 1px solid #717171;
+    padding: 10px;
 }
 
 .tableImage {
@@ -119,14 +128,6 @@ td, th {
 .tableAvailability {
     font-size: 20px;
     text-align: center;
-}
-
-.available {
-    color: green;
-}
-
-.unavailable {
-    color: red;
 }
 
 .tablePrice {
@@ -150,27 +151,32 @@ td, th {
 }
 
 .content {
-    padding: 20px;
+    padding: 200px;
 }
 
 /* Thumbnail */
 
 figure img {
     text-align: center;
-    width: 100px;
+    width: 200px;
+}
+
+figcaption {
+    text-align: center;
 }
 
 figcaption.popup {
     padding: 10px;
-    background: #e5e5e5;
+    background: #58586a;
     position: absolute;
-    box-shadow: 0 0 5px #A9A9A9;
+    box-shadow: 0 0 5px #3939399b;
+    border-radius: 10px;
     
     visibility: hidden;
 }
 
 figcaption.popup img {
-    width: 300px;
+    width: 500px;
 }
 
 figure.thumbnail:hover figcaption.popup {

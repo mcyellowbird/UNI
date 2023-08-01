@@ -1,35 +1,59 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head lang="en">
         <meta charset="utf-8">
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="../main.css">
     </head>
     <body>
         <div class="nav">
-            <a href="../index.html">Car Rentals</a> <!-- URL Relative Referencing 3 -->
-            <a>Link Destination 2</a>
-            <a>Link Destination 3</a>
+            <a href="../index.html">Car Rentals</a>
+            <div class="nav-right">
+                <a href="book.html">Book A Car</a> <!-- URL Relative Referencing 2 -->
+                <a>Link Destination 2</a>
+                <a>Link Destination 3</a>
+            </div>
         </div>
-        <input type="text" placeholder="input1 - text">
-        <input type="number" placeholder="input2 - number">
-        <input type="email" placeholder="input3 - email">
-        <select>
-            <optgroup label="Group 1">
-                <option>Item 1</option>
-                <option>Item 2</option>
-            </optgroup>
-            <optgroup label="Group 2">
-                <option>Item 1</option>
-                <option>Item 2</option>
-            </optgroup>
-        </select>
-        <label>Radio Buttons</label><br>
-        <input type="radio" name="temp" value="1">Radio 1
-        <input type="radio" name="temp" value="2">Radio 2
-        <input type="radio" name="temp" value="3">Radio 3
-        <label>Checkboxes</label><br>
-        <input type="checkbox" name="tempCheck" value="1">Checkbox 1
-        <input type="date">
-        <input type="time">
+        <div class="content">
+            <form action="JavaScript:alert()" id="carform">
+                <input type="text" placeholder="Full Name">
+                <br>
+                <input type="tel" placeholder="Phone Number">
+                <br>
+                <input type="email" placeholder="Email">
+                <br><br>
+                <label for="cars">Choose a car</label><br>
+                <select name="cars" id="cars" form="carform">
+                    <optgroup label="Sedan">
+                        <option value="">Item 1</option>
+                        <option value="">Item 2</option>
+                    </optgroup>
+                    <optgroup label="Hatch">
+                        <option value="ToyotaCorolla">2018 Toyota Corolla</option>
+                        <option value="">Item 2</option>
+                    </optgroup>
+                    <optgroup label="SUV">
+                        <option value="">Item 1</option>
+                        <option value="">Item 2</option>
+                    </optgroup>
+                    <optgroup label="Coupe">
+                        <option value="">Item 1</option>
+                        <option value="">Item 2</option>
+                    </optgroup>
+                </select>
+                <br><br>
+                <label>Radio Buttons</label><br>
+                <input type="radio" name="temp" value="1">Radio 1
+                <input type="radio" name="temp" value="2">Radio 2
+                <input type="radio" name="temp" value="3">Radio 3
+                <br><br>
+                <label>Checkboxes</label><br>
+                <input type="checkbox" name="tempCheck" value="1">Checkbox 1
+                <br><br>
+                <input type="date"><br>
+                <input type="time">
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
     </body>
 </html>
