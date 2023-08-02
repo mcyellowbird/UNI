@@ -31,16 +31,17 @@
                 <a>Link Destination 3</a>
             </div>
         </div>
+        
         <div class="content">
             <form action="JavaScript:showBooking()" id="carform">
-                <input type="text" name="name" placeholder="Full Name" required>
+                <input class="boxInputs" type="text" name="name" placeholder="Full Name" required>
                 <br>
-                <input type="tel" name="phone" placeholder="Phone Number" required>
+                <input class="boxInputs" type="tel" name="phone" placeholder="Phone Number" required>
                 <br>
-                <input type="email" name="email" placeholder="Email" required>
+                <input class="boxInputs" type="email" name="email" placeholder="Email" required>
                 <br><br>
-                <label for="cars">Choose a car</label><br>
-                <select name="cars" id="cars" form="carform">
+                <label for="cars">Choose a car</label><br><br>
+                <select class="boxInputs" name="cars" id="cars" form="carform">
                     <optgroup label="Sedan">
                         <option value="1">Item 1</option>
                         <option value="2">Item 2</option>
@@ -59,23 +60,23 @@
                     </optgroup>
                 </select>
                 <br><br>
-                <label>Insurance Type</label><br>
+                <label for="insurance">Insurance Type</label><br><br>
                 <input type="radio" name="insurance" value="basic" required>Basic
                 <input type="radio" name="insurance" value="premium" required>Premium
                 <input type="radio" name="insurance" value="platinum" required>Platinum
                 <br><br>
-                <label>Add Last Minute Cancellation</label>
+                <label for="cancellation">Add Last Minute Cancellation</label><br><br>
                 <input type="checkbox" name="cancellation" value="1">
                 <br><br>
-                <label>Pickup Date and Time</label><br>
-                <input type="date" name="pickupDate" required><br>
-                <input type="time" name="pickupTime"  required><br>
+                <label for="pickupDate">Pickup Date and Time</label><br><br>
+                <input class="boxInputs" type="date" name="pickupDate" required><br>
+                <input class="boxInputs" type="time" name="pickupTime"  required><br>
                 <br>
-                <label>Drop-off Date and Time</label><br>
-                <input type="date" name="dropoffDate" required><br>
-                <input type="time" name="dropoffTime" required><br>
+                <label for="dropoffDate">Drop-off Date and Time</label><br><br>
+                <input class="boxInputs" type="date" name="dropoffDate" required><br>
+                <input class="boxInputs" type="time" name="dropoffTime" required><br>
                 <br>
-                <input type="submit" value="Submit">
+                <input class="boxInputs" type="submit" value="Submit">
             </form>
         </div>
     </body>

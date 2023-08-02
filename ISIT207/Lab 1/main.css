@@ -28,7 +28,7 @@ element {
     color: red;
 }
 
-element for to override {
+element to override {
     font-weight: 400;
     color: black;
 }
@@ -44,10 +44,6 @@ element for to override {
 }
 
 /* Positioning */
-
-element1 {
-    position: relative;  /* Position Type Relative */
-}
 
 element2 {
     position: absolute;  /* Position Type Absolute */
@@ -89,7 +85,8 @@ element {
 /* Table */
 
 
-.tableContainer {
+.tableContainer { /* Position Type Relative */
+    position: relative;
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -103,16 +100,16 @@ table {
 }
 
 tr {
-    background: #e3e3ff;
+    background: #f0f0fa;
     border: 1px solid #717171;
 }
 
 tr:nth-of-type(even){
-    background: #dcdcff;
+    background: #d5d5e0;
 }
 
 tr:hover {
-    background: #c1c1ff;
+    background: #c0c0db;
 }
 
 td, th {
@@ -151,7 +148,7 @@ td, th {
 }
 
 .content {
-    padding: 200px;
+    padding: 100px;
 }
 
 /* Thumbnail */
@@ -183,4 +180,47 @@ figure.thumbnail:hover figcaption.popup {
     position: absolute;
     
     visibility: visible;
+}
+
+/* Form & Inputs */
+
+form {
+    background: #f0f0fa;
+    padding: 20px;
+    width: 400px;
+    margin: auto;
+    
+    border-radius: 10px;
+    box-shadow: 0 0 6px 2px #b7b7ba;
+}
+
+.boxInputs {
+    border: 0;
+    outline: 1px solid #797979;
+    border-radius: .2rem;
+    padding: .3rem;
+    margin: 5px 0px;
+}
+
+.boxInputs:focus {
+    outline: 2px solid #5c5c5c;
+}
+
+label {
+    font-size: 18px;
+    color: #454444;
+}
+
+input[type="radio"] {
+    margin: 0px;
+    width: 20px;
+}
+
+input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+}
+
+input[type="submit"] {
+    padding: 5px 10px;
 }
