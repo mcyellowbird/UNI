@@ -147,6 +147,12 @@ td, th {
     font-size: 30px;
 }
 
+/*
+#tableSide {
+    text-align: left;
+}
+*/
+
 .content {
     padding: 100px;
 }
@@ -174,6 +180,10 @@ figcaption.popup {
 
 figcaption.popup img {
     width: 500px;
+}
+
+figcaption p {
+    color: azure;
 }
 
 figure.thumbnail:hover figcaption.popup {
