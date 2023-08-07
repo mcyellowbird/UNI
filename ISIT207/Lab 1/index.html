@@ -15,33 +15,36 @@
             }
         </style>
     </head>
-    <body>
-        <div class="nav">
-            <a href="index.html">Car Rentals</a>
+    <body id="top">
+        <div class="nav" id="nav">
+            <a id="homeButton" href="#top"><img src="images/logofinal.png" width="135px" /></a> <!-- Link Destination 1 -->
+
             <div class="nav-right">
-                <a href="pages/book.html">Book A Car</a> <!-- URL Relative Referencing 2 -->
-                <a>Link Destination 2</a>
-                <a>Link Destination 3</a>
+                <a href="pages/book.html">Book A Car</a> <!-- URL Relative Referencing 2 --> <!-- Link Destination 2-->
+                <a href="https://www.caranddriver.com/shopping-advice/g26100588/car-types/" target="_blank">Car Types</a> <!-- Link Destination 3-->
             </div>
         </div>
         
-        <div class="content">
+        <div class="content" id="content">
             <div class="tableContainer">
                 <label id="tableLabel">Cars To Rent</label>
-                <table>
+                <table class="carTable"> <!-- Table -->
                     <tr>
-                        <th id="tableSide" rowspan="5">Click "Book A Car"<br>at the top of the page to make a booking</th> <!-- rowspan -->
+                        <th></th>
                         <th>Image</th>
                         <th>Availability</th>
                         <th>Pricing</th>
                     </tr>
+                     <!-- Hatchbacks -->
                     <tr>
+                        <td id="tableSide" rowspan="4">Hatchback</td> <!-- rowspan -->
                         <td class="tableImage">
-                            <figure class="thumbnail">
-                                <img src="images/corollaSmall.webp" alt="Figure With thumbnail">
-                                <figcaption class="popup">
+                            <figure class="thumbnail"> <!-- Figure -->
+                                <img src="images/corollaSmall.webp" alt="Figure With thumbnail"> <!-- Image -->
+                                <p>Toyota Corolla</p>
+                                <figcaption class="popup"> <!-- Figure Caption -->
                                     <img src="images/corollaSmall.webp" alt="Figure With thumbnail">
-                                    <p>2018 Toyota Corolla</p>
+                                    <p>Toyota Corolla</p>
                                 </figcaption>
                             </figure>
                         </td>
@@ -52,12 +55,43 @@
                                 <li>2 Days: $115</li>
                                 <li>3 Days: $170</li>
                                 <li>4 Days: $225</li>
-                                <li>5 Days+: $240 + $40/day</li>
+                                <li>5 Days+: $240 + $20/day</li>
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td class="tableImage"><img src="images/car1.png" alt="Car"></td>
+                        <td class="tableImage">
+                            <figure class="thumbnail"> <!-- Figure -->
+                                <img src="https://r-media.volkswagen.com/v2/VW/5H0-2023-MULTI/5H0-2023-MP2/20230612/en-AU-au/0Q0Q/BD/0B3,0FA,0IH,0K0,0N4,0NB,0P0,1A5,1E5,1G9,1J0,1KE,1M5,1X0,1ZE,2CM,2F0,2FE,2H0,2JB,31K,3A1,3CA,3FA,3H0,3L3,3LM,3NU,3QH,3S2,3T2,3ZU,4A0,4D0,4E0,4GF,4I7,4KC,4L6,4P3,4UE,4ZQ,5C0,5F1,5JA,5MA,5XJ,5ZF,6C4,6E3,6FF,6I2,6Q1,6XN,6Y8,7B0,7J1,7P0,7Q0,7X5,7Y1,8G0,8IR,8J3,8N6,8Q1,8RL,8T8,8TL,8VG,8WA,8Z6,8ZH,9JA,9M0,9P4,9Z0,9ZX,A8B,AV0,B0R,C2F,DG6,E0A,EL0,EZ1,G1F,GW0,I8Q,K8D,KA2,KH7,KS0,L0R,N4C,NZ0,Q1A,QJ0,QK1,QQ0,QV3,TL1,U9E,UD0,UH1,VF0/D6MOFA34FrontPC/b19d7b4a-df80-487c-908a-47785dbb35fc/b2204de51abb5fdbb61edb8ecf3b10efb1034642d77e03922651e81bfdc00628.png?width=864" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                                <p>Volkswagen Golf</p>
+                                <figcaption class="popup"> <!-- Figure Caption -->
+                                    <img src="https://r-media.volkswagen.com/v2/VW/5H0-2023-MULTI/5H0-2023-MP2/20230612/en-AU-au/0Q0Q/BD/0B3,0FA,0IH,0K0,0N4,0NB,0P0,1A5,1E5,1G9,1J0,1KE,1M5,1X0,1ZE,2CM,2F0,2FE,2H0,2JB,31K,3A1,3CA,3FA,3H0,3L3,3LM,3NU,3QH,3S2,3T2,3ZU,4A0,4D0,4E0,4GF,4I7,4KC,4L6,4P3,4UE,4ZQ,5C0,5F1,5JA,5MA,5XJ,5ZF,6C4,6E3,6FF,6I2,6Q1,6XN,6Y8,7B0,7J1,7P0,7Q0,7X5,7Y1,8G0,8IR,8J3,8N6,8Q1,8RL,8T8,8TL,8VG,8WA,8Z6,8ZH,9JA,9M0,9P4,9Z0,9ZX,A8B,AV0,B0R,C2F,DG6,E0A,EL0,EZ1,G1F,GW0,I8Q,K8D,KA2,KH7,KS0,L0R,N4C,NZ0,Q1A,QJ0,QK1,QQ0,QV3,TL1,U9E,UD0,UH1,VF0/D6MOFA34FrontPC/b19d7b4a-df80-487c-908a-47785dbb35fc/b2204de51abb5fdbb61edb8ecf3b10efb1034642d77e03922651e81bfdc00628.png?width=864" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                    <p>Volkswagen Golf</p>
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td class="tableAvailability available">Available</td>
+                        <td class="tablePrice">
+                            <ul>
+                                <li>1 Day: $65</li>
+                                <li>2 Days: $125</li>
+                                <li>3 Days: $185</li>
+                                <li>4 Days: $245</li>
+                                <li>5 Days+: $270 + $25/day</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableImage">
+                            <figure class="thumbnail"> <!-- Figure -->
+                                <img src="https://s3-ap-southeast-2.amazonaws.com/imotor-cms/images_cms/217982_mazda3-g20pure-june22-as.png" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                                <p>Mazda 3</p>
+                                <figcaption class="popup"> <!-- Figure Caption -->
+                                    <img src="https://s3-ap-southeast-2.amazonaws.com/imotor-cms/images_cms/217982_mazda3-g20pure-june22-as.png" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                    <p>Mazda 3</p>
+                                </figcaption>
+                            </figure>
+                        </td>
                         <td class="tableAvailability unavailable">Unavailable</td>
                         <td class="tablePrice">
                             <ul>
@@ -65,12 +99,21 @@
                                 <li>2 Days: $115</li>
                                 <li>3 Days: $170</li>
                                 <li>4 Days: $225</li>
-                                <li>5 Days+: $240 + $40/day</li>
+                                <li>5 Days+: $240 + $20/day</li>
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td class="tableImage"><img src="images/car1.png" alt="Car"></td>
+                        <td class="tableImage">
+                            <figure class="thumbnail"> <!-- Figure -->
+                                <img src="https://carsguide-res.cloudinary.com/image/upload/f_auto,fl_lossy,q_auto,t_default/v1/editorial/ford-focus-my19-index-1.png" alt="Figure With thumbnail"> <!-- Image -->
+                                <p>Ford Focus</p>
+                                <figcaption class="popup"> <!-- Figure Caption -->
+                                    <img src="https://carsguide-res.cloudinary.com/image/upload/f_auto,fl_lossy,q_auto,t_default/v1/editorial/ford-focus-my19-index-1.png" alt="Figure With thumbnail">
+                                    <p>Ford Focus</p>
+                                </figcaption>
+                            </figure>
+                        </td>
                         <td class="tableAvailability available">Available</td>
                         <td class="tablePrice">
                             <ul>
@@ -78,23 +121,283 @@
                                 <li>2 Days: $115</li>
                                 <li>3 Days: $170</li>
                                 <li>4 Days: $225</li>
-                                <li>5 Days+: $240 + $40/day</li>
+                                <li>5 Days+: $240 + $20/day</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                     <!-- Sedans -->
+                     <tr>
+                        <td id="tableSide" rowspan="4">Sedan</td> <!-- rowspan -->
+                        <td class="tableImage">
+                            <figure class="thumbnail"> <!-- Figure -->
+                                <img src="https://cdn.rotorint.com/Camry/2021_02_Feb/e/360/png/lo/907x510/SPN_CMR_010040FA202Z76730A0_comp_002.png" alt="Figure With thumbnail"> <!-- Image -->
+                                <p>Toyota Camry</p>
+                                <figcaption class="popup"> <!-- Figure Caption -->
+                                    <img src="https://cdn.rotorint.com/Camry/2021_02_Feb/e/360/png/lo/907x510/SPN_CMR_010040FA202Z76730A0_comp_002.png" alt="Figure With thumbnail">
+                                    <p>Toyota Camry</p>
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td class="tableAvailability unavailable">Unavailable</td>
+                        <td class="tablePrice">
+                            <ul>
+                                <li>1 Day: $65</li>
+                                <li>2 Days: $120</li>
+                                <li>3 Days: $175</li>
+                                <li>4 Days: $230</li>
+                                <li>5 Days+: $245 + $25/day</li>
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td class="tableImage"><img src="images/car1.png" alt="Car"></td>
+                        <td class="tableImage">
+                            <figure class="thumbnail"> <!-- Figure -->
+                                <img src="https://www.motortrend.com/uploads/sites/10/2017/12/2018-honda-accord-ex-sedan-angular-front.png" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                                <p>Honda Accord</p>
+                                <figcaption class="popup"> <!-- Figure Caption -->
+                                    <img src="https://www.motortrend.com/uploads/sites/10/2017/12/2018-honda-accord-ex-sedan-angular-front.png" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                    <p>Honda Accord</p>
+                                </figcaption>
+                            </figure>
+                        </td>
                         <td class="tableAvailability available">Available</td>
                         <td class="tablePrice">
                             <ul>
-                                <li>1 Day: $60</li>
-                                <li>2 Days: $115</li>
-                                <li>3 Days: $170</li>
-                                <li>4 Days: $225</li>
-                                <li>5 Days+: $240 + $40/day</li>
+                                <li>1 Day: $65</li>
+                                <li>2 Days: $120</li>
+                                <li>3 Days: $175</li>
+                                <li>4 Days: $230</li>
+                                <li>5 Days+: $245 + $25/day</li>
                             </ul>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="tableImage">
+                            <figure class="thumbnail"> <!-- Figure -->
+                                <img src="https://www.hyundai.com/content/dam/hyundai/au/en/models/sonata-n-line/2021/05/n-line/Hyundai_Sonata-NLine-Front34-WhiteCream_1000x667.png" alt="Figure With thumbnail"> <!-- Image -->
+                                <p>Hyundai Sonata</p>
+                                <figcaption class="popup"> <!-- Figure Caption -->
+                                    <img src="https://www.hyundai.com/content/dam/hyundai/au/en/models/sonata-n-line/2021/05/n-line/Hyundai_Sonata-NLine-Front34-WhiteCream_1000x667.png" alt="Figure With thumbnail">
+                                    <p>Hyundai Sonata</p>
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td class="tableAvailability available">Available</td>
+                        <td class="tablePrice">
+                            <ul>
+                                <li>1 Day: $65</li>
+                                <li>2 Days: $120</li>
+                                <li>3 Days: $175</li>
+                                <li>4 Days: $230</li>
+                                <li>5 Days+: $245 + $25/day</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableImage">
+                            <figure class="thumbnail"> <!-- Figure -->
+                                <img src="https://www.mandurahmazda.com.au/wp-content/uploads/rotatecars/mazda6/sedan/snowflake-white-pearl-mica/01.png" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                                <p>Mazda 6</p>
+                                <figcaption class="popup"> <!-- Figure Caption -->
+                                    <img src="https://www.mandurahmazda.com.au/wp-content/uploads/rotatecars/mazda6/sedan/snowflake-white-pearl-mica/01.png" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                    <p>Mazda 6</p>
+                                </figcaption>
+                            </figure>
+                        </td>
+                        <td class="tableAvailability available">Available</td>
+                        <td class="tablePrice">
+                            <ul>
+                                <li>1 Day: $65</li>
+                                <li>2 Days: $120</li>
+                                <li>3 Days: $175</li>
+                                <li>4 Days: $230</li>
+                                <li>5 Days+: $245 + $25/day</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                    <!-- SUVs -->
+                    <tr>
+                       <td id="tableSide" rowspan="4">SUV</td> <!-- rowspan -->
+                       <td class="tableImage">
+                           <figure class="thumbnail"> <!-- Figure -->
+                               <img src="https://carsguide-res.cloudinary.com/image/upload/f_auto,fl_lossy,q_auto,t_default/v1/editorial/toyota-rav4-my19-index-1.png" alt="Figure With thumbnail"> <!-- Image -->
+                               <p>Toyota RAV4</p>
+                               <figcaption class="popup"> <!-- Figure Caption -->
+                                   <img src="https://carsguide-res.cloudinary.com/image/upload/f_auto,fl_lossy,q_auto,t_default/v1/editorial/toyota-rav4-my19-index-1.png" alt="Figure With thumbnail">
+                                   <p>Toyota RAV4</p>
+                               </figcaption>
+                           </figure>
+                       </td>
+                       <td class="tableAvailability available">Available</td>
+                       <td class="tablePrice">
+                           <ul>
+                               <li>1 Day: $70</li>
+                               <li>2 Days: $130</li>
+                               <li>3 Days: $190</li>
+                               <li>4 Days: $250</li>
+                               <li>5 Days+: $265 + $30/day</li>
+                           </ul>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td class="tableImage">
+                           <figure class="thumbnail"> <!-- Figure -->
+                               <img src="https://vehicle-images.dealerinspire.com/stock-images/thumbnails/large/chrome/eeb1baffd0362d8340e79b49acab868e.png" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                               <p>Honda CR-V</p>
+                               <figcaption class="popup"> <!-- Figure Caption -->
+                                   <img src="https://vehicle-images.dealerinspire.com/stock-images/thumbnails/large/chrome/eeb1baffd0362d8340e79b49acab868e.png" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                   <p>Honda CR-V</p>
+                               </figcaption>
+                           </figure>
+                       </td>
+                       <td class="tableAvailability unavailable">Unavailable</td>
+                       <td class="tablePrice">
+                           <ul>
+                            <li>1 Day: $70</li>
+                            <li>2 Days: $130</li>
+                            <li>3 Days: $190</li>
+                            <li>4 Days: $250</li>
+                            <li>5 Days+: $265 + $30/day</li>
+                           </ul>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td class="tableImage">
+                           <figure class="thumbnail"> <!-- Figure -->
+                               <img src="https://www.mazda.com.au/498bb3/globalassets/settings/vehicle-assets/cx-5/2023-04-bt2/qc/akera/maz15211_cx-5_awd_d35_akera_sonic_silver_metallic_cx5maw5acdn4_front_3-4_980x520px.png" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                               <p>Mazda CX-5</p>
+                               <figcaption class="popup"> <!-- Figure Caption -->
+                                   <img src="https://www.mazda.com.au/498bb3/globalassets/settings/vehicle-assets/cx-5/2023-04-bt2/qc/akera/maz15211_cx-5_awd_d35_akera_sonic_silver_metallic_cx5maw5acdn4_front_3-4_980x520px.png" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                   <p>Mazda CX-5</p>
+                               </figcaption>
+                           </figure>
+                       </td>
+                       <td class="tableAvailability available">Available</td>
+                       <td class="tablePrice">
+                           <ul>
+                            <li>1 Day: $70</li>
+                            <li>2 Days: $130</li>
+                            <li>3 Days: $190</li>
+                            <li>4 Days: $250</li>
+                            <li>5 Days+: $265 + $30/day</li>
+                           </ul>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td class="tableImage">
+                           <figure class="thumbnail"> <!-- Figure -->
+                               <img src="https://carsguide-res.cloudinary.com/image/upload/f_auto,fl_lossy,q_auto,t_cg_hero_low/v1/editorial/hyundai-tucson-my21-index-1.png" alt="Figure With thumbnail"> <!-- Image -->
+                               <p>Hyundai Tucson</p>
+                               <figcaption class="popup"> <!-- Figure Caption -->
+                                   <img src="https://carsguide-res.cloudinary.com/image/upload/f_auto,fl_lossy,q_auto,t_cg_hero_low/v1/editorial/hyundai-tucson-my21-index-1.png" alt="Figure With thumbnail">
+                                   <p>Hyundai Tucson</p>
+                               </figcaption>
+                           </figure>
+                       </td>
+                       <td class="tableAvailability unavailable">Unavailable</td>
+                       <td class="tablePrice">
+                           <ul>
+                            <li>1 Day: $70</li>
+                            <li>2 Days: $130</li>
+                            <li>3 Days: $190</li>
+                            <li>4 Days: $250</li>
+                            <li>5 Days+: $265 + $30/day</li>
+                           </ul>
+                       </td>
+                   </tr>
+                    
+                   <!-- Coupes -->
+                   <tr>
+                      <td id="tableSide" rowspan="4">Coupe</td> <!-- rowspan -->
+                      <td class="tableImage">
+                          <figure class="thumbnail"> <!-- Figure -->
+                              <img src="https://www.citysubaru.com.au/wp-content/uploads/2020/01/BRZ-Silver-Metallic-Front.png" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                              <p>Subaru BRZ</p>
+                              <figcaption class="popup"> <!-- Figure Caption -->
+                                  <img src="https://www.citysubaru.com.au/wp-content/uploads/2020/01/BRZ-Silver-Metallic-Front.png" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                  <p>Subaru BRZ</p>
+                              </figcaption>
+                          </figure>
+                      </td>
+                      <td class="tableAvailability available">Available</td>
+                      <td class="tablePrice">
+                          <ul>
+                            <li>1 Day: $70</li>
+                            <li>2 Days: $130</li>
+                            <li>3 Days: $190</li>
+                            <li>4 Days: $250</li>
+                            <li>5 Days+: $265 + $30/day</li>
+                          </ul>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class="tableImage">
+                          <figure class="thumbnail"> <!-- Figure -->
+                              <img src="https://images.carexpert.com.au/resize/3000/-/app/uploads/2022/05/2022-BMW-230i-1.png" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                              <p>BMW 2 Series</p>
+                              <figcaption class="popup"> <!-- Figure Caption -->
+                                  <img src="https://images.carexpert.com.au/resize/3000/-/app/uploads/2022/05/2022-BMW-230i-1.png" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                  <p>BMW 2 Series</p>
+                              </figcaption>
+                          </figure>
+                      </td>
+                      <td class="tableAvailability available">Available</td>
+                      <td class="tablePrice">
+                          <ul>
+                            <li>1 Day: $80</li>
+                            <li>2 Days: $140</li>
+                            <li>3 Days: $200</li>
+                            <li>4 Days: $260</li>
+                            <li>5 Days+: $275 + $35/day</li>
+                          </ul>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class="tableImage">
+                          <figure class="thumbnail"> <!-- Figure -->
+                              <img src="https://images.drive.com.au/driveau/image/upload/c_fill,f_auto,g_auto,h_360,q_auto:best,w_640/v1/cms/uploads/nse0mi0b74qpjl9fd9ak" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                              <p>Audi A5</p>
+                              <figcaption class="popup"> <!-- Figure Caption -->
+                                  <img src="https://images.drive.com.au/driveau/image/upload/c_fill,f_auto,g_auto,h_360,q_auto:best,w_640/v1/cms/uploads/nse0mi0b74qpjl9fd9ak" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                  <p>Audi A5</p>
+                              </figcaption>
+                          </figure>
+                      </td>
+                      <td class="tableAvailability unavailable">Unavailable</td>
+                      <td class="tablePrice">
+                          <ul>
+                            <li>1 Day: $80</li>
+                            <li>2 Days: $140</li>
+                            <li>3 Days: $200</li>
+                            <li>4 Days: $260</li>
+                            <li>5 Days+: $275 + $35/day</li>
+                          </ul>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td class="tableImage">
+                          <figure class="thumbnail"> <!-- Figure -->
+                              <img src="https://images.drive.com.au/driveau/image/upload/c_fill,f_auto,g_auto,h_360,q_auto:best,w_640/v1/cms/uploads/l506q2qwxsgiprlxcsx2" alt="Figure With thumbnail" style="transform: scaleX(-1)"> <!-- Image -->
+                              <p>Audi TT</p>
+                              <figcaption class="popup"> <!-- Figure Caption -->
+                                  <img src="https://images.drive.com.au/driveau/image/upload/c_fill,f_auto,g_auto,h_360,q_auto:best,w_640/v1/cms/uploads/l506q2qwxsgiprlxcsx2" alt="Figure With thumbnail" style="transform: scaleX(-1)">
+                                  <p>Audi TT</p>
+                              </figcaption>
+                          </figure>
+                      </td>
+                      <td class="tableAvailability available">Available</td>
+                      <td class="tablePrice">
+                          <ul>
+                            <li>1 Day: $80</li>
+                            <li>2 Days: $140</li>
+                            <li>3 Days: $200</li>
+                            <li>4 Days: $260</li>
+                            <li>5 Days+: $275 + $35/day</li>
+                          </ul>
+                      </td>
+                  </tr>
                     <tr>
                         <td colspan="2">Contact</td>
                         <td colspan="2">+61 488 555 999<br>+61 455 999 888</td> <!-- colspan -->
