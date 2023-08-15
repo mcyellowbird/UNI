@@ -1,0 +1,42 @@
+<html>    
+<head>
+<title>Changing className Properties</title>
+<script>
+   var brnCntr=2;
+   if (document.images) {
+    var banners = new Array( );
+    banners[0] = "images/plant001.gif";
+    banners[1] = "images/plant002.gif";
+    banners[2] = "images/plant003.gif";
+    banners[3] = "images/plant004.gif";
+    var ref = new Array( );
+    ref[0]="http://www.uow.edu.au";
+    ref[1]="http://www.yahoo.com";
+    ref[2]="http://www.usyd.edu.au";
+    ref[3]="http://www.google.com";
+
+}
+function changeImage() {
+    brnCntr=brnCntr+1;
+    if (brnCntr==4) brnCntr=0;
+    document.myimage.src=banners[brnCntr];
+    document.getElementById('myAnchor').href=ref[brnCntr];
+    setTimeout("changeImage()",3000);
+}
+</script>
+</head>
+<body onload="changeImage()">
+<a href="http://www.google.com" name="myAnchor" id="myAnchor" >
+<DIV ALIGN="CENTER">
+<img src="images/plant002.gif" name="myimage" id="myimage" height="200" width="200" 
+border="0" alt="flower images">
+</DIV>
+</a>
+
+</body>
+</html>
+
+ 
+
+
+

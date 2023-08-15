@@ -1,0 +1,40 @@
+<html>    
+<head>
+<title>Changing style Properties</title>
+<style type="text/css">
+    #hot1 {color:red}
+</style>
+<script language="JavaScript" type="text/javascript">
+// Set global variables
+var totalCycles = 0;
+var currColor = 0;
+var colors, intervalID;
+// Build array of color names
+function init( ) {
+    colors = ["red", "green", "yellow", "blue"];
+}
+// Advance the color by one
+function cycleColors( ) {
+    // reset counter to 0 if it reaches 3; otherwise increment by 1
+    currColor = (currColor == 3) ? 0 : ++currColor;
+    // set style color to new color from array
+    document.getElementById("hot1").style.color = colors[currColor];
+    // invoke this function again until total = 27 so it ends on red
+    if (totalCycles++ < 27) {
+        intervalID = setTimeout("cycleColors( )", 500);
+    } else {
+        clearTimeout(intervalID);
+    }
+}
+</script>
+</head>
+<body onload="init(); cycleColors( );">
+<h1>Welcome to the <span id="hot1">Hot Zone</span> Web Site</h1>
+<hr>
+</body>
+</html>
+
+ 
+
+
+

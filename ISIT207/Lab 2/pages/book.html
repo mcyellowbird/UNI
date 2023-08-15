@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../main.css">
+        <script>
+            function isDateBefore() {
+                return new Date(date.toDateString()) < new Date(new Date().toDateString());
+            }
+
+            function validateBooking(){
+                var form = document.getElementById("carForm");
+                var formArray = new FormData(form);
+                var formValidated = false;
+
+                var formPickupDate = new Date(formArray.get('pickupDate'));
+                var formDropoffDate = new Date(formArray.get('dropoffDate'));
+                var formPickupTime = formArray.get('pickupTime');
+                var formDropoffTime = formArray.get('dropoffTime');
+                console.log(formPickupDate)
+                if (!isDateBefore(formPickupDate)){
+                    if (!isDateBefore(formDropoffDate)){
+                        formValidated = true;
+                    }
+                    else {
+                        alert("The dropoff date must not be before today");
+                    }
+                }
+                else{
+                    alert("The pickup date must not be before today");
+                }
+
+                if (formDroppoffTime < formPickupTime){
+                    alert("The dropoff time must be after the pickup time");
+                    formValidated = false;
+                }
+                else {
+                    formValidated = true;
+                }
+
+                if (formValidated){
+                    alert("Booking Placed:" + '\n' +
+                          "Name: " + formArray.get('name') + '\n' +
+                          "Phone: " + formArray.get('phone') + '\n' +
+                          "Email: " + formArray.get('email') + '\n' +
+                          "Car: " + formArray.get('cars') + '\n' +
+                          "Insurance: " + formArray.get('insurance') + '\n' +
+                          "Cancellation: " + formArray.get('cancellation') + '\n' +
+                          "Pickup Date: " + formArray.get('pickupDate') + '\n' +
+                          "Pickup Time: " + formArray.get('pickupTime') + '\n' +
+                          "Drop-off Date: " + formArray.get('dropoffDate') + '\n' +
+                          "Drop-off Time: " + formArray.get('dropoffTime')
+                    );
+                }
+            }
+        </script>
+    </head>
+    <body id="top">
+        <div class="nav">
+            <a id="homeButton" href="../index.html"><img src="../images/logofinal.png" width="135px" /></a> <!-- URL Relative Referencing 3 -->
+
+            <div class="nav-right">
+                <a href="#top">Book A Car</a> <!-- URL Relative Referencing 2 --> <!-- Link Destination 2-->
+                <a href="https://www.caranddriver.com/shopping-advice/g26100588/car-types/" target="_blank">Car Types</a> <!-- Link Destination 3-->
+            </div>
+        </div>
+        
+        <div class="content">
+            <form action="JavaScript:validateBooking()" id="carForm"> <!-- Another Link Destination -->
+                <table class="bookTable">
+                    <tr>
+                        <td colspan="2">
+                            <input class="boxInputs" type="text" name="name" placeholder="Full Name" pattern="^(\w\w+)\s(\w+)$" required>
+                            <input class="boxInputs" type="tel" name="phone" placeholder="Phone Number" pattern="^\({0,1}((0|\+61)(2|4|3|7|8)){0,1}\){0,1}( |-){0,1}[0-9]{2}( |-){0,1}[0-9]{2}( |-){0,1}[0-9]{1}( |-){0,1}[0-9]{3}$" required>
+                            <input class="boxInputs" type="email" name="email" placeholder="Email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br>
+                            <label for="cars">Choose a car</label><br><br>
+                            <select class="boxInputs" name="cars" id="cars" form="carForm">
+                                <optgroup label="Hatch">
+                                    <option value="Toyota Corolla">Toyota Corolla</option>
+                                    <option value="Volkswagen Golf">Volkswagen Golf</option>
+                                    <option value="Mazda 3">Mazda 3</option>
+                                    <option value="Ford Focus">Ford Focus</option>
+                                </optgroup>
+                                <optgroup label="Sedan">
+                                    <option value="Toyota Camry">Toyota Camry</option>
+                                    <option value="Honda Accord">Honda Accord</option>
+                                    <option value="Hyundai Sonata">Hyundai Sonata</option>
+                                    <option value="Mazda 6">Mazda 6</option>
+                                </optgroup>
+                                <optgroup label="SUV">
+                                    <option value="Toyota RAV4">Toyota RAV4</option>
+                                    <option value="Honda CR-V">Honda CR-V</option>
+                                    <option value="Mazda CX-5">Mazda CX-5</option>
+                                    <option value="Hyundai Tucson">Hyundai Tucson</option>
+                                </optgroup>
+                                <optgroup label="Coupe">
+                                    <option value="Subaru BRZ">Subaru BRZ</option>
+                                    <option value="BMW 2 Series">BMW 2 Series</option>
+                                    <option value="Audi A5">Audi A5</option>
+                                    <option value="AUDI TT">AUDI TT</option>
+                                </optgroup>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="insurance">Insurance Type</label><br><br>
+                            <a><input type="radio" name="insurance" value="basic" required>Basic</a>
+                            <a><input type="radio" name="insurance" value="premium" required>Premium</a>
+                            <a><input type="radio" name="insurance" value="platinum" required>Platinum</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br>
+                            <label for="cancellation">Driving more than 1000km?</label><br><br>
+                            <input type="checkbox" name="cancellation" value="1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br>
+                            <label for="pickupDate">Pickup Date and Time</label><br><br>
+                            <input class="boxInputs" type="date" name="pickupDate" required><br><br>
+                            <input class="boxInputs" type="time" name="pickupTime" min="08:30:00" max="16:30:00" required><br>
+                        </td>
+                        <td>
+                            <br>
+                            <label for="dropoffDate">Drop-off Date and Time</label><br><br>
+                            <input class="boxInputs" type="date" name="dropoffDate" required><br><br>
+                            <input class="boxInputs" type="time" name="dropoffTime" min="08:30:00" max="16:30:00" required><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <br>
+                            <input class="boxInputs" type="submit" value="Submit">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

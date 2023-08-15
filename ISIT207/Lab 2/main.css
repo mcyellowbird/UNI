@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@100;300;400;600;700&family=Oxygen:wght@300&family=Sen:wght@400;700&display=swap');
+
+:root {
+    --accent: #f0ffff;
+    --nav: #394a57;
+}
+
+html {
+    font-family: Lato;
+    font-weight: 400;
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: whitesmoke;
+}
+
+/* Location - in lab1.html embedded css, .available & .unavailable is overridden */
+
+.available {
+    color: blue;
+}
+
+.unavailable {
+    color: orange;
+}
+
+.nav {
+    position: sticky;  /* Position Type Sticky */
+    z-index: 100;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: var(--nav);
+}
+
+.nav a {
+    float: left; /* Floating Element */
+    color: var(--accent);
+    text-align: center;
+    padding: 20px;
+    text-decoration: none;
+    font-size: 1.4rem;
+    transition: background-color .3s;
+}
+
+.nav a:hover {
+    background-color: #556776;
+    transition: background-color .3s;
+}
+
+.nav-right {
+    float: right; /* Floating Element */
+}
+
+/* Table */
+
+.tableContainer { /* Position Type Static */
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.carTable {
+    width: 60rem;
+    border-collapse: collapse;
+    align-self: center;
+    padding: 5px;
+    box-shadow: 0 0 6px 2px #b7b7ba;
+    border: none;
+    border-radius: 10px;
+}
+
+.carTable tr {
+    background-color: #f0f0fa;
+    transition: background-color .2s;
+    border: none;
+}
+
+
+.carTable th:first-of-type {
+    border-top-left-radius: 10px;
+    border-bottom: none;
+}
+
+.carTable th:last-of-type {
+    border-top-right-radius: 10px;
+}
+
+.carTable tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 10px;
+}
+
+.carTable tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 10px;
+}
+
+.carTable tr:nth-of-type(even){
+    background: #d5d5e0;
+}
+
+.carTable tr:hover {
+    background-color: #c0c0db;
+}
+
+.carTable td, .carTable th {
+    padding: 10px;
+}
+
+.carTable th {
+    border-bottom: 1px solid #7171715a;
+}
+
+.tableImage {
+    border-bottom: 1px solid #7171715a;
+    border-left: 1px solid #7171715a;
+}
+
+.tableAvailability {
+    font-size: 20px;
+    text-align: center;
+    border-bottom: 1px solid #7171715a;
+}
+
+.tablePrice {
+    font-size: 20px;
+    text-align: center;
+    border-bottom: 1px solid #7171715a;
+}
+
+.tablePrice ul {
+    list-style-type: none;
+}
+
+.tablePrice ul li {
+    text-align: left;
+    font-size: 16px;
+}
+
+#tableSide {
+    background-color: #f0f0fa;
+    text-align: center;
+    font-weight: bold;
+    border-top: 1px solid #7171715a;
+}
+
+#tableSide:hover + td, #tableSide:hover + td + td, #tableSide:hover + td + td + td {
+    background-color: #d5d5e0;
+}
+
+#tableLabel {
+    padding: 20px;
+    text-align: center;
+    font-size: 30px;
+}
+
+#homeButton {
+    padding: 10px; /* Specificity - #homeButton is an anchor tag. .nav a   sets padding to 20px, here it overrides to 10px */
+    align-content: center;
+    vertical-align: middle;
+    transition: background-color .3s;
+}
+
+#homeButton > img {
+    display: block;
+    filter: invert(99%) sepia(59%) saturate(559%) hue-rotate(158deg) brightness(104%) contrast(104%);
+}
+
+#homeButton:hover {
+    background-color: #556776;
+}
+
+.content {
+    padding: 100px;
+}
+
+/* Thumbnail */
+
+figure img {
+    text-align: center;
+    float: left; /* Floating */
+    width: 200px;
+}
+
+figure > p {
+    clear: left; /* Clear Float */
+    width: 200px;
+    text-align: center;
+    color: black;
+}
+
+figcaption {
+    text-align: center;
+}
+
+figcaption.popup {
+    padding: 10px;
+    background: #2a3d69;
+    position: absolute;  /* Position Type Absolute */
+    box-shadow: 0 0 5px #3939399b;
+    border-radius: 10px;
+    
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .2s, visibility 0s 0.2s;
+    z-index: 100;
+}
+
+figcaption.popup img {
+    width: 500px;
+}
+
+figcaption p {
+    color: var(--accent);
+}
+
+figure.thumbnail:hover figcaption.popup {
+    position: absolute;
+    opacity: 1;
+    transition: opacity .2s;
+    visibility: visible;
+}
+
+/* Form & Inputs */
+
+form {
+    display: flex;
+    flex-direction: column;
+    background: rgb(255, 255, 255);
+    padding: 20px;
+    width: fit-content;
+    margin: auto;
+    
+    border-radius: 10px;
+    box-shadow: 0 0 6px 2px #b7b7ba;
+    text-align: center;
+}
+
+.bookTable {
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.bookTable td {
+    padding-bottom: 20px;
+}
+
+.bookTable tr:last-of-type td {
+    padding: 0;
+}
+
+.bookTable tr:not(:last-of-type) {
+    border-bottom: 2px solid rgba(132, 132, 132, 0.152);
+}
+
+.boxInputs {
+    padding: 5px;
+    width: 200px;
+    margin: 0px 2px;
+    height: 30px;
+    border-style: groove;
+    border-width: 2px;
+    border-color: rgb(217, 217, 217);
+    border-radius: 5px;
+    transition: border .2s;
+}
+
+.boxInputs[type="tel"] {
+    margin: 0px 10px;
+}
+
+.boxInputs:focus {
+    border-color: #5c5c5c;
+}
+
+label {
+    font-size: 18px;
+    color: #454444;
+}
+
+input[type="radio"] {
+    margin: inherit; /* Inheritance - from bookTable class */
+    width: 20px;
+}
+
+input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+}
+
+input[type="submit"] {
+    padding: 5px 10px;
+    width: 20%;
+    background-color: var(--accent);
+    cursor: pointer;
+    transition: background-color .2s, color .2s;
+}
+
+input[type="submit"]:hover {
+    background: rgb(86, 101, 104);
+    border-color: black;
+    color: white;
+}
+
+input[type="submit"]:focus {
+    background: rgb(122, 141, 145);
+    color: white;
+}
+
+/* New Stuff */
+
+#discountText {
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+    color: #2492f0;
+    text-shadow: rgba(5, 22, 154, 0.7) 0px 1px 1px;
+}
+
+#discountText > img {
+    object-fit: cover;
+    height: 100px;
+    width: 300px
+}

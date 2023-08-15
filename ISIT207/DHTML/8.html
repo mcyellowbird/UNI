@@ -1,0 +1,80 @@
+<html>    
+<head>
+<title>Changing className Properties</title>
+<script>
+  if (document.images) {
+    // create "on" array and populate with Image objects
+    var onImgArray = new Array( );
+    onImgArray["play"] = new Image(200,200);
+    onImgArray["stop"] = new Image(200,200);
+    onImgArray["pause"] = new Image(200,200);
+    onImgArray["rewind"] = new Image(200,200);
+    // set URLs for the "on" images
+    onImgArray["play"].src = "images/plant001.gif";
+    onImgArray["stop"].src = "images/plant002.gif";
+    onImgArray["pause"].src = "images/plant003.gif";
+    onImgArray["rewind"].src = "images/plant004.gif";
+  
+    // create "off" array and populate with Image objects
+    var offImgArray = new Array( );
+    offImgArray["play"] = new Image(200,200);
+    offImgArray["stop"] = new Image(200,200);
+    offImgArray["pause"] = new Image(200,200);
+    offImgArray["rewind"] = new Image(200,200);
+    // set URLs for the "off" images
+    offImgArray["play"].src = "images/plant004.gif";
+    offImgArray["stop"].src = "images/plant003.gif";
+    offImgArray["pause"].src = "images/plant002.gif";
+    offImgArray["rewind"].src = "images/plant001.gif";
+}
+function imageOn(imgName) {
+    if (document.images) {
+        document.images[imgName].src = onImgArray[imgName].src;
+    }
+}
+function imageOff(imgName) {
+    if (document.images) {
+        document.images[imgName].src = offImgArray[imgName].src;
+    }
+}
+function setMsg(msg) {
+    window.status = msg;
+    return true;
+}
+</script>
+</head>
+<body>
+<a href="#" 
+onmouseover="imageOn('play'); return setMsg('Play/Continue the clip');" 
+onmouseout="imageOff('play'); return setMsg('');">
+<img src="images/plant001.gif" name="play" id="play" height="200" width="200" 
+border="0" alt= "play">
+</a>
+<a href="#" 
+onmouseover="imageOn('stop'); return setMsg('Stop video');" 
+onmouseout="imageOff('stop'); return setMsg('');">
+<img src="images/plant002.gif" name="stop" id="stop"height="200" width="200" 
+border="0" alt="stop">
+</a>
+<br/>
+<a href="#"
+onmouseover="imageOn('pause'); return setMsg('Pause video');" 
+onmouseout="imageOff('pause'); return setMsg('');">
+<img src="images/plant003.gif" name="pause" id="pause" height="200" 
+width="200" border="0" alt="pause">
+</a>
+<a href= "#"
+onmouseover="imageOn('rewind'); return setMsg('Rewind to beginning');" 
+onmouseout="imageOff('rewind'); return setMsg('');">
+<img src="images/plant004.gif" name="rewind" id="rewind" height="200" 
+width="200" border="0" alt="rewind">
+</a>
+
+
+</body>
+</html>
+
+ 
+
+
+
