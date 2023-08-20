@@ -1,3 +1,4 @@
+// Q4-A
 var carList = ["discountRed.gif", "discountOrange.gif", "discountBlue.gif"];
 var colourList = ["rgba(5, 22, 154, 0.7)", "red", "orange"];
 var shadowList = ["rgba(11, 0, 75, 0.7)", "rgba(82, 0, 19, 0.7)", "rgba(212, 0, 0, 0.7)"];
