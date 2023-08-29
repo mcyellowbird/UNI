@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="../main.css">
         <script src="book.js"></script>
-        <script> //Q4-D
+        <script> //Q4-D - Validate form elements
             function isDateBefore(date) {
                 return new Date(date.toDateString()) < new Date(new Date().toDateString());
             }
@@ -14,7 +14,8 @@
                 var form = document.getElementById("carForm");
                 var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-                if (email.match(validRegex)) {
+                if (Boolean(email.match(validRegex))) {
+                    alert("Email verification technically works a bit");
                     return true;
                 }
                 else {
@@ -50,7 +51,7 @@
                 }
 
                 // Check if input email is valid based off regular expression pattern
-                if (!validateEmail(formArray.get('email'))){ // Q4-C
+                if (!validateEmail(formArray.get('email'))){ // Q4-C - Validate user input
                     formValidated = false;
                 }
 

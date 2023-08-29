@@ -1,4 +1,4 @@
-// Q4-E
+// Q4-E - Login / Signup System
 var activeUser = JSON.parse(window.localStorage.getItem("storedUser")); // Getting currently signed in user
 
 // Creating a list of users for testing
@@ -48,7 +48,7 @@ function validateLogin() {
         }
     }
 
-    if (loginValidated) { //Q4-B
+    if (loginValidated) { //Q4-B - Change content/style based on user actions
         document.getElementById("carForm").style.display = "block";
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("logoutButton").style.display = "block";
@@ -58,7 +58,7 @@ function validateLogin() {
     }
 }
 
-//Q4-C
+//Q4-C - Validate User Input
 function checkPassword(password, verifyPassword) {
     var errorMessage = "";
     var validated = false;
@@ -148,12 +148,12 @@ function validateSignup() {
     }
 }
 
-function showSignup() { //Q4-B
+function showSignup() { //Q4-B - Change style based on user actions
     document.getElementById("loginForm").style.display = "none";
     document.getElementById("signupForm").style.display = "block";
 }
 
-function showLogin() { //Q4-B
+function showLogin() { //Q4-B - Change style based on user actions
     document.getElementById("loginForm").style.display = "block";
     document.getElementById("signupForm").style.display = "none";
 }
