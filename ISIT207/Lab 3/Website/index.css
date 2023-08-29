@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@100;300;700&family=Oxygen:wght@300&family=Sen:wght@400;700&display=swap');
+
 html, body {
     width: 100%;
     height: 100%;
     overflow: none;
     margin: 0;
+    font-family: Lato;
+    user-select: none;
 }
 
 .section {
@@ -13,19 +17,98 @@ html, body {
     flex-direction: row;
 }
 
+.topNav {
+    position: absolute;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+#navArrow {
+    padding-bottom: 30px;
+}
+
+#navArrow:hover {
+    cursor: pointer;
+}
+
+.colourType {
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);
+    display: flex;
+    border-radius: 5px;
+    width: 700px;
+}
+
+.colourType div {
+    border: 1px solid rgba(175, 175, 175, 0.623);
+    width: 100%;
+    padding: 10px;
+    height: 100%;
+    font-weight: 700;
+}
+
+.colourType div:first-of-type {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.colourType div:last-of-type {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.colourOption {
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+.colourOption:hover {
+    background-color: rgba(175, 175, 175, 0.302);
+}
+
+.colourOption:active {
+    background-color: rgba(163, 163, 163, 0.468);
+}
+
 .colour {
     height: 100%;
     width: 100%;
 }
 
-.colour a {
-    text-decoration: none;
-    color: rgb(218, 218, 218);
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
+.colour:hover .colourCode {
+    display: block;
+    transition: opacity .2s ease-in, display 0s .2s;
+    opacity: 1;
 }
 
-.is-light a {
-    color: rgb(109, 109, 109);
+.colourCode {
+    text-decoration: none;
+    color: rgb(218, 218, 218);
+    background-color: rgb(218, 218, 218);
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    transition: opacity .2s ease-in, display 0s .2s;
+    opacity: 0;
+    padding: 0px 20px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 5px;
+    margin-bottom: 80px;
+}
+
+.is-light {
+    background-color: rgb(52, 52, 52);
+}
+
+.interact {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
 }
