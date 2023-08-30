@@ -1,4 +1,5 @@
 let navVisible = true;
+let colourScale = "hex";
 
 $(document).ready(function () {
   initialSetup();
@@ -11,7 +12,7 @@ $(document).ready(function () {
 
   $("#navArrow").click(function () {
     if (!navVisible) {
-      $(this).fadeOut(400, function() {
+      $(this).fadeOut(400, function () {
         $(this).attr("src", "images/uparrow.png");
 
         $(this).fadeIn(400);
@@ -19,9 +20,8 @@ $(document).ready(function () {
 
       $(".colourType").fadeIn(400);
       navVisible = true;
-    }
-    else {
-      $(this).fadeOut(400, function() {
+    } else {
+      $(this).fadeOut(400, function () {
         $(this).attr("src", "images/downarrow.png");
 
         $(this).fadeIn(400);
@@ -31,6 +31,50 @@ $(document).ready(function () {
       navVisible = false;
     }
   });
+
+  $(".colourCode").click(function () {
+    var text = $(this).text();
+    navigator.clipboard.writeText(text);
+  });
+
+
+  $(function () {
+    var moveLeft = 65;
+    var moveUp = 50;
+
+    $(".colourCode").hover(function () {
+      $('#pop-up').show();
+    }, function () {
+      $('#pop-up').hide();
+    });
+
+    $('.colourCode').mousemove(function (e) {
+      $("#pop-up").css('top', e.pageY - moveUp).css('left', e.pageX - moveLeft);
+    });
+
+  });
+
+  $(".nextScale").click(function () {
+    switch (colourScale) {
+      case "hex":
+        changeText("rgb");
+        colourScale = "rgb";
+        break;
+      case "rgb":
+        changeText("hsl");
+        colourScale = "hsl";
+        break;
+      case "hsl":
+        changeText("hex");
+        colourScale = "hex";
+        break;
+    
+      default:
+        changeText("hex");
+        colourScale = "hex";
+        break;
+    }
+  })
 });
 
 function generateColours(option) {
@@ -42,27 +86,28 @@ function generateColours(option) {
     case "Monochromatic":
       generateMonochromatic();
       break;
-  
+
     case "Analogous":
       generateAnalogous();
       break;
-  
+
     case "Complementary":
       generateComplimentary();
       break;
-  
+
     case "Triadic":
       generateTriadic();
       break;
-  
+
     case "Compound":
       generateCompound();
       break;
-    
+
     default:
       generateRandomColours();
   }
 }
+
 function initialSetup() {
   $(".colour").each(function () {
     var random = Math.floor(Math.random() * 16777215).toString(16);
@@ -70,7 +115,7 @@ function initialSetup() {
 
     $(this).css("background-color", random);
     var colour = $(this).css("background-color");
-    var anchor = $(this).find("a");
+    var anchor = $(this).find("a:first-of-type");
     anchor.toggleClass("is-light", isLight(colour));
     anchor.css("color", colour);
     anchor.text(rgbToHex(colour));
@@ -84,8 +129,10 @@ function generateRandomColours() {
   $(".colour").each(function () {
     var random = Math.floor(Math.random() * 16777215).toString(16);
     random = "#" + ("000000" + random).slice(-6);
-    
-    $(this).animate({backgroundColor: random}, 200, function() {
+
+    $(this).animate({
+      backgroundColor: random
+    }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
       anchor.toggleClass("is-light", isLight(colour));
@@ -100,26 +147,28 @@ function generateRandomColours() {
 function generateComplimentary() {
   console.log("generateComplimentary");
   var colours = [];
-  for (let i = 0; i <= 2; i+=2) {
+  for (let i = 0; i <= 2; i += 2) {
     var random = Math.floor(Math.random() * 16777215).toString(16);
     random = "#" + ("000000" + random).slice(-6);
 
     colours[i] = random;
-    colours[i+1] = hexToComplimentary(random);
+    colours[i + 1] = hexToComplimentary(random);
   }
 
   var random = Math.floor(Math.random() * 16777215).toString(16);
   random = "#" + ("000000" + random).slice(-6);
   colours[4] = random
-  
+
   $(".colour").each(function (index) {
-    $(this).animate({backgroundColor: colours[index]}, 200, function() {
+    $(this).animate({
+      backgroundColor: colours[index]
+    }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
       anchor.toggleClass("is-light", isLight(colour));
       anchor.css("color", colour);
       anchor.text(rgbToHex(colour));
-  
+
       updateColours();
     });
   })
@@ -129,24 +178,26 @@ function generateMonochromatic() {
   console.log("generateMonochromatic");
   var colours = [];
   var h = Math.floor(Math.random() * 360),
-  s = Math.floor(Math.random() * 100) + '%',
-  l = Math.floor(Math.random() * (70 - 21) + 21);
+    s = Math.floor(Math.random() * 100) + '%',
+    l = Math.floor(Math.random() * (80 - 21) + 21);
 
-  colours[0] = "hsl(" + h + ", " + s + ", " + (l-(Math.random() * (20 - 10) + 10)) + "%)";
-  colours[1] = "hsl(" + h + ", " + s + ", " + (l-(Math.random() * (10 - 1) + 1)) + "%)";
+  colours[0] = "hsl(" + h + ", " + s + ", " + (l - (Math.random() * (20 - 10) + 10)) + "%)";
+  colours[1] = "hsl(" + h + ", " + s + ", " + (l - (Math.random() * (10 - 1) + 1)) + "%)";
   colours[2] = "hsl(" + h + ", " + s + ", " + l + "%)";
-  colours[3] = "hsl(" + h + ", " + s + ", " + (l+(Math.random() * (10 - 1) + 1)) + "%)";
-  colours[4] = "hsl(" + h + ", " + s + ", " + (l+(Math.random() * (20 - 10) + 10)) + "%)";
+  colours[3] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 1) + 1)) + "%)";
+  colours[4] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (20 - 10) + 10)) + "%)";
 
   $(".colour").each(function (index) {
-    $(this).animate({backgroundColor: colours[index]}, 200, function() {
+    $(this).animate({
+      backgroundColor: colours[index]
+    }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
       anchor.toggleClass("is-light", isLight(colour));
       anchor.css("color", colour);
       anchor.text(rgbToHex(colour));
       console.log(colours[index]);
-  
+
       updateColours();
     });
   })
@@ -156,24 +207,26 @@ function generateAnalogous() {
   console.log("generateAnalogous");
   var colours = [];
   var h = Math.floor(Math.random() * (270 - 90) + 90),
-  s = Math.floor(Math.random() * (80 - 30) + 30) + '%',
-  l = Math.floor(Math.random() * (70 - 21) + 21) + '%';
+    s = Math.floor(Math.random() * (80 - 30) + 30) + '%',
+    l = Math.floor(Math.random() * (70 - 21) + 21) + '%';
 
-  colours[0] = "hsl(" + (h-90) + ", " + s + ", " + l + ")";
-  colours[1] = "hsl(" + (h-45) + ", " + s + ", " + l + ")";
+  colours[0] = "hsl(" + (h - 90) + ", " + s + ", " + l + ")";
+  colours[1] = "hsl(" + (h - 45) + ", " + s + ", " + l + ")";
   colours[2] = "hsl(" + h + ", " + s + ", " + l + ")";
-  colours[3] = "hsl(" + (h+45) + ", " + s + ", " + l + ")";
-  colours[4] = "hsl(" + (h+90) + ", " + s + ", " + l + ")";
-  
+  colours[3] = "hsl(" + (h + 45) + ", " + s + ", " + l + ")";
+  colours[4] = "hsl(" + (h + 90) + ", " + s + ", " + l + ")";
+
   $(".colour").each(function (index) {
-    $(this).animate({backgroundColor: colours[index]}, 200, function() {
+    $(this).animate({
+      backgroundColor: colours[index]
+    }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
       anchor.toggleClass("is-light", isLight(colour));
       anchor.css("color", colour);
       anchor.text(rgbToHex(colour));
       console.log(colours[index]);
-  
+
       updateColours();
     });
   })
@@ -183,24 +236,26 @@ function generateTriadic() {
   console.log("generateTriadic");
   var colours = [];
   var h = Math.floor(Math.random() * (240 - 120) + 120),
-  s = Math.floor(Math.random() * (80 - 30) + 30) + '%';
+    s = Math.floor(Math.random() * (80 - 30) + 30) + '%';
   // l = Math.floor(Math.random() * (70 - 21) + 21) + '%';
 
-  colours[0] = "hsl(" + (h-120) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
-  colours[1] = "hsl(" + (h-60) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+  colours[0] = "hsl(" + (h - 120) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+  colours[1] = "hsl(" + (h - 60) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
   colours[2] = "hsl(" + h + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
-  colours[3] = "hsl(" + (h+60) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
-  colours[4] = "hsl(" + (h+120) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
-  
+  colours[3] = "hsl(" + (h + 60) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+  colours[4] = "hsl(" + (h + 120) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+
   $(".colour").each(function (index) {
-    $(this).animate({backgroundColor: colours[index]}, 200, function() {
+    $(this).animate({
+      backgroundColor: colours[index]
+    }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
       anchor.toggleClass("is-light", isLight(colour));
       anchor.css("color", colour);
       anchor.text(rgbToHex(colour));
       console.log(colours[index]);
-  
+
       updateColours();
     });
   })
@@ -214,6 +269,7 @@ function isLight(colour) {
 
 function rgbToHex(rgb) {
   rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+
   function hex(x) {
     return ("0" + parseInt(x).toString(16)).slice(-2);
   }
@@ -302,6 +358,60 @@ function updateColours() {
   var colours = $(".colour");
 
   colours.each(function (index) {
-    document.documentElement.style.setProperty('--col' + (index+1), colours[index].style.backgroundColor);
+    document.documentElement.style.setProperty('--col' + (index + 1), colours[index].style.backgroundColor);
+  });
+}
+
+function rgbToHsl(r, g, b) {
+  r /= 255, g /= 255, b /= 255;
+
+  var max = Math.max(r, g, b),
+    min = Math.min(r, g, b);
+  var h, s, l = (max + min) / 2;
+
+  if (max == min) {
+    h = s = 0; // achromatic
+  } else {
+    var d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+
+    h /= 6;
+  }
+
+  return [(Math.round((h + Number.EPSILON) * 100) / 100), (Math.round((s + Number.EPSILON) * 100) / 100), (Math.round((l + Number.EPSILON) * 100) / 100)];
+}
+
+function changeText(option) {
+  $(".colourCode").each(function () {
+    var colour = $(this).css("color");
+
+    if (option == "hex") {
+      $(this).text(rgbToHex(colour));
+    } else if (option == "rgb") {
+      $(this).text(colour);
+    } else if (option == "hsl") {
+      // Get array of RGB values
+      var rgb = colour.replace(/[^\d,]/g, '').split(',');
+
+      var r = rgb[0],
+        g = rgb[1],
+        b = rgb[2];
+
+      var hsl = rgbToHsl(r, g, b);
+
+      $(this).text("hsl(" + Math.round(hsl[0] * 360) + "deg " + Math.round(hsl[1] * 100) + "% " + Math.round(hsl[2] * 100) + "%)");
+    }
   });
 }
