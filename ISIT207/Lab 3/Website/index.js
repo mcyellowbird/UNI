@@ -75,6 +75,8 @@ function initialSetup() {
     anchor.css("color", colour);
     anchor.text(rgbToHex(colour));
   });
+
+  updateColours();
 }
 
 function generateRandomColours() {
@@ -83,43 +85,125 @@ function generateRandomColours() {
     var random = Math.floor(Math.random() * 16777215).toString(16);
     random = "#" + ("000000" + random).slice(-6);
     
-    $(this).animate({backgroundColor: random}, 200);
-    var colour = $(this).css("background-color");
-    var anchor = $(this).find("a");
-    anchor.toggleClass("is-light", isLight(colour));
-    anchor.css("color", random);
-    anchor.text(rgbToHex(colour));
+    $(this).animate({backgroundColor: random}, 200, function() {
+      var colour = $(this).css("background-color");
+      var anchor = $(this).find("a");
+      anchor.toggleClass("is-light", isLight(colour));
+      anchor.css("color", random);
+      anchor.text(rgbToHex(colour));
+
+      updateColours();
+    });
   });
 }
 
 function generateComplimentary() {
   console.log("generateComplimentary");
-  // clearData();
-  // $(".colour").each(function () {
+  var colours = [];
+  for (let i = 0; i <= 2; i+=2) {
+    var random = Math.floor(Math.random() * 16777215).toString(16);
+    random = "#" + ("000000" + random).slice(-6);
 
+    colours[i] = random;
+    colours[i+1] = hexToComplimentary(random);
+  }
 
-
-  //   var colour = $(this).css("background-color");
-  //   $(this).css("box-shadow", colour);
-  //   $(this).toggleClass("is-light", isLight(colour));
-  //   $(this).append("<a href='#" + colour + "'>" + colour + "</a>");
-  // });
+  var random = Math.floor(Math.random() * 16777215).toString(16);
+  random = "#" + ("000000" + random).slice(-6);
+  colours[4] = random
+  
+  $(".colour").each(function (index) {
+    $(this).animate({backgroundColor: colours[index]}, 200, function() {
+      var colour = $(this).css("background-color");
+      var anchor = $(this).find("a");
+      anchor.toggleClass("is-light", isLight(colour));
+      anchor.css("color", colour);
+      anchor.text(rgbToHex(colour));
+  
+      updateColours();
+    });
+  })
 }
 
 function generateMonochromatic() {
   console.log("generateMonochromatic");
+  var colours = [];
+  var h = Math.floor(Math.random() * 360),
+  s = Math.floor(Math.random() * 100) + '%',
+  l = Math.floor(Math.random() * (70 - 21) + 21);
+
+  colours[0] = "hsl(" + h + ", " + s + ", " + (l-(Math.random() * (20 - 10) + 10)) + "%)";
+  colours[1] = "hsl(" + h + ", " + s + ", " + (l-(Math.random() * (10 - 1) + 1)) + "%)";
+  colours[2] = "hsl(" + h + ", " + s + ", " + l + "%)";
+  colours[3] = "hsl(" + h + ", " + s + ", " + (l+(Math.random() * (10 - 1) + 1)) + "%)";
+  colours[4] = "hsl(" + h + ", " + s + ", " + (l+(Math.random() * (20 - 10) + 10)) + "%)";
+
+  $(".colour").each(function (index) {
+    $(this).animate({backgroundColor: colours[index]}, 200, function() {
+      var colour = $(this).css("background-color");
+      var anchor = $(this).find("a");
+      anchor.toggleClass("is-light", isLight(colour));
+      anchor.css("color", colour);
+      anchor.text(rgbToHex(colour));
+      console.log(colours[index]);
+  
+      updateColours();
+    });
+  })
 }
 
 function generateAnalogous() {
   console.log("generateAnalogous");
+  var colours = [];
+  var h = Math.floor(Math.random() * (270 - 90) + 90),
+  s = Math.floor(Math.random() * (80 - 30) + 30) + '%',
+  l = Math.floor(Math.random() * (70 - 21) + 21) + '%';
+
+  colours[0] = "hsl(" + (h-90) + ", " + s + ", " + l + ")";
+  colours[1] = "hsl(" + (h-45) + ", " + s + ", " + l + ")";
+  colours[2] = "hsl(" + h + ", " + s + ", " + l + ")";
+  colours[3] = "hsl(" + (h+45) + ", " + s + ", " + l + ")";
+  colours[4] = "hsl(" + (h+90) + ", " + s + ", " + l + ")";
+  
+  $(".colour").each(function (index) {
+    $(this).animate({backgroundColor: colours[index]}, 200, function() {
+      var colour = $(this).css("background-color");
+      var anchor = $(this).find("a");
+      anchor.toggleClass("is-light", isLight(colour));
+      anchor.css("color", colour);
+      anchor.text(rgbToHex(colour));
+      console.log(colours[index]);
+  
+      updateColours();
+    });
+  })
 }
 
 function generateTriadic() {
   console.log("generateTriadic");
-}
+  var colours = [];
+  var h = Math.floor(Math.random() * (240 - 120) + 120),
+  s = Math.floor(Math.random() * (80 - 30) + 30) + '%';
+  // l = Math.floor(Math.random() * (70 - 21) + 21) + '%';
 
-function generateCompound() {
-  console.log("generateCompound");
+  colours[0] = "hsl(" + (h-120) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+  colours[1] = "hsl(" + (h-60) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+  colours[2] = "hsl(" + h + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+  colours[3] = "hsl(" + (h+60) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+  colours[4] = "hsl(" + (h+120) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
+  
+  $(".colour").each(function (index) {
+    $(this).animate({backgroundColor: colours[index]}, 200, function() {
+      var colour = $(this).css("background-color");
+      var anchor = $(this).find("a");
+      anchor.toggleClass("is-light", isLight(colour));
+      anchor.css("color", colour);
+      anchor.text(rgbToHex(colour));
+      console.log(colours[index]);
+  
+      updateColours();
+    });
+  })
 }
 
 function isLight(colour) {
@@ -212,4 +296,12 @@ function hexToComplimentary(hex) {
   // Convert r b and g values to hex
   rgb = b | (g << 8) | (r << 16);
   return "#" + (0x1000000 | rgb).toString(16).substring(1);
+}
+
+function updateColours() {
+  var colours = $(".colour");
+
+  colours.each(function (index) {
+    document.documentElement.style.setProperty('--col' + (index+1), colours[index].style.backgroundColor);
+  });
 }

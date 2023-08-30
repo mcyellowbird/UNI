@@ -1,4 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@100;300;700&family=Oxygen:wght@300&family=Sen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@100;300;400;700&family=Oxygen:wght@300&family=Sen:wght@400;700&display=swap');
+
+:root {
+    --col1: white;
+    --col2: white;
+    --col3: white;
+    --col4: white;
+    --col5: white;
+}
+
+.col1 {
+    color: var(--col1);
+}
+
+.col2 {
+    color: var(--col2);
+}
+
+.col3 {
+    color: var(--col3);
+}
+
+.col4 {
+    color: var(--col4);
+}
+
+.col5 {
+    color: var(--col5);
+}
 
 html, body {
     width: 100%;
@@ -12,13 +40,22 @@ html, body {
 .section {
     width: 100%;
     height: 100%;
-    display: flex;
     background-color: black;
+}
+
+.colourPage {
+    width: 100%;
+    height: 100%;
+    display: flex;
     flex-direction: row;
 }
 
+.section:nth-of-type(3) {
+    background-color: white;
+}
+
 .topNav {
-    position: absolute;
+    position: fixed;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -111,4 +148,174 @@ html, body {
     align-items: flex-end;
     width: 100%;
     height: 100%;
+}
+
+.colourList {
+    width: 100px;
+    height: 100px;
+    background-color: orange;
+}
+
+/* Showcase One */
+
+.showcaseOne {
+    position: relative;
+    width: 50%;
+    padding: 60px;
+    border: 1px solid rgba(114, 114, 114, 0.56);
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 1px rgba(114, 114, 114, 0.56);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.showcaseOneNav {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+}
+
+.showcaseOneNav > div:first-of-type {
+    float: left;
+    font-size: 26px;
+    font-weight: 700;
+    font-family: Sen;
+}
+
+.navRight {
+    float: right;
+}
+
+.navRight > a:not(:last-of-type) {
+    margin-right: 30px;
+    padding: 6px 10px;
+}
+
+.navRight > a:nth-of-type(2) {
+    outline: 4px solid var(--col5);
+    font-weight: 700;
+}
+
+.navRight > a:nth-of-type(3) {
+    background-color: var(--col2);
+    color: white;
+    padding: 10px 16px;
+    font-weight: 700;
+}
+
+.bodyOne {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 80%;
+}
+
+.bodyOneHeader {
+    font-size: 50px;
+    font-family: Oxygen;
+}
+
+.bodyOneParagraph {
+    width: 650px;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.bodyOneInfo {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+}
+
+.bodyOneInfo div {
+    width: auto;
+}
+
+.bodyOneInfo h3 {
+    font-size: 36px;
+    margin: 0;
+}
+
+.bodyOneInfo h4 {
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Art for Showcase One */
+
+.showcaseOneArt {
+    width: 480px;
+    height: 480px;
+    margin-left: auto;
+    margin-top: 60px;
+    border-collapse: collapse;
+    border: 0;
+}
+
+.showcaseOneArt td {
+    width: 160px;
+    height: 160px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 0px;
+    line-height: 0px;
+}
+
+.showcaseOneArt tr:nth-of-type(1) > td:nth-of-type(1) {
+    background-color: var(--col1);
+    border-top-left-radius: 40%;
+    border-bottom-left-radius: 40%;
+}
+.showcaseOneArt tr:nth-of-type(1) > td:nth-of-type(2) {
+    background-color: var(--col2);
+    transform: rotate(45deg) scale(71%);
+}
+.showcaseOneArt tr:nth-of-type(1) > td:nth-of-type(3) {
+    background-color: var(--col3);
+    border-top-right-radius: 80%;
+}
+.showcaseOneArt tr:nth-of-type(2) > td:nth-of-type(1) {
+    box-shadow: inset 0px 0px 0px 12px var(--col4);
+}
+.showcaseOneArt tr:nth-of-type(2) > td:nth-of-type(2){
+    background-color: var(--col5);
+    border-radius: 50%;
+}
+.showcaseOneArt tr:nth-of-type(2) > td:nth-of-type(3) {
+    background-color: var(--col3);
+    border-bottom-right-radius: 80%;
+}
+.showcaseOneArt tr:nth-of-type(3) > td:nth-of-type(1) {
+    background-color: var(--col4);
+    border-radius: 40% 40% 0% 40%;
+}
+/* Triangle */
+.showcaseOneArt tr:nth-of-type(3) > td:nth-of-type(2) > div {
+    width: 0;
+    height: 0;
+    border-left: 80px solid transparent;
+    border-right: 80px solid transparent;
+
+    border-bottom: 160px solid var(--col5);
+}
+.showcaseOneArt tr:nth-of-type(3) > td:nth-of-type(2) > div::after {
+    position: absolute;
+    top: 80%;
+    transform: translate(-50%, -50%);
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 60px solid transparent;
+    border-right: 60px solid transparent;
+
+    border-bottom: 120px solid white;
+}
+
+.showcaseOneArt tr:nth-of-type(3) > td:nth-of-type(3) {
+    background-color: var(--col4);
+    border-top-right-radius: 80%;
 }
