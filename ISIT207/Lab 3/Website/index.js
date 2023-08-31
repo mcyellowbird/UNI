@@ -19,6 +19,7 @@ $(document).ready(function () {
       });
 
       $(".colourType").fadeIn(400);
+      $(".colourList").fadeIn(400);
       navVisible = true;
     } else {
       $(this).fadeOut(400, function () {
@@ -28,6 +29,7 @@ $(document).ready(function () {
       });
 
       $(".colourType").fadeOut(400);
+      $(".colourList").fadeOut(400);
       navVisible = false;
     }
   });
@@ -37,10 +39,29 @@ $(document).ready(function () {
     navigator.clipboard.writeText(text);
   });
 
+  $(".smallColour").click(function () {
+    var index = $(this).index();
+    var text = $(".colourCode").eq(index).text();
+    navigator.clipboard.writeText(text);
+  });
 
   $(function () {
     var moveLeft = 65;
     var moveUp = 50;
+
+    $(".smallColour").hover(function () {
+      $(this).find("div").css("display", "inline-block");
+
+      $('#pop-up').show();
+      // $(this).find("a").css("color", isLight($(this).css("background-color"))? "#000000" : "#ffffff");
+    }, function () {
+      $('#pop-up').hide();
+      $(this).find("div").css("display", "none");
+    });
+
+    $('.smallColour').mousemove(function (e) {
+      $("#pop-up").css('top', e.pageY + moveUp - 20).css('left', e.pageX - moveLeft + 5);
+    });
 
     $(".colourCode").hover(function () {
       $('#pop-up').show();
@@ -75,6 +96,16 @@ $(document).ready(function () {
         break;
     }
   })
+
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > $(".section").height() - 140 && navVisible) {
+      $(".colourList").fadeIn(400);
+    } else {
+      $(".colourList").fadeOut(400);
+    }
+  });
+
+  changeText("hex");
 });
 
 function generateColours(option) {
@@ -115,13 +146,17 @@ function initialSetup() {
 
     $(this).css("background-color", random);
     var colour = $(this).css("background-color");
-    var anchor = $(this).find("a:first-of-type");
-    anchor.toggleClass("is-light", isLight(colour));
+    var anchor = $(this).find("a");
+    anchor.removeClass("is-light");
+    if (isLight(colour)) {
+      anchor.addClass("is-light");
+    }
     anchor.css("color", colour);
-    anchor.text(rgbToHex(colour));
-  });
 
-  updateColours();
+    $(this).find("a:first-of-type").text(rgbToHex(colour));
+
+    updateColours();
+  });
 }
 
 function generateRandomColours() {
@@ -135,9 +170,13 @@ function generateRandomColours() {
     }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
-      anchor.toggleClass("is-light", isLight(colour));
-      anchor.css("color", random);
-      anchor.text(rgbToHex(colour));
+      anchor.removeClass("is-light");
+      if (isLight(colour)) {
+        anchor.addClass("is-light");
+      }
+      anchor.css("color", colour);
+  
+      $(this).find("a:first-of-type").text(rgbToHex(colour));
 
       updateColours();
     });
@@ -165,9 +204,13 @@ function generateComplimentary() {
     }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
-      anchor.toggleClass("is-light", isLight(colour));
+      anchor.removeClass("is-light");
+      if (isLight(colour)) {
+        anchor.addClass("is-light");
+      }
       anchor.css("color", colour);
-      anchor.text(rgbToHex(colour));
+  
+      $(this).find("a:first-of-type").text(rgbToHex(colour));
 
       updateColours();
     });
@@ -193,10 +236,13 @@ function generateMonochromatic() {
     }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
-      anchor.toggleClass("is-light", isLight(colour));
+      anchor.removeClass("is-light");
+      if (isLight(colour)) {
+        anchor.addClass("is-light");
+      }
       anchor.css("color", colour);
-      anchor.text(rgbToHex(colour));
-      console.log(colours[index]);
+  
+      $(this).find("a:first-of-type").text(rgbToHex(colour));
 
       updateColours();
     });
@@ -208,7 +254,7 @@ function generateAnalogous() {
   var colours = [];
   var h = Math.floor(Math.random() * (270 - 90) + 90),
     s = Math.floor(Math.random() * (80 - 30) + 30) + '%',
-    l = Math.floor(Math.random() * (70 - 21) + 21) + '%';
+    l = Math.floor(Math.random() * (70 - 31) + 31) + '%';
 
   colours[0] = "hsl(" + (h - 90) + ", " + s + ", " + l + ")";
   colours[1] = "hsl(" + (h - 45) + ", " + s + ", " + l + ")";
@@ -222,10 +268,13 @@ function generateAnalogous() {
     }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
-      anchor.toggleClass("is-light", isLight(colour));
+      anchor.removeClass("is-light");
+      if (isLight(colour)) {
+        anchor.addClass("is-light");
+      }
       anchor.css("color", colour);
-      anchor.text(rgbToHex(colour));
-      console.log(colours[index]);
+  
+      $(this).find("a:first-of-type").text(rgbToHex(colour));
 
       updateColours();
     });
@@ -251,10 +300,13 @@ function generateTriadic() {
     }, 200, function () {
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
-      anchor.toggleClass("is-light", isLight(colour));
+      anchor.removeClass("is-light");
+      if (isLight(colour)) {
+        anchor.addClass("is-light");
+      }
       anchor.css("color", colour);
-      anchor.text(rgbToHex(colour));
-      console.log(colours[index]);
+  
+      $(this).find("a:first-of-type").text(rgbToHex(colour));
 
       updateColours();
     });
@@ -394,13 +446,17 @@ function rgbToHsl(r, g, b) {
 }
 
 function changeText(option) {
-  $(".colourCode").each(function () {
+  $(".colourCode").each(function (index) {
+    $(".nextScale").eq(index).text(option.toUpperCase());
+    
     var colour = $(this).css("color");
 
     if (option == "hex") {
       $(this).text(rgbToHex(colour));
+      // $(".smallColour").eq(index).text(rgbToHex(colour));
     } else if (option == "rgb") {
       $(this).text(colour);
+      // $(".smallColour").eq(index).text(colour);
     } else if (option == "hsl") {
       // Get array of RGB values
       var rgb = colour.replace(/[^\d,]/g, '').split(',');
@@ -412,6 +468,7 @@ function changeText(option) {
       var hsl = rgbToHsl(r, g, b);
 
       $(this).text("hsl(" + Math.round(hsl[0] * 360) + "deg " + Math.round(hsl[1] * 100) + "% " + Math.round(hsl[2] * 100) + "%)");
+      // $(".smallColour").eq(index).text("hsl(" + Math.round(hsl[0] * 360) + "deg " + Math.round(hsl[1] * 100) + "% " + Math.round(hsl[2] * 100) + "%)");
     }
   });
 }
