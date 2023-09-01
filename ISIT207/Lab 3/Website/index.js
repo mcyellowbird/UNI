@@ -3,10 +3,10 @@ let colourScale = "hex";
 
 $(document).ready(function () {
   initialSetup();
+  $(".colourList").fadeOut(0);
 
   $(".colourOption").click(function () {
     colourOption = $(this).text();
-    console.log(colourOption);
     generateColours(colourOption);
   });
 
@@ -72,7 +72,6 @@ $(document).ready(function () {
     $('.colourCode').mousemove(function (e) {
       $("#pop-up").css('top', e.pageY - moveUp).css('left', e.pageX - moveLeft);
     });
-
   });
 
   $(".nextScale").click(function () {
@@ -160,31 +159,27 @@ function initialSetup() {
 }
 
 function generateRandomColours() {
-  console.log("generateRandomColours");
+  
   $(".colour").each(function () {
     var random = Math.floor(Math.random() * 16777215).toString(16);
     random = "#" + ("000000" + random).slice(-6);
 
-    $(this).animate({
-      backgroundColor: random
-    }, 200, function () {
-      var colour = $(this).css("background-color");
-      var anchor = $(this).find("a");
-      anchor.removeClass("is-light");
-      if (isLight(colour)) {
-        anchor.addClass("is-light");
-      }
-      anchor.css("color", colour);
-  
-      $(this).find("a:first-of-type").text(rgbToHex(colour));
+    $(this).css("background-color", random);
+    var colour = $(this).css("background-color");
+    var anchor = $(this).find("a");
+    anchor.removeClass("is-light");
+    if (isLight(colour)) {
+      anchor.addClass("is-light");
+    }
+    anchor.css("color", colour);
 
-      updateColours();
-    });
+    $(this).find("a:first-of-type").text(rgbToHex(colour));
+
+    updateColours();
   });
 }
 
 function generateComplimentary() {
-  console.log("generateComplimentary");
   var colours = [];
   for (let i = 0; i <= 2; i += 2) {
     var random = Math.floor(Math.random() * 16777215).toString(16);
@@ -199,26 +194,22 @@ function generateComplimentary() {
   colours[4] = random
 
   $(".colour").each(function (index) {
-    $(this).animate({
-      backgroundColor: colours[index]
-    }, 200, function () {
-      var colour = $(this).css("background-color");
-      var anchor = $(this).find("a");
-      anchor.removeClass("is-light");
-      if (isLight(colour)) {
-        anchor.addClass("is-light");
-      }
-      anchor.css("color", colour);
-  
-      $(this).find("a:first-of-type").text(rgbToHex(colour));
+    $(this).css("background-color", colours[index]);
+    var colour = $(this).css("background-color");
+    var anchor = $(this).find("a");
+    anchor.removeClass("is-light");
+    if (isLight(colour)) {
+      anchor.addClass("is-light");
+    }
+    anchor.css("color", colour);
 
-      updateColours();
-    });
-  })
+    $(this).find("a:first-of-type").text(rgbToHex(colour));
+
+    updateColours();
+  });
 }
 
 function generateMonochromatic() {
-  console.log("generateMonochromatic");
   var colours = [];
   var h = Math.floor(Math.random() * 360),
     s = Math.floor(Math.random() * 100) + '%',
@@ -231,9 +222,7 @@ function generateMonochromatic() {
   colours[4] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (20 - 10) + 10)) + "%)";
 
   $(".colour").each(function (index) {
-    $(this).animate({
-      backgroundColor: colours[index]
-    }, 200, function () {
+    $(this).css("background-color", colours[index]);
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
       anchor.removeClass("is-light");
@@ -245,12 +234,10 @@ function generateMonochromatic() {
       $(this).find("a:first-of-type").text(rgbToHex(colour));
 
       updateColours();
-    });
-  })
+  });
 }
 
 function generateAnalogous() {
-  console.log("generateAnalogous");
   var colours = [];
   var h = Math.floor(Math.random() * (270 - 90) + 90),
     s = Math.floor(Math.random() * (80 - 30) + 30) + '%',
@@ -263,9 +250,7 @@ function generateAnalogous() {
   colours[4] = "hsl(" + (h + 90) + ", " + s + ", " + l + ")";
 
   $(".colour").each(function (index) {
-    $(this).animate({
-      backgroundColor: colours[index]
-    }, 200, function () {
+    $(this).css("background-color", colours[index]);
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
       anchor.removeClass("is-light");
@@ -277,12 +262,10 @@ function generateAnalogous() {
       $(this).find("a:first-of-type").text(rgbToHex(colour));
 
       updateColours();
-    });
-  })
+  });
 }
 
 function generateTriadic() {
-  console.log("generateTriadic");
   var colours = [];
   var h = Math.floor(Math.random() * (240 - 120) + 120),
     s = Math.floor(Math.random() * (80 - 30) + 30) + '%';
@@ -295,9 +278,7 @@ function generateTriadic() {
   colours[4] = "hsl(" + (h + 120) + ", " + s + ", " + (Math.floor(Math.random() * (70 - 21) + 21)) + "%)";
 
   $(".colour").each(function (index) {
-    $(this).animate({
-      backgroundColor: colours[index]
-    }, 200, function () {
+    $(this).css("background-color", colours[index]);
       var colour = $(this).css("background-color");
       var anchor = $(this).find("a");
       anchor.removeClass("is-light");
@@ -309,8 +290,7 @@ function generateTriadic() {
       $(this).find("a:first-of-type").text(rgbToHex(colour));
 
       updateColours();
-    });
-  })
+  });
 }
 
 function isLight(colour) {
