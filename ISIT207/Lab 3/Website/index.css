@@ -230,6 +230,7 @@ body {
 /* Showcase One */
 
 .showcase {
+    display: none;
     position: relative;
     width: 50%;
     padding: 60px;

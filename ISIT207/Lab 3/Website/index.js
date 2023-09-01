@@ -102,6 +102,10 @@ $(document).ready(function () {
     } else {
       $(".colourList").fadeOut(400);
     }
+
+    if ($(this).scrollTop() > ($(".section").height() / 3) && navVisible) {
+      $(".showcase:first-of-type").fadeIn(400);
+    }
   });
 
   changeText("hex");
@@ -122,7 +126,7 @@ function generateColours(option) {
       break;
 
     case "Complementary":
-      generateComplimentary();
+      generateComplementary();
       break;
 
     case "Triadic":
@@ -179,19 +183,24 @@ function generateRandomColours() {
   });
 }
 
-function generateComplimentary() {
+function generateComplementary() {
   var colours = [];
-  for (let i = 0; i <= 2; i += 2) {
-    var random = Math.floor(Math.random() * 16777215).toString(16);
-    random = "#" + ("000000" + random).slice(-6);
+  var h = Math.floor(Math.random() * 360),
+    s = Math.floor(Math.random() * (60 - 41) + 41) + '%',
+    l = Math.floor(Math.random() * (60 - 41) + 41);
 
-    colours[i] = random;
-    colours[i + 1] = hexToComplimentary(random);
+  colours[0] = "hsl(" + h + ", " + s + ", " + l + "%)";
+  colours[1] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 1) + 1)) + "%)";
+  
+  // Flip 'h' value
+  h += 180;
+  if (h > 360) {
+    h -= 360;
   }
 
-  var random = Math.floor(Math.random() * 16777215).toString(16);
-  random = "#" + ("000000" + random).slice(-6);
-  colours[4] = random
+  colours[2] = "hsl(" + h + ", " + s + ", " + l + "%)";
+  colours[3] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 1) + 1)) + "%)";
+  colours[4] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (20 - 10) + 10)) + "%)";
 
   $(".colour").each(function (index) {
     $(this).css("background-color", colours[index]);
@@ -240,8 +249,8 @@ function generateMonochromatic() {
 function generateAnalogous() {
   var colours = [];
   var h = Math.floor(Math.random() * (270 - 90) + 90),
-    s = Math.floor(Math.random() * (80 - 30) + 30) + '%',
-    l = Math.floor(Math.random() * (70 - 31) + 31) + '%';
+    s = Math.floor(Math.random() * (70 - 40) + 40) + '%',
+    l = Math.floor(Math.random() * (70 - 40) + 40) + '%';
 
   colours[0] = "hsl(" + (h - 90) + ", " + s + ", " + l + ")";
   colours[1] = "hsl(" + (h - 45) + ", " + s + ", " + l + ")";
@@ -308,7 +317,7 @@ function rgbToHex(rgb) {
   return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 }
 
-function hexToComplimentary(hex) {
+function hexToComplementary(hex) {
 
   // Convert hex to rgb
   var rgb = 'rgb(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) {
@@ -392,6 +401,7 @@ function updateColours() {
   colours.each(function (index) {
     document.documentElement.style.setProperty('--col' + (index + 1), colours[index].style.backgroundColor);
   });
+  changeText(colourScale);
 }
 
 function rgbToHsl(r, g, b) {
