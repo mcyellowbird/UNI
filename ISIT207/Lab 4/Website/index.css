@@ -542,21 +542,21 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 20px;
+    padding: 30px 0px;
     border-top: 2px solid var(--col1);
     border-bottom: 2px solid var(--col1);
-    gap: 20px;
+    gap: 30px;
 }
 
 .course-item {
-    flex: 0 0 calc(25% - 40px);
+    flex: 0 0 calc(33% - 40px);
     background-color: #f7f7f7;
     border: 1px solid var(--col5);
     border-radius: 5px;
     padding: 10px;
     box-shadow: 0 2px 4px var(--col3);
     color: var(--col4);
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    transition: 0.2s ease-out, box-shadow 0.2s ease-out;
     cursor: pointer;
     position: relative;
 }
@@ -571,6 +571,7 @@ body {
 .course-item-focused {
     transform: translateY(-5px);
     box-shadow: 0 4px 4px var(--col1);
+    border: 1px solid var(--col1);
 }
 
 .course-item-focused:hover {
@@ -596,4 +597,42 @@ body {
     padding: 10px 10px;
     bottom: 0;
     left: 0;
+}
+
+/* Style for the search bar container */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Style for the search input */
+#courseSearch {
+    padding: 10px;
+    border: 1px solid var(--col3);
+    border-radius: 5px;
+    width: 300px;
+    font-size: 16px;
+    transition: border 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+/* Style for the search input placeholder text */
+#courseSearch::placeholder {
+    color: #999;
+}
+
+/* Style for the search input on focus */
+#courseSearch:focus {
+    outline: none;
+    border-color: var(--col2);
+    box-shadow: 0 0 5px var(--col2);
+}
+
+.no-courses-message {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    margin-top: 20px;
+    /* Hide the message initially */
 }

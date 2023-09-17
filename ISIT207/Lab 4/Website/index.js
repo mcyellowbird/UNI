@@ -216,11 +216,6 @@ $(document).ready(function () {
 
   // JQuery UI
 
-  // Accordion Widget
-  $("#accordion").accordion({
-    heightStyle: "content"
-  });
-
   // Dialog
   $("#colourPickerDialog").dialog({
     autoOpen: false,
@@ -371,48 +366,71 @@ $(document).ready(function () {
     options: {
       courses: [], // An array of course objects with details
     },
-
+  
     _create: function () {
       // Initialize the widget
       console.log("Widget created");
-      this._renderCarousel();
+      this._renderCarousel(this.options.courses); // Render with initial courses
     },
-
-    _renderCarousel: function () {
+  
+    _renderCarousel: function (courses) {
       console.log("Rendering carousel");
       const $carouselContainer = $("<div>").addClass("course-carousel");
-
+  
       const widget = this;
-
       let $focusedItem = null;
-
-      // Iterate through the provided courses and create carousel items
-      this.options.courses.forEach((course) => {
-        const $courseItem = $("<div>").addClass("course-item").click(function () {
-          // Remove the "course-item-focused" class from all items
-          $(".course-item").removeClass("course-item-focused");
-
-          // Add the "course-item-focused" class to the clicked item
-          $(this).addClass("course-item-focused");
-          
-          // Update the currently focused item
-          $focusedItem = $(this);
+  
+      // Filter courses if filterText is provided
+      if (widget.filterText) {
+        courses = courses.filter((course) =>
+          course.title.toLowerCase().includes(widget.filterText.toLowerCase()) ||
+          course.description.toLowerCase().includes(widget.filterText.toLowerCase()) ||
+          course.coursecode.includes(widget.filterText)
+        );
+      }
+  
+      if (courses.length === 0) {
+        const $noCoursesMessage = $("<p>")
+          .addClass("no-courses-message")
+          .text("No courses found.");
+        $carouselContainer.append($noCoursesMessage);
+      } else {
+        // Iterate through the provided courses and create carousel items
+        courses.forEach((course) => {
+          const $courseItem = $("<div>")
+            .addClass("course-item")
+            .click(function () {
+              // Remove the "course-item-focused" class from all items
+              $(".course-item").removeClass("course-item-focused");
+  
+              // Add the "course-item-focused" class to the clicked item
+              $(this).addClass("course-item-focused");
+  
+              // Update the currently focused item
+              $focusedItem = $(this);
+            });
+  
+          const $courseTitle = $("<h2>").text(course.title);
+          const $courseDescription = $("<p>").text(course.description);
+          const $courseCode = $("<p>").text("Course Code: " + course.coursecode);
+  
+          $courseItem.append($courseTitle, $courseDescription, $courseCode);
+          $carouselContainer.append($courseItem);
         });
-
-        const $courseTitle = $("<h2>").text(course.title);
-        const $courseDescription = $("<p>").text(course.description);
-        const $courseCode = $("<p>").text("Course Code: " + course.coursecode);
-
-        $courseItem.append($courseTitle, $courseDescription, $courseCode);
-        $carouselContainer.append($courseItem);
-      });
-
-      // Append the carousel to the "courseCarousel" section
-      this.element.append($carouselContainer);
+      }
+  
+      // Append the carousel to the widget element
+      this.element.empty().append($carouselContainer);
+    },
+  
+    filterCourses: function (filterText) {
+      this.filterText = filterText;
+      this._renderCarousel(this.options.courses);
     },
   });
 
-  const courseList = [{
+  const courseList = [
+    {
       title: "Web Development Fundamentals",
       description: "Explore the core concepts of web development, including HTML, CSS, and JavaScript.",
       coursecode: "188273",
@@ -452,11 +470,23 @@ $(document).ready(function () {
       description: "Capture stunning photos with professional photography techniques and tips.",
       coursecode: "128473",
     },
+    {
+      title: "Artificial Intelligence Fundamentals",
+      description: "Discover the basics of artificial intelligence and its applications.",
+      coursecode: "287390",
+    },
   ];
+  
 
   // Initialize the CourseCarousel widget with the courses data
-  $("#courseCarousel").courseCarousel({
-    courses: courseList
+  const courseCarousel = $("#courseCarousel").courseCarousel({
+    courses: courseList,
+  });
+  
+  // Handle filtering when the user types in the search bar
+  $("#courseSearch").on("input", function () {
+    const filterText = $(this).val();
+    courseCarousel.courseCarousel("filterCourses", filterText);
   });
 });
 
