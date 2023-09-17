@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Colour Palette Generator</title>
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <div class="topNav">
+            <img id="navArrow" src="images/uparrow.png" width="30px">
+            <a class="colourType">
+                <div class="colourOption">Random</div>
+                <div class="colourOption">Monochromatic</div>
+                <div class="colourOption">Analogous</div>
+                <div class="colourOption">Complementary</div>
+                <div class="colourOption">Triadic</div>
+            </a>
+            <div class="colourList">
+                <div class="smallColour bgcol1">
+                    <div></div>
+                </div>
+                <div class="smallColour bgcol2">
+                    <div></div>
+                </div>
+                <div class="smallColour bgcol3">
+                    <div></div>
+                </div>
+                <div class="smallColour bgcol4">
+                    <div></div>
+                </div>
+                <div class="smallColour bgcol5">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+        <!--  -->
+        <div class="section">
+            <div class="colourPage">
+                <div class="colour">
+                    <div id="colourPickerDialog">
+                        <p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
+                            <span class="ui-icon ui-icon-pencil" style="float:left; margin:-2px 5px 0 0;"></span>
+                            <span>Changing Colour #0</span>
+                        </p>
+                        <div id="red"></div>
+                        <div id="green"></div>
+                        <div id="blue"></div>
+                        
+                        <div id="swatch" class="ui-widget-content ui-corner-all"></div>
+                    </div>
+                    <div class="interact">
+                        <a class="colourPicker"><div></div></a>
+                        <a class="colourCode"></a>
+                        <a class="nextScale"></a>
+                    </div>
+                </div>
+                <div class="colour">
+                    <div class="interact">
+                        <a class="colourPicker"><div></div></a>
+                        <a class="colourCode"></a>
+                        <a class="nextScale"></a>
+                    </div>
+                </div>
+                <div class="colour">
+                    <div class="interact">
+                        <a class="colourPicker"><div></div></a>
+                        <a class="colourCode"></a>
+                        <a class="nextScale"></a>
+                    </div>
+                </div>
+                <div class="colour">
+                    <div class="interact">
+                        <a class="colourPicker"><div></div></a>
+                        <a class="colourCode"></a>
+                        <a class="nextScale"></a>
+                    </div>
+                </div>
+                <div class="colour">
+                    <div class="interact">
+                        <a class="colourPicker"><div></div></a>
+                        <a class="colourCode"></a>
+                        <a class="nextScale"></a>
+                    </div>
+                </div>
+            </div>
+                        
+            <div id="pop-up">
+                <span>Copy to clipboard</span>
+            </div>
+        </div>
+
+        <!--  -->
+        <div class="section">
+            <div class="showcase">
+                <div class="showcaseOneNav">
+                    <div class="col1">Skillcase</div>
+                    <div class="navRight">
+                        <a>Learn More</a>
+                        <a class="col5">Explore Courses</a>
+                        <a>Enrol Now</a>
+                    </div>
+                </div>
+                <div class="bodyOne">
+                    <div>
+                        <h1 class="bodyOneHeader">Unleash Your Potential With<br><a class="col4">Industry Approved Courses</a></h1>
+                        <p class="bodyOneParagraph">
+                            Embark on a transformative journey of self-discovery and empowerment with our meticulously curated selection of industry-approved courses. By enrolling in these expert-endorsed learning experiences, you'll unlock your inherent potential, acquire valuable skills, and gain insights that resonate with industry standards. Each course becomes a stepping stone, guiding you toward personal and professional excellence, ensuring you're prepared to navigate and succeed in today's dynamic and competitive landscape.
+                        </p>
+                        <div class="bodyOneInfo">
+                            <div>
+                                <h3 class="col5">400+</h3>
+                                <h4>Courses</h4>
+                            </div>
+                            <div>
+                                <h3 class="col5">100+</h3>
+                                <h4>Experts</h4>
+                            </div>
+                            <div>
+                                <h3 class="col5">2000+</h3>
+                                <h4>Hours of Content</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="showcaseOneArt" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><div></div></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--  -->
+        <div class="section">
+            <div class="showcase">
+                <div id="courseCarousel"></div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,5 +1,6 @@
 let navVisible = true;
 let colourScale = "hex";
+var canShowColour = false;
 
 $(document).ready(function () {
   initialSetup();
@@ -10,7 +11,7 @@ $(document).ready(function () {
     generateColours(colourOption);
   });
 
-  $("#navArrow").click(function () {
+  $("[src$='.png'").click(function () {
     if (!navVisible) {
       $(this).fadeOut(400, function () {
         $(this).attr("src", "images/uparrow.png");
@@ -19,7 +20,9 @@ $(document).ready(function () {
       });
 
       $(".colourType").fadeIn(400);
-      $(".colourList").fadeIn(400);
+      if (canShowColour){
+        $(".colourList").fadeIn(400);
+      }
       navVisible = true;
     } else {
       $(this).fadeOut(400, function () {
@@ -28,9 +31,9 @@ $(document).ready(function () {
         $(this).fadeIn(400);
       });
 
-      $(".colourType").fadeOut(400);
+      $(".colourType").toggle(200);
       $(".colourList").fadeOut(400);
-      navVisible = false;
+      navVisible = !navVisible;
     }
   });
 
@@ -41,32 +44,41 @@ $(document).ready(function () {
 
   $(".smallColour").click(function () {
     var index = $(this).index();
-    var text = $(".colourCode").eq(index).text();
+    var text = $(".colourCode:eq("+index+")").text();
     navigator.clipboard.writeText(text);
+  });
+
+  // $(".colour").hover(function (){
+  //   var index = $(this).index();
+  //   // $(".colour:eq("+index-1)
+  //   $(".colour:eq("+(index)+")").css({boxShadow: "inset 0px 0px 8px 2px rgba(0, 0, 0, 0.25)"});
+  // }, function () {
+  //   var index = $(this).index();
+  //   $(".colour:eq("+(index)+")").css({boxShadow: "none"});
+  // });
+
+  $(".smallColour").hover(function () {
+    // $(this).find("div").css("display", "inline-block");
+
+    $('#pop-up').show();
+    // $(this).find("a").css("color", isLight($(this).css("background-color"))? "#000000" : "#ffffff");
+  }, function () {
+    $('#pop-up').hide();
+    // $(this).find("div").css("display", "none");
+  });
+
+  $(".colourCode").hover(function () {
+    $('#pop-up').show();
+  }, function () {
+    $('#pop-up').hide();
   });
 
   $(function () {
     var moveLeft = 65;
     var moveUp = 50;
 
-    $(".smallColour").hover(function () {
-      $(this).find("div").css("display", "inline-block");
-
-      $('#pop-up').show();
-      // $(this).find("a").css("color", isLight($(this).css("background-color"))? "#000000" : "#ffffff");
-    }, function () {
-      $('#pop-up').hide();
-      $(this).find("div").css("display", "none");
-    });
-
     $('.smallColour').mousemove(function (e) {
       $("#pop-up").css('top', e.pageY + moveUp - 20).css('left', e.pageX - moveLeft + 5);
-    });
-
-    $(".colourCode").hover(function () {
-      $('#pop-up').show();
-    }, function () {
-      $('#pop-up').hide();
     });
 
     $('.colourCode').mousemove(function (e) {
@@ -99,12 +111,16 @@ $(document).ready(function () {
   $(window).scroll(function () {
     if ($(this).scrollTop() > $(".section").height() - 140 && navVisible) {
       $(".colourList").fadeIn(400);
+      canShowColour = true;
     } else {
       $(".colourList").fadeOut(400);
+      canShowColour = false;
     }
 
     if ($(this).scrollTop() > ($(".section").height() / 3) && navVisible) {
-      $(".showcase:first-of-type").fadeIn(400);
+      $(".showcase:first-of-type").animate({
+        opacity: 1
+      }, 400);
     }
   });
 
@@ -143,16 +159,20 @@ function generateColours(option) {
 }
 
 function initialSetup() {
-  $(".colour").each(function () {
+  $(".colour").each(function (index) {
     var random = Math.floor(Math.random() * 16777215).toString(16);
     random = "#" + ("000000" + random).slice(-6);
 
     $(this).css("background-color", random);
     var colour = $(this).css("background-color");
-    var anchor = $(this).find("a");
+    var anchor = $(".colour:eq("+index+")" + " a");
     anchor.removeClass("is-light");
     if (isLight(colour)) {
       anchor.addClass("is-light");
+      $(".smallColour:eq("+index+") > div").css("filter", "grayscale(1) invert(1)");
+    }
+    else{
+      $(".smallColour:eq("+index+") > div").css("filter", "none");
     }
     anchor.css("color", colour);
 
@@ -164,16 +184,20 @@ function initialSetup() {
 
 function generateRandomColours() {
   
-  $(".colour").each(function () {
+  $(".colour").each(function (index) {
     var random = Math.floor(Math.random() * 16777215).toString(16);
     random = "#" + ("000000" + random).slice(-6);
 
     $(this).css("background-color", random);
     var colour = $(this).css("background-color");
-    var anchor = $(this).find("a");
+    var anchor = $(".colour:eq("+index+")" + " a");
     anchor.removeClass("is-light");
     if (isLight(colour)) {
       anchor.addClass("is-light");
+      $(".smallColour:eq("+index+") > div").css("filter", "grayscale(1) invert(1)");
+    }
+    else{
+      $(".smallColour:eq("+index+") > div").css("filter", "none");
     }
     anchor.css("color", colour);
 
@@ -187,10 +211,10 @@ function generateComplementary() {
   var colours = [];
   var h = Math.floor(Math.random() * 360),
     s = Math.floor(Math.random() * (60 - 41) + 41) + '%',
-    l = Math.floor(Math.random() * (60 - 41) + 41);
+    l = Math.floor(Math.random() * (75 - 25) + 25);
 
   colours[0] = "hsl(" + h + ", " + s + ", " + l + "%)";
-  colours[1] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 1) + 1)) + "%)";
+  colours[1] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 2) + 2)) + "%)";
   
   // Flip 'h' value
   h += 180;
@@ -199,16 +223,20 @@ function generateComplementary() {
   }
 
   colours[2] = "hsl(" + h + ", " + s + ", " + l + "%)";
-  colours[3] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 1) + 1)) + "%)";
-  colours[4] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (20 - 10) + 10)) + "%)";
+  colours[3] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 2) + 2)) + "%)";
+  colours[4] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (20 - 12) + 12)) + "%)";
 
   $(".colour").each(function (index) {
     $(this).css("background-color", colours[index]);
     var colour = $(this).css("background-color");
-    var anchor = $(this).find("a");
+    var anchor = $(".colour:eq("+index+")" + " a");
     anchor.removeClass("is-light");
     if (isLight(colour)) {
       anchor.addClass("is-light");
+      $(".smallColour:eq("+index+") > div").css("filter", "grayscale(1) invert(1)");
+    }
+    else{
+      $(".smallColour:eq("+index+") > div").css("filter", "none");
     }
     anchor.css("color", colour);
 
@@ -222,21 +250,25 @@ function generateMonochromatic() {
   var colours = [];
   var h = Math.floor(Math.random() * 360),
     s = Math.floor(Math.random() * 100) + '%',
-    l = Math.floor(Math.random() * (80 - 21) + 21);
+    l = Math.floor(Math.random() * (75 - 25) + 25);
 
-  colours[0] = "hsl(" + h + ", " + s + ", " + (l - (Math.random() * (20 - 10) + 10)) + "%)";
-  colours[1] = "hsl(" + h + ", " + s + ", " + (l - (Math.random() * (10 - 1) + 1)) + "%)";
+  colours[0] = "hsl(" + h + ", " + s + ", " + (l - (Math.random() * (20 - 12) + 12)) + "%)";
+  colours[1] = "hsl(" + h + ", " + s + ", " + (l - (Math.random() * (10 - 2) + 2)) + "%)";
   colours[2] = "hsl(" + h + ", " + s + ", " + l + "%)";
-  colours[3] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 1) + 1)) + "%)";
-  colours[4] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (20 - 10) + 10)) + "%)";
+  colours[3] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (10 - 2) + 2)) + "%)";
+  colours[4] = "hsl(" + h + ", " + s + ", " + (l + (Math.random() * (20 - 12) + 12)) + "%)";
 
   $(".colour").each(function (index) {
     $(this).css("background-color", colours[index]);
       var colour = $(this).css("background-color");
-      var anchor = $(this).find("a");
+      var anchor = $(".colour:eq("+index+")" + " a");
       anchor.removeClass("is-light");
       if (isLight(colour)) {
         anchor.addClass("is-light");
+        $(".smallColour:eq("+index+") > div").css("filter", "grayscale(1) invert(1)");
+      }
+      else{
+        $(".smallColour:eq("+index+") > div").css("filter", "none");
       }
       anchor.css("color", colour);
   
@@ -261,10 +293,14 @@ function generateAnalogous() {
   $(".colour").each(function (index) {
     $(this).css("background-color", colours[index]);
       var colour = $(this).css("background-color");
-      var anchor = $(this).find("a");
+      var anchor = $(".colour:eq("+index+")" + " a");
       anchor.removeClass("is-light");
       if (isLight(colour)) {
         anchor.addClass("is-light");
+        $(".smallColour:eq("+index+") > div").css("filter", "grayscale(1) invert(1)");
+      }
+      else{
+        $(".smallColour:eq("+index+") > div").css("filter", "none");
       }
       anchor.css("color", colour);
   
@@ -289,10 +325,14 @@ function generateTriadic() {
   $(".colour").each(function (index) {
     $(this).css("background-color", colours[index]);
       var colour = $(this).css("background-color");
-      var anchor = $(this).find("a");
+      var anchor = $(".colour:eq("+index+")" + " a");
       anchor.removeClass("is-light");
       if (isLight(colour)) {
         anchor.addClass("is-light");
+        $(".smallColour:eq("+index+") > div").css("filter", "grayscale(1) invert(1)");
+      }
+      else{
+        $(".smallColour:eq("+index+") > div").css("filter", "none");
       }
       anchor.css("color", colour);
   
@@ -399,7 +439,8 @@ function updateColours() {
   var colours = $(".colour");
 
   colours.each(function (index) {
-    document.documentElement.style.setProperty('--col' + (index + 1), colours[index].style.backgroundColor);
+    // document.documentElement.style.setProperty('--col' + (index + 1), colours[index].style.backgroundColor);
+    $(":root").css('--col' + (index + 1), colours[index].style.backgroundColor);
   });
   changeText(colourScale);
 }
@@ -437,7 +478,7 @@ function rgbToHsl(r, g, b) {
 
 function changeText(option) {
   $(".colourCode").each(function (index) {
-    $(".nextScale").eq(index).text(option.toUpperCase());
+    $(".nextScale:eq("+index+")").text(option.toUpperCase());
     
     var colour = $(this).css("color");
 
