@@ -19,7 +19,7 @@
 | CSIT314      | Software Development Methodologies        | <img src="https://skillicons.dev/icons?i=html" width="30" style="display: block; margin: 0 auto;"> <img src="https://skillicons.dev/icons?i=javascript" width="30" style="display: block; margin: 0 auto;"> | :white_check_mark: | :green_circle: |
 | CSIT321      | Project                                   | <img src="https://skillicons.dev/icons?i=unknown" width="30" style="display: block; margin: 0 auto;"> | :x: | :red_circle:    |
 
-### CyberSecurity Subjects
+### Cybersecurity Subjects
 | Subject Code | Subject Name                              | Languages                          | Completed | Available        |
 |--------------|-------------------------------------------|------------------------------------|-----------|------------------|
 | CSCI262      | System Security                           | <img src="https://skillicons.dev/icons?i=python" width="30" style="display: block; margin: 0 auto;"> | :x: | :green_circle: |
