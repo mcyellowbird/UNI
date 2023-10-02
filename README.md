@@ -26,3 +26,5 @@
 | CSIT375      | Artificial Intelligence for Cybersecurity | :x: | :red_circle: |
 | CSCI369      | Ethical Hacking                           | :x: | :red_circle: |
 | CSIT302      | Cybersecurity                             | :x: | :green_circle: |
+
+### Elective Subjects
