@@ -4,7 +4,7 @@
 | Subject Code | Subject Name                              | Completed | Available |
 |--------------|-------------------------------------------|--------------------|----------------|
 | CSIT111      | Programming Fundamentals                  | :white_check_mark: | :green_circle: |
-| CSIT113      | Problem Solving                           | :white_check_mark: | :green_circle: |
+| CSIT113      | Problem Solving                           | :white_check_mark: | :red_circle: |
 | CSIT114      | System Analysis                           | :white_check_mark: | :green_circle: |
 | CSIT115      | Data Management and Security              | :white_check_mark: | :green_circle: |
 | CSIT121      | Object Oriented Design and Programming    | :white_check_mark: | :green_circle: |
