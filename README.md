@@ -20,7 +20,7 @@
 | CSIT321      | Project                                   | N/A | :x: | :red_circle: |
 
 ### CyberSecurity Subjects
-| Subject Code | Subject Name                              | Completed | Available |
+| Subject Code | Subject Name                              | Languages | Completed | Available |
 |--------------|-------------------------------------------|-----------|-----------|
 | CSCI262      | System Security                           | Python | :x: | :green_circle: |
 | CSIT375      | Artificial Intelligence for Cybersecurity | ??? | :x: | :red_circle: |
@@ -28,7 +28,7 @@
 | CSIT302      | Cybersecurity                             | N/A | :x: | :green_circle: |
 
 ### Elective Subjects
-| Subject Code | Subject Name                              | Completed | Available |
+| Subject Code | Subject Name                              | Languages | Completed | Available |
 |--------------|-------------------------------------------|-----------|-----------|
 | ISIT207      | Frontend Web Programming                  | HTML - JavaScript | :x: | :green_circle: |
 | CSIT110      | Fundamental Programming with Python       | Python | :x: | :red_circle: |
