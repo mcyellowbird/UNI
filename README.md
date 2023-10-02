@@ -13,7 +13,7 @@
 | CSCI235      | Database Systems                          | :white_check_mark: | :green_circle: |
 | CSCI251      | Advanced Programming                      | :white_check_mark: | :green_circle: |
 | CSIT214      | IT Project Management                     | :white_check_mark: | :green_circle: |
-| MATH221      | Mathematics for Computer Science          | :white_check_mark: | :green_circle: |
+| MATH221      | Mathematics for Computer Science          | :white_check_mark: | :red_circle: :vomiting_face: |
 | CSCI203      | Algorithms and Data Structures            | :white_check_mark: | :green_circle: |
 | CSIT226      | Human Computer Interaction                | :white_check_mark: | :green_circle: |
 | CSIT314      | Software Development Methodologies        | :white_check_mark: | :green_circle: |
