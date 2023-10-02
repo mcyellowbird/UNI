@@ -33,3 +33,5 @@
 | ISIT207      | Frontend Web Programming                  | ![HTML](https://img.shields.io/badge/HTML-green) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) | :x: | ![Green Circle](https://img.shields.io/badge/Available-green) |
 | CSIT110      | Fundamental Programming with Python       | ![Python](https://img.shields.io/badge/Python-blue) | :x: | ![Red Circle](https://img.shields.io/badge/Not%20Available-red)    |
 | ???          | ???                                       | ![Unknown](https://img.shields.io/badge/Unknown-lightgrey) | :x: | ![Red Circle](https://img.shields.io/badge/Not%20Available-red)    |
+
+[![My Skills](https://skillicons.dev/icons?i=js,html,css,wasm)](https://skillicons.dev)
