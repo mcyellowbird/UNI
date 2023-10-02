@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@100;300;700&family=Oxygen:wght@300;400;700&family=Sen:wght@400;700&display=swap');
+
+
+/* Center the container and set background color */
+body {
+    font-family: 'Oxygen', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+/* Developer list container */
+.developer-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    background-color: #fefefe;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* CSS for the developer list */
+.developer-item {
+    width: 250px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 20px;
+    box-shadow: inset 0 0 5px 1px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+/* Add hover effect to developer items */
+.developer-item:hover {
+    /* transform: scale(1.05); */
+    transform: translateY(-10px);
+    box-shadow: inset 0 0px 5px 1px #007bff;
+}
+
+/* Label styling */
+.label {
+    font-weight: bold;
+    color: #555;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+/* Information styling */
+.info {
+    color: #000;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.info:last-of-type {
+    margin-bottom: 0;
+}
+
+/* Username styling */
+.username {
+    text-align: center;
+    font-size: 20px;
+    color: #007bff; /* Blue color for username */
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.26);
+}
+
+/* Admin status styling */
+.info.admin {
+    color: #28a745; /* Green for Admin status */
+}
+
+.info.not-admin {
+    color: #dc3545; /* Red for Not an Admin status */
+}
+
+/* Search container */
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Search input */
+#search-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    transition: box-shadow 0.2s ease-out;
+}
+
+#search-input:focus {
+    box-shadow: inset 0px 0px 3px #007bff;
+    outline: none;
+    border: 1px solid #007bff;
+}
+
+.link {
+    text-decoration: none;
+    color: #007bff; /* Blue color for links */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.link:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+.img-container {
+    width: 120px;
+    height: 120px;
+    display: block;
+    margin: 0 auto;
+}
+
+img {
+    max-width: 120px;
+    max-height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+/* Search button styling */
+#search-button {
+    margin-left: 10px;
+    padding: 10px 20px; /* Padding for button */
+    font-size: 16px;
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Cursor style on hover */
+    transition: background-color 0.2s, transform 0.2s; /* Smooth transition effects */
+}
+
+/* Add hover effect to search button */
+#search-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight scaling on hover */
+}
+
+/* Popup window styling */
+.popup-window {
+    width: 500px;
+    height: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.popup-window img {
+    max-width: 200px;
+}
