@@ -28,3 +28,8 @@
 | CSIT302      | Cybersecurity                             | :x: | :green_circle: |
 
 ### Elective Subjects
+| Subject Code | Subject Name                              | Completed | Available |
+|--------------|-------------------------------------------|-----------|-----------|
+| ISIT207      | Frontend Web Programming                  | :x: | :green_circle: |
+| CSIT110      | Fundamental Programming with Python       | :x: | :red_circle: |
+| ???          | ???                                       | :x: | :red_circle: |
