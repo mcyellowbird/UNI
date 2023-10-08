@@ -168,7 +168,7 @@ $.widget("custom.searchWidget", {
         const $searchInput = $("<input>")
             .attr("type", "text")
             .attr("id", "search-input")
-            .attr("placeholder", "Search for a developer...");
+            .attr("placeholder", "Search for developers...");
 
         // Create a search button element
         const $searchButton = $("<button>")
@@ -176,7 +176,7 @@ $.widget("custom.searchWidget", {
             .text("Search"); // Set the button text
 
         // Append both the search input and search button to the search container
-        this.element.append($searchInput, $searchButton);
+        this.element.append($searchInput, $("<br>"), $searchButton);
 
         // Connect a click event handler to the search button, calling the "_handleSearch" method when clicked
         $searchButton.on("click", () => this._handleSearch($searchInput.val().trim().toLowerCase()));

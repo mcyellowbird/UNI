@@ -105,14 +105,15 @@ body {
 
 .link {
     text-decoration: none;
-    color: #007bff; /* Blue color for links */
+    color: #007bff;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.2s;
 }
 
 .link:hover {
-    color: #0056b3; /* Darker blue on hover */
+    color: #1e0064;
+    text-shadow: 0 1px 1px #007bff;
 }
 
 .img-container {
@@ -131,7 +132,7 @@ img {
 
 /* Search button styling */
 #search-button {
-    margin-left: 10px;
+    margin-top: 10px;
     padding: 10px 20px; /* Padding for button */
     font-size: 16px;
     background-color: #007bff; /* Blue background color */

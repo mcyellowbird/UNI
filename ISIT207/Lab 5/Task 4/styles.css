@@ -1,7 +1,7 @@
-/* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@100;300;700&family=Oxygen:wght@300;400;700&family=Sen:wght@400;700&display=swap');
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Oxygen;
     background-color: #f8f9fa;
     margin: 0;
     padding: 20px;
@@ -12,7 +12,6 @@ body {
 
 .container {
     max-width: 400px;
-    /* Adjust the maximum width of the container */
     margin: 0 auto;
 }
 
@@ -95,13 +94,11 @@ li {
     width: auto;
     padding: 4px;
     width: 80px;
-    /* Light gray background for labels */
 }
 
 .developer-location {
     font-weight: bold;
     color: #FF5722;
-    /* Orange color for Location */
 }
 
 .developer-item {
@@ -115,5 +112,4 @@ li {
 .dev-data {
     font-weight: 400;
     color: #333;
-    /* Default color for additional data */
 }

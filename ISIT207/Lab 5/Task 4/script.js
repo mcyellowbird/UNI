@@ -1,5 +1,4 @@
-// script.js
-
+// Initialize IndexedDB database
 let dbPromise;
 const dbName = 'developersDB';
 const dbVersion = 1;
@@ -8,6 +7,7 @@ function initDatabase() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(dbName, dbVersion);
 
+        // Database upgrade logic
         request.onupgradeneeded = function (event) {
             const db = event.target.result;
             const objectStore = db.createObjectStore('developers', {
@@ -15,6 +15,7 @@ function initDatabase() {
                 autoIncrement: true
             });
 
+            // Create indexes for efficient querying
             objectStore.createIndex('homepageURL', 'homepageURL', {
                 unique: false
             });
@@ -23,17 +24,20 @@ function initDatabase() {
             });
         };
 
+        // Database successfully opened
         request.onsuccess = function (event) {
             dbPromise = event.target.result;
             resolve();
         };
 
+        // Database opening error
         request.onerror = function (event) {
             reject(event.target.error);
         };
     });
 }
 
+// Add a new developer to the database
 function addDeveloper() {
     const developerID = $('#developerID').val();
     const homepageURL = $('#homepageURL').val();
@@ -91,6 +95,7 @@ function addDeveloper() {
     };
 }
 
+// Display an error message to the user
 function showError(message) {
     const errorElement = $('<div>', {
         class: 'error'
@@ -99,6 +104,7 @@ function showError(message) {
     setTimeout(() => errorElement.remove(), 5000); // Remove error message after 5 seconds
 }
 
+// Delete the last entry in the database
 function deleteLastEntry() {
     const transaction = dbPromise.transaction(['developers'], 'readwrite');
     const objectStore = transaction.objectStore('developers');
@@ -117,6 +123,7 @@ function deleteLastEntry() {
     };
 }
 
+// Delete all data in the database
 function deleteAllData() {
     const transaction = dbPromise.transaction(['developers'], 'readwrite');
     const objectStore = transaction.objectStore('developers');
@@ -131,6 +138,7 @@ function deleteAllData() {
     };
 }
 
+// Delete a developer by ID from the database
 function deleteDeveloperByID() {
     const deleteByID = $('#deleteByID').val();
     const transaction = dbPromise.transaction(['developers'], 'readwrite');
@@ -146,6 +154,7 @@ function deleteDeveloperByID() {
     };
 }
 
+// Display all developers in the user interface
 function displayDevelopers() {
     const developerList = $('#developerList');
     developerList.empty();
@@ -168,6 +177,7 @@ function displayDevelopers() {
     };
 }
 
+// Display a single developer in the user interface
 function showDeveloperFromDB(cursor) {
     const developerList = $('#developerList');
     const developer = cursor.value;
@@ -198,7 +208,7 @@ function showDeveloperFromDB(cursor) {
     developerList.append(listItem);
 }
 
-
+// Initialize the database and display developers on document ready
 $(document).ready(function () {
     initDatabase()
         .then(() => {
