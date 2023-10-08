@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Information</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Developer Information</h1>
+        <label for="developerID">Developer ID</label>
+        <input type="text" id="developerID">
+        <label for="homepageURL">Home Page URL</label>
+        <input type="text" id="homepageURL">
+        <label for="location">Location</label>
+        <input type="text" id="location">
+        <button onclick="addDeveloper()">Add Developer</button>
+        <button onclick="deleteLastEntry()">Delete Last Entry</button>
+        <button onclick="deleteAllData()">Delete All Data</button>
+        <label for="deleteByID">Delete by Developer ID</label>
+        <input type="text" id="deleteByID">
+        <button onclick="deleteDeveloperByID()">Delete by ID</button>
+        <ul id="developerList"></ul>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="script.js"></script>
+    </div>
+</body>
+
+</html>

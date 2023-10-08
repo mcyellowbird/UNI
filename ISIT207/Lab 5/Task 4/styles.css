@@ -1,0 +1,119 @@
+/* styles.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    max-width: 400px;
+    /* Adjust the maximum width of the container */
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    margin: 0;
+}
+
+li {
+    background-color: white;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.developer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.developer-label {
+    font-weight: bold;
+    width: auto;
+    padding: 4px;
+    width: 80px;
+    /* Light gray background for labels */
+}
+
+.developer-location {
+    font-weight: bold;
+    color: #FF5722;
+    /* Orange color for Location */
+}
+
+.developer-item {
+    background-color: white;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+}
+
+.dev-data {
+    font-weight: 400;
+    color: #333;
+    /* Default color for additional data */
+}

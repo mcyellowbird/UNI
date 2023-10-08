@@ -3,6 +3,10 @@ let colourScale = "hex";
 var canShowColour = false;
 let colorsArray = [];
 
+
+
+// Async/Await
+
 // Function to fetch colors asynchronously using Async/Await
 async function fetchColorsAsync() {
   return new Promise((resolve, reject) => {
@@ -17,7 +21,7 @@ async function fetchColorsAsync() {
       $(".colour").each(function (index) {
         fetchedColors.push($(this).css("background-color"));
       });
-      
+
       // ----------------------------------------------------------------- //
 
       if (fetchedColors.length > 0) {
@@ -39,7 +43,7 @@ async function addColors() {
   try {
     // Call fetchColorsAsync using await and handle the result
     const fetchedColors = await fetchColorsAsync();
-    
+
     // Add the fetched colors to the array
     colorsArray.push(...fetchedColors);
     console.log('Colors added:', colorsArray);
@@ -53,6 +57,8 @@ async function addColors() {
 
 // Call the addColors function to initiate the asynchronous operation
 addColors();
+
+
 
 $(document).ready(function () {
   initialSetup();
@@ -366,20 +372,20 @@ $(document).ready(function () {
     options: {
       courses: [], // An array of course objects with details
     },
-  
+
     _create: function () {
       // Initialize the widget
       console.log("Widget created");
       this._renderCarousel(this.options.courses); // Render with initial courses
     },
-  
+
     _renderCarousel: function (courses) {
       console.log("Rendering carousel");
       const $carouselContainer = $("<div>").addClass("course-carousel");
-  
+
       const widget = this;
       let $focusedItem = null;
-  
+
       // Filter courses if filterText is provided
       if (widget.filterText) {
         courses = courses.filter((course) =>
@@ -388,7 +394,7 @@ $(document).ready(function () {
           course.coursecode.includes(widget.filterText)
         );
       }
-  
+
       if (courses.length === 0) {
         const $noCoursesMessage = $("<p>")
           .addClass("no-courses-message")
@@ -402,35 +408,34 @@ $(document).ready(function () {
             .click(function () {
               // Remove the "course-item-focused" class from all items
               $(".course-item").removeClass("course-item-focused");
-  
+
               // Add the "course-item-focused" class to the clicked item
               $(this).addClass("course-item-focused");
-  
+
               // Update the currently focused item
               $focusedItem = $(this);
             });
-  
+
           const $courseTitle = $("<h2>").text(course.title);
           const $courseDescription = $("<p>").text(course.description);
           const $courseCode = $("<p>").text("Course Code: " + course.coursecode);
-  
+
           $courseItem.append($courseTitle, $courseDescription, $courseCode);
           $carouselContainer.append($courseItem);
         });
       }
-  
+
       // Append the carousel to the widget element
       this.element.empty().append($carouselContainer);
     },
-  
+
     filterCourses: function (filterText) {
       this.filterText = filterText;
       this._renderCarousel(this.options.courses);
     },
   });
 
-  const courseList = [
-    {
+  const courseList = [{
       title: "Web Development Fundamentals",
       description: "Explore the core concepts of web development, including HTML, CSS, and JavaScript.",
       coursecode: "188273",
@@ -476,13 +481,13 @@ $(document).ready(function () {
       coursecode: "287390",
     },
   ];
-  
+
 
   // Initialize the CourseCarousel widget with the courses data
   const courseCarousel = $("#courseCarousel").courseCarousel({
     courses: courseList,
   });
-  
+
   // Handle filtering when the user types in the search bar
   $("#courseSearch").on("input", function () {
     const filterText = $(this).val();

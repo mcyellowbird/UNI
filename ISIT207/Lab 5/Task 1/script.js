@@ -104,7 +104,7 @@ $.widget("custom.developerList", {
         <link rel="stylesheet" href="styles.css">
         <div class="popup-window">
             <div class="developer-info">
-                <div class="info"><img class="popup-image" src="${avatarSrc}" alt="${developer.username}'s Avatar"></div>
+                <div class="info"><div class="img-container"><img src="${avatarSrc}" alt="${developer.username}'s Avatar"></div></div>
                 <div class="info username">${developer.username}</div>
                 <div class="label">Homepage</div>
                 <div class="info"><a class="link" href="${homepageURL}" target="_blank">${homepageURL}</a></div>
@@ -203,7 +203,7 @@ $.widget("custom.searchWidget", {
             <link rel="stylesheet" href="styles.css">
             <div class="popup-window">
                 <div class="developer-info">
-                    <div class="info"><img class="popup-image" src="${avatarSrc}" alt="${developer.username}'s Avatar"></div>
+                    <div class="info"><div class="img-container"><img src="${avatarSrc}" alt="${developer.username}'s Avatar"></div></div>
                     <div class="info username">${developer.username}</div>
                     <div class="label">Homepage</div>
                     <div class="info"><a class="link" href="${homepageURL}" target="_blank">${homepageURL}</a></div>
