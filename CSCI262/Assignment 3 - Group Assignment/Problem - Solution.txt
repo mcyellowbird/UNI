@@ -1,0 +1,49 @@
+Problem:
+
+Username Input for a specific user: Alice' #
+
+Another Input for any user: a' OR 1=1 #
+			  : a' OR Salary > 90000 #
+
+
+Solution???  - Input validation and sanitization:
+
+runSQL(SQL_Statement, input)
+
+Where SQL_Statement is the correct SQL code, and the input is the data the user submits.
+the 'input' would be converted into data, disregarding any potential code symbols, like ', ", ;, etc
+and/or validate the inputs, again removing any out of place symbols.
+
+Solution??? - Prepared Statements:
+
+Prepare an SQL statement, where we SET values equal to user inputs. For example (SQL Client):
+
+PREPARE statement FROM "SELECT * FROM tablename WHERE name = ? or age > ?";
+
+SET @a = 'Alice';
+SET @b = 20;
+EXECUTE stmt USING @a, @b;
+
+Prepared statement can be reused with any data:
+
+SET @a = 'Bob';
+SET @b = 30;
+EXECUTE stmt USING @a, @b;
+
+SEEDLabs login approach (vulnerable)
+
+$sql = "SELECT name, local, gender
+	FROM USER_TABLE
+	WHERE id = $id AND password = '$pwd' ";
+$result = $conn->query(sql)
+
+Using Prepared Statement (PHP Api):
+
+$stmt = $conn->prepare("SELECT name, local, gender
+			FROM USER_TABLE
+			WHERE id = ? AND password = ? ");
+
+$stmt->bind_param("is", $id, $pwd) // Bind API, where "i" means integer, and "s" means string. This binds the arguments to the placeholders '?' in the prepared statement
+$stmt->execute() // Executing the statement, doesn't interpret data
+$stmt->bind_result($bind_name, $bind_local, $bind_gender); // Get and hold the values from the statement
+$stmt->fetch();  // Access the values bound to variables using bind_result
